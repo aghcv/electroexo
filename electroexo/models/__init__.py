@@ -21,7 +21,7 @@ from electroexo.models.channels import CalciumChannel, PotassiumChannel, SodiumC
 from electroexo.models.membrane import Membrane, MembraneState
 from electroexo.models.calcium import CalciumDynamics
 from electroexo.models.vesicle import VesiclePool, VesicleState
-from electroexo.models.exocytosis import AllosericExocytosis, CooperativeExocytosis
+from electroexo.models.exocytosis import AllostericExocytosis, CooperativeExocytosis
 
 __all__ = [
     "SodiumChannel",
@@ -33,5 +33,5 @@ __all__ = [
     "VesiclePool",
     "VesicleState",
     "CooperativeExocytosis",
-    "AllosericExocytosis",
+    "AllostericExocytosis",
 ]

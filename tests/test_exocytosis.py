@@ -1,7 +1,7 @@
 """Tests for electroexo.models.exocytosis."""
 import pytest
 
-from electroexo.models.exocytosis import AllosericExocytosis, CooperativeExocytosis
+from electroexo.models.exocytosis import AllostericExocytosis, CooperativeExocytosis
 
 
 class TestCooperativeExocytosis:
@@ -42,9 +42,9 @@ class TestCooperativeExocytosis:
         assert model.exocytosis_rate(0.0) == pytest.approx(1e-5)
 
 
-class TestAllosericExocytosis:
+class TestAllostericExocytosis:
     def setup_method(self):
-        self.model = AllosericExocytosis()
+        self.model = AllostericExocytosis()
 
     def test_rate_at_zero_calcium_equals_l0(self):
         assert self.model.exocytosis_rate(0.0) == pytest.approx(self.model.l0)
@@ -55,7 +55,7 @@ class TestAllosericExocytosis:
         assert r_high > r_low
 
     def test_k_max_clamp(self):
-        model = AllosericExocytosis(k_max=1e-2)
+        model = AllostericExocytosis(k_max=1e-2)
         rate = model.exocytosis_rate(1e6)
         assert rate <= 1e-2 + 1e-12
 
@@ -64,7 +64,7 @@ class TestAllosericExocytosis:
         assert rate == pytest.approx(self.model.l0)
 
     def test_n_sites_effect(self):
-        model1 = AllosericExocytosis(n_sites=1)
-        model5 = AllosericExocytosis(n_sites=5)
+        model1 = AllostericExocytosis(n_sites=1)
+        model5 = AllostericExocytosis(n_sites=5)
         ca = 3.0
         assert model5.exocytosis_rate(ca) > model1.exocytosis_rate(ca)

@@ -7,7 +7,7 @@ Two models are provided:
 
 * :class:`CooperativeExocytosis` — sigmoidal Hill-function model with
   cooperative Ca²⁺ binding (suitable for fast, synchronous release).
-* :class:`AllosericExocytosis` — allosteric/primed-release model that
+* :class:`AllostericExocytosis` — allosteric/primed-release model that
   includes a basal spontaneous release rate (suitable for slow, asynchronous
   release and tonic exocytosis).
 
@@ -25,7 +25,7 @@ from __future__ import annotations
 
 import numpy as np
 
-__all__ = ["CooperativeExocytosis", "AllosericExocytosis"]
+__all__ = ["CooperativeExocytosis", "AllostericExocytosis"]
 
 
 class CooperativeExocytosis:
@@ -73,7 +73,7 @@ class CooperativeExocytosis:
         return self.k_basal + self.k_max * ca_n / (kd_n + ca_n)
 
 
-class AllosericExocytosis:
+class AllostericExocytosis:
     """Allosteric release model with spontaneous and Ca²⁺-driven rates.
 
     Based on the allosteric model of Kochubey & Bhatt (2011):

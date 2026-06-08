@@ -10,7 +10,7 @@ import pytest
 
 from electroexo import SimulationEngine
 from electroexo.models.calcium import CalciumDynamics
-from electroexo.models.exocytosis import AllosericExocytosis, CooperativeExocytosis
+from electroexo.models.exocytosis import AllostericExocytosis, CooperativeExocytosis
 from electroexo.models.membrane import Membrane
 from electroexo.models.vesicle import VesiclePool
 from electroexo.results import SimulationResults
@@ -116,7 +116,7 @@ class TestSimulationEngineStimulation:
 class TestSimulationEngineCustomisation:
     def test_custom_exocytosis_model(self):
         engine = SimulationEngine(
-            exocytosis_model=AllosericExocytosis(l0=1e-3),
+            exocytosis_model=AllostericExocytosis(l0=1e-3),
             dt=0.05,
             record_every=10,
         )
