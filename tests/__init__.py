@@ -1,0 +1,3 @@
+"""
+electroexo tests package.
+"""
