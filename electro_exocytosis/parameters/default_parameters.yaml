@@ -1,0 +1,83 @@
+pulse:
+  geometry_reference: placeholder
+  temperature_capacity_J_m3_K: 4000000.0
+
+dosimetry:
+  cuvette_factor: 1.0
+  dish_factor: 0.85
+  flow_factor: 0.90
+
+electrodynamics:
+  cell_radius_m: 1.0e-5
+  schwan_factor: 1.5
+  delta_V_ER_fraction: 0.3
+  delta_V_mito_fraction: 0.2
+  delta_V_MVB_fraction: 0.15
+  permeability_threshold_V: 0.25
+  permeability_slope: 10.0
+
+ion_transport:
+  tau_Ca_release_s: 0.5
+  tau_Ca_uptake_s: 30.0
+  Ca_baseline_uM: 0.1
+  Ca_ER_uM: 500.0
+  Ca_max_uM: 10.0
+  J_Ca_pore_factor: 0.01
+  ROS_baseline: 0.1
+  ROS_production_factor: 0.001  # TODO-literature-review: calibrated so ROS peaks ~5-10x baseline during nsPEF stress
+  tau_ROS_s: 120.0
+  ATP_baseline: 1.0
+  ATP_depletion_factor: 0.3
+  tau_ATP_s: 600.0
+
+remodeling_repair:
+  K_PS_uM: 1.0
+  n_PS: 2.0
+  PS_max: 1.0
+  K_calpain_uM: 2.0
+  n_calpain: 2.0
+  K_annex_uM: 0.5
+  n_annex: 1.5
+  tau_repair_s: 300.0
+
+ev_release:
+  baseline_sEV_rate: 1.0
+  baseline_mlEV_rate: 0.1
+  baseline_AB_rate: 0.01
+  K_sEV_Ca_uM: 0.5
+  n_sEV_Ca: 1.5
+  K_mlEV_PS: 0.3
+  n_mlEV_PS: 2.0
+  K_AB_damage: 0.7
+  n_AB_damage: 3.0
+  sEV_Ca_scale: 5.0
+  mlEV_PS_scale: 3.0
+  AB_damage_scale: 10.0
+
+cargo_potency:
+  protein_enrichment_baseline: 1.0
+  RNA_enrichment_baseline: 1.0
+  lipid_enrichment_baseline: 1.0
+  Ca_protein_coupling: 0.5
+  ROS_RNA_coupling: 0.3
+  stress_lipid_coupling: 0.2
+  potency_weights:
+    protein: 0.5
+    RNA: 0.3
+    lipid: 0.2
+
+injury_quality:
+  K_apoptosis_damage: 0.5
+  K_necrosis_damage: 0.9
+  n_apoptosis: 3.0
+  n_necrosis: 5.0
+  debris_fraction_scale: 0.2
+  contamination_threshold: 0.3
+  damage_rate: 0.01
+  repair_rate: 0.005
+
+manufacturing_qc:
+  isolation_efficiency: 0.3
+  purity_factor: 0.7
+  batch_consistency: 0.9
+  scalability_factor: 1.0
