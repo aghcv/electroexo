@@ -18,6 +18,11 @@ class ExposureConfig(BaseModel):
     medium_conductivity_S_m: float = Field(default=1.5, gt=0)
     temperature_C: float = Field(default=37.0)
     cell_density_per_ml: float = Field(default=1e6, gt=0)
+    dosimetry_model: Literal["legacy", "joule_adiabatic", "joule_lumped_thermal"] = "legacy"
+    waveform_energy_factor: float | None = Field(default=None, gt=0)
+    volumetric_heat_capacity_J_m3_K: float = Field(default=4.0e6, gt=0)
+    thermal_relaxation_time_s: float = Field(default=5.0, gt=0)
+    thermal_efficiency: float = Field(default=1.0, ge=0, le=1)
 
 
 class CellStateConfig(BaseModel):

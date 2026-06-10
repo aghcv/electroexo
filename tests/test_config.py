@@ -49,5 +49,6 @@ def test_defaults_are_applied() -> None:
         }
     )
     assert scenario.exposure.geometry == "cuvette"
+    assert scenario.exposure.dosimetry_model == "legacy"
     assert scenario.cell_state.cell_type == "generic"
     assert scenario.simulation.t_end_s == 7200.0

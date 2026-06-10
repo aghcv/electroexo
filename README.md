@@ -45,6 +45,24 @@ python -m electro_exocytosis run examples/scenario_high_dose.yaml --out results/
 python -m electro_exocytosis run examples/scenario_direct_EV_engineering.yaml --out results/direct_ev
 ```
 
+Compare the pulse/dosimetry model choices directly:
+
+```bash
+python examples/compare_dosimetry_models.py --out results/dosimetry_model_comparison
+```
+
+This writes CSV summaries and temperature-profile plots for `legacy`,
+`joule_adiabatic`, and `joule_lumped_thermal` across several nsPEF scenarios.
+
+Compare reduced membrane/organelle electrodynamics responses directly:
+
+```bash
+python examples/compare_membrane_electrodynamics.py --out results/electrodynamics_model_comparison
+```
+
+This writes a CSV summary plus pulse-width and cell-radius sensitivity plots
+for the reduced Schwan charging, permeability, and pore-density proxies.
+
 ## Output files
 
 Each run writes a directory containing:
@@ -55,6 +73,14 @@ Each run writes a directory containing:
 - `parameters_used.yaml` – merged parameter set used for the run
 - `run_metadata.json` – metadata, warnings, timestamps
 - `*.png` – plots unless `--no-plots` is used
+
+Framework-generated figures use manuscript-oriented defaults: standard 16:9
+landscape layout and 1200 dpi PNG export, unless a specific analysis overrides
+the figure standard.
+For overlaid line plots, the default style is color-blind friendly and
+print-friendly: up to three series use monochrome line styles and markers; plots
+with more than three series switch to a color-blind-safe palette while retaining
+distinct line formats.
 
 ## Placeholder status in v0.1.0
 

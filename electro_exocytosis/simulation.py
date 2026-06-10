@@ -54,7 +54,12 @@ class Simulation:
     def run(self) -> SimulationResult:
         descriptors = compute_pulse_descriptors(self.scenario.pulse, self.scenario.exposure)
         dosimetry = compute_dosimetry(descriptors, self.scenario.exposure)
-        electro_state = compute_electrodynamics_state(descriptors, dosimetry, self.scenario.cell_state)
+        electro_state = compute_electrodynamics_state(
+            descriptors,
+            dosimetry,
+            self.scenario.cell_state,
+            self.params_flat,
+        )
 
         scheduler = MultiscaleScheduler(descriptors, self.scenario.simulation.t_start_s, self.scenario.simulation.t_end_s)
         t_eval = scheduler.get_time_array(self.scenario.simulation.output_dt_s)

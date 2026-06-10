@@ -10,11 +10,15 @@ dosimetry:
 electrodynamics:
   cell_radius_m: 1.0e-5
   schwan_factor: 1.5
+  membrane_charging_tau_s: 1.0e-7
   delta_V_ER_fraction: 0.3
   delta_V_mito_fraction: 0.2
   delta_V_MVB_fraction: 0.15
   permeability_threshold_V: 0.25
   permeability_slope: 10.0
+  pore_density_max_m2: 1.0e12
+  pore_density_half_voltage_V: 0.5
+  pore_density_hill_coefficient: 3.0
 
 ion_transport:
   tau_Ca_release_s: 0.5
