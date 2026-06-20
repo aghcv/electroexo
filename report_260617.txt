@@ -1,0 +1,94 @@
+# Electroexo Recent Updates
+
+## Overview
+
+- The `electro_exocytosis` project now has a working Python modeling pipeline for nsPEF-driven extracellular vesicle release.
+- The code simulates the path from pulse exposure to membrane response, calcium signaling, EV release, injury, and manufacturing-style output metrics.
+- The current model is still exploratory and not experimentally validated.
+
+## Recent Development
+
+- Added a structured simulation package with:
+  - Scenario YAML files
+  - Default parameter files
+  - Python simulation engine
+  - CSV and JSON output writers
+  - Plot generation
+  - Unit tests
+
+- Added example scenarios:
+  - Baseline nsPEF EV release
+  - High-dose nsPEF EV release
+  - Direct EV engineering
+
+- Improved pulse and dosimetry modeling:
+  - Field strength conversion
+  - Pulse width and pulse number handling
+  - Energy density calculation
+  - Temperature-rise estimation
+  - Geometry correction for cuvette, dish, and flow cases
+
+- Added new dosimetry comparison models:
+  - Legacy model
+  - Joule adiabatic model
+  - Joule lumped thermal model
+
+- Updated membrane electrodynamics:
+  - Replaced a simple placeholder with a reduced Schwan-style membrane charging model
+  - Added cell-radius dependence
+  - Added pulse-width dependence
+  - Added membrane permeability and pore-density proxy outputs
+
+## Main Results
+
+- The dosimetry figures show that thermal assumptions strongly affect predicted heating.
+- The lumped thermal model predicts lower end-of-train temperature rise than the legacy and adiabatic models.
+- High-conductivity and high-repetition-rate cases show much higher thermal risk.
+- Exponential pulse waveforms reduce absorbed energy compared with square pulses.
+
+- The electrodynamics figures show that very short pulses do not fully charge the membrane.
+- Longer pulse widths produce higher induced membrane voltage.
+- Larger cells experience larger induced membrane voltage.
+- Membrane permeability can saturate at high field strength or longer pulse duration.
+
+## Current Scenario Outputs
+
+- The baseline, high-dose, and direct-EV scenarios currently produce similar downstream EV outputs.
+- This happens because membrane permeability saturates in all three cases.
+- Once permeability saturates, the downstream calcium and EV-release ODE model receives the same effective input.
+- Future work should make EV release, injury, and quality metrics respond more directly to dose, heating, and pulse count.
+
+## Generated Outputs
+
+- Each simulation run produces:
+  - `summary.json`
+  - `state_timeseries.csv`
+  - `ev_outputs.csv`
+  - `parameters_used.yaml`
+  - `run_metadata.json`
+  - Plot files under `plots/`
+
+- Dosimetry comparison outputs:
+  - `temperature_profiles.png`
+  - `end_temperature_rise.png`
+  - `dosimetry_model_summary.csv`
+
+- Electrodynamics comparison outputs:
+  - `membrane_voltage_by_pulse_width.png`
+  - `cell_radius_sensitivity.png`
+  - `electrodynamics_response_summary.csv`
+
+## Validation Status
+
+- The current test suite passes with 19 tests.
+- The model structure is functional and reproducible.
+- Most biological equations and parameter values remain placeholders.
+- The model should be treated as a research prototype, not a validated biological predictor.
+
+## Next Steps
+
+- Calibrate pulse heating against literature or experimental data.
+- Improve coupling between dose, temperature, injury, and EV release.
+- Add non-saturating response behavior for lower and intermediate doses.
+- Improve figure layout for meeting and manuscript use.
+- Fix the current CLI compatibility issue with Python 3.13 and Typer.
