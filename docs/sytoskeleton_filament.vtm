@@ -1,0 +1,17 @@
+<VTKFile type="vtkMultiBlockDataSet" version="1.0" byte_order="LittleEndian" header_type="UInt64">
+  <vtkMultiBlockDataSet>
+    <Block index="0" name="Node_0">
+      <Block index="0" name="Node_1">
+        <Block index="0" name="Node_2">
+          <Block index="0" name="Node_23">
+            <Block index="0" name="Node_24">
+              <Block index="0" name="Mesh_13">
+                <DataSet index="0" file="sytoskeleton_filament/sytoskeleton_filament_0_0.vtp"/>
+              </Block>
+            </Block>
+          </Block>
+        </Block>
+      </Block>
+    </Block>
+  </vtkMultiBlockDataSet>
+</VTKFile>

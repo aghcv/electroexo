@@ -1,0 +1,27 @@
+<VTKFile type="vtkMultiBlockDataSet" version="1.0" byte_order="LittleEndian" header_type="UInt64">
+  <vtkMultiBlockDataSet>
+    <Block index="0" name="Node_0">
+      <Block index="0" name="Node_1">
+        <Block index="0" name="Node_2">
+          <Block index="0" name="Node_15">
+            <Block index="0" name="Node_16">
+              <Block index="0" name="Mesh_8">
+                <DataSet index="0" file="plasma/plasma_0_0.vtp"/>
+              </Block>
+            </Block>
+            <Block index="1" name="Node_17">
+              <Block index="0" name="Mesh_9">
+                <DataSet index="0" file="plasma/plasma_1_0.vtp"/>
+              </Block>
+            </Block>
+            <Block index="2" name="Node_18">
+              <Block index="0" name="Mesh_10">
+                <DataSet index="0" file="plasma/plasma_2_0.vtp"/>
+              </Block>
+            </Block>
+          </Block>
+        </Block>
+      </Block>
+    </Block>
+  </vtkMultiBlockDataSet>
+</VTKFile>

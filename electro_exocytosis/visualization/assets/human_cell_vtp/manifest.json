@@ -1,0 +1,183 @@
+{
+  "components": [
+    {
+      "files": [
+        "dna/dna_0_0.vtp"
+      ],
+      "label": "DNA / chromatin",
+      "name": "dna",
+      "role": "context",
+      "style": {
+        "color": "#f7f2b8",
+        "opacity": 0.95,
+        "role": "context"
+      }
+    },
+    {
+      "files": [
+        "golgin_laite/golgin_laite_0_0.vtp"
+      ],
+      "label": "Golgi apparatus",
+      "name": "golgin_laite",
+      "role": "context",
+      "style": {
+        "color": "#c28b52",
+        "opacity": 0.84,
+        "role": "context"
+      }
+    },
+    {
+      "files": [
+        "lysosome/lysosome_0_0.vtp"
+      ],
+      "label": "Lysosome / peroxisome",
+      "name": "lysosome",
+      "role": "repair",
+      "style": {
+        "color": "#65dd5f",
+        "opacity": 0.86,
+        "role": "repair"
+      }
+    },
+    {
+      "files": [
+        "mitocondria/mitocondria_0_0.vtp",
+        "mitocondria/mitocondria_1_0.vtp"
+      ],
+      "label": "Mitochondria",
+      "name": "mitocondria",
+      "role": "mitochondrial_stress",
+      "style": {
+        "color": "#9e9cff",
+        "opacity": 0.88,
+        "role": "mitochondrial_stress"
+      }
+    },
+    {
+      "files": [
+        "nucleous/nucleous_0_0.vtp",
+        "nucleous/nucleous_1_0.vtp",
+        "nucleous/nucleous_2_0.vtp"
+      ],
+      "label": "Nucleus / nucleolus",
+      "name": "nucleous",
+      "role": "context",
+      "style": {
+        "color": "#4649d9",
+        "opacity": 0.6,
+        "role": "context"
+      }
+    },
+    {
+      "files": [
+        "plasma/plasma_0_0.vtp",
+        "plasma/plasma_1_0.vtp",
+        "plasma/plasma_2_0.vtp"
+      ],
+      "label": "Plasma membrane proteins",
+      "name": "plasma",
+      "role": "membrane_signal",
+      "style": {
+        "color": "#45e36c",
+        "opacity": 0.42,
+        "role": "membrane_signal"
+      }
+    },
+    {
+      "files": [
+        "ribosomes/ribosomes_0_0.vtp",
+        "ribosomes/ribosomes_1_0.vtp"
+      ],
+      "label": "Ribosomes",
+      "name": "ribosomes",
+      "role": "context",
+      "style": {
+        "color": "#3a3a3a",
+        "opacity": 0.55,
+        "role": "context"
+      }
+    },
+    {
+      "files": [
+        "rough_endoplasmic_reticulum/rough_endoplasmic_reticulum_0_0.vtp"
+      ],
+      "label": "Rough ER",
+      "name": "rough_endoplasmic_reticulum",
+      "role": "er_release",
+      "style": {
+        "color": "#20c4c8",
+        "opacity": 0.58,
+        "role": "er_release"
+      }
+    },
+    {
+      "files": [
+        "secretory_vesicle/secretory_vesicle_0_0.vtp",
+        "secretory_vesicle/secretory_vesicle_1_0.vtp"
+      ],
+      "label": "Secretory vesicles",
+      "name": "secretory_vesicle",
+      "role": "ev_release",
+      "style": {
+        "color": "#f4c34f",
+        "opacity": 0.92,
+        "role": "ev_release"
+      }
+    },
+    {
+      "files": [
+        "smoothe_endoplasmic_reticulum/smoothe_endoplasmic_reticulum_0_0.vtp"
+      ],
+      "label": "Smooth ER",
+      "name": "smoothe_endoplasmic_reticulum",
+      "role": "er_release",
+      "style": {
+        "color": "#26b6c7",
+        "opacity": 0.58,
+        "role": "er_release"
+      }
+    },
+    {
+      "files": [
+        "surface/surface_0_0.vtp",
+        "surface/surface_1_0.vtp"
+      ],
+      "label": "Cell surface / plasma membrane",
+      "name": "surface",
+      "role": "membrane_signal",
+      "style": {
+        "color": "#43d34f",
+        "opacity": 0.3,
+        "role": "membrane_signal"
+      }
+    },
+    {
+      "files": [
+        "sytoskeleton_filament/sytoskeleton_filament_0_0.vtp"
+      ],
+      "label": "Cytoskeleton filaments",
+      "name": "sytoskeleton_filament",
+      "role": "repair",
+      "style": {
+        "color": "#ff6464",
+        "opacity": 0.82,
+        "role": "repair"
+      }
+    },
+    {
+      "files": [
+        "transport_vesicle/transport_vesicle_0_0.vtp"
+      ],
+      "label": "Transport vesicles",
+      "name": "transport_vesicle",
+      "role": "ev_release",
+      "style": {
+        "color": "#f4d06f",
+        "opacity": 0.85,
+        "role": "ev_release"
+      }
+    }
+  ],
+  "description": "VTP blocks extracted from the human cell VTM component wrappers for 3D electro-exocytosis visualization.",
+  "source_dir": "docs"
+}

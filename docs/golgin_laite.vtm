@@ -1,0 +1,17 @@
+<VTKFile type="vtkMultiBlockDataSet" version="1.0" byte_order="LittleEndian" header_type="UInt64">
+  <vtkMultiBlockDataSet>
+    <Block index="0" name="Node_0">
+      <Block index="0" name="Node_1">
+        <Block index="0" name="Node_2">
+          <Block index="0" name="Node_19">
+            <Block index="0" name="Node_20">
+              <Block index="0" name="Mesh_11">
+                <DataSet index="0" file="golgin_laite/golgin_laite_0_0.vtp"/>
+              </Block>
+            </Block>
+          </Block>
+        </Block>
+      </Block>
+    </Block>
+  </vtkMultiBlockDataSet>
+</VTKFile>

@@ -22,6 +22,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=7.4", "pytest-cov"]
+viz = ["pyvista>=0.44", "vtk>=9.3", "imageio>=2.34"]
 
 [project.scripts]
 electro-exocytosis = "electro_exocytosis.cli:app"
@@ -31,4 +32,9 @@ where = ["."]
 include = ["electro_exocytosis*"]
 
 [tool.setuptools.package-data]
-electro_exocytosis = ["parameters/*.yaml", "evidence/*.csv"]
+electro_exocytosis = [
+    "parameters/*.yaml",
+    "evidence/*.csv",
+    "visualization/assets/human_cell_vtp/manifest.json",
+    "visualization/assets/human_cell_vtp/*/*.vtp",
+]
