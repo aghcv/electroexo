@@ -31,4 +31,4 @@ where = ["."]
 include = ["electro_exocytosis*"]
 
 [tool.setuptools.package-data]
-electro_exocytosis = ["parameters/*.yaml"]
+electro_exocytosis = ["parameters/*.yaml", "evidence/*.csv"]

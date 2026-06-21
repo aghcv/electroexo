@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Optional
 
 import typer
 
@@ -24,7 +25,7 @@ def run(
     scenario_file: str,
     out: str = "results/output",
     no_plots: bool = False,
-    evidence_file: str | None = None,
+    evidence_file: Optional[str] = None,
 ):
     """Run an nsPEF EV release simulation from a YAML scenario file."""
     scenario = load_scenario(scenario_file)

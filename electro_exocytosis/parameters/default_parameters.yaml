@@ -21,18 +21,60 @@ electrodynamics:
   pore_density_hill_coefficient: 3.0
 
 ion_transport:
-  tau_Ca_release_s: 0.5
-  tau_Ca_uptake_s: 30.0
   Ca_baseline_uM: 0.1
+  Ca_ext_uM: 1200.0
   Ca_ER_uM: 500.0
+  Ca_mito_baseline_uM: 0.2
   Ca_max_uM: 10.0
-  J_Ca_pore_factor: 0.01
+  tau_pore_reseal_s: 0.5
+  J_Ca_pore_factor: 1.5
+  J_ER_release_factor: 1.5
+  ER_activation_threshold_V: 0.05
+  ER_activation_slope: 30.0
+  SERCA_Vmax_uM_s: 0.15
+  SERCA_K_uM: 0.4
+  SERCA_ATP_K: 0.3
+  PMCA_Vmax_uM_s: 0.20
+  PMCA_K_uM: 0.5
+  NCX_Vmax_uM_s: 0.06
+  NCX_K_uM: 0.8
+  calcium_hill_n: 2.0
+  mitochondrial_Ca_K_uM: 0.8
+  mitochondrial_uptake_Vmax_uM_s: 0.08
+  mitochondrial_release_rate_s: 0.01
+  mPTP_release_rate_s: 0.08
+  tau_mito_recovery_s: 600.0
+  mitochondrial_Ca_depolarization_factor_s: 0.001
+  mitochondrial_ROS_depolarization_factor_s: 0.001
+  mitochondrial_electro_depolarization_factor_s: 0.001
+  Na_baseline_mM: 12.0
+  Na_ext_mM: 145.0
+  K_baseline_mM: 140.0
+  K_ext_mM: 4.0
+  Cl_baseline_mM: 10.0
+  Cl_ext_mM: 110.0
+  J_Na_pore_factor_mM_s: 1.5
+  J_K_pore_factor_mM_s: 1.5
+  J_Cl_pore_factor_mM_s: 1.0
+  tau_ion_recovery_s: 300.0
+  tau_osmotic_s: 30.0
   ROS_baseline: 0.1
-  ROS_production_factor: 0.001  # TODO-literature-review: calibrated so ROS peaks ~5-10x baseline during nsPEF stress
+  ROS_production_factor: 0.0001
+  ROS_mito_factor_s: 0.0002
+  ROS_depolarization_factor_s: 0.0005
+  ROS_osmotic_factor_s: 0.0002
+  ROS_pulse_factor_s: 0.0001
   tau_ROS_s: 120.0
   ATP_baseline: 1.0
-  ATP_depletion_factor: 0.3
+  ATP_depletion_factor: 0.05
+  ATP_pump_cost_factor: 0.0002
+  ATP_osmotic_cost_factor: 0.0002
+  ATP_ROS_cost_factor: 0.0001
   tau_ATP_s: 600.0
+  ATP_damage_threshold: 0.5
+  osmotic_damage_scale: 2.0
+  mitochondrial_damage_scale: 0.5
+  ATP_damage_scale: 0.5
 
 remodeling_repair:
   K_PS_uM: 1.0
@@ -43,6 +85,25 @@ remodeling_repair:
   K_annex_uM: 0.5
   n_annex: 1.5
   tau_repair_s: 300.0
+  microdomain_gain: 2.0
+  microdomain_pore_gain: 4.0
+  microdomain_osmotic_gain: 1.0
+  K_scramblase_uM: 0.8
+  n_scramblase: 2.0
+  flippase_Ca_K_uM: 0.8
+  flippase_min_activity: 0.2
+  K_lysosomal_repair_uM: 0.6
+  n_lysosomal_repair: 2.0
+  K_actomyosin_uM: 1.5
+  n_actomyosin: 2.0
+  actin_calpain_weight: 0.55
+  actin_ps_weight: 0.25
+  actin_osmotic_weight: 0.20
+  resealing_annexin_weight: 0.50
+  resealing_lysosome_weight: 0.35
+  resealing_ps_weight: 0.15
+  resealing_calpain_penalty: 0.25
+  shedding_rate_scale: 0.05
 
 ev_release:
   baseline_sEV_rate: 1.0

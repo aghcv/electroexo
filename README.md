@@ -63,12 +63,32 @@ python examples/compare_membrane_electrodynamics.py --out results/electrodynamic
 This writes a CSV summary plus pulse-width and cell-radius sensitivity plots
 for the reduced Schwan charging, permeability, and pore-density proxies.
 
+Compare ion-transport, organelle, ROS, and ATP responses directly:
+
+```bash
+python examples/compare_ion_transport_bioenergetics.py --out results/ion_transport_bioenergetics_comparison
+```
+
+This writes summary and time-series CSV files plus manuscript-style plots for
+pore-mediated Ca2+ entry, ER release, Na/K/Cl osmotic perturbation,
+mitochondrial depolarization, ROS, ATP, and damage coupling.
+
+Compare Ca2+-dependent remodeling and membrane repair responses directly:
+
+```bash
+python examples/compare_remodeling_repair.py --out results/remodeling_repair_comparison
+```
+
+This writes summary and time-series CSV files plus plots for local Ca2+
+microdomain strength, PS externalization, calpain, annexin, lysosomal repair,
+actin remodeling, resealing, and repair-associated shedding.
+
 ## Output files
 
 Each run writes a directory containing:
 
 - `summary.json` – compact run summary and headline metrics
-- `state_timeseries.csv` – time series for Ca_i, Ca_ER, ROS, ATP, damage
+- `state_timeseries.csv` – time series for Ca_i, Ca_ER, Ca_mito, mitochondrial potential, ROS, ATP, Na_i, K_i, Cl_i, osmotic stress, ion-flux diagnostics, remodeling/repair diagnostics, and damage
 - `ev_outputs.csv` – EV rates, cumulative counts, viability, quality gate
 - `parameters_used.yaml` – merged parameter set used for the run
 - `run_metadata.json` – metadata, warnings, timestamps
@@ -90,7 +110,7 @@ Placeholder-heavy modules include:
 
 - pulse and dosimetry scaling
 - membrane/organelle electrodynamics
-- calcium/ROS/ATP coupling
+- ion transport, calcium mobilization, mitochondrial stress, ROS, and ATP coupling
 - remodeling and repair logic
 - EV subtype release kinetics
 - cargo/potency proxies
@@ -101,6 +121,11 @@ Placeholder-heavy modules include:
 ## Evidence workbook integration
 
 The repository includes an Excel evidence workbook and PDF source material. The `EvidenceLoader` reads the workbook sheets into pandas DataFrames and can summarize module coverage and placeholder status. Future versions will use curated literature evidence to replace placeholder constants, geometry factors, gating equations, and coupling strengths with module-specific parameter sets.
+
+The first full-text PDF pass is summarized in
+`docs/fulltext_calibration_opportunities.md`. The corresponding structured
+targets are available through `EvidenceLoader.get_calibration_targets()` and in
+`electro_exocytosis/evidence/calibration_targets.csv`.
 
 ## Disclaimer
 

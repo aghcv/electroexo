@@ -9,16 +9,29 @@ from electro_exocytosis.config import CellStateConfig
 def apply_cell_state_modifiers(base_params: dict, cell_state: CellStateConfig) -> dict:
     """Apply cross-cutting cell-state modifiers to a flat parameter dictionary."""
     params = deepcopy(base_params)
-    for key in ["J_Ca_pore_factor", "tau_Ca_release_s", "tau_Ca_uptake_s", "Ca_max_uM"]:
+    for key in [
+        "J_Ca_pore_factor",
+        "J_ER_release_factor",
+        "SERCA_Vmax_uM_s",
+        "PMCA_Vmax_uM_s",
+        "NCX_Vmax_uM_s",
+        "mitochondrial_uptake_Vmax_uM_s",
+        "Ca_max_uM",
+    ]:
         if key in params:
-            if key == "tau_Ca_uptake_s":
-                params[key] = params[key] / max(cell_state.calcium_handling_modifier, 1e-6)
-            else:
-                params[key] = params[key] * cell_state.calcium_handling_modifier
+            params[key] = float(params[key]) * cell_state.calcium_handling_modifier
     for key in ["baseline_sEV_rate", "baseline_mlEV_rate", "baseline_AB_rate"]:
         if key in params:
-            params[key] = params[key] * cell_state.baseline_EV_release_modifier
-    for key in ["damage_rate", "AB_damage_scale", "ROS_production_factor"]:
+            params[key] = float(params[key]) * cell_state.baseline_EV_release_modifier
+    for key in [
+        "damage_rate",
+        "AB_damage_scale",
+        "ROS_production_factor",
+        "ROS_mito_factor_s",
+        "ROS_depolarization_factor_s",
+        "ROS_osmotic_factor_s",
+        "ATP_depletion_factor",
+    ]:
         if key in params:
-            params[key] = params[key] * cell_state.stress_sensitivity_modifier
+            params[key] = float(params[key]) * cell_state.stress_sensitivity_modifier
     return params

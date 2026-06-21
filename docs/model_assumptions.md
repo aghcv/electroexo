@@ -7,10 +7,10 @@ Current implementation uses simple field conversion, energy-density scaling, and
 A simplified Schwan-style transmembrane voltage estimate is used with fixed organelle fractions and sigmoid permeability. Placeholder support is needed for membrane charging, pore formation, and organelle-specific coupling.
 
 ## Layer 3: Ion transport, Ca2+ mobilization, ROS, bioenergetics
-The ODE system uses decaying Ca2+ release, first-order uptake, ROS production from Ca2+ overload, and ATP depletion from oxidative stress. All constants and couplings are placeholders.
+The ODE system now separates pore-mediated extracellular Ca2+ influx, ER release and SERCA refilling, PMCA/NCX clearance, mitochondrial Ca2+ uptake/release, mitochondrial depolarization, Na+/K+/Cl- perturbation, osmotic stress, ROS generation, and ATP production/consumption. The structure follows the Table A5/A6 submodules, but the constants and closure relations remain provisional and should be calibrated against module-specific literature and experiments.
 
 ## Layer 4: Ca2+-dependent remodeling and repair
-PS exposure, calpain, annexins, actin disruption, and repair are represented by Hill functions of cytosolic Ca2+. Literature support is needed for kinetics, thresholds, and recovery structure.
+The reduced implementation now maps cytosolic Ca2+, pore activation, osmotic stress, and mitochondrial stress into a local Ca2+ microdomain proxy, scramblase/PS exposure, flippase suppression, calpain activity, annexin recruitment, lysosomal repair activity, actomyosin tension, actin disruption, resealing state, and repair-associated shedding. This follows the Table A7/A8 submodule structure, but the parameters remain provisional and should be calibrated against local Ca2+ imaging, annexin/ESCRT recruitment, PS externalization, calpain inhibition, cytoskeletal remodeling, and membrane-repair assays.
 
 ## Layer 5: EV biogenesis and subtype release
 sEV, mlEV, and apoptotic body release are driven by Ca2+, PS, and damage proxies. This is a placeholder release architecture pending subtype-specific evidence.
@@ -29,3 +29,12 @@ Cell-state modifiers scale calcium handling, baseline EV release, and stress sen
 
 ## Overall status
 Version 0.1.0 is structurally complete but scientifically provisional. Every mechanistic layer still requires targeted literature review and parameter replacement.
+
+## Full-text calibration targets
+The first full-text PDF pass identified experimental targets that map directly
+to current placeholder parameters. See `docs/fulltext_calibration_opportunities.md`
+for the rationale and `electro_exocytosis/evidence/calibration_targets.csv` for
+the machine-readable target table. These targets should be used as priors or
+constraints for exposure, electrodynamics, Ca2+, ROS/ATP, remodeling, and repair
+states before fitting EV yield, cargo, and quality outputs to project-specific
+in vitro data.

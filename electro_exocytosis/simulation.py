@@ -13,9 +13,17 @@ from electro_exocytosis.models.cell_state import apply_cell_state_modifiers
 from electro_exocytosis.models.dosimetry import compute_dosimetry
 from electro_exocytosis.models.electrodynamics import compute_electrodynamics_state
 from electro_exocytosis.models.injury_quality import InjuryParams, compute_quality_gate
+from electro_exocytosis.models.ion_transport import (
+    build_ion_transport_rhs,
+    coerce_ion_transport_params,
+    compute_ion_transport_fluxes,
+    get_ion_initial_conditions,
+    get_ion_state_names,
+    ion_state_to_dict,
+)
 from electro_exocytosis.models.manufacturing_qc import ManufacturingParams, compute_manufacturing_outputs
 from electro_exocytosis.models.pulse import compute_pulse_descriptors
-from electro_exocytosis.models.remodeling_repair import RemodelingParams, compute_remodeling_state
+from electro_exocytosis.models.remodeling_repair import coerce_remodeling_params, compute_remodeling_state
 from electro_exocytosis.numerics.multiscale import MultiscaleScheduler
 from electro_exocytosis.numerics.solvers import solve_ode_system
 
@@ -60,52 +68,42 @@ class Simulation:
             self.scenario.cell_state,
             self.params_flat,
         )
+        ion_params = coerce_ion_transport_params(self.params_flat)
+        ion_state_names = get_ion_state_names()
+        effective_ion_perturbation_s = min(
+            descriptors.train_duration_s,
+            ion_params.tau_pore_reseal_s * np.sqrt(max(descriptors.pulse_number, 1)),
+        )
+        ion_rhs = build_ion_transport_rhs(
+            ion_params,
+            electro_state,
+            t_pulse_end=effective_ion_perturbation_s,
+        )
 
         scheduler = MultiscaleScheduler(descriptors, self.scenario.simulation.t_start_s, self.scenario.simulation.t_end_s)
         t_eval = scheduler.get_time_array(self.scenario.simulation.output_dt_s)
         t_span = (float(t_eval[0]), float(t_eval[-1]))
         y0 = [
-            self.params_flat["Ca_baseline_uM"],
-            self.params_flat["Ca_ER_uM"],
-            self.params_flat["ROS_baseline"],
-            self.params_flat["ATP_baseline"],
+            *get_ion_initial_conditions(ion_params),
             0.0,
             0.0,
             0.0,
             0.0,
         ]
+        ion_state_count = len(ion_state_names)
 
         def full_rhs(t: float, y: np.ndarray) -> list[float]:
-            Ca_i, Ca_ER, ROS, ATP, sEV_cum, mlEV_cum, AB_cum, damage = [float(v) for v in y]
-            Ca_i = max(Ca_i, 0.0)
-            Ca_ER = max(Ca_ER, 0.0)
-            ROS = max(ROS, 0.0)
-            ATP = max(ATP, 0.0)
+            ion_y = y[:ion_state_count]
+            ion_state = ion_state_to_dict(ion_y, ion_params)
+            ion_derivatives = ion_rhs(t, ion_y)
+            sEV_cum, mlEV_cum, AB_cum, damage = [float(v) for v in y[ion_state_count:]]
+            Ca_i = ion_state["Ca_i"]
+            ROS = ion_state["ROS"]
+            ATP = ion_state["ATP"]
+            osmotic_stress = ion_state["osmotic_stress"]
+            mitochondrial_potential = ion_state["mitochondrial_potential"]
             damage = max(damage, 0.0)
             p = self.params_flat
-
-            # Ca2+ flux (Layer 3 / Table A5-A6)
-            decay_factor = np.exp(-t / max(p["tau_Ca_release_s"], 1e-9))
-            J_Ca_in = (
-                p["J_Ca_pore_factor"]
-                * electro_state.membrane_permeability
-                * max(Ca_ER - Ca_i, 0.0)
-                * decay_factor
-            )
-            J_Ca_out = max(Ca_i - p["Ca_baseline_uM"], 0.0) / max(p["tau_Ca_uptake_s"], 1e-9)
-            dCa_i = J_Ca_in - J_Ca_out
-            dCa_ER = -J_Ca_in
-
-            Ca_excess = max(Ca_i / max(p["Ca_baseline_uM"], 1e-9) - 1.0, 0.0)
-            dROS = (
-                p["ROS_production_factor"] * Ca_excess
-                - (ROS - p["ROS_baseline"]) / max(p["tau_ROS_s"], 1e-9)
-            )
-            dATP = (
-                -p["ATP_depletion_factor"] * max(ROS - p["ROS_baseline"], 0.0)
-                / max(p["tau_ATP_s"], 1e-9)
-                - (ATP - p["ATP_baseline"]) / max(p["tau_ATP_s"], 1e-9)
-            )
 
             K_PS = p["K_PS_uM"]
             n_PS = p["n_PS"]
@@ -126,7 +124,13 @@ class Simulation:
             PS_hill = (PS ** n_mlEV) / (K_mlEV ** n_mlEV + PS ** n_mlEV)
             R_mlEV = mlEV_base * (1.0 + p["mlEV_PS_scale"] * PS_hill)
 
-            damage_input = max(ROS - p["ROS_baseline"], 0.0) + max(Ca_i - p["Ca_max_uM"], 0.0)
+            damage_input = (
+                max(ROS - ion_params.ROS_baseline, 0.0)
+                + max(Ca_i - ion_params.Ca_max_uM, 0.0)
+                + ion_params.osmotic_damage_scale * osmotic_stress
+                + ion_params.mitochondrial_damage_scale * max(1.0 - mitochondrial_potential, 0.0)
+                + ion_params.ATP_damage_scale * max(ion_params.ATP_damage_threshold - ATP, 0.0)
+            )
             stress_mod = self.scenario.cell_state.stress_sensitivity_modifier
             if damage_input > 0:
                 AB_denom = K_AB ** n_AB + damage_input ** n_AB
@@ -136,31 +140,61 @@ class Simulation:
             R_AB = p["baseline_AB_rate"] * (1.0 + p["AB_damage_scale"] * stress_mod * AB_hill)
 
             dDamage = p["damage_rate"] * damage_input - p["repair_rate"] * damage / (1.0 + damage)
-            return [float(dCa_i), float(dCa_ER), float(dROS), float(dATP), float(R_sEV), float(R_mlEV), float(R_AB), float(dDamage)]
+            return [
+                *ion_derivatives,
+                float(R_sEV),
+                float(R_mlEV),
+                float(R_AB),
+                float(dDamage),
+            ]
 
         result = solve_ode_system(full_rhs, y0, t_span=t_span, t_eval=t_eval, method="RK45")
         y = result.y
-        ca_i = np.clip(y[0], 0.0, None)
-        ca_er = np.clip(y[1], 0.0, None)
-        ros = np.clip(y[2], 0.0, None)
-        atp = np.clip(y[3], 0.0, None)
-        sev_cum = np.clip(y[4], 0.0, None)
-        mlev_cum = np.clip(y[5], 0.0, None)
-        ab_cum = np.clip(y[6], 0.0, None)
-        damage = np.clip(y[7], 0.0, None)
+        ion_series = {
+            name: np.clip(y[index], 0.0, None)
+            for index, name in enumerate(ion_state_names)
+        }
+        ion_series["Ca_ER"] = np.clip(ion_series["Ca_ER"], 0.0, ion_params.Ca_ER_uM)
+        ion_series["mitochondrial_potential"] = np.clip(ion_series["mitochondrial_potential"], 0.0, 1.0)
+        ion_series["ATP"] = np.clip(ion_series["ATP"], 0.0, ion_params.ATP_baseline)
+        ca_i = ion_series["Ca_i"]
+        ca_er = ion_series["Ca_ER"]
+        ca_mito = ion_series["Ca_mito"]
+        mito_potential = ion_series["mitochondrial_potential"]
+        ros = ion_series["ROS"]
+        atp = ion_series["ATP"]
+        osmotic_stress = ion_series["osmotic_stress"]
+        sev_cum = np.clip(y[ion_state_count], 0.0, None)
+        mlev_cum = np.clip(y[ion_state_count + 1], 0.0, None)
+        ab_cum = np.clip(y[ion_state_count + 2], 0.0, None)
+        damage = np.clip(y[ion_state_count + 3], 0.0, None)
 
-        remodeling_params = RemodelingParams(
-            K_PS_uM=self.params_flat["K_PS_uM"],
-            n_PS=self.params_flat["n_PS"],
-            PS_max=self.params_flat["PS_max"],
-            K_calpain_uM=self.params_flat["K_calpain_uM"],
-            n_calpain=self.params_flat["n_calpain"],
-            K_annex_uM=self.params_flat["K_annex_uM"],
-            n_annex=self.params_flat["n_annex"],
-            tau_repair_s=self.params_flat["tau_repair_s"],
-        )
-        remodeling = [compute_remodeling_state(float(value), remodeling_params) for value in ca_i]
-        ps = np.array([item["PS_exposure"] for item in remodeling], dtype=float)
+        state_timeseries = pd.DataFrame({"t": t_eval, **ion_series, "damage": damage})
+        flux_records = [
+            compute_ion_transport_fluxes(
+                ion_params,
+                electro_state,
+                float(t),
+                [ion_series[name][index] for name in ion_state_names],
+                effective_ion_perturbation_s,
+            )
+            for index, t in enumerate(t_eval)
+        ]
+        flux_timeseries = pd.DataFrame(flux_records)
+        remodeling_params = coerce_remodeling_params(self.params_flat)
+        remodeling = [
+            compute_remodeling_state(
+                float(ca_i[index]),
+                remodeling_params,
+                osmotic_stress=float(osmotic_stress[index]),
+                mitochondrial_potential=float(mito_potential[index]),
+                pore_activation=float(flux_timeseries["pore_activation"].iloc[index]),
+            )
+            for index in range(len(t_eval))
+        ]
+        remodeling_timeseries = pd.DataFrame(remodeling)
+        ps = remodeling_timeseries["PS_exposure"].to_numpy(dtype=float)
+        state_timeseries = pd.concat([state_timeseries, flux_timeseries, remodeling_timeseries], axis=1)
 
         sev_rate = np.gradient(sev_cum, t_eval, edge_order=1)
         mlev_rate = np.gradient(mlev_cum, t_eval, edge_order=1)
@@ -201,17 +235,6 @@ class Simulation:
             scalability_factor=self.params_flat["scalability_factor"],
         )
         manufacturing = compute_manufacturing_outputs(float(sev_cum[-1]), float(mlev_cum[-1]), float(ab_cum[-1]), float(quality["viability_fraction"]), manufacturing_params)
-
-        state_timeseries = pd.DataFrame(
-            {
-                "t": t_eval,
-                "Ca_i": ca_i,
-                "Ca_ER": ca_er,
-                "ROS": ros,
-                "ATP": atp,
-                "damage": damage,
-            }
-        )
         ev_timeseries = pd.DataFrame(
             {
                 "t": t_eval,
@@ -229,6 +252,17 @@ class Simulation:
             "mode": self.scenario.scenario.mode,
             "dose_index": float(descriptors.dose_index),
             "peak_ca_i": float(np.max(ca_i)),
+            "peak_ca_mito": float(np.max(ca_mito)),
+            "peak_ros": float(np.max(ros)),
+            "min_atp": float(np.min(atp)),
+            "min_mitochondrial_potential": float(np.min(mito_potential)),
+            "peak_osmotic_stress": float(np.max(osmotic_stress)),
+            "peak_ps_exposure": float(np.max(ps)),
+            "peak_calpain_activity": float(remodeling_timeseries["calpain_activity"].max()),
+            "peak_annexin_activity": float(remodeling_timeseries["annexin_activity"].max()),
+            "peak_actin_disruption": float(remodeling_timeseries["actin_disruption"].max()),
+            "peak_repair_state": float(remodeling_timeseries["repair_state"].max()),
+            "cumulative_repair_shedding": float(np.trapezoid(remodeling_timeseries["repair_shedding_rate"], t_eval)),
             "cumulative_small_EV": float(sev_cum[-1]),
             "cumulative_medium_large_EV": float(mlev_cum[-1]),
             "cumulative_apoptotic_body": float(ab_cum[-1]),
@@ -247,6 +281,9 @@ class Simulation:
             "pulse_descriptors": asdict(descriptors),
             "dosimetry": asdict(dosimetry),
             "electrodynamics": asdict(electro_state),
+            "ion_transport": asdict(ion_params),
+            "remodeling_repair": asdict(remodeling_params),
+            "effective_ion_perturbation_s": float(effective_ion_perturbation_s),
             "terminal_remodeling": remodeling[-1],
             "terminal_cargo": cargo_state,
             "terminal_quality": quality,
