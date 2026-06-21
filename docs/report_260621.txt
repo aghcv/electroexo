@@ -1,0 +1,114 @@
+# Electroexo Recent Updates
+
+## Overview
+
+- A newer report is warranted. The previous report, `report_260617.txt`, was generated on 2026-06-17 and captured the framework through the initial dosimetry and membrane-electrodynamics work.
+- Since then, the computational framework has advanced into the Table A5/A6 and Table A7/A8 layers: ion transport, Ca2+ mobilization, ROS, bioenergetics, Ca2+-dependent remodeling, and membrane repair.
+- The manuscript repository has also been updated with new computational-modeling references and revised language for these modules, so the project narrative has moved beyond the June 17 report.
+
+## Recent Development Since `report_260617.txt`
+
+- Added a more detailed Layer 3 ion-transport and bioenergetics implementation:
+  - Pore-mediated extracellular Ca2+ influx
+  - ER Ca2+ release and SERCA refilling
+  - PMCA/NCX clearance terms
+  - Mitochondrial Ca2+ uptake/release
+  - Mitochondrial depolarization
+  - Na+, K+, and Cl- perturbation
+  - Osmotic-stress state
+  - ROS source-clearance dynamics
+  - ATP production-consumption state
+
+- Added a Layer 4 Ca2+-dependent remodeling and repair implementation:
+  - Submembrane Ca2+ microdomain proxy
+  - Scramblase/PS exposure and flippase suppression
+  - Calpain activation
+  - Annexin recruitment
+  - Lysosomal repair activity
+  - Actomyosin tension and actin disruption
+  - Membrane resealing state
+  - Repair-associated shedding
+
+- Extended the simulation state and coupling:
+  - New ion, mitochondrial, osmotic, and ATP state variables are carried through the solver.
+  - Remodeling and repair variables are now coupled to upstream Ca2+, pore activation, osmotic stress, and mitochondrial stress.
+  - EV and injury outputs now have access to richer upstream mechanistic states than in the June 17 version.
+
+- Added new example scenarios and comparison scripts:
+  - `examples/scenario_layer3_ion_bioenergetics.yaml`
+  - `examples/compare_ion_transport_bioenergetics.py`
+  - `examples/compare_remodeling_repair.py`
+
+- Added new generated outputs:
+  - `results/ion_transport_bioenergetics_comparison/`
+  - `results/remodeling_repair_comparison/`
+
+- Added full-text calibration support:
+  - `docs/fulltext_calibration_opportunities.md`
+  - `electro_exocytosis/evidence/calibration_targets.csv`
+  - `EvidenceLoader.get_calibration_targets()`
+
+## Main Results
+
+- The Layer 3 comparison now produces distinct Ca2+, ROS, ATP, mitochondrial, osmotic, damage, and viability responses across baseline, high-dose, calcium-limited, and slow-osmotic-recovery cases.
+- In the current example outputs, wide-pulse/high-dose conditions increase peak cytosolic Ca2+, mitochondrial Ca2+, ROS, mitochondrial depolarization, damage, and EV release while reducing viability relative to baseline.
+- Calcium-limited medium reduces peak cytosolic Ca2+, mitochondrial stress, ROS, damage, and improves viability relative to baseline.
+- Slow osmotic recovery leaves peak Ca2+ similar to baseline but increases osmotic stress and terminal damage.
+- The Layer 4 remodeling/repair comparison now resolves PS exposure, calpain, annexin, repair state, actin disruption, resealing, and repair-associated shedding.
+- Calpain inhibition reduces calpain activity and actin disruption while increasing the repair-state proxy.
+- Strong annexin/lysosomal support increases the repair-state proxy and repair-associated shedding.
+
+## Generated Outputs
+
+- Standard scenario outputs remain:
+  - `summary.json`
+  - `state_timeseries.csv`
+  - `ev_outputs.csv`
+  - `parameters_used.yaml`
+  - `run_metadata.json`
+  - Plot files where enabled
+
+- Existing comparison outputs remain:
+  - Dosimetry comparison plots and CSV summaries
+  - Electrodynamics comparison plots and CSV summaries
+
+- New comparison outputs include:
+  - `ion_transport_bioenergetics_summary.csv`
+  - `ion_transport_bioenergetics_timeseries.csv`
+  - `layer3_peak_response_comparison.png`
+  - `layer3_timeseries_comparison.png`
+  - `remodeling_repair_summary.csv`
+  - `remodeling_repair_timeseries.csv`
+  - `remodeling_repair_peak_response.png`
+  - `remodeling_repair_timeseries.png`
+
+## Manuscript And Literature Sync
+
+- The manuscript in `/Users/aghorban/code/electro-exocytosis` has progressed beyond the June 17 state.
+- Tables and text through A7/A8 now include biology and computational framework support for ion transport, Ca2+ mobilization, ROS/bioenergetics, and Ca2+-dependent remodeling/repair.
+- Twelve computational-modeling papers were added to `source.bib` and cited where appropriate in `main.tex`, including electroporation molecular dynamics, membrane electromechanics, ER/SR Ca2+ models, mitochondrial ATP/ROS models, Ca2+ microdomain theory, and voltage-driven PS translocation.
+- Full-text PDFs were used to refine manuscript language and identify calibration opportunities, but the model remains provisional rather than calibrated.
+
+## Validation Status
+
+- Current automated test suite passes:
+  - `32 passed in 3.76s`
+- This supersedes the June 17 report, which listed 19 passing tests.
+- `git diff --check` is clean for the manuscript edits verified during the latest manuscript update.
+- The CLI compatibility issue with Python 3.13 and Typer still appears unresolved for `python3 -m electro_exocytosis --help`; the command raises `TypeError: TyperArgument.make_metavar() takes 1 positional argument but 2 were given`.
+
+## Current Limitations
+
+- The framework is structurally broader than the June 17 version, but it is still not experimentally validated.
+- Many equations remain reduced closures rather than detailed electrodiffusion, channel, mitochondrial, cytoskeletal, or EV-biogenesis models.
+- Calibration targets have been identified, but most parameter values remain provisional.
+- Scenario outputs are now more differentiated than before, but EV yield, subtype balance, cargo, potency, and quality-control predictions still need fitting against project-specific in vitro data.
+- The Typer/Python 3.13 CLI help issue remains a practical usability gap.
+
+## Recommended Next Steps
+
+- Use `electro_exocytosis/evidence/calibration_targets.csv` to prioritize parameter calibration for exposure, permeability, Ca2+, ROS/ATP, repair, PS exposure, and actin remodeling.
+- Replace the most important provisional Layer 3 and Layer 4 constants with literature-constrained values before fitting EV yield.
+- Fix the Python 3.13/Typer CLI help compatibility issue.
+- Add tests that verify lower-dose and intermediate-dose regimes do not collapse into saturated upstream responses.
+- Begin integrating ODU in vitro EV datasets as validation targets for yield, subtype balance, cargo, potency, and viability.
