@@ -93,6 +93,25 @@ This writes summary and time-series CSV files plus plots for MVB pool size,
 ILV load, docked MVBs, secretory versus lysosomal routing bias, and subtype
 resolved EV release.
 
+Generate a three-scenario, five-layer storytelling overview:
+
+```bash
+python examples/storyboard_multilayer_overview.py --out results/multilayer_storyboard
+```
+
+This writes a paper-style multi-panel figure with three scenarios as rows and
+Layers 1-5 as columns, showing how dose, charging, Ca2+/ROS/ATP, repair, and
+EV subtype outputs compose into coherent scenario-level behavior.
+
+Map EV-release regimes across amplitude and pulse number:
+
+```bash
+python examples/map_ev_release_regimes.py --out results/ev_release_regime_map
+```
+
+This writes a parameter-sweep heatmap for small-EV, medium/large-EV, and
+apoptotic-body output together with viability across a pulse-dose grid.
+
 ## Output files
 
 Each run writes a directory containing:
