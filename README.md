@@ -83,6 +83,16 @@ This writes summary and time-series CSV files plus plots for local Ca2+
 microdomain strength, PS externalization, calpain, annexin, lysosomal repair,
 actin remodeling, resealing, and repair-associated shedding.
 
+Compare EV-biogenesis, docking, fusion, budding, and apoptotic-release regimes directly:
+
+```bash
+python examples/compare_ev_biogenesis_release.py --out results/ev_biogenesis_comparison
+```
+
+This writes summary and time-series CSV files plus plots for MVB pool size,
+ILV load, docked MVBs, secretory versus lysosomal routing bias, and subtype
+resolved EV release.
+
 ## Output files
 
 Each run writes a directory containing:
@@ -112,7 +122,9 @@ Placeholder-heavy modules include:
 - membrane/organelle electrodynamics
 - ion transport, calcium mobilization, mitochondrial stress, ROS, and ATP coupling
 - remodeling and repair logic
-- EV subtype release kinetics
+- EV subtype release kinetics remain reduced but now include explicit MVB
+  maturation, ILV loading, docking, fusion, budding, and apoptotic-commitment
+  states
 - cargo/potency proxies
 - injury and purity gates
 - manufacturing/QC transforms

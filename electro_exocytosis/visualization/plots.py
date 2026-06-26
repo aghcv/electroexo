@@ -132,6 +132,49 @@ def plot_remodeling_repair_panel(result: SimulationResult, outdir: Path) -> None
 
 
 
+def plot_ev_biogenesis_panel(result: SimulationResult, outdir: Path) -> None:
+    """Plot Layer 5 EV biogenesis and subtype-release diagnostics."""
+    outdir.mkdir(parents=True, exist_ok=True)
+    fig, axes = plt.subplots(2, 2, figsize=MANUSCRIPT_LANDSCAPE_FIGSIZE)
+    t = result.ev_timeseries["t"]
+
+    pool_styles = line_styles(3)
+    axes[0, 0].plot(t, result.ev_timeseries["MVB_pool"], label="MVB pool", **pool_styles[0])
+    axes[0, 0].plot(t, result.ev_timeseries["ILV_load"], label="ILV load", **pool_styles[1])
+    axes[0, 0].plot(t, result.ev_timeseries["docked_MVB_pool"], label="docked MVB", **pool_styles[2])
+    axes[0, 0].set_ylabel("Relative pool size")
+    axes[0, 0].legend()
+
+    fate_styles = line_styles(4)
+    axes[0, 1].plot(t, result.ev_timeseries["escrt_dependent_signal"], label="ESCRT", **fate_styles[0])
+    axes[0, 1].plot(t, result.ev_timeseries["ceramide_signal"], label="ceramide", **fate_styles[1])
+    axes[0, 1].plot(t, result.ev_timeseries["secretory_bias"], label="secretory bias", **fate_styles[2])
+    axes[0, 1].plot(t, result.ev_timeseries["lysosomal_routing"], label="lysosomal routing", **fate_styles[3])
+    axes[0, 1].set_ylabel("Normalized signal")
+    axes[0, 1].legend()
+
+    budding_styles = line_styles(4)
+    axes[1, 0].plot(t, result.ev_timeseries["budding_pool"], label="budding pool", **budding_styles[0])
+    axes[1, 0].plot(t, result.ev_timeseries["budding_signal"], label="budding", **budding_styles[1])
+    axes[1, 0].plot(t, result.ev_timeseries["scission_signal"], label="scission", **budding_styles[2])
+    axes[1, 0].plot(t, result.ev_timeseries["apoptotic_commitment"], label="apoptotic commitment", **budding_styles[3])
+    axes[1, 0].set_xlabel("Time (s)")
+    axes[1, 0].set_ylabel("Relative state")
+    axes[1, 0].legend()
+
+    rate_styles = line_styles(3)
+    axes[1, 1].plot(t, result.ev_timeseries["sEV_rate"], label="sEV rate", **rate_styles[0])
+    axes[1, 1].plot(t, result.ev_timeseries["mlEV_rate"], label="mlEV rate", **rate_styles[1])
+    axes[1, 1].plot(t, result.ev_timeseries["AB_rate"], label="AB rate", **rate_styles[2])
+    axes[1, 1].set_xlabel("Time (s)")
+    axes[1, 1].set_ylabel("Release rate")
+    axes[1, 1].legend()
+
+    fig.tight_layout()
+    save_manuscript_figure(fig, outdir / "ev_biogenesis_panel.png")
+    plt.close(fig)
+
+
 def plot_ev_release_rates(result: SimulationResult, outdir: Path) -> None:
     """Plot EV release rates."""
     outdir.mkdir(parents=True, exist_ok=True)
@@ -187,6 +230,7 @@ def generate_all_plots(result: SimulationResult, outdir: Path) -> None:
     plot_calcium_timeseries(result, outdir)
     plot_layer3_state_panel(result, outdir)
     plot_remodeling_repair_panel(result, outdir)
+    plot_ev_biogenesis_panel(result, outdir)
     plot_ev_release_rates(result, outdir)
     plot_cumulative_ev_yield(result, outdir)
     plot_quality_viability(result, outdir)

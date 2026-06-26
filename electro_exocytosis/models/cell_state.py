@@ -25,12 +25,13 @@ def apply_cell_state_modifiers(base_params: dict, cell_state: CellStateConfig) -
             params[key] = float(params[key]) * cell_state.baseline_EV_release_modifier
     for key in [
         "damage_rate",
-        "AB_damage_scale",
         "ROS_production_factor",
         "ROS_mito_factor_s",
         "ROS_depolarization_factor_s",
         "ROS_osmotic_factor_s",
         "ATP_depletion_factor",
+        "apoptosis_damage_weight",
+        "k_apoptotic_commitment_s",
     ]:
         if key in params:
             params[key] = float(params[key]) * cell_state.stress_sensitivity_modifier

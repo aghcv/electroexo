@@ -27,6 +27,8 @@ def test_solver_smoke() -> None:
         "peak_calpain_activity",
         "peak_annexin_activity",
         "peak_repair_state",
+        "peak_secretory_bias",
+        "peak_docked_MVB_pool",
         "cumulative_repair_shedding",
         "cumulative_small_EV",
         "purity_score",
@@ -53,5 +55,13 @@ def test_solver_smoke() -> None:
         "lysosomal_repair_activity",
         "repair_state",
         "repair_shedding_rate",
+        "MVB_pool",
+        "ILV_load",
+        "docked_MVB_pool",
+        "budding_pool",
+        "apoptotic_commitment",
+        "secretory_bias",
+        "lysosomal_routing",
+        "fusion_signal",
     ]:
         assert column in result.state_timeseries

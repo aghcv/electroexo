@@ -13,7 +13,7 @@ The ODE system now separates pore-mediated extracellular Ca2+ influx, ER release
 The reduced implementation now maps cytosolic Ca2+, pore activation, osmotic stress, and mitochondrial stress into a local Ca2+ microdomain proxy, scramblase/PS exposure, flippase suppression, calpain activity, annexin recruitment, lysosomal repair activity, actomyosin tension, actin disruption, resealing state, and repair-associated shedding. This follows the Table A7/A8 submodule structure, but the parameters remain provisional and should be calibrated against local Ca2+ imaging, annexin/ESCRT recruitment, PS externalization, calpain inhibition, cytoskeletal remodeling, and membrane-repair assays.
 
 ## Layer 5: EV biogenesis and subtype release
-sEV, mlEV, and apoptotic body release are driven by Ca2+, PS, and damage proxies. This is a placeholder release architecture pending subtype-specific evidence.
+Layer 5 now uses a reduced pool-balance release architecture with explicit MVB pool, ILV load, docked-MVB, budding-precursor, and apoptotic-commitment states. These states are driven by Rab-conversion/maturation, ESCRT-dependent and ceramide-assisted ILV loading, secretory-versus-lysosomal routing, Ca2+-sensitive fusion, and budding/blebbing proxies. The structure is literature-backed and aligned to Table A9/A10, but the parameters remain provisional and should be calibrated against subtype-resolved secretion, trafficking, and inhibition data.
 
 ## Layer 6: Cargo sorting, composition, potency
 Cargo enrichment and potency score are linear proxies from Ca2+, ROS, and ATP. Literature is needed to map stimulation history to protein, RNA, lipid, and functional potency outputs.
