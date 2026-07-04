@@ -32,6 +32,13 @@ def test_solver_smoke() -> None:
         "cumulative_repair_shedding",
         "cumulative_small_EV",
         "purity_score",
+        "protein_enrichment",
+        "RNA_enrichment",
+        "lipid_enrichment",
+        "antigen_enrichment",
+        "bona_fide_EV_fraction",
+        "cell_normalized_yield",
+        "optimization_objective",
         "warnings",
     ]:
         assert key in result.summary

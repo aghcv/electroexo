@@ -8,6 +8,7 @@ from typing import Sequence
 import numpy as np
 import pandas as pd
 
+from electro_exocytosis.abbreviations import STANDARD_ABBREVIATIONS
 from electro_exocytosis.config import (
     CellStateConfig,
     ExposureConfig,
@@ -125,7 +126,11 @@ def write_outputs(
     make_plots: bool = True,
 ) -> None:
     outdir.mkdir(parents=True, exist_ok=True)
-    summary.to_csv(outdir / "multilayer_storyboard_summary.csv", index=False)
+    STANDARD_ABBREVIATIONS.rename_columns(summary).to_csv(
+        outdir / "multilayer_storyboard_summary.csv",
+        index=False,
+    )
+    STANDARD_ABBREVIATIONS.write_bundle(outdir, keys=("nsPEF", "EV", "PM", "ER", "MVB", "ROS", "ATP", "PS", "sEV", "m/lEV", "AB"))
     if make_plots:
         plot_storyboard(outputs, outdir / "multilayer_storyboard.png")
 
@@ -177,7 +182,11 @@ def plot_storyboard(
         )
 
     fig.tight_layout(rect=(0.04, 0.02, 1.0, 1.0))
-    save_manuscript_figure(fig, output_path)
+    save_manuscript_figure(
+        fig,
+        output_path,
+        abbreviation_keys=("PM", "ER", "MVB", "ROS", "ATP", "PS", "EV", "sEV", "m/lEV", "AB"),
+    )
     plt.close(fig)
 
 
@@ -219,13 +228,13 @@ def _plot_layer1_panel(ax, result: SimulationResult) -> None:
     rise[cooling] = rise[cooling] * np.exp(-(times[cooling] - t_train) / tau)
     ax.plot(times, temp0 + rise, color="#4477AA", linewidth=1.6)
     ax.axvline(t_train, color="0.5", linestyle=":", linewidth=1.0)
-    ax.set_ylabel("T (C)", fontsize=8)
-    ax.set_xlabel("t (s)", fontsize=8)
+    ax.set_ylabel("Temperature (C)", fontsize=8)
+    ax.set_xlabel("Time (s)", fontsize=8)
     ax.tick_params(labelsize=7)
     ax.text(
         0.03,
         0.08,
-        f"dose={result.summary['dose_index']:.2f}\nend DT={dosimetry['temperature_rise_K']:.2f} C",
+        f"dose={result.summary['dose_index']:.2f}\nend temperature rise={dosimetry['temperature_rise_K']:.2f} C",
         transform=ax.transAxes,
         fontsize=7,
         bbox={"facecolor": "white", "edgecolor": "0.85", "alpha": 0.8},
@@ -246,12 +255,12 @@ def _plot_layer2_panel(ax, result: SimulationResult) -> None:
     ax.axhline(0.25, color="#CC6677", linestyle=":", linewidth=1.0)
     ax.set_xticks(x)
     ax.set_xticklabels(labels, fontsize=7)
-    ax.set_ylabel("DV (V)", fontsize=8)
+    ax.set_ylabel("Induced membrane voltage (V)", fontsize=8)
     ax.tick_params(labelsize=7)
     ax.text(
         0.03,
         0.88,
-        f"Pm={electro['membrane_permeability']:.2f}\nNp={electro['pore_density']/1e12:.2f} um^-2",
+        f"membrane permeability={electro['membrane_permeability']:.2f}\npore density={electro['pore_density']/1e12:.2f} um^-2",
         transform=ax.transAxes,
         fontsize=7,
         va="top",
@@ -262,11 +271,24 @@ def _plot_layer2_panel(ax, result: SimulationResult) -> None:
 def _plot_layer3_panel(ax, result: SimulationResult, *, layer3_ca_max: float, layer3_ros_max: float) -> None:
     state = result.state_timeseries
     t = state["t"]
-    ax.plot(t, state["Ca_i"] / max(layer3_ca_max, 1e-12), color="#4477AA", linewidth=1.5, label="Ca_i")
-    ax.plot(t, state["ROS"] / max(layer3_ros_max, 1e-12), color="#EE6677", linewidth=1.5, linestyle="--", label="ROS")
-    ax.plot(t, state["ATP"], color="#228833", linewidth=1.5, linestyle="-.", label="ATP")
-    ax.set_xlabel("t (s)", fontsize=8)
-    ax.set_ylabel("Norm.", fontsize=8)
+    ax.plot(
+        t,
+        state["Ca_i"] / max(layer3_ca_max, 1e-12),
+        color="#4477AA",
+        linewidth=1.5,
+        label=STANDARD_ABBREVIATIONS.plot_label("Ca_i"),
+    )
+    ax.plot(
+        t,
+        state["ROS"] / max(layer3_ros_max, 1e-12),
+        color="#EE6677",
+        linewidth=1.5,
+        linestyle="--",
+        label=STANDARD_ABBREVIATIONS.plot_label("ROS"),
+    )
+    ax.plot(t, state["ATP"], color="#228833", linewidth=1.5, linestyle="-.", label=STANDARD_ABBREVIATIONS.plot_label("ATP"))
+    ax.set_xlabel("Time (s)", fontsize=8)
+    ax.set_ylabel("Normalized state", fontsize=8)
     ax.set_ylim(0.0, 1.05)
     ax.set_xlim(0.0, 300.0)
     ax.tick_params(labelsize=7)
@@ -277,10 +299,10 @@ def _plot_layer3_panel(ax, result: SimulationResult, *, layer3_ca_max: float, la
 def _plot_layer4_panel(ax, result: SimulationResult) -> None:
     state = result.state_timeseries
     t = state["t"]
-    ax.plot(t, state["PS_exposure"], color="#AA3377", linewidth=1.5, label="PS")
+    ax.plot(t, state["PS_exposure"], color="#AA3377", linewidth=1.5, label=STANDARD_ABBREVIATIONS.plot_label("PS_exposure"))
     ax.plot(t, state["repair_state"], color="#228833", linewidth=1.5, linestyle="--", label="repair")
     ax.plot(t, state["actin_disruption"], color="#CCBB44", linewidth=1.5, linestyle="-.", label="actin")
-    ax.set_xlabel("t (s)", fontsize=8)
+    ax.set_xlabel("Time (s)", fontsize=8)
     ax.set_ylabel("State", fontsize=8)
     ax.set_ylim(0.0, 1.05)
     ax.set_xlim(0.0, 300.0)
@@ -299,13 +321,13 @@ def _plot_layer5_panel(ax, result: SimulationResult) -> None:
     values = [sev, mlev, ab]
     ax.bar(labels, values, color=colors, width=0.72)
     ax.set_yscale("log")
-    ax.set_ylabel("Cumulative EV", fontsize=8)
+    ax.set_ylabel("Cumulative EV output", fontsize=8)
     ax.tick_params(labelsize=7)
     ax.tick_params(labelsize=7)
     ax.text(
         0.02,
         0.92,
-        f"total={total:.2f}\nviab={result.summary['viability_fraction']:.2f}",
+        f"total={total:.2f}\nviability={result.summary['viability_fraction']:.2f}",
         transform=ax.transAxes,
         fontsize=7,
         va="top",

@@ -9,6 +9,8 @@ os.environ.setdefault("MPLCONFIGDIR", str(Path(tempfile.gettempdir()) / "electro
 
 from matplotlib.figure import Figure
 
+from electro_exocytosis.abbreviations import STANDARD_ABBREVIATIONS
+
 MANUSCRIPT_DPI = 1200
 LANDSCAPE_ASPECT_RATIO = 16 / 9
 MANUSCRIPT_LANDSCAPE_FIGSIZE = (8.0, 4.5)
@@ -86,6 +88,14 @@ def bar_hatch(index: int) -> str:
     return BAR_HATCHES[index % len(BAR_HATCHES)]
 
 
-def save_manuscript_figure(fig: Figure, path: str | Path, **savefig_kwargs: Any) -> None:
+def save_manuscript_figure(
+    fig: Figure,
+    path: str | Path,
+    *,
+    abbreviation_keys: tuple[str, ...] | list[str] | None = None,
+    **savefig_kwargs: Any,
+) -> None:
     """Save a framework figure using the manuscript-resolution standard."""
+    if abbreviation_keys:
+        STANDARD_ABBREVIATIONS.add_figure_note(fig, abbreviation_keys)
     fig.savefig(path, dpi=MANUSCRIPT_DPI, **savefig_kwargs)

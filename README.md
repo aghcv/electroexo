@@ -117,15 +117,19 @@ apoptotic-body output together with viability across a pulse-dose grid.
 Each run writes a directory containing:
 
 - `summary.json` – compact run summary and headline metrics
-- `state_timeseries.csv` – time series for Ca_i, Ca_ER, Ca_mito, mitochondrial potential, ROS, ATP, Na_i, K_i, Cl_i, osmotic stress, ion-flux diagnostics, remodeling/repair diagnostics, and damage
+- `state_timeseries.csv` – time series with standard-language column names for cytosolic calcium, endoplasmic-reticulum calcium, mitochondrial calcium, mitochondrial membrane potential, reactive oxygen species, adenosine triphosphate, intracellular sodium/potassium/chloride, osmotic stress, ion-flux diagnostics, remodeling/repair diagnostics, and damage
 - `ev_outputs.csv` – EV rates, cumulative counts, viability, quality gate
 - `parameters_used.yaml` – merged parameter set used for the run
 - `run_metadata.json` – metadata, warnings, timestamps
+- `abbreviations.json`, `abbreviations.md`, `abbreviations.tex` – a synchronized abbreviation bundle for manuscript, figure-caption, and table-footnote reuse
 - `*.png` – plots unless `--no-plots` is used
 
 Framework-generated figures use manuscript-oriented defaults: standard 16:9
 landscape layout and 1200 dpi PNG export, unless a specific analysis overrides
 the figure standard.
+When a figure still uses domain shorthand such as EV, ROS, ATP, ER, or MVB,
+the plotting helpers can append a standardized abbreviation note at the bottom
+of the exported figure so the image remains readable on its own.
 For overlaid line plots, the default style is color-blind friendly and
 print-friendly: up to three series use monochrome line styles and markers; plots
 with more than three series switch to a color-blind-safe palette while retaining

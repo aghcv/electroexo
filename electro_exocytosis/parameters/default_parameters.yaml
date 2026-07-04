@@ -191,23 +191,52 @@ cargo_potency:
   Ca_protein_coupling: 0.5
   ROS_RNA_coupling: 0.3
   stress_lipid_coupling: 0.2
+  subtype_sEV_weight: 1.0
+  subtype_mlEV_weight: 0.65
+  subtype_AB_weight: 0.20
+  ESCRT_protein_weight: 0.30
+  rbp_RNA_sorting_weight: 0.35
+  ceramide_lipid_weight: 0.30
+  antigen_stress_weight: 0.40
+  antigen_sorting_weight: 0.25
+  direct_loading_efficiency: 0.35
+  direct_loading_leak_fraction: 0.10
+  recipient_dose_half_max: 1.0
+  potency_saturation: 2.5
   potency_weights:
-    protein: 0.5
-    RNA: 0.3
-    lipid: 0.2
+    protein: 0.30
+    RNA: 0.25
+    lipid: 0.15
+    antigen: 0.20
+    direct_load: 0.10
 
 injury_quality:
   K_apoptosis_damage: 0.5
   K_necrosis_damage: 0.9
+  K_stress_damage: 0.25
   n_apoptosis: 3.0
   n_necrosis: 5.0
   debris_fraction_scale: 0.2
+  aggregate_fraction_scale: 0.08
+  apoptotic_body_contamination_weight: 0.75
+  necrotic_debris_weight: 0.85
+  marker_panel_weight: 0.70
   contamination_threshold: 0.3
+  viability_threshold: 0.5
   damage_rate: 0.01
   repair_rate: 0.005
 
 manufacturing_qc:
+  cell_count: 1.0e6
+  harvest_time_h: 24.0
   isolation_efficiency: 0.3
+  isolation_method_factor: 1.0
   purity_factor: 0.7
+  protein_contamination_factor: 0.15
   batch_consistency: 0.9
+  batch_variability_fraction: 0.12
   scalability_factor: 1.0
+  potency_weight: 0.45
+  yield_weight: 0.30
+  purity_weight: 0.15
+  viability_weight: 0.10

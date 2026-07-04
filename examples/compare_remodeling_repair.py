@@ -7,6 +7,7 @@ from typing import Sequence
 
 import pandas as pd
 
+from electro_exocytosis.abbreviations import STANDARD_ABBREVIATIONS
 from electro_exocytosis.config import (
     CellStateConfig,
     ExposureConfig,
@@ -99,8 +100,15 @@ def build_response_table() -> tuple[pd.DataFrame, pd.DataFrame]:
 def write_outputs(summary: pd.DataFrame, timeseries: pd.DataFrame, outdir: Path, make_plots: bool = True) -> None:
     """Write remodeling/repair comparison outputs."""
     outdir.mkdir(parents=True, exist_ok=True)
-    summary.to_csv(outdir / "remodeling_repair_summary.csv", index=False)
-    timeseries.to_csv(outdir / "remodeling_repair_timeseries.csv", index=False)
+    STANDARD_ABBREVIATIONS.rename_columns(summary).to_csv(
+        outdir / "remodeling_repair_summary.csv",
+        index=False,
+    )
+    STANDARD_ABBREVIATIONS.rename_columns(timeseries).to_csv(
+        outdir / "remodeling_repair_timeseries.csv",
+        index=False,
+    )
+    STANDARD_ABBREVIATIONS.write_bundle(outdir, keys=("PS", "EV"))
     if make_plots:
         _plot_peak_responses(summary, outdir)
         _plot_timeseries(timeseries, outdir)
@@ -140,13 +148,13 @@ def _plot_peak_responses(summary: pd.DataFrame, outdir: Path) -> None:
     x = range(len(summary))
     for index, metric in enumerate(metrics):
         values = summary[metric] / max(float(summary[metric].max()), 1e-12)
-        ax.plot(x, values, label=metric, **styles[index])
+        ax.plot(x, values, label=STANDARD_ABBREVIATIONS.plot_label(metric), **styles[index])
     ax.set_xticks(list(x))
     ax.set_xticklabels(summary["scenario"], rotation=20, ha="right")
     ax.set_ylabel("Normalized response")
     ax.legend()
     fig.tight_layout()
-    save_manuscript_figure(fig, outdir / "remodeling_repair_peak_response.png")
+    save_manuscript_figure(fig, outdir / "remodeling_repair_peak_response.png", abbreviation_keys=("PS",))
     plt.close(fig)
 
 
@@ -165,15 +173,15 @@ def _plot_timeseries(timeseries: pd.DataFrame, outdir: Path) -> None:
         axes[1, 0].plot(frame["t"], frame["actin_disruption"], label=scenario, **style)
         axes[1, 1].plot(frame["t"], frame["repair_state"], label=scenario, **style)
 
-    axes[0, 0].set_ylabel("Ca_submembrane (uM)")
-    axes[0, 1].set_ylabel("PS exposure")
+    axes[0, 0].set_ylabel("Submembrane calcium (uM)")
+    axes[0, 1].set_ylabel("Phosphatidylserine exposure")
     axes[1, 0].set_ylabel("Actin disruption")
     axes[1, 1].set_ylabel("Resealing state")
     for ax in axes[1, :]:
         ax.set_xlabel("Time (s)")
     axes[0, 0].legend()
     fig.tight_layout()
-    save_manuscript_figure(fig, outdir / "remodeling_repair_timeseries.png")
+    save_manuscript_figure(fig, outdir / "remodeling_repair_timeseries.png", abbreviation_keys=("PS",))
     plt.close(fig)
 
 

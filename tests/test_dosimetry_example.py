@@ -44,7 +44,7 @@ def test_compare_dosimetry_models_example(tmp_path: Path) -> None:
 
 def _end_temp_rise(summary: pd.DataFrame, scenario: str, model: str) -> float:
     row = summary[(summary["scenario"] == scenario) & (summary["dosimetry_model"] == model)]
-    return float(row["end_temp_rise_C"].iloc[0])
+    return float(row["end_temperature_rise_C"].iloc[0])
 
 
 def _absorbed_energy(summary: pd.DataFrame, scenario: str, model: str) -> float:

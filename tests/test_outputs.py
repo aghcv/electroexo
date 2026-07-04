@@ -28,5 +28,8 @@ def test_writers_create_outputs(tmp_path: Path) -> None:
         "ev_outputs.csv",
         "parameters_used.yaml",
         "run_metadata.json",
+        "abbreviations.json",
+        "abbreviations.md",
+        "abbreviations.tex",
     ]:
         assert (tmp_path / name).exists()

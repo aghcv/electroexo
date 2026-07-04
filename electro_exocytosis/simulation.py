@@ -54,7 +54,7 @@ class Simulation:
         self.params_flat = self._flatten_parameters(self.params_nested)
         self.params_flat = apply_cell_state_modifiers(self.params_flat, self.scenario.cell_state)
         self.warnings: list[str] = [
-            "All scientific modules use placeholder equations/parameters in v0.1.0.",
+            "Scientific modules use reduced, uncalibrated equations and literature-derived default parameters.",
         ]
 
     @staticmethod
@@ -261,17 +261,47 @@ class Simulation:
             Ca_protein_coupling=self.params_flat["Ca_protein_coupling"],
             ROS_RNA_coupling=self.params_flat["ROS_RNA_coupling"],
             stress_lipid_coupling=self.params_flat["stress_lipid_coupling"],
+            subtype_sEV_weight=self.params_flat["subtype_sEV_weight"],
+            subtype_mlEV_weight=self.params_flat["subtype_mlEV_weight"],
+            subtype_AB_weight=self.params_flat["subtype_AB_weight"],
+            ESCRT_protein_weight=self.params_flat["ESCRT_protein_weight"],
+            rbp_RNA_sorting_weight=self.params_flat["rbp_RNA_sorting_weight"],
+            ceramide_lipid_weight=self.params_flat["ceramide_lipid_weight"],
+            antigen_stress_weight=self.params_flat["antigen_stress_weight"],
+            antigen_sorting_weight=self.params_flat["antigen_sorting_weight"],
+            direct_loading_efficiency=self.params_flat["direct_loading_efficiency"],
+            direct_loading_leak_fraction=self.params_flat["direct_loading_leak_fraction"],
+            recipient_dose_half_max=self.params_flat["recipient_dose_half_max"],
+            potency_saturation=self.params_flat["potency_saturation"],
             potency_weights=self.params_flat["potency_weights"],
         )
-        cargo_state = compute_cargo_state(float(ca_i[-1]), float(ros[-1]), float(atp[-1]), cargo_params)
+        cargo_state = compute_cargo_state(
+            float(ca_i[-1]),
+            float(ros[-1]),
+            float(atp[-1]),
+            cargo_params,
+            cumulative_sEV=float(sev_cum[-1]),
+            cumulative_mlEV=float(mlev_cum[-1]),
+            cumulative_AB=float(ab_cum[-1]),
+            escrt_signal=float(ev_release_timeseries["escrt_dependent_signal"].iloc[-1]),
+            ceramide_signal=float(ev_release_timeseries["ceramide_signal"].iloc[-1]),
+            secretory_bias=float(ev_release_timeseries["secretory_bias"].iloc[-1]),
+            direct_loading_drive=float(self.scenario.scenario.mode == "direct_EV_engineering"),
+        )
 
         injury_params = InjuryParams(
             K_apoptosis_damage=self.params_flat["K_apoptosis_damage"],
             K_necrosis_damage=self.params_flat["K_necrosis_damage"],
+            K_stress_damage=self.params_flat["K_stress_damage"],
             n_apoptosis=self.params_flat["n_apoptosis"],
             n_necrosis=self.params_flat["n_necrosis"],
             debris_fraction_scale=self.params_flat["debris_fraction_scale"],
+            aggregate_fraction_scale=self.params_flat["aggregate_fraction_scale"],
+            apoptotic_body_contamination_weight=self.params_flat["apoptotic_body_contamination_weight"],
+            necrotic_debris_weight=self.params_flat["necrotic_debris_weight"],
+            marker_panel_weight=self.params_flat["marker_panel_weight"],
             contamination_threshold=self.params_flat["contamination_threshold"],
+            viability_threshold=self.params_flat["viability_threshold"],
             damage_rate=self.params_flat["damage_rate"],
             repair_rate=self.params_flat["repair_rate"],
         )
@@ -280,15 +310,39 @@ class Simulation:
         # for assessing the EV-producing cell population during the harvest window.
         peak_damage = float(np.max(damage))
         debris = min(1.0, injury_params.debris_fraction_scale * peak_damage)
-        quality = compute_quality_gate(peak_damage, debris, injury_params)
+        quality = compute_quality_gate(
+            peak_damage,
+            debris,
+            injury_params,
+            cumulative_sEV=float(sev_cum[-1]),
+            cumulative_mlEV=float(mlev_cum[-1]),
+            cumulative_AB=float(ab_cum[-1]),
+        )
 
         manufacturing_params = ManufacturingParams(
+            cell_count=self.params_flat["cell_count"],
+            harvest_time_h=self.params_flat["harvest_time_h"],
             isolation_efficiency=self.params_flat["isolation_efficiency"],
+            isolation_method_factor=self.params_flat["isolation_method_factor"],
             purity_factor=self.params_flat["purity_factor"],
+            protein_contamination_factor=self.params_flat["protein_contamination_factor"],
             batch_consistency=self.params_flat["batch_consistency"],
+            batch_variability_fraction=self.params_flat["batch_variability_fraction"],
             scalability_factor=self.params_flat["scalability_factor"],
+            potency_weight=self.params_flat["potency_weight"],
+            yield_weight=self.params_flat["yield_weight"],
+            purity_weight=self.params_flat["purity_weight"],
+            viability_weight=self.params_flat["viability_weight"],
         )
-        manufacturing = compute_manufacturing_outputs(float(sev_cum[-1]), float(mlev_cum[-1]), float(ab_cum[-1]), float(quality["viability_fraction"]), manufacturing_params)
+        manufacturing = compute_manufacturing_outputs(
+            float(sev_cum[-1]),
+            float(mlev_cum[-1]),
+            float(ab_cum[-1]),
+            float(quality["viability_fraction"]),
+            manufacturing_params,
+            potency_score=float(cargo_state["potency_score"]),
+            purity_score=float(quality["purity_score"]),
+        )
         ev_timeseries = pd.DataFrame(
             {
                 "t": t_eval,
@@ -340,7 +394,19 @@ class Simulation:
             "total_measured_particles": float(manufacturing["total_measured_particles"]),
             "purity_score": float(min(1.0, manufacturing["purity_score"] * float(quality["purity_score"]))),
             "viability_fraction": float(quality["viability_fraction"]),
+            "stressed_viable_fraction": float(quality["stressed_viable_fraction"]),
+            "apoptosis_fraction": float(quality["apoptosis_fraction"]),
+            "necrosis_fraction": float(quality["necrosis_fraction"]),
+            "bona_fide_EV_fraction": float(quality["bona_fide_EV_fraction"]),
+            "protein_enrichment": float(cargo_state["protein_enrichment"]),
+            "RNA_enrichment": float(cargo_state["RNA_enrichment"]),
+            "lipid_enrichment": float(cargo_state["lipid_enrichment"]),
+            "antigen_enrichment": float(cargo_state["antigen_enrichment"]),
+            "direct_loaded_cargo": float(cargo_state["direct_loaded_cargo"]),
             "potency_score": float(cargo_state["potency_score"]),
+            "cell_normalized_yield": float(manufacturing["cell_normalized_yield"]),
+            "batch_adjusted_yield": float(manufacturing["batch_adjusted_yield"]),
+            "optimization_objective": float(manufacturing["optimization_objective"]),
             "placeholder_fraction": 1.0,
             "warnings": self.warnings,
         }

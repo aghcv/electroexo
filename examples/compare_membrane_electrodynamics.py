@@ -27,6 +27,7 @@ from electro_exocytosis.models.electrodynamics import (
     compute_electrodynamics_state,
 )
 from electro_exocytosis.models.pulse import compute_pulse_descriptors
+from electro_exocytosis.abbreviations import STANDARD_ABBREVIATIONS
 from electro_exocytosis.visualization.style import (
     MANUSCRIPT_LANDSCAPE_FIGSIZE,
     line_styles,
@@ -112,7 +113,7 @@ def plot_pulse_width_response(summary: pd.DataFrame, outdir: Path) -> None:
     axes[1].set_ylabel("Induced membrane voltage (V)")
     axes[1].legend(title="Peak field", fontsize=8)
     fig.tight_layout()
-    save_manuscript_figure(fig, outdir / "membrane_voltage_by_pulse_width.png")
+    save_manuscript_figure(fig, outdir / "membrane_voltage_by_pulse_width.png", abbreviation_keys=("PM",))
     plt.close(fig)
 
 
@@ -143,7 +144,11 @@ def plot_radius_sensitivity(summary: pd.DataFrame, outdir: Path) -> None:
 
 def write_outputs(summary: pd.DataFrame, outdir: Path, make_plots: bool) -> None:
     outdir.mkdir(parents=True, exist_ok=True)
-    summary.to_csv(outdir / "electrodynamics_response_summary.csv", index=False)
+    STANDARD_ABBREVIATIONS.rename_columns(summary).to_csv(
+        outdir / "electrodynamics_response_summary.csv",
+        index=False,
+    )
+    STANDARD_ABBREVIATIONS.write_bundle(outdir, keys=("PM", "ER", "MVB"))
     if make_plots:
         plot_pulse_width_response(summary, outdir)
         plot_radius_sensitivity(summary, outdir)

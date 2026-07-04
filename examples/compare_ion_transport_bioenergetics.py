@@ -7,6 +7,7 @@ from typing import Sequence
 
 import pandas as pd
 
+from electro_exocytosis.abbreviations import STANDARD_ABBREVIATIONS
 from electro_exocytosis.config import (
     CellStateConfig,
     ExposureConfig,
@@ -122,8 +123,15 @@ def build_response_table() -> tuple[pd.DataFrame, pd.DataFrame]:
 def write_outputs(summary: pd.DataFrame, timeseries: pd.DataFrame, outdir: Path, make_plots: bool = True) -> None:
     """Write Layer 3 comparison outputs."""
     outdir.mkdir(parents=True, exist_ok=True)
-    summary.to_csv(outdir / "ion_transport_bioenergetics_summary.csv", index=False)
-    timeseries.to_csv(outdir / "ion_transport_bioenergetics_timeseries.csv", index=False)
+    STANDARD_ABBREVIATIONS.rename_columns(summary).to_csv(
+        outdir / "ion_transport_bioenergetics_summary.csv",
+        index=False,
+    )
+    STANDARD_ABBREVIATIONS.rename_columns(timeseries).to_csv(
+        outdir / "ion_transport_bioenergetics_timeseries.csv",
+        index=False,
+    )
+    STANDARD_ABBREVIATIONS.write_bundle(outdir, keys=("Ca_i", "ROS", "ATP", "EV", "ER"))
     if make_plots:
         _plot_peak_responses(summary, outdir)
         _plot_timeseries(timeseries, outdir)
@@ -163,13 +171,17 @@ def _plot_peak_responses(summary: pd.DataFrame, outdir: Path) -> None:
     x = range(len(summary))
     for index, metric in enumerate(metrics):
         values = summary[metric] / max(float(summary[metric].max()), 1e-12)
-        ax.plot(x, values, label=metric, **styles[index])
+        ax.plot(x, values, label=STANDARD_ABBREVIATIONS.plot_label(metric), **styles[index])
     ax.set_xticks(list(x))
     ax.set_xticklabels(summary["scenario"], rotation=20, ha="right")
     ax.set_ylabel("Normalized response")
     ax.legend()
     fig.tight_layout()
-    save_manuscript_figure(fig, outdir / "layer3_peak_response_comparison.png")
+    save_manuscript_figure(
+        fig,
+        outdir / "layer3_peak_response_comparison.png",
+        abbreviation_keys=("Ca_i", "ROS", "ATP", "EV"),
+    )
     plt.close(fig)
 
 
@@ -188,15 +200,15 @@ def _plot_timeseries(timeseries: pd.DataFrame, outdir: Path) -> None:
         axes[1, 0].plot(frame["t"], frame["mitochondrial_potential"], label=scenario, **style)
         axes[1, 1].plot(frame["t"], frame["ROS"], label=scenario, **style)
 
-    axes[0, 0].set_ylabel("Ca_i (uM)")
+    axes[0, 0].set_ylabel("Cytosolic calcium (uM)")
     axes[0, 1].set_ylabel("Osmotic stress")
-    axes[1, 0].set_ylabel("Mito potential")
-    axes[1, 1].set_ylabel("ROS")
+    axes[1, 0].set_ylabel("Mitochondrial membrane potential")
+    axes[1, 1].set_ylabel("Reactive oxygen species")
     for ax in axes[1, :]:
         ax.set_xlabel("Time (s)")
     axes[0, 0].legend()
     fig.tight_layout()
-    save_manuscript_figure(fig, outdir / "layer3_timeseries_comparison.png")
+    save_manuscript_figure(fig, outdir / "layer3_timeseries_comparison.png", abbreviation_keys=("ROS",))
     plt.close(fig)
 
 

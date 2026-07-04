@@ -25,6 +25,7 @@ if str(PROJECT_ROOT) not in sys.path:
 from electro_exocytosis.config import ExposureConfig, PulseConfig
 from electro_exocytosis.models.dosimetry import DosimetryResult, compute_dosimetry
 from electro_exocytosis.models.pulse import PulseDescriptors, compute_pulse_descriptors
+from electro_exocytosis.abbreviations import STANDARD_ABBREVIATIONS
 from electro_exocytosis.visualization.style import (
     MANUSCRIPT_LANDSCAPE_FIGSIZE,
     MANUSCRIPT_PANEL_LANDSCAPE_FIGSIZE,
@@ -253,7 +254,7 @@ def plot_temperature_profiles(profiles: pd.DataFrame, outdir: Path) -> None:
         ax.set_ylabel("Temperature rise (C)")
     axes.flat[0].legend(loc="best", fontsize=8)
     fig.tight_layout()
-    save_manuscript_figure(fig, outdir / "temperature_profiles.png")
+    save_manuscript_figure(fig, outdir / "temperature_profiles.png", abbreviation_keys=("nsPEF",))
     plt.close(fig)
 
 
@@ -273,14 +274,18 @@ def plot_endpoint_summary(summary: pd.DataFrame, outdir: Path) -> None:
     ax.set_ylabel("End-of-train temperature rise (C)")
     ax.legend(title="Dosimetry model")
     ax.figure.tight_layout()
-    save_manuscript_figure(ax.figure, outdir / "end_temperature_rise.png")
+    save_manuscript_figure(ax.figure, outdir / "end_temperature_rise.png", abbreviation_keys=("nsPEF",))
     plt.close(ax.figure)
 
 
 def write_outputs(summary: pd.DataFrame, profiles: pd.DataFrame, outdir: Path, make_plots: bool) -> None:
     outdir.mkdir(parents=True, exist_ok=True)
-    summary.to_csv(outdir / "dosimetry_model_summary.csv", index=False)
-    profiles.to_csv(outdir / "dosimetry_temperature_profiles.csv", index=False)
+    STANDARD_ABBREVIATIONS.rename_columns(summary).to_csv(outdir / "dosimetry_model_summary.csv", index=False)
+    STANDARD_ABBREVIATIONS.rename_columns(profiles).to_csv(
+        outdir / "dosimetry_temperature_profiles.csv",
+        index=False,
+    )
+    STANDARD_ABBREVIATIONS.write_bundle(outdir, keys=("nsPEF",))
     if make_plots:
         plot_temperature_profiles(profiles, outdir)
         plot_endpoint_summary(summary, outdir)
