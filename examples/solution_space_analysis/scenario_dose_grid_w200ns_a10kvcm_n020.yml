@@ -1,0 +1,26 @@
+scenario:
+  name: dose_grid_w200ns_a10kvcm_n020
+  mode: cell_based_electro_exocytosis
+pulse:
+  amplitude_kV_cm: 10.0
+  pulse_width_ns: 200.0
+  pulse_number: 20
+  repetition_rate_Hz: 5.0
+  waveform: square
+exposure:
+  geometry: cuvette
+  medium_conductivity_S_m: 1.5
+  temperature_C: 37.0
+  cell_density_per_ml: 1000000
+  dosimetry_model: joule_lumped_thermal
+cell_state:
+  cell_type: generic
+  membrane_modifier: 1.0
+  calcium_handling_modifier: 1.0
+  baseline_EV_release_modifier: 1.0
+  stress_sensitivity_modifier: 1.0
+simulation:
+  t_start_s: 0.0
+  t_end_s: 1800.0
+  output_dt_s: 20.0
+  numerical_method: solve_ivp

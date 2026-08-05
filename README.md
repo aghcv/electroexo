@@ -112,6 +112,18 @@ python examples/map_ev_release_regimes.py --out results/ev_release_regime_map
 This writes a parameter-sweep heatmap for small-EV, medium/large-EV, and
 apoptotic-body output together with viability across a pulse-dose grid.
 
+Explore the broader current-model solution space:
+
+```bash
+python examples/solution_space_analysis/generate_solution_space.py --out results/solution_space_analysis
+```
+
+This writes a library of `scenario_*.yml` files under
+`examples/solution_space_analysis` and aggregate tables, ranking files, and
+figures under `results/solution_space_analysis` for field amplitude, pulse
+width, pulse count, repetition rate, waveform, conductivity, dosimetry-model,
+and cell-state modifier sweeps.
+
 ## Output files
 
 Each run writes a directory containing:
