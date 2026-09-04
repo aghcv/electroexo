@@ -1,0 +1,721 @@
+
+===== PAGE 1 =====
+NERVOUS SYSTEM
+LESSON 23
+Motor Pathways
+
+===== PAGE 2 =====
+Extensor muscle 
+stretched
+Stretch receptors 
+stimulated
+Afferent sensory 
+neuron excited
+Motor neuron to 
+extensor muscle 
+stimulated Motor neuron to 
+flexor muscle       
+inhibited
+Inhibitory interneuron 
+stimulated
+Extensor muscle 
+contracts
+Flexor muscle is 
+relaxed
+4
+1
+2
+3
+5
+6
+7
+8
+Knee-jerk Reflex
+
+===== PAGE 3 =====
+Flexor Reflex
+= stimulatory
+= inhibitory
+1
+2
+53
+7
+1. Sensory nerve (yellow) senses 
+pain.
+2. Interneurons (purple) transmit 
+impulse to motor neurons
+3. Motor neuron (red) to flexor is 
+stimulated by interneurons.
+4. Motor neuron causes flexor 
+(hamstrings) to contract.
+5. Motor neuron (red) to extensor is 
+inhibited by interneurons
+6. Membrane potential of motor
+neuron to extensor is unchanged.
+7. Extensor muscles (quadraceps) 
+remain relaxed.
+4
+6
+
+===== PAGE 4 =====
+Extensor Reflex
+= stimulatory
+= inhibitory
+1. Sensory nerve (yellow)
+senses pain.
+2. Interneurons (purple) transmit 
+impulse to the opposite side of the 
+spinal cord.
+3. Motor neuron (blue) to extensor is 
+stimulated by interneurons.
+4. Motor neuron causes extensors 
+(quadraceps) to contract.
+5. Motor neuron (blue) to flexor is 
+inhibited by interneurons
+6. Membrane potential of motor
+neuron to flexor is unchanged.
+7. Flexor muscles (hamstrings) remain 
+relaxed.
+1 2
+3
+4
+5
+6
+7
+2
+2
+
+===== PAGE 5 =====
+Flexor/Extensor Reflex
+Inhibit extensor
+Stimulate flexor
+Stimulate extensor
+Inhibit flexor
+= stimulatory
+= inhibitory
+Step on glass 
+Flex Leg Extend Leg
+
+===== PAGE 6 =====
+Descending Tracts
+
+===== PAGE 7 =====
+Cerebral Cortex
+Pre-central gyrus
+(skeletal muscle control)
+Central sulcus
+Longitudinal fissure
+Anterior
+Posterior
+
+===== PAGE 8 =====
+Motor Homunculus
+
+===== PAGE 9 =====
+Corticospinal Tract
+• Conduction velocities up
+to ~70 m/sec
+• Control muscles for 
+discrete and detailed
+movements
+(distal limbs, hands, 
+fingers)
+• Ventral tracts also
+control bilateral postural
+movements
+Medulla
+Pons
+Midbrain
+Cortex
+
+===== PAGE 10 =====
+Corticospinal Tract
+Lateral tract Anterior tract
+Medulla
+Spinal cord
+Medulla
+Spinal cord
+
+===== PAGE 11 =====
+Inner Ear
+Scala
+Media
+
+===== PAGE 12 =====
+Hairs
+upright
+Hairs
+bent
+Gravitational 
+forceHair cellsVestibular nerve
+Otoliths
+Sensing Head Position
+
+===== PAGE 13 =====
+Inner Ear
+Scala
+Media
+
+===== PAGE 14 =====
+Sensing Head Motion
+Seimcircular 
+ducts Ampulla
+Hair cells
+Vestibular 
+nerve Crista ampullaris
+Swirl of endolymph 
+caused by head motion 
+bends the hair cells.
+
+===== PAGE 15 =====
+Pre-central Gyrus
+Pre-central gyri
+(skeletal muscle control)
+Central sulcus
+Anterior
+Posterior
+
+===== PAGE 16 =====
+Motor Homunculus
+
+===== PAGE 17 =====
+Motor Cortex
+Central sulcus
+Premotor   
+Area
+
+===== PAGE 18 =====
+Premotor Area
+• Produce productive combinations of movements
+– Skilled movements
+– Closely associated with the basal ganglia
+– Athletic skill, job mechanical skills, penmanship
+– Combinations of muscles producing patterns of movement
+• Copying patterns of movement
+–“mirror” neurons
+
+===== PAGE 19 =====
+Cerebellum
+Brain Stem Cerebellum
+Cerebrum
+
+===== PAGE 20 =====
+Cerebellum
+Cerebellum
+Input from proprioceptors
+Output to muscles makes 
+necessary adjustments
+Input from cortex
+
+===== PAGE 21 =====
+Cerebellum
+• Coordination of movements (learned)
+• Especially important during rapid motor activities
+–running, typing, playing the piano, fast talking
+• Sequenced motor activities
+–ballistic movements
+• Corrective adjustments in motor activities
+• Non-motor functions
+
+===== PAGE 22 =====
+Cerebral cortex
+(gray matter)
+Longitudinal fissure
+Basal ganglia
+(nuclei)
+(Diencephalon)
+Basal Ganglia
+White matter 
+Cerebrum
+
+===== PAGE 23 =====
+Basal Ganglia
+• Produce skilled movements
+– Closely associated with the pre-motor cortex 
+– Athletic skill, job mechanical skills, penmanship
+– Combinations of muscles producing patterns of movement
+– Cognitive process based on current input and past 
+experience
+• Dampen (steady) muscle contractions
+– How fast and large the movement will be
+– Use of inhibitory neurotransmitters
+– Under-damped flailing or flicking movements 
+(Huntingtons chorea)
+– Over-damped  rigidity and tremors (Parkinson’s disease)
+#
+
+===== PAGE 24 =====
+NERVOUS SYSTEM
+LESSON 24
+The Brain
+
+===== PAGE 25 =====
+Diencephalon
+Cerebellum
+Mesencephalon
+Pons
+Cerebrum
+Medulla
+oblongata
+(Spinal cord)
+Brain
+stem
+Parts of the Brain
+
+===== PAGE 26 =====
+Parts of the Brain
+Diencephalon
+Cerebellum
+Mesencephalon
+Pons
+Cerebrum
+Medulla oblongata
+(Spinal cord)
+Brain
+stem
+
+===== PAGE 27 =====
+Brain Cross-section
+Cerebrum
+[Corpus Callosum]
+Diencephalon
+Mesencephalon
+[Pituitary gland]
+Pons
+Cerebellum
+Medulla
+oblongata
+
+===== PAGE 28 =====
+Cerebrum
+( )
+
+===== PAGE 29 =====
+Sensory Homunculus
+Post-central Gyrus
+
+===== PAGE 30 =====
+Motor Homunculus
+Pre-central Gyrus
+
+===== PAGE 31 =====
+Motor Symptoms
+Condition Target Symptoms
+Parkinson’s disease or 
+Huntingtons Chorea
+Basal ganglia of the 
+cerebrum
+Tremors, weakness, involuntary movement
+Multiple Sclerosis CNS neuron process 
+demyelination
+Nystagmus, intention tremor, scanning 
+speech
+Amyotrophic Lateral 
+Sclerosis
+Corticospinal tract 
+(motor) degeneration
+Weakness, muscular atrophy with hyper-
+refexia and spasticity
+Polyradiculoneuritis 
+(Guillain-Barre)
+PNS neuron process 
+demyelination
+Ascending paresthesia followed by 
+weakness and paralysis
+Poliomyelitis; Werding-
+Hoffman disease
+Spinal cord anterior 
+horn degeneration
+Muscular weakness, atrophy and paralysis
+Sensory Radicular 
+Neuropathy
+Dorsal root ganglion 
+degeneration
+Sensory loss, shooting pains, ulceration
+Myasthenia Gravis Muscle cell receptor 
+deterioration
+Abnormal muscle weakness especially face 
+and neck
+Muscular Dystrophy Muscle cell 
+deterioration
+Muscular weakness, no nervous system 
+involvement
+McArdle’s disease Abnormal muscle cell 
+glycogen metabolism
+Severe muscle cramps
+
+===== PAGE 32 =====
+Cerebral Cortex (Left)
+Central sulcusCategorical Hemisphere
+(Dominant?)
+
+===== PAGE 33 =====
+Cerebral Cortex (Left)
+Categorical Hemisphere
+
+===== PAGE 34 =====
+Limbic System
+Amygdala- Emotions
+Cingulate gyrus- Adaptive behavior
+Hippocampus- Learning
+Pre-frontal Cortex
+Hypothalamus
+Pre-frontal 
+Cortex
+
+===== PAGE 35 =====
+Pre-frontal Lobotomy?
+Phineas Gage
+Before:
+•Dependable
+•Intelligent
+•Ambitious
+•Showing initiative
+After:
+•Irreverent
+•Capricious
+•Profane
+•Irresponsible
+•Untrustworthy
+•Slovenly
+
+===== PAGE 36 =====
+Lateralization of Cerebral Function
+Categorical hemisphere Representational hemisphere
+
+===== PAGE 37 =====
+Brain Cross-section
+Cerebrum
+Corpus Callosum
+Diencephalon
+Mesencephalon
+[Pituitary gland]
+Pons
+Cerebellum
+Medulla
+oblongata
+
+===== PAGE 38 =====
+Memory
+Short-term Memory
+•Reverberating circuits
+Intermediate Long-term Memory
+•Pre-synaptic facilitation
+Long-term Memory
+•Increase synaptic area
+•More transmitter vesicles
+•More receptor proteins
+•New synaptic pathways
+
+===== PAGE 39 =====
+Diencephalon
+Diencephalon:
+Cerebellum
+Cerebrum
+Brain stem
+Thalamus
+Hypothalamus
+Pituitary gland
+
+===== PAGE 40 =====
+Condition Lesion site Result
+Aphasia Cerebrum Inability to understand/express speech
+Nonfluent aphasia Broca’s area Difficulty expressing thoughts verbally
+Fluent aphasia Wernicke’s area Difficulty forming thoughts into words
+Agnosia Temporal lobe Inability to recognize familiar objects
+Prosophagnosia Visual association area Unable to recognize faces
+Antegrade amnesia Cerebrum Unable to store new information
+Retrograde amnesia Cerebrum Unable to recall past information
+Ataxia Cerebellum Clumsy, awkward gait
+Dyskinesia Basal ganglia Under- or over-damped movement
+Contralateral neglect Parietal lobe Failure to recognize objects to one side
+Neurological Problems
+
+===== PAGE 41 =====
+Hypothalamus
+Pituitary 
+Gland
+
+===== PAGE 42 =====
+Diencephalon
+Cerebellum
+Mesencephalon
+(midbrain)
+Pons
+Cerebrum
+Medulla
+oblongata
+(Spinal cord)
+Brain
+stem
+Brainstem
+
+===== PAGE 43 =====
+Reticular Formation
+
+===== PAGE 44 =====
+Typical Sleep Cycle
+Slow-wave Sleep
+•Stage 1- drowsy
+•Stage 4- deep sleep
+REM- Rapid eye movement
+
+===== PAGE 45 =====
+Meninges
+Cerebral 
+spinal fluid
+
+===== PAGE 46 =====
+Lateral Ventricles
+Inter-ventricular foramen
+Third ventricle
+Cerebral aqueduct
+Fourth ventricle
+Central canal
+Ventricles of the Brain
+
+===== PAGE 47 =====
+Cerebrum
+Lateral ventricles
+(1 and 2) Diencephalon
+Choroid plexus
+Brain (transverse section)
+Posterior
+Third ventricle
+
+===== PAGE 48 =====
+Flow of Cerebral Spinal Fluid
+Venous blood
+Venous blood
+(START)
+(END)
+
+===== PAGE 49 =====
+Cranial Nerves
+
+===== PAGE 50 =====
+Vagus Nerve
+
+===== PAGE 51 =====
+EEG Brain Waves
+Awake and resting
+Awake and active
+Children
+Stressed adult
+REM sleep
+Non-REM sleep
+Infants
+Brain-damaged adult
+
+===== PAGE 52 =====
+NERVOUS SYSTEM
+LESSON 25
+The Autonomic 
+Nervous System
+
+===== PAGE 53 =====
+Anatomy of a Nerve
+Dorsal root
+Dorsal root ganglion
+Ventral root
+Spinal cord
+Unmyelinated nerve fiber
+Blood vessels
+Spinal nerve
+Myelinated nerve fiber
+
+===== PAGE 54 =====
+Motor Pathways
+
+===== PAGE 55 =====
+Motor Pathways
+
+===== PAGE 56 =====
+Thoracolumbar Branch
+Sympathetic:
+• Paravertebral ganglia and 
+prevertebral ganglia
+• Neuromuscular neuro-
+transmitter: Norepinephrine
+Paravertebral ganglion
+Prevertebral ganglion
+
+===== PAGE 57 =====
+Dorsal root
+Ventral root
+Spinal nerve
+Rib
+Spinal cord
+Sympathetic chain
+Paravertebral ganglion
+Vertebra
+Sympathetic nerve plexus
+(Location of prevertebral 
+ganglia)
+Sympathetic Ganglia
+
+===== PAGE 58 =====
+Craniosacral Branch
+Parasympathetic:
+• Terminal ganglia
+• Neuromuscular neuro-
+transmitter: Acetylcholine
+Terminal ganglion
+
+===== PAGE 59 =====
+Preganglionic fiber
+Postganglionic fiber
+Parasympathetic
+Sympathetic
+Acetylcholine
+Acetylcholine Noreipnephrine
+Cholinergic vs. Adrenergic
+Effector cell: 
+muscle or gland
+N
+N
+N
+M
+M
+αα
+β
+β
+Receptor types:
+Nicotinic
+Muscarinic
+Alpha
+Beta
+Terminal ganglion
+Sympathetic or 
+collateral ganglion
+
+===== PAGE 60 =====
+Autonomic Pathway
+Preganglionic fiber
+Postganglionic fiber
+Somatic NS fiber
+Gray ramus
+White ramus
+Prevertebral 
+ganglion
+Paravertebral 
+ganglion
+To:
+Visceral or cardiac 
+muscle or glands
+To:
+Skeletal muscle
+To:
+Piloerector muscles 
+or sweat glands
+Lateral horn
+Anterior horn
+
+===== PAGE 61 =====
+Autonomic Pathway
+Ach
+Ach
+Ach
+NE
+Terminal ganglion
+Prevertebral ganglion
+Cranial nerve (III)
+Thoracic spinal nerve
+Iris (smooth 
+muscle)
+Dilation Constriction
+Sypathetic      Parasympathetic
+
+===== PAGE 62 =====
+SYMPATHETIC
+1. Nerve impulses originate from the
+thoracolumbar preganglionic autonomic
+fibers.
+2. Synapses between the pre- and post-
+ganglionic neurons are located in the
+prevertebral and paravertebral ganglia.
+The ganglia are interconnected making
+the effects generalized.
+3. The preganglionic fibers are short and the
+postganglionic fibers are long.
+4. Norepinephrine is the neurotransmitter at
+the synapse of the postganglionic motor
+nerve with the effector.
+5. The sympathetic is the division of the
+nervous system that comes to the aid of
+the body in times of stress.
+6. Metabolic energy is rapidly consumed
+PARASYMPATHETIC
+1. Nerve impulses originate from the
+craniosacral preganglionic autonomic
+fibers.
+2. Synapses between the pre- and post-
+ganglionic neurons are located in the
+terminal ganglia. The ganglia are not
+interconnected so effects are localized to
+specific organ systems.
+3. The preganglionic fibers are long and the
+postganglionic fibers are short.
+4. Acetylcholine is the neurotransmitter at
+the synapse of the postganglionic motor
+nerve with the effector.
+5. The parasympathetic is the division of the
+nervous system that takes care of us in
+quiet times between stresses.
+6. Metabolic energy (ATP) is conserved
+Branches Compared
+
+===== PAGE 63 =====
+SYMPATHETIC
+Effects on specific organs respond to stress:
+a. Pupil dilates to allow more light access to rods and
+cones.
+b. Salivary gland secretions are reduced. Mouth
+becomes dry.
+c. Heart rate and strength of beat increase providing
+added blood flow for oxygen delivery.
+d. Airways dilate and lung ventilation increases
+bringing more oxygen to the lungs.
+e. Liver releases stored glucose into the blood for
+use as fuel for energy production.
+f. Adrenal glands release the hormones
+norepinephrine and epinephrine that reinforce
+the sympathetic response.
+g. Kidneys produce less urine as blood flow to them
+is reduced.
+h. Urinary bladder walls relax and sphincter tightens
+retaining urine.
+i. Digestive system activity is inhibited. Secretion
+and motility decrease.
+j. Blood vessels divert flow away from abdominal
+organs to skeletal muscle.
+k. Arrector pili muscles of skin constrict causing
+goose bumps.
+l. Sweat glands, particularly those of armpit and
+groin, increase secretory activity
+PARASYMPATHETIC
+Effects on specific organs are conservative:
+a. Pupil constricts reducing the amount of light
+entering eye.
+b. Salivary gland secretions increase as food is
+ingested.
+c. Heart rate and strength of beat are reduced
+conserving the heart at rest.
+d. Airways constrict and lung ventilation is reduced
+as energy is conserved.
+e. Liver stores glucose in preparation for need at a
+later time.
+f. Adrenal glands have no innervation from the
+parasympathetic nervous system. The glands
+are exceptions to the “dual innervation” concept.
+g. Kidneys produce urine at an appropriate rate to
+clear metabolites and balance water.
+h. Urinary bladder responds normally to the
+micturition reflex and voluntary control.
+i. Digestive system secretion and motility increase
+as needed for proper digestion at mealtime.
+j. Blood vessels provide appropriate flow to organs
+of the digestive and urinary systems.
+k. Arrector pili muscles are not innervated.
+l. Sweat glands are not innervated.
+Branches Compared

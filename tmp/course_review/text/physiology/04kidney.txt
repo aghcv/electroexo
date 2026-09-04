@@ -1,0 +1,269 @@
+
+===== PAGE 1 =====
+URINARY SYSTEM
+LESSON 10
+Urine Formation
+
+===== PAGE 2 =====
+Fluid Balance
+
+===== PAGE 3 =====
+Total = ~42 L
+Fluid Compartments
+
+===== PAGE 4 =====
+Compartment Substrate
+Total body water 3H or 2H water, antipyrine
+Extra-cellular Water Labeled Na+, Cl-, inulin
+Plasma 125I-Albumin, Evans blue
+Blood 51Cr blood cells
+Interstitial Fluid Extra-cellular - Plasma
+Intracellular Fluid Total body – Extra-cellular
+10 mg Evans blue
+0.0033 mg/ml = 3030 ml
+Injected IV
+From blood sample
+Indicator Dilution
+
+===== PAGE 5 =====
+Excretion of Metabolic Waste
+
+===== PAGE 6 =====
+Renal artery
+Renal vein
+The Urinary System
+
+===== PAGE 7 =====
+The Urinary System
+
+===== PAGE 8 =====
+The Urinary Bladder
+Female
+Male
+
+===== PAGE 9 =====
+The Kidney
+Renal vein
+
+===== PAGE 10 =====
+The Nephron
+
+===== PAGE 11 =====
+Nephron Location
+Renal capsule
+Cortex
+Medulla
+Nephron
+Collecting duct
+Renal papilla
+Renal calyx
+Renal pyramid
+
+===== PAGE 12 =====
+Urine Formation Processes
+4
+Water
+4. Concentration
+
+===== PAGE 13 =====
+Urine Formation Processes
+1
+2
+3
+4
+Bowman’s capsule
+
+===== PAGE 14 =====
+Filtration
+Urine Formation
+Glomerulus
+
+===== PAGE 15 =====
+Filtration Regulation
+ Cortex
+ Medulla
+
+===== PAGE 16 =====
+Macula Densa
+
+===== PAGE 17 =====
+Filtration Regulation
+
+===== PAGE 18 =====
+Glucose                Na+
+Amino acid           Cl-
+Small  proteins     HCO3 
+-
+Vitamins                H2O
+Na+
+HCO3 
+-
+H2O
+Urea              H+
+Uric acid      NH4
++
+Creatinine
+K+
+H+
+NH4
++
+Na+
+K +
+Cl -
+H2O H2O
+Urea
+Key:
+Reabsorption 
+into the blood
+Secretion into 
+the urine
+Urine Formation
+Reabsorption 
+& Secretion
+
+===== PAGE 19 =====
+Reabsorption: Co-transport
+
+===== PAGE 20 =====
+Reabsorption: Co-transport
+
+===== PAGE 21 =====
+Tubular Maximum (TM)
+
+===== PAGE 22 =====
+Summary
+
+===== PAGE 23 =====
+Loop of Henle
+…but NOT PERMEABLE to H2O
+
+===== PAGE 24 =====
+Urine Formation
+Concentrated 
+Urine
+Concentration
+Key to concentration: 
+Ascending limb of 
+nephron loop permeable 
+to salt but not to water.
+
+===== PAGE 25 =====
+Counter-current Multiplier
+
+===== PAGE 26 =====
+Vasa Recta
+
+===== PAGE 27 =====
+Response to Dehydration
+Concentrated 
+Urine: 1200 mOsm
+Antidiuretic
+Hormone (ADH)
+Pituitary
+Gland
+Hypo-
+thalamus
+Collecting duct is 
+permeable to water
+
+===== PAGE 28 =====
+Response to Over-hydration
+Dilute Urine: 
+50 mOsm 
+Collecting duct is 
+impermeable to water
+
+===== PAGE 29 =====
+URINARY SYSTEM
+LESSON 11
+Fluid and Electrolyte 
+Balance
+
+===== PAGE 30 =====
+Antidiuretic Hormone
+Collecting duct
+H2O
+
+===== PAGE 31 =====
+ADH Regulation
+
+===== PAGE 32 =====
+Increased water reabsorptionIncreased Na+ reabsorption
+Increased blood volume
+Increased blood pressure
+The Renin-Angiotensin System 
+Decreased blood pressure
+Adrenal gland
+Liver
+Aldosterone secreted
+
+===== PAGE 33 =====
+Na+
+H2O 
+Aldosterone
+Distal 
+tubuleProximal 
+tubule
+Loop of
+Henle Collecting 
+duct
+Bowman’s 
+capsule
+
+===== PAGE 34 =====
+Aldosterone vs. ADH
+Volume depletion  Aldosterone
+• Loss of water and electrolytes
+• Vomiting, hemorrhage, diarrhea, burns
+1. Drop in blood pressure
+2. Aldosterone release
+3. Na+ reabsorbed and water by osmosis
+Dehydration  ADH
+• Loss of water but not electrolytes
+• Lack of water, excess sweating, diabetes
+1. Tissue fluids become hyperosmotic
+2. Osmoreceptors stimulated
+3. ADH release corrects osmotic imbalance
+
+===== PAGE 35 =====
+Hypertonic Loading
+
+===== PAGE 36 =====
+Hypotonic Loading
+
+===== PAGE 37 =====
+Hypotonic Loading
+
+===== PAGE 38 =====
+Fluid Balance
+
+===== PAGE 39 =====
+Mean Arterial Blood Pressure (mmHg)
+Blood Pressure Control
+
+===== PAGE 40 =====
+Urine flow  Urine concentration
+Plasma Concentration = Plasma clearance
+1.0 ml/min  1.25 mg/ml
+0.01 mg/ml = 125 ml/minInulin:
+1.0 ml/min  2.93 mg/ml
+0.005 mg/ml = 586 ml/minPAH:
+Assume PAH is 91% cleared from the blood. Then:
+Plasma flow = 586/0.91 = 650 ml/min
+Assume hematocrit = 45 (45% cells, 55% plasma). Then:
+Total blood flow to the kidneys = 650/0.55 = 1180 ml/min
+Plasma Clearance
+
+===== PAGE 41 =====
+Urine flow  Urine concentration
+Plasma Concentration = Plasma clearance
+1.0 ml/min  1.38 mg/ml
+0.01 mg/ml = 138 ml/minCreatinine:
+1.0 ml/min  18.2 mg/ml
+0.26 mg/ml = 70 ml/minUrea:
+Plasma Clearance
+Assume creatinine is 90% filtered and 10% secreted. 
+Then: 
+Glomerular Filtration Rate is 1380.9 = 125 ml/min
+Filtered and Secreted, Clearance > GFR
+Filtered and Reabsorbed, Clearance < GFR

@@ -1,0 +1,442 @@
+
+===== PAGE 1 =====
+CIRCULATORY 
+SYSTEM
+LESSON 6
+The Heart
+
+===== PAGE 2 =====
+Arteries:
+Distribution Vessels
+Veins:
+Collection Vessels
+Capillaries:
+Exchange Vessels
+The Circulatory System
+
+===== PAGE 3 =====
+Cardiac Muscle Tissue
+
+===== PAGE 4 =====
+Cardiac Muscle Cell
+
+===== PAGE 5 =====
+1
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+The Heart
+
+===== PAGE 6 =====
+Heart Valves
+Bicuspid Valve
+Aortic Valve
+
+===== PAGE 7 =====
+The AV Valves
+
+===== PAGE 8 =====
+Heart Valves
+
+===== PAGE 9 =====
+Heart Valves
+
+===== PAGE 10 =====
+Cardiac
+Muscle Cells
+Cardiac 
+Pacemaker Cells
+Action Potential Variations
+Threshold
+Millivolts
+
+===== PAGE 11 =====
+Parasympathetic 
+Nervous System
+ Heart Rate
+Sympathetic 
+Nervous System
+ Heart Rate
+Control of Heart Rate
+Cardiac 
+Pacemaker Cells
+
+===== PAGE 12 =====
+Electrical Pathway
+
+===== PAGE 13 =====
+- +
++
+6 Precordial leads
+12-Lead ECG
+
+===== PAGE 14 =====
+The Electrocardiogram (ECG)
+
+===== PAGE 15 =====
+1. Atrial 
+depolarization
+2. AV nodal delay
+3. Interventricular 
+septum 
+depolarization
+4. Ventricular wall 
+depolarization
+5. Ventricular 
+repolarization
+6. End
+The Electrocardiogram (ECG)
+
+===== PAGE 16 =====
+Normal rhythm
+Tachycardia
+Bradycardia
+The Electrocardiogram (ECG)
+
+===== PAGE 17 =====
+SA Node block
+Inverted T wave
+Ventricular
+Fibrillation
+The Electrocardiogram (ECG)
+
+===== PAGE 18 =====
+CIRCULATORY 
+SYSTEM
+LESSON 7
+Hemodynamics
+
+===== PAGE 19 =====
+Cardiac Cycle
+0          0.2         0.4        0.6        0.8        0.2        0.4
+Time (sec) 
+Heart sounds
+ECG
+Ventricular 
+volume (ml)
+120
+90
+60
+120
+100
+80
+60
+40
+20
+0
+Pressure  
+(mmHg)
+S1             S2                               S1
+P
+Q
+R
+S
+T
+Left 
+Ventricular 
+pressure
+Aortic 
+pressure
+Left atrial 
+pressure
+Diastole SystolePhase of 
+ventricle
+AV valve       
+closes
+Aortic valve 
+opens
+
+===== PAGE 20 =====
+Cardiac Cycle
+0          0.2         0.4        0.6        0.8        0.2        0.4
+Time (sec) 
+Heart sounds
+ECG
+Ventricular 
+volume (ml)
+120
+90
+60
+120
+100
+80
+60
+40
+20
+0
+Pressure  
+(mmHg)
+S1             S2                               S1
+P
+Q
+R
+S
+T
+Left 
+Ventricular 
+pressure
+Aortic 
+pressure
+Left atrial 
+pressure
+Diastole SystolePhase of 
+ventricle
+Aortic valve 
+closes
+AV valve       
+opens
+
+===== PAGE 21 =====
+The Cardiac Cycle
+
+===== PAGE 22 =====
+Ohm’s Law: P
+R
+Q = Cardiac Output
+= 5 L/min
+= 85 ml/sec
+•
+Q =
+• PR=
+Q
+•
+Pressure and Flow
+and
+At rest:
+
+===== PAGE 23 =====
+Rsystemic =           = 1.2 mm Hg/ml/sec
+Systemic: P = 100 mm Hg aorta – 0 mm Hg rt atrium
+Pulmonary: P = 14 mm Hg pul art – 0 mm Hg lft aatium
+100
+85
+Rpulmonary =           = 0.16 mm Hg/ml/sec14
+85
+PR=
+Q
+•
+Vascular Resistance
+P
+Q = 85 ml/sec
+•
+
+===== PAGE 24 =====
+P  r4  
+l    8
+Q =
+•
+Radius and Flow
+
+===== PAGE 25 =====
+Anemia
+Polycythemia
+P  r4  
+l    8
+Q =
+•
+Viscosity and Flow
+
+===== PAGE 26 =====
+Hematocrit
+(% blood cells)
+Hematocrit
+Blood cells
+
+===== PAGE 27 =====
+P  r4  
+l    8
+Q =
+•A.  Before Flow
+B. Parabolic Flow
+Vessel Length and Flow
+Frictional drag
+
+===== PAGE 28 =====
+Pressure - Flow Curves
+P  r4  
+l    8
+Q =
+•
+Predicted from 
+equation
+Experimental
+observation
+
+===== PAGE 29 =====
+V= Q
+A
+Velocity of Blood Flow
+•
+Q
+•
+A V
+
+===== PAGE 30 =====
+CIRCULATORY 
+SYSTEM
+LESSON 8
+Arteries, Capillaries 
+and Veins
+
+===== PAGE 31 =====
+Arteries and Veins
+Valve
+Endothelium
+Connective Tissue
+Smooth Muscle
+Connective Tissue
+VeinArtery
+
+===== PAGE 32 =====
+Arteries: Pressure Vessels
+
+===== PAGE 33 =====
+Arterioles: Control of Distribution
+
+===== PAGE 34 =====
+Arterioles: Control of Distribution
+
+===== PAGE 35 =====
+Capillaries: Exchange Vessels
+T = P  r
+Law of Laplace:
+
+===== PAGE 36 =====
+Capillary Exchange
+fluid hydrostatic pressure
+hydrostatic pressure
+
+===== PAGE 37 =====
+Hydrostatic 
+Pressure
+(23 ml out)
+Osmotic 
+Pressure
+(20 ml in)
+Exchange of Water (per minute)
+Diffusion 
+(4000 ml)
+
+===== PAGE 38 =====
+Lymphatic Disorders
+Edema: excess of watery 
+fluid collecting in the 
+cavities or tissues of the 
+body.
+
+===== PAGE 39 =====
+Lymphatic capillaries 
+Lymphatic capillaries 
+Lymphatic veins 
+Lymph node 
+Lymphatic System
+
+===== PAGE 40 =====
+Lymphatic Capillaries
+
+===== PAGE 41 =====
+Lymph Node
+
+===== PAGE 42 =====
+Lymph Drainage
+Right lymphatic   
+duct
+Thoracic duct
+
+===== PAGE 43 =====
+Lymphatic System
+
+===== PAGE 44 =====
+Lymphatic System
+Lymphatic System Functions:
+• Balance fluid loss/gain from blood/tissues
+• Scavenge cellular debris
+• Produce lymphocytes for the immune system
+• Absorb fats from the digestive system
+• Serve as a conduit for cell metastasis -
+
+===== PAGE 45 =====
+Metastasis Pathway
+
+===== PAGE 46 =====
+Veins: Volume Vessels
+
+===== PAGE 47 =====
+Gravity and Pressure
+
+===== PAGE 48 =====
+Veins: Valves
+
+===== PAGE 49 =====
+‘Milking’ the Veins
+
+===== PAGE 50 =====
+Coronary Arteries
+
+===== PAGE 51 =====
+Coronary Arteries
+
+===== PAGE 52 =====
+Coronary Artery Disease
+
+===== PAGE 53 =====
+Coronary Artery Disease
+
+===== PAGE 54 =====
+Referred Pain: Angina Pectoris
+
+===== PAGE 55 =====
+CIRCULATORY 
+SYSTEM
+LESSON 9
+Control of 
+Circulation
+
+===== PAGE 56 =====
+Reflex Control of Blood Pressure
+
+===== PAGE 57 =====
+Cardiac Output
+
+===== PAGE 58 =====
+Total Peripheral Resistance
+
+===== PAGE 59 =====
+The Barorecptors
+
+===== PAGE 60 =====
+Reflex Control of Blood Pressure
+
+===== PAGE 61 =====
+Measuring Blood Pressure
+No flow: cuff 
+pressure above 
+systolic
+Intermittent flow: cuff 
+pressure between 
+systolic and diastolic
+(Karotkoff sounds)
+Continuous flow: 
+cuff pressure 
+below diastolic
+
+===== PAGE 62 =====
+Control of Blood Pressure
+(kidney)
+(pathologic)
+
+===== PAGE 63 =====
+Autoregulation
+P  r4  
+l    8
+Q =
+•

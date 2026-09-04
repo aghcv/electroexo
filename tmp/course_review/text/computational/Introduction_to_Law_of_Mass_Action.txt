@@ -1,0 +1,183 @@
+
+===== PAGE 1 =====
+Audi/Dash  Page 1 
+BIEN 6391  Chemical kinetics 
+  2/11/2018 
+Law of Mass Action 
+ 
+Basic Principles of Chemical Kinetics 
+- Unidirectional chemical reaction 
+     
+          
+ “A” is the reactant 
+ “P” is the product 
+ “k1” is the reaction rate constant.  
+What is the rate (or velocity) of the above reaction? Rate at which A is being 
+consumed or B is being generated? 
+ 
+- Reversible chemical reaction: 
+ 
+ 
+  “B” and “C” are the reactants 
+  “D” is the product 
+   “k2“ and “k−2“ are the forward and reverse reaction rate constants, respectively. 
+ 
+- The rate (velocity) of a chemical reaction step (forward or reverse) is 
+determined using the Law of Mass Action.  
+ 
+ 
+ 
+B + C D
+k2
+k−2  
+A P
+k1
+
+===== PAGE 2 =====
+Audi/Dash  Page 2 
+BIEN 6391  Chemical kinetics 
+  2/11/2018 
+ Law of Mass Action 
+o Fundamental law of a chemical reaction 
+o Describes the rate at which chemicals, whether macromolecules or simple 
+ions, collide and interact to form different chemical combinations. 
+o According to the law of mass action: 
+ When two or more reactants are involved in a reaction step, the rate (or 
+velocity) of the reaction is proportional to the product of their 
+concentrations (in units of Molar) raised to the power of their 
+stoichiometric coefficients.  
+o Assumptions include constant temperature and pressure. 
+ 
+ Consider the following general chemical reaction: 
+ 
+ 
+ Where a, b, c and d are the stoichiometric coefficients for reactants A, B, 
+and products C and D, respectively. 
+ According to the law of mass action: 
+  
+– 1a
+d[A]
+dt = – 1
+b
+d[B]
+dt = 1c
+d[C]
+dt = 1
+d
+d[D]
+dt =
+k 1[A]a[B]b – k 2[C]c[D]d 
+ 
+ 
+ “[ ]” represent species concentration in units of Molar = moles/liter. 
+ 
+k1
+k2
+aA + bB cC + dD
+k1
+k2
+aA + bB cC + dD
+
+===== PAGE 3 =====
+Audi/Dash  Page 3 
+BIEN 6391  Chemical kinetics 
+  2/11/2018 
+ Example #1: 
+ 
+         
+ 
+Rate (velocity) of the reaction = rate at which A is being used = rate at which 
+P is being formed = – d[A]
+dt = d[P]
+dt = k 1 [A] 
+ 
+  Dimensions of k1? 
+ 
+ 
+ Example # 2: 
+ 
+ 
+ 
+ 
+– d[B]
+dt = – d[C]
+dt = d[D]
+dt = k 2 [C][B] – k – 2[D] 
+ 
+ 
+Dimensions of k2 and k-2? 
+ 
+o A chemical reaction step can be classified by its order = number of 
+concentration terms multiplied together in the rate (velocity) of the 
+reaction step.  
+k1
+k2
+aA + bB cC + dD
+k1
+k2
+aA + bB cC + dD
+ 
+o For the above general chemical reaction: order of the forward reaction = 
+a + b; order of the reverse reaction is c + d. 
+Dimensions of k1 and k2? 
+B + C D
+k2
+k−2  
+A P
+k1
+
+===== PAGE 4 =====
+Audi/Dash  Page 4 
+BIEN 6391  Chemical kinetics 
+  2/11/2018 
+ Example  # 3: 
+     
+k 1
+A → P  
+d[P]/dt = − d[A]/dt = k1[A]  
+Order = 1, first order reaction step with the rate constant k1 (dimensions, 
+1/time).  
+k1 is a first order (linear) reaction rate constant 
+ Example # 4: 
+     
+k 2
+A + B → P  
+ d[P]/dt = − d[A]/dt = − d[B]/dt =   k2[A] [B] 
+Order = 2, hence second order reaction step 
+k2 is a second order reaction rate constant (dimensions, 1/(time x concentration)) 
+ 
+ Example # 5: 
+ 
+  
+k 2
+2A → P     d[P]/dt = − (1/2)d[A]/dt = k2[A]2 
+      Order = 2,  Second order reaction step 
+ k2 = second order reaction rate constant.  It has dimensions of  
+1/(time x concentration))
+
+===== PAGE 5 =====
+Audi/Dash  Page 5 
+BIEN 6391  Chemical kinetics 
+  2/11/2018 
+ Example # 6: 
+ 
+ 
+k 3
+A + B + C → P  
+k 3
+2A + B → P    A + B
+k a
+→
+←
+k b
+P 
+ 
+Order of each reaction step?  
+Dimensions of each rate constant? 
+ 
+ Dimensions of the rate constant of a step reaction (forward or reverse): 
+ 1/(conc. (order-1) x time) 
+ 
+ 
+Note: Not all chemical reactions follow the law of mass action (e.g., enzymatic 
+reactions).

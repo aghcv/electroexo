@@ -1,0 +1,356 @@
+
+===== PAGE 1 =====
+Ranjan Dash and Said Audi  BIEN 6931 
+2/5/2018  Page 1 
+Introduction to Compartmental Modeling 
+• A variety of biological systems can be modeled as well-
+mixed tanks, or as composite systems of interconnected 
+well-mixed tanks (or compartments).  
+• Examples include chemical reactions inside cells or 
+compartments within cells when spatial gradients of 
+intracellular reactants are not important.  
+• Other examples (treated below) arise in pharmacokinetic 
+modeling where distinct body compartments (e.g. blood 
+plasma) are treated as well-mixed tanks.  
+• The key assumption in compartmental modeling is that 
+within a fluid system the solutes of interest are 
+homogeneously distributed with no spatial gradients 
+existing over the time-scales of interest. 
+ 
+Example 1: First-Order Washout from a 
+Well-Mixed Tank 
+As a first example, consider the system 
+illustrated to the right with water flowing in 
+and out at rates Fin and Fout. A compartment 
+model has a volume and a concentration of 
+a substance. The product of the volume and 
+the concentration is a quantity of material. 
+The change in the quantity is described 
+by mass balance equations.  
+ 
+Figure 1: A simple one 
+compartmental system.
+
+===== PAGE 2 =====
+Ranjan Dash and Said Audi  BIEN 6931 
+2/5/2018  Page 2 
+The volume is usually designated as V, the concentration as C, 
+and the amount of material as Q. The change in amount, dQ/dt, is 
+governed by sources (which add material to Q) and sinks (which 
+subtract material from Q). A source will appear as contributing a 
+positive rate of change. A sink will contribute a negative rate of 
+change. The change in Q can be expressed as: 
+dQ/dt = (rate of mass flow in) – (rate of mass flow out) 
+= Cin*Fin – C*Fout 
+where Cin is the concentration of solute in the inflow. This 
+expression invokes the well-mixed assumption that the 
+concentration in the outflow is equal to the overall 
+concentration in the container. 
+ 
+If the inflow and outflow are equal, Fin = Fout = F, and the inflow 
+concentration Cin is 0, then the rate of change of concentration of 
+a solute in the fluid in the container is given by: 
+dQ/dt = −F*C 
+Since the volume is constant, V*dC/dt = dQ/dt, and  
+dC/dt = − (F/V)*C. 
+The time-dependent behavior of a substance in a stir-tank (well-
+mixed compartment) can be simulated using a computer program 
+that integrates the equation for dC/dt. Simulation in MATLAB 
+requires a function that returns the computed time derivative 
+dC/dt as a function of C(t).
+
+===== PAGE 3 =====
+Ranjan Dash and Said Audi  BIEN 6931 
+2/5/2018  Page 3 
+The MATLAB function dCdT_OneExp.m has the following syntax: 
+function dCdT = dCdT_OneExp(~,C,F,V) 
+% FUNCTION DCDT(t,C) 
+% Inputs: ~ - 't' placeholder 
+% C - concentration (M) 
+% V - volume (constant, L) 
+% F - flow (constant, L/sec) 
+% Outputs: dCdT - concentration time derivative 
+dCdT = -(F/V)*C; 
+ 
+This function can be integrated using MATLAB to simulate 
+washout of solute from the container with the following script: 
+ 
+function Main_dCdT_OneExp 
+% Set initial condition, flow, and volume 
+C0 = 1; % M 
+V = 1; % L 
+F = 1; % L/sec 
+[t,C] = ode23s(@dCdT_OneExp,[0 
+5],C0,[],F,V); 
+plot(t,C,'-b','LineWidth',1.5) 
+xlabel('t (s)'); 
+ylabel('C (M)'); 
+set(gca,'fontsize',16) 
+ 
+which gives the output illustrated to the right.  
+ 
+ 
+ 
+ 
+Figure 2: A simple one 
+exponential washout curve. 
+0 1 2 3 4 5
+t (s)
+0
+0.2
+0.4
+0.6
+0.8
+1
+C (M)
+
+===== PAGE 4 =====
+Ranjan Dash and Said Audi  BIEN 6931 
+2/5/2018  Page 4 
+Example 2: First-Order Reversible Reaction in a Single 
+Compartment 
+A net change in concentration (Csubstance) can be expressed as: 
+dC/dt = − (rate of consumption of substance)  
++ (rate of production of substance). 
+In this example, we consider concentrations of two substances, A 
+and B, dissolved in fluid contained in a single compartment of 
+constant volume. Assume concentration of substance A converts 
+to an amount of substance B at a rate specified by ka2b and B 
+converts back to A at the rate kb2a. For species A and B, the 
+change in concentration for two substances over time period t is 
+given by: 
+dA/dt = − ka2b*A + kb2a*B  
+and 
+dB/dt = ka2b*A −kb2a*B 
+where ka2b and kb2a are first order rate constants, with units of 
+per unit time. 
+Just like in Example 1, MATLAB requires a function that returns 
+the computed time derivatives of the concentration variables. In 
+this case, we have two state variables A(t) and B(t).  
+The MATLAB function DXDT_AtoB_Reaction returns the time 
+derivatives of these variables as a two-component vector:
+
+===== PAGE 5 =====
+Ranjan Dash and Said Audi  BIEN 6931 
+2/5/2018  Page 5 
+function dXdT = DXDT_AtoB_Reaction(~,X,ka2b,kb2a) 
+% FUNCTION DXDT_AtoB_Reaction(t,C) 
+% Inputs: ~ - ‘t’ placeholder 
+% X - vector of state variables 
+% X(1) = concentration of A (mM) 
+% X(2) = concentration of B (mM) 
+% ka2b - rate constant for A -> B reaction 
+% kb2a - rate constant for B -> A reaction 
+% Outputs: dXdT - concentration time derivative 
+% {dA/dt, dB/dt} 
+A = X(1); % concentration of A 
+B = X(2); % concentration of B 
+dAdT = -ka2b*A + kb2a*B; 
+dBdT = +ka2b*A - kb2a*B; 
+dXdT = [dAdT, dBdT]'; 
+ 
+This function can be integrated with the following script: 
+function Main_DXDT_AtoB_Reaction 
+% Set initial condition and rate constants 
+A0 = 0.5; % mM 
+B0 = 1.0; % mM 
+ka2b = 0.1; % sec^-1 
+kb2a = 0.3; % sec^-1 
+[t,X] = ode23s(@DXDT_AtoB_Reaction,[0 5],[A0 B0],[],ka2b,kb2a); 
+plot(t,X(:,1),'-b','LineWidth',1.5); hold on 
+plot(t,X(:,2),'-r','LineWidth',1.5); hold on 
+xlabel('t (s)'); 
+ylabel('C_A, C_B (mM)'); 
+set(gca,'fontsize',16) 
+legend('C_A','C_B','Location','East') 
+which gives the output illustrated below.
+
+===== PAGE 6 =====
+Ranjan Dash and Said Audi  BIEN 6931 
+2/5/2018  Page 6 
+ 
+Figure 3: Simple reaction A converts to B. 
+ 
+Example 3: First Order Reaction with Fluid Flow in a Single 
+Compartment: 
+The equations in the previous two examples can be combined to 
+model a single compartment system with both flow and two 
+reactants: 
+dC/dt = (rate of mass flow in) – (rate of mass flow out) 
+− (rate of consumption of substance)  
++ (rate of production of substance). 
+As in example 2, a chamber of constant volume V has two 
+substances, A and B, dissolved in fluid. The chamber also has a 
+constant fluid inflow of F with a constant fluid outflow. The inflow 
+carries some concentration of substance A, designated Ain. The 
+concentrations of A and B over time are given by the equations: 
+0 1 2 3 4 5
+t (s)
+0.4
+0.6
+0.8
+1
+C
+A
+, C
+B
+ (mM)
+C
+A
+C
+B
+
+===== PAGE 7 =====
+Ranjan Dash and Said Audi  BIEN 6931 
+2/5/2018  Page 7 
+dA/dt = (F∗(Ain−A))/V − ka2b*A + kb2a*B  
+and 
+dB/dt = − (F∗B)/V + ka2b*A−kb2a*B. 
+Just like the previous examples, MATLAB requires a function that 
+returns the computed time derivatives of the concentration 
+variables. In this case, we have two state variables A(t) and B(t).  
+The MATLAB function dXdT_AtoB_FlowReaction returns the time 
+derivatives of these variables as a two-component vector:  
+function dXdT = DXDT_AtoB_FlowReaction(~,X,A_in,V,F,ka2b,kb2a) 
+% FUNCTION DXDT_AtoB_FlowReaction(t,C) 
+% Inputs: ~ - 't' placeholder 
+% X - vector of state variables 
+% X(1) = concentration of A (mM) 
+% X(2) = concentration of B (mM) 
+% A_in - concentration A inflow 
+% V - Chamber volume 
+% F - Fluid inflow into chamber 
+% ka2b - rate constant for A -> B reaction 
+% kb2a - rate constant for B -> A reaction 
+% Outputs: f - concentration time derivative 
+% {dA/dt, dB/dt} 
+A = X(1); % concentration of A 
+B = X(2); % concentration of B 
+dAdT = F*(A_in - A)/V - ka2b*A + kb2a*B; 
+dBdT = -F*B/V + ka2b*A - kb2a*B; 
+dXdT = [dAdT, dBdT]';
+
+===== PAGE 8 =====
+Ranjan Dash and Said Audi  BIEN 6931 
+2/5/2018  Page 8 
+This function can be integrated with the following script: 
+function Main_DXDT_AtoB_FlowReaction 
+%Set the initial concentrations of A and B, flows, rate constants and volume. 
+Ain = 0.1; % mM/sec 
+V = 1.0; % ml 
+F = 1.0; % ml/sec 
+ka2b = 0.1; % mM/sec 
+kb2a = 0.3; % mM/sec 
+A0 = 0.5; % mM 
+B0 = 1.0; % mM 
+[t, X] = ode23s(@DXDT_AtoB_FlowReaction,[0 5],[A0 B0], 
+[],Ain,V,F,ka2b,kb2a); 
+plot(t,X(:,1),'-b','LineWidth',1.5); hold on 
+plot(t,X(:,2),'-r','LineWidth',1.5); hold on 
+xlabel('t (s)'); 
+ylabel('C_A, C_B (mM)'); 
+set(gca,'fontsize',16) 
+legend('C_A','C_B','Location','NorthEast') 
+which gives the output illustrated below. 
+ 
+Figure 4: Simple reaction of A and B with inflow of A. 
+0 1 2 3 4 5
+t (s)
+0
+0.2
+0.4
+0.6
+0.8
+1
+C
+A
+, C
+B
+ (mM)
+C
+A
+C
+B
+
+===== PAGE 9 =====
+Ranjan Dash and Said Audi  BIEN 6931 
+2/5/2018  Page 9 
+Example 4: First-Order Exchange Between Two Compartments 
+The exchange between two compartments with different 
+concentrations of a material can be modeled with: 
+(Volume of Compartment)*d(Concentration in Compartment)/dt  ∝ 
+(Concentration in Compartment) − (Concentration in Other Compartment) 
+This example considers two compartments with different 
+concentrations of a substance. Compartment 1 has volume V1 
+and concentration A, while compartment 2 has volume V2 and 
+concentration B. The two compartments are adjacent and a 
+permeable membrane allows material to pass between the two at 
+a rate PS. The rate is the same in either direction. The 
+concentration in compartment 1 can be expressed as: 
+dA/dt = PS∗(B−A)/V
+1 
+Compartment 2 can be modeled by: 
+dB/dt = PS∗(A−B)/V2 
+Just like the previous examples, MATLAB requires a function 
+that returns the computed time derivatives of the concentration 
+variables. In this case we have two state variables A(t) and B(t).  
+The MATLAB function DXDT_2Comp_Exchange returns the time 
+derivatives of these variables as a two-component vector:
+
+===== PAGE 10 =====
+Ranjan Dash and Said Audi  BIEN 6931 
+2/5/2018  Page 10 
+function dXdT = DXDT_2Comp_Exchange(~,X,V1,V2,PS) 
+% FUNCTION DXDT_2Comp_Exchange(t,C) 
+% Inputs: ~ - 't' placeholder 
+% X - vector of state variables 
+% X(1) = concentration in compartment A (mM) 
+% X(2) = concentration in compartment B (mM) 
+% V1 - Chamber 1 volume 
+% V2 - Chamber 2 volume 
+% PS - Exchange rate between two compartments 
+% Outputs: f - concentration time derivative 
+% {dA/dt, dB/dt} 
+A = X(1); % concentration of A 
+B = X(2); % concentration of B 
+dAdT = PS*(B-A)/V1; 
+dBdT = PS*(A-B)/V2; 
+dXdT = [dAdT, dBdT]'; 
+This function can be integrated with the following script: 
+function Main_DXDT_2Comp_Exchange 
+%Set the initial concentrations of A and B, flows, rate constants and volume. 
+V1 = 0.05; % ml 
+V2 = 0.15; % ml 
+PS = 5/60; % mM/sec 
+A0 = 1.5; % mM 
+B0 = 0.5; % mM 
+[t,X] = ode23s(@DXDT_2Comp_Exchange,[0 5],[A0 
+B0],[],V1,V2,PS); 
+plot(t,X(:,1),'-b','LineWidth',1.5); hold on 
+plot(t,X(:,2),'-r','LineWidth',1.5); hold on 
+xlabel('t (s)'); 
+ylabel('C_A, C_B (mM)'); 
+set(gca,'fontsize',16) 
+legend('C_A','C_B','Location','NorthEast')
+
+===== PAGE 11 =====
+Ranjan Dash and Said Audi  BIEN 6931 
+2/5/2018  Page 11 
+which gives the output illustrated below. 
+ 
+Figure 5: Two linked compartments achieving equilibrium.  
+ 
+0 1 2 3 4 5
+t (s)
+0.5
+1
+1.5
+C
+A
+, C
+B
+ (mM)
+C
+A
+C
+B

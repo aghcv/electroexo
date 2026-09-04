@@ -1,0 +1,111 @@
+
+===== PAGE 1 =====
+MARQUETTE UNIVERSITY    BIEN 4700-701 Systems Physiology 
+           BIEN 5700-701 Systems Physiology 
+SYLLABUS 
+ 
+INSTRUCTOR 
+David A. Rickaby, Ph.D. 
+E-Mail: david.rickaby@marquette.edu 
+ drickaby@mcw.edu 
+ 
+COURSE DESCRIPTION- This survey course provides an over view of the functioning systems of the 
+human body: the skeletal, muscular, nervous, circulatory, respiratory, endocrine, digestive, urinary and 
+reproductive systems. Material covered includes feedback mechanisms that control organ system function, 
+techniques used to assess and monitor physiological processes and the consequences of damage and disease. 
+While the course uses a “systems” approach, consideration is given to the integration of organ system  
+processes required to maintain an optimally functioning organism. 
+ 
+COURSE GOALS are to demonstrate how physiological processes integrate the individual functions of all 
+of the body’s different organ systems into a functioning whole- the human organism; to examine the feedback 
+controls required to sustain normal function; to highlight basic engineering principles incorporated into the 
+natural design of living organisms; and to provide examples of  experimental approaches used to study 
+physiological processes and engineering approaches used to compensate for physiological deficiencies. 
+ 
+RECOMMENDED TEXT:  Guyton, A.C. and J.E. Hall; Textbook of Medical Physiology (13th ed.) 
+Philadelphia, PA: Elsevier Health Sciences, 2016 
+ 
+GRADING- Systems Physiology is a 3 -credit lecture course. The course is divided into four seri es of 
+lectures, with one exam scheduled for each series. In addition, a cumulative exam will be given along with 
+the exam covering the last series of lectures, for a total of five exams. For undergraduate students, the final 
+grade is the average of the fou r highest scores (the single lowest score being dropped).  A missed exam 
+cannot be used as the dropped score. For graduate students, the final grade is based on the average of all five 
+exams. Each of the five exams will consist of 40 questions of true and false, multiple choice or item matching 
+type.  Sample exams with an answer key will be provided. Exams are scored on a percentage basis, with the 
+final grade determined from the average as follows: 
+   
+90-100= A 87-89=B+ 80-86=B 77-79=B- 74-76=C+ 
+67-73=C 64-66=C- 61-63=D+ 55-60=D <55=F 
+ 
+INSTRUCTOR ASSISTANCE- Questions related to the course material can be submitted to the instructor 
+at the e -mail address above. Answers will be provided by return e -mail or during class, as appropriate. 
+Questions can also be addressed before, during or after the scheduled class period. Additionally, office hours 
+can be scheduled by appointment.  
+ 
+DIGITAL DEVICES- You should not use any digital device for non-course related activities during lectures 
+(Internet browsing, texting, face-booking, tweeting, insta-gramming, snap-chatting, etc.). These activities 
+prevent you from engaging with the class and distract other students. 
+ 
+ATTENDANCE- In accordance with university policy and  because absence from class will prevent you 
+from getting the full benefit of the course, there is an expectation that you will attend all classes.  If you are 
+unable to attend a class, send a short e-mail message to the address above. A summary of material missed can 
+then be provided by reply. Students w ho miss an exam due to unforeseen circumstances must make 
+arrangements to take a makeup exam. In the case of an emergency absence (week or longer absence from 
+class due to illness or other personal emergency), a student must inform the engineering office. The office 
+will keep a written record of such cases and inform the relevant instructors.
+
+===== PAGE 2 =====
+MARQUETTE UNIVERSITY BIEN 4700-701 Systems Physiology 
+ BIEN 5700-701 Systems Physiology  
+[2018] 
+Date  Lesson                                                     Text Chapter* 
+  1-16  1. Homeostasis    1      
+  1-16  2. Transport Across Cell Membranes        4 
+  1-18  3. Membrane Electrical Potentials        5 
+  1-23  4. Skeletal Muscle       6 
+  1-23  5. Neurotransmitter Transmission & Smooth Muscle    7, 8 
+  1-25  6. The Heart                 9, 10 
+  1-30  7. Hemodynamics                                             14 
+  1-30  8. Arteries, Capillaries and Veins                  15, 16 
+  2-  1  9. Control of Circulation                         17, 18 
+  2-  6          EXAM 1 (Topics 1-9)  
+ 
+  2-  8 10. Urine Formation                     25, 26, 27 
+  2-  8 11. Fluid and Electrolyte Balance                   28, 29 
+  2-13 12. Blood                 33-37 
+  2-15 13  The Immune System       35 
+  2-15 14. Pulmonary Ventilation and Perfusion               38, 39 
+  2-20 15. Pulmonary Gas Exchange                 40 
+  2-22 16. Transport of Oxygen and Carbon Dioxide                        41 
+  2-22 17. Control of Ventilation                 42 
+  2-27 18. Acid-Base Balance                            31 
+  3-  1 EXAM 2  (Topics 10-18) 
+ 
+  3-  6   19. Organization of the Nervous System                          46 
+  3-  6 20. Special Senses: Vision                    50-52 
+  3-  8 21. Hearing, Taste and Smell       53, 54 
+          Spring Break 
+  3-20 22. Sensory Pathways               47-49 
+  3-20 23. Motor Pathways        55-57   
+  3-22    24. The Brain                58, 59 
+  3-27 25. The Autonomic Nervous System               61 
+  3-27 26. Transport and Digestion of Nutrients                            63-65 
+   Easter Break 
+  4-  3    27. Absorption of Nutrients                 66, 71 
+  4-  5        EXAM 3  (Topics 19-27) 
+ 
+  4-10    28. Digestive Wastes        64     
+  4-10 29. Metabolic Pathways        68-70    
+  4-12 30. Energetics and Thermoregulation                                       73-74 
+  4-17 31. Hormone Characteristics                  75 
+  4-17 32. Hypothalamus, Pituitary and Thyroid Glands                          76, 77 
+  4-19 33. Adrenal Glands and Pancreas                          61, 78, 79 
+  4-24 34. Parathyroid Glands and Bone Physiology                            80 
+  4-24 35. The Male Reproductive System                            81 
+  4-26 36. The Female Reproductive System                            82 
+  5-  1 37. Pregnancy and Fetal Development                        83, 84 
+  5-  3 38. Exercise Physiology                               85 
+  5-10    (8:00-10:00)   EXAM 4  (Topics 28-38)  and FINAL EXAM  (Topics 1-38) 
+ 
+  *Text:  Guyton, A.C. and J.E. Hall; Textbook of Medical Physiology  
+             (13th ed.), Philadelphia, PA: Elsevier Health Sciences, 2016

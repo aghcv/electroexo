@@ -1,0 +1,333 @@
+
+===== PAGE 1 =====
+BIEN 6931  Page 10/10 
+  4/2/18 
+-80
+-60
+-40
+-20
+0
+20
+40
+60
+Voltage (mV)
+0
+10
+20
+30
+40
+0 2 4 6 8 10Time (ms)
+Conductance 
+(mS/cm2)
+G(Na)
+G(K)
+0
+50
+100
+150
+Stimulus 
+(uA)
+ 
+Dynamics of Membrane and Nerve Cell Potentials: Determinants of 
+Resting Membrane Potential, Action Potential 
+ Action potential: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Is a rapid change in membrane potential that is essential for the transmission 
+of nerve signals.   
+ It is the language of excitable cells such as neurons, responsible for our actions 
+and sensations, our thoughts and emotions. 
+ Will not occur until something (stimulus) causes an initial rise in the membrane 
+potential (depolarization) to a level referred to as threshold. 
+ 
+ Hodgkin-Huxley model: (see Hodgkin AL and AF Huxley, Journal of Physiology 
+(London) 117:500-544, 1952, pdf file under D2L) 
+ Provides a mathematical description of the dynamics of the processes by 
+which an action potential is generated in excitable cells and forms the basis of 
+most neuronal models. 
+ Is an important aspect of the elegant experiments and quantitative analysis 
+(mathematical model) that earned Hodgkin and Huxley a Nobel Prize in 1963.
+
+===== PAGE 2 =====
+BIEN 6931  Page 20/10 
+  4/2/18 
+  Resting membrane potential: 
+ For most cells, the ionic composition 
+that makes the cell interior 
+(intracellular fluid) is negative in 
+potential (–90 mV) with respect to the 
+outside (extracellular fluid).  
+ 
+ 
+ 
+ This imbalance of charges across the 
+membrane is called  
+Membrane potential = inside potential   outside potential =  90 mV  
+ 
+ The membrane potential depends on the ionic concentration (e.g., Na+, K+) 
+gradients across the membrane and on its relative permeabilities to the ions 
+present. 
+ 
+ Dissipation (partial or total) of the membrane potential is referred to as a 
+depolarization (less negative).  
+ 
+ Restoration of resting membrane potential is called repolarization. 
+ 
+ Each individual permeant ion that is distributed across the membrane is 
+subjected to two gradients that drive it in or of the cytoplasm: 
+ 
+ 
+1. Concentration gradient  
+2. Electrical gradient } 
+Electrochemical gradient
+
+===== PAGE 3 =====
+BIEN 6931  Page 30/10 
+  4/2/18 
+ Nernst equation or equilibrium potential:  
+ One of the most important equations in electrophysiology 
+ Describes how a difference in an ion concentration across a membrane 
+results in a potential difference across the membrane. 
+ For a given ion: 
+  Concentration gradient across the cell membrane creates tendency for 
+ion diffusion to dissipate this gradient (through ions channels called 
+leak channels).  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ The potential level (electrical gradient) across the cell membrane that 
+exactly prevents the net diffusion of an ion in either direction through the 
+membrane (and hence preserve the ion’s concentration gradient) is called 
+the Nernst (or equilibrium) potential for that ion. 
+ 
+ 
+Outside 
+Inside
+
+===== PAGE 4 =====
+BIEN 6931  Page 40/10 
+  4/2/18 
+  Nernst equation, which is valid for any permeant ion at steady state. 
+i   =  90 mV 
+ 
+       
+V = RT
+Z Fln Co
+Ci    (3) 
+Z = ion valance (+ 2 for Ca2+ , +1 
+for Na+ and K+, 1 for Cl) 
+F = Faraday’s constant (number of 
+coulombs per mole of charge = 
+96500 C/mol)  
+R = Gas constant (8.31 J/(mol. K) 
+T = Absolute temperature (310K = 
+body temperature = 37 
+o
+C). 
+ 
+V = Nernst (or equilibrium potential) in mV (millivolts). 
+ 
+ 
+ 
+ 
+Ion    Nernst potential 
+Na+     + 60 mV 
+K+      98 mV 
+ 
+ 
+ The resting membrane potential (- 90 mV) is different from the equilibrium 
+potentials for Na+ and K+ determined using the Nernst equation 
+ 
+ So at resting membrane potential, Na+ and K+ are in disequilibrium. 
+ 
+Co Ci
+
+x
+Cell membrane
+ i
+Outside Inside
+Co Ci
+
+x
+Cell membrane
+ i
+Outside Inside
+
+===== PAGE 5 =====
+BIEN 6931  Page 50/10 
+  4/2/18 
+ Determinants of the resting membrane potential: 
+ For Na+, both the concentration gradient and the Nernst potential strongly favor 
+the movement of Na+ to the inside of the cell.  
+ 
+ For K+, both concentration gradient and to a lesser extent the Nernst 
+potential favor the movement of K+ out of the cells. 
+ 
+ Since the membrane is permeable to Na+ and K+ (leak ion channels), these 
+electrochemical gradients should drive Na+ inside and K+ outside and bring the 
+ions into equilibrium. But this does not happen in living cells! WHY? 
+ 
+ This suggests the existence of an active process that counters the diffusion of 
+Na+ and K+ and maintains this disequilibrium (and hence maintain the resting 
+membrane potential).  
+ 
+ The active process is the Na+-K+ pump (Na,K ATPase) which continuously 
+pumps Na+ to the outside and K+ to the inside to counter any diffusion of Na+ 
+or K+ through leak ion channels. 
+ 
+ Ion pumps: Require energy (ATP) to pump ions across cell membrane against a 
+concentration gradient (generate a potential).
+
+===== PAGE 6 =====
+BIEN 6931  Page 60/10 
+  4/2/18 
+ Na+-K+ pump (Na, K ATPase): 
+- Continuously pumps Na+ to the outside and K+ to the inside 
+ 
+- Pumps more positive ions to the outside than to the inside (3 Na+ to the 
+outside, 2 K+ to the inside) leaving a net deficit of positive ions on the 
+inside (the same as generating a negative charge on the inside) 
+ 
+- Electrogenic pump (generate an electric potential) 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Guyton Textbook (Figure 4-11) WB Saunders Company
+
+===== PAGE 7 =====
+BIEN 6931  Page 70/10 
+  4/2/18 
+ 
+ 
+ 
+  
+  
+  
+  
+  
+  
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Reilly JP The John Hopkins APL Technical Digest 9(1): 44, 1988
+
+===== PAGE 8 =====
+BIEN 6931  Page 80/10 
+  4/2/18 
+ Voltage-gated ion channels: 
+ Na+ and K+ leak channels along with the Na+-K+ pump are not sufficient to 
+generate an action potential. 
+ 
+ In order to understand the underlying mechanisms of action potential, we need to 
+talk about voltage-gated Na+ and K+ ion channels. 
+ 
+ If an ion channel can switch between open and closed states in response to 
+changes in membrane potential, it is said to be voltage-sensitive or voltage-
+gated ion channels. Voltage-gated ion channels are closed at resting membrane 
+potential. 
+ 
+ A membrane containing voltage-gated ion channels and/or ion pumps is said to 
+be an excitable membrane (e.g., neurons and muscle cells).
+
+===== PAGE 9 =====
+BIEN 6931  Page 90/10 
+  4/2/18 
+ Na+ voltage-gated ion channel: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+- Has two gates (one on the outside referred to as the activation gate (“m-
+gate”) and one on the inside referred to as the inactivation gate “h-gate”) 
+ 
+- Resting membrane potential: the activation gate is closed, the inactivation 
+gate is open  
+ 
+- Activation: Partial depolarization that reaches a threshold voltage  (30 to –
+20 mV) causes the activation gate to open. As a result, Na+ pours inward 
+through the channel. 
+ 
+- Inactivation: The partial depolarization that opened the activation gate also 
+closes the inactivation gate. However, the closure of the inactivation gate is 
+a slower process which occurs a few 10,000th second after the opening of the 
+activation gate. This stops the flow of Na+ inward. 
+ 
+- The inactivation gate will not reopen until the membrane potential is back 
+near the resting conditions (mainly by active processes, Na+-K+ pump).  
+ 
+ 
+Inside 
+Guyton Textbook (Figure 5-7) WB Saunders Company
+
+===== PAGE 10 =====
+BIEN 6931  Page 100/10 
+  4/2/18 
+ K+ voltage-gated ion channel: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+- Has one gate (activation gate (“n-gate”) on the inside. 
+ 
+- Resting membrane potential: the activation gate is closed. 
+ 
+- Slow activation: Partial depolarization that reaches a threshold voltage causes 
+the activation gate to undergo slow conformational change leading to the 
+opening of the gate. As a result, K+ pours outward through the channel. 
+ 
+- The opening of the K+ channel coincides with the closing of the inactivation 
+gate of the Na+ channel. This speeds up the repolarization process and the 
+membrane potential returns to resting conditions. 
+ 
+- The K+ channel stays open until the membrane potential is back to resting 
+conditions. 
+ 
+ 
+ 
+ 
+Guyton Textbook (Figure 5-7) WB Saunders Company

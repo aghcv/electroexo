@@ -1,0 +1,633 @@
+
+===== PAGE 1 =====
+BIEN 4710/5710  page 1 
+  1/22/2018 
+Numerical Methods for Solving ODEs of the Initial Value Type 
+ 
+ 
+ Most of the differential equations that we have encountered so far have 
+been simple enough (linear) to obtain an analytical or exact solution 
+(direct integration, Laplace transform, eigenvalue-eigenvector 
+method (lsim, dsolve, etc.)).  
+ 
+ For system of ODEs when obtaining an exact solution is difficult or 
+impossible (e.g., most nonlinear ODEs, second order or higher linear 
+ODE with variable coefficient), numerical methods are needed to 
+approximate the solution.
+
+===== PAGE 2 =====
+BIEN 4710/5710  page 2 
+  1/22/2018 
+C(t)
+Time (t)
+t0 t1 t2 t3 t4 t5 tn1 tn
+……………….
+C0
+C0
+^ C1
+^
+C1
+C2
+C2
+^
+C3
+C3
+^
+C4
+C5 Cn1
+Cn
+C4
+^
+C5
+^
+Cn
+^Cn1
+^
+Exact solution
+h
+C(t)
+Time (t)
+t0 t1 t2 t3 t4 t5 tn1 tn
+……………….
+C0
+C0
+^C0
+^ C1
+^
+C1
+C2
+C2
+^
+C3
+C3
+^
+C4
+C5 Cn1
+Cn
+C4
+^
+C5
+^C5
+^
+Cn
+^Cn
+^Cn1
+^Cn1
+^
+Exact solution
+h
+ 
+ Consider the following non-linear ODE  
+dC
+dt = f(t, C) ; C(t = t0) = C0
+ 
+ 
+o Let C(t) be the unknown exact solution of the above ODE. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+o A numerical method for solving the above ODE is a procedure by which we can 
+approximate the unknown exact solution of 
+dC
+dt = f(t, C)  at t0< t1 < t2< … < tn.  
+o ti = ti 1  +  h   for i = 0, …, n 
+ 
+o Exact or continuous solution    to   approximate or discrete solution 
+ 
+o In what follows: 
+o Assume a constant step size “h” in the independent variable (e.g., time). 
+ 
+o Ci: Unknown exact solution of C at t  = ti 
+ 
+o Ci : Approximate or numerical solution of C at  t = ti.  ^
+
+===== PAGE 3 =====
+BIEN 4710/5710  page 3 
+  1/22/2018 
+ Numerical methods for solving ODEs can be classified as either one step 
+methods, or multi-step or continuing methods. 
+ 
+o One step methods:  
+ Only the knowledge of C(ti) = Ci is required to determine Ci+1 = C(ti+1), 
+where  ti + 1 = ti + h .  
+ 
+ One step methods include: 
+o Euler method 
+ 
+o Runge-Kutta methods. 
+ 
+o Multi-step methods:  
+ For this class of numerical methods, the knowledge of values of C at 
+more than one previous point is required to determine the next point. 
+ 
+ For example, to determine Ci +1 = C(ti +1), the knowledge of Ci, 
+Ci1 and Ci 2 is required.  
+ 
+ Adams-Moulton method. 
+ 
+ 
+ 
+ 
+ 
+ 
+^ ^ ^ ^ 
+^ ^ 
+^ 
+^ 
+^
+
+===== PAGE 4 =====
+BIEN 4710/5710  page 4 
+  1/22/2018 
+ Euler (tangent line) method:  
+o Simplest numerical method for solving ODEs 
+ 
+dC
+dt = f(t, C) ; C(t = t0) = C0
+ 
+ 
+o Assuming uniform step size = h = ti+1 ti, then the Euler equation is: 
+ 
+Ci+1 = Ci + h f(ti, Ci) 
+ 
+o Only the value of the previous point is needed to estimate the next point.  
+ 
+o Euler method can be derived from the more general Taylor’s method for 
+numerical integration. 
+ 
+ 
+dC
+dt = f(t, C) ; C(t = t0) = C0
+ 
+ 
+C(ti+1) = Ci can be calculated from the Taylor series expansion about the 
+point tn: 
+ 
+C(ti + 1) = Ci + 1 = Ci + h dC
+dt + h2
+2!
+d2C
+dt2 + h3
+3!
+d3C
+dt3 + ...
+ 
+ 
+h = step increment in time 
+ 
+We can derive the Euler equation by terminating the Taylor series after the 
+first two terms: 
+ 
+C(ti + 1)  C(ti + 1) = Ci + h dC
+dt = Ci + h f(ti,Ci)
+ 
+ 
+^ ^ ^ 
+^ ^ ^ ^
+
+===== PAGE 5 =====
+BIEN 4710/5710  page 5 
+  1/22/2018 
+ Example: 
+ 
+dC
+dt = – keC ; C(t = 0) = 0.5 mg/ml and ke = 0.05 min– 1
+  
+Use Euler method to estimate the value of C(t) at t  = 20 min with step 
+size h = 5 min. 
+ 
+t = 5 min     C1 =  C0 + f(t0,C0) h =  C0  + ( ke C0) h = 0.375 mg/ml 
+ 
+t =10 min     C2 =  C1 + f(t1,C1) h =  C1  + ( ke C1) h = 0.281 mg/ml 
+ 
+t =15 min     C3 =  C2 + f(t2,C2) h =  C2  + ( ke C2) h = 0.2109 mg/ml 
+ 
+t =20 min     C4 =  C3 + f(t3,C3) h =  C3  + ( ke C3) h = 0.1582 mg/ml 
+ 
+Exact solution at t = 20 min = 0.1844 mg/ml 
+   
+Error = 0.1582 – 0.1844 
+ 
+For the Euler method, the error is of order h, which means that we can 
+reduce the error by 1/ by reducing h by 1/. 
+^ ^ 
+^ ^ ^ ^ 
+^ ^ ^ ^ ^ 
+^ ^ ^ ^ ^ 
+Step size, h (min)
+0.0 0.2 0.4 0.6 0.8 1.0
+% ERROR
+0.00
+0.25
+0.50
+0.75
+1.00
+1.25
+Effect of changing h on % error (Euler method)
+Bourne, DWA (Mathematical modeling of Pharmacokinetic Data)
+
+===== PAGE 6 =====
+BIEN 4710/5710  page 6 
+  1/22/2018 
+What are the sources of error in the approximate solution and how can we 
+control this error? 
+ 
+ Two main sources of error: 
+1. Formula (aka accumulated or truncation) error: For the Euler 
+method, after n steps 
+ 
+En = formula error = Cn  Cn 
+ 
+Two factors contribute to En: 
+ 
+a. At each time step, an approximate formula (Euler formula) is 
+used to estimate Cn by Cn. 
+ 
+b. At each step (except for the first step), the input data (point 
+and slope) used in the Euler formula are also approximations 
+of the actual input data. 
+ 
+2. Round-off error: Due to lack of computational accuracy.  
+ 
+a. This error depends on the type of computer used and on the 
+method of rounding off used (single versus double precision). 
+ 
+b. For MATLAB, double precision is the default rounding off 
+method. 
+ 
+c. This type of error is cumulative.  
+ 
+ 
+ 
+^ 
+^
+
+===== PAGE 7 =====
+BIEN 4710/5710  page 7 
+  1/22/2018 
+ Runge-Kutta methods: 
+ 
+ Carl Runge and Wilhelm Kutta were able to develop formulas that are 
+equivalent in accuracy to higher order Taylor series: 
+ 
+o Do not involve higher order derivatives  
+ 
+o Are known as the Runge-Kutta methods 
+ 
+dC
+dt = f(t, C) ; C(t = t0) = C0
+ 
+ 
+ For a given time interval ti  t  ti+1, the Runge-Kutta methods involve using 
+weighted average of values of slopes taken at different points within the 
+interval (ti, ti + h).
+
+===== PAGE 8 =====
+BIEN 4710/5710  page 8 
+  1/22/2018 
+ The most widely used Runge-Kutta method is the fourth order method which 
+is equivalent in accuracy to a five term Taylor series: 
+ 
+dC
+dt = f(t, C) ; C(t = t0) = C0
+ 
+ 
+The value of C at t = ti + 1 = ti + h is calculated from C at t = ti using the 
+following equation: 
+ 
+C(ti + 1)  C(ti + 1) = Ci + 1
+6 k i1 + 2k i2 + 2k i3 + k i4
+ 
+where  
+    
+ki1 = h f(ti, Ci)   
+    
+k i2 = h f ti + h
+2, Ci + k i1
+2  
+k i3 = h f ti + h
+2, Ci + k i2
+2
+  
+k i4 = h f ti + h, Ci + k i3
+ 
+ 
+The sum 
+1
+6 k i1 + 2k i2 + 2k i3 + k i4  can be interpreted as a weighted average 
+slope of the solution over the interval ti  t  ti+1. 
+ 
+ 
+ For a given step size h in time: 
+o The formula error of the fourth order Runge-Kutta method is of order h4.  
+ 
+o Reducing h by 1/reduced the error by 1/4 (instead of 1/ for the Euler 
+method). 
+^ ^ 
+^ 
+^ 
+^ 
+^
+
+===== PAGE 9 =====
+BIEN 4710/5710  page 9 
+  1/22/2018 
+  Example: 
+ 
+dC
+dt = – keC ; C(t = 0) = 0.5 mg/ml and ke = 0.05 min– 1
+  
+Use 4th order Runge-Kutta method to estimate the value of C at t  = 5 min with 
+step size h = 5 min. 
+ 
+t = 5 min      
+ 
+k11 =  f(t0,C0) h = ( k e C0) h = 0.125  
+ 
+k 12 = h f t0 + h
+2, C0 + k 11
+2
+= 
+– h ke C0 + k11
+2   
+ 
+k 13 = h f t0 + h
+2, C0 + k 12
+2
+= 
+– h ke C0 + k12
+2  
+ 
+k14 = h f t0 + h, C0 + k13
+=   
+ 
+C(t = 5) = C0 + 1
+6 k 11 + 2k 12 + 2k 13 + k 14
+ =  0.38938 mg/ml 
+ 
+Exact  = 0.3894 mg/ml     
+ 
+For the same step size, the solution using the Euler method = 0.375 mg/ml 
+^
+
+===== PAGE 10 =====
+BIEN 4710/5710  page 10 
+  1/22/2018 
+  One step numerical methods for solving a system of first order ODEs: 
+ Both Euler and Runge-Kutta methods are applicable for a system of ODEs 
+(multi-compartmental model). 
+ 
+ To solve a system of N first order ODEs using one step methods, we need N 
+independent initial conditions for the N state variables.  
+ 
+ Again, all equations must be solved simultaneously.
+
+===== PAGE 11 =====
+BIEN 4710/5710  page 11 
+  1/22/2018 
+ Convergence of a numerical method:  
+Means that any desired degree of accuracy can be achieved for any problem by 
+picking a small enough step size h. 
+Limit
+h  0
+t = ti.
+Ci = Ci
+         ,    t = ti 
+ 
+ Numerical (vs. inherent) Stability:  
+o Concerned with the effect of perturbations (formula or round-off error) 
+on the numerical method.  
+ 
+o A given method is said to be stable if the error introduced at each 
+step decays with time. 
+ 
+ For a given h, a numerical method is said to be stable if the 
+change due to perturbations (formula error) of size n in Cn is no 
+larger than m in all subsequent values of Cm, m > n. 
+ 
+ Convergence requires numerical stability, but stability does not require 
+convergence. 
+^ 
+^ 
+^
+
+===== PAGE 12 =====
+BIEN 4710/5710  page 12 
+  1/22/2018 
+ Consider the following initial value problem: 
+dC(t)
+dt = – k C(t) ; C(t0) = C0
+    (1) 
+        Let  C = C +        (2)   
+      where  is the error and is a function of time 
+ Substitute (2) in (1): 
+    
+d C – 
+dt = – k C –   
+ 
+Since   
+dC(t)
+dt = – k C(t)     
+then      
+d
+dt = – k      (3) 
+Knowing n, estimate n+1 from equation (3) using the Euler method: 
+ 
+ n + 1 =  n + h – k  n =  n 1 – h k
+  
+ 
+n + 1
+n
+= 1 – h k
+ 
+General requirement for stability is that n is less than m in all m > n: 
+  
+n + 1
+n
+ 1
+       or   1 hk  < 1  and   0 < hk < 2  
+ 
+Thus, the numerical solution of   
+dC(t)
+dt = – k C(t) ; C(t0) = C0
+  
+is stable if h < 2/k, where k is a rate constant.  
+ 
+Thus, for the Euler method, the step size is limited by numerical stability 
+requirement.  
+^ 
+^ 
+^ 
+^ 
+^ 
+^ ^ ^ ^ 
+^ 
+^ 
+^ 
+^ 
+^ ^ 
+^ ^
+
+===== PAGE 13 =====
+BIEN 4710/5710  page 13 
+  1/22/2018 
+Note: For 4th order Runge-Kutta, solution of the above equation is stable if  
+h < 2.8/k. 
+ 
+ For ODE systems with multiple eigenvalues: the maximum eigenvalue 
+(kmax) provides an upper bound on h to ensure stability (h < 2/ kmax for the 
+Euler method and h < 2.8/kmax for the 4th order Runge-Kutta method).
+
+===== PAGE 14 =====
+BIEN 4710/5710  page 14 
+  1/22/2018 
+ Well-posed problem:  
+ Means that small changes in the stated problem will only lead to small 
+changes in the answers. 
+ 
+ The problem for which a numerical solution is desired is useful to be 
+well-posed since numerical approximations introduce perturbations 
+(formula or round-off error). 
+ 
+ 
+ Stiff differential equations: 
+ Stiffness occurs when greatly different rate constants (eigenvalues) 
+exist in the same set of differential equations.  
+o The fast rate constant controls the stability of the solution and 
+hence the size of h (when using one step methods), 
+ 
+o although most of the solution is determined by the reactions with 
+slow rate constants.  
+ 
+ For stiff equations, use Adam’s Moulton or Gear’s method instead of 
+one-step methods. 
+Time (sec)
+0.000 0.025 0.050 0.075
+Col 4 v Col 5 
+Col 4 v Col 6 
+Time (sec)
+0 2 4 6
+Y1 , Y2
+0.0
+0.5
+1.0
+1.5
+2.0
+Solution of two Stiff Ordinary Differential Equations
+
+===== PAGE 15 =====
+BIEN 4710/5710  page 15 
+  1/22/2018 
+MATLAB (ode45) 
+- Several functions in MATLAB that may be used for numerical integration of 
+ODEs of the initial value type (see Table 7.2 in text).   
+ 
+- The function (or solver) that we will use is ode45, which uses the 4th order 
+Runge-Kutta method. 
+ 
+dy/dt = f(t,y)     subject to y(0) = y0 
+Syntax: 
+ [T,Y] = ode45(@name_func, tspan, y0, options, p1, p2,…) 
+ 
+where, 
+ 
+o name_func: Name of the m-file function (name_func.m) containing the function 
+name_func that evaluates the right hand side of the ODEs. This function must 
+return a column vector corresponding to f(t,y) of the ODEs. 
+ 
+Note: “name_func.m” should be in the same workspace as the “main” function 
+ 
+o tspan: A vector specifying the interval of integration of the ODEs. To 
+obtain solution at equally spaced intervals,  
+    tspan = [t0:dt:tf] 
+where dt is the user’s choice of spacing between points where the output 
+will be given. 
+ 
+Note: dt is different from the step size that is used to solve the ODE, which 
+is set internally by the Matlab function
+
+===== PAGE 16 =====
+BIEN 4710/5710  page 16 
+  1/22/2018 
+o y0 = The vector containing the initial conditions of the ODEs 
+ 
+o options: Optional integration argument created using the odeset function. 
+ 
+options = odeset('RelTol', 1e4,'AbsTol', [1e4 1e4 1e5]); 
+ 
+RelTol: relative error tolerance in each integration step 
+AbsTol: absolute error tolerance  
+ 
+o p1, p2, …: Optional parameters that the solver (ode45) passes to 
+name_func and all the functions specified in options. 
+ 
+o [T,Y]: the solver returns the values of the independent (T) and dependent 
+(Y) variables in the arrays T and Y, respectively.  
+ 
+ Each row in array Y (# of columns = number of ODE’s or state 
+variables) corresponds to the solution of the ODE’s at a time returned 
+in the corresponding row in the column vector T.
+
+===== PAGE 17 =====
+BIEN 4710/5710  page 17 
+  1/22/2018 
+Example:  
+1
+1 2 3
+dy k y ydt 
+  y1(t = 0) = 0 
+2
+213
+dy k y ydt 
+`  y2(t = 0) = 1 
+3
+120.51( )dy yydt 
+ y3(t = 0) = 1 
+ 
+Main program 
+k1 = 2; 
+k2 = 3; 
+[T,Y] = ode45(@sys_ode, [0:0.5:12], [0 1 1], [], k1, k2); 
+plot(T, Y(:,1), '-', T, Y(:, 2), '-.', T, Y(:,3), '.'); 
+Function file (same name as function name) sys_ode.m (same work space as 
+the main program) 
+ 
+function dy = sys_ode(t, y, k1, k2) 
+dy = zeros(3,1); 
+dy(1) = k1*y(2) * y(3); 
+dy(2) =   k2*y(1) * y(3); 
+dy(3) =  0.51 * y(1) * y(2);
+
+===== PAGE 18 =====
+BIEN 4710/5710  page 18 
+  1/22/2018 
+sys_ode can call another function that can be used to evaluate various coefficients. 
+ 
+function dy = sys_ode(t, y,k1,k2) 
+dy = zeros(3,1); 
+v = y(1); w = y(2); z = y(3); 
+[f1,f2,f3] = rate(v,w,z,t); 
+dy(1) = f1*y(2) * y(3); 
+dy(2) =  f2*y(1) * y(3); 
+dy(3) =  0.51 *f3* y(1) * y(2); 
+ 
+ 
+file name  is rate.m 
+function [f1,f2,f3] = rate(v,w,z,t) 
+f1 = v*w; 
+f2 = v*t + z ; 
+f3 = f1 + f2;

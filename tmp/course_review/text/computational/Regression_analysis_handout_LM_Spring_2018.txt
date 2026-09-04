@@ -1,0 +1,283 @@
+
+===== PAGE 1 =====
+BIEN 6931   Page 1 
+  3/26/2018 
+Nonlinear regression 
+o Every nonlinear regression method follows the following general steps: 
+1. Start with an initial value for each 
+model parameter. 
+2. Generate the model solution for 
+these parameter values. 
+3. Calculate the sum-of-squares 
+difference (SSD) between data 
+and model solution 
+4. Adjust the parameters to make the model solution come closer to the data 
+points.  
+5. Repeat steps (2-4) until parameter adjustments make virtually no difference in 
+the sum-of-squares based on some criterion.  
+6. Stop. The final values are the least squares estimates (best fist values) of the 
+model parameters 
+ 
+o Step 4 is the most difficult step.   
+o There are several algorithms for adjusting model parameters (step 4).  
+▪ One such iterative method that is widely used and is the basis for many 
+other methods is the Gauss-Newton method. 
+▪ Other methods include: 
+- Method of steepest descent 
+- Simplex method 
+- Levenberg-Marquardt method (hybrid of the steepest descent 
+and Gauss-Newton)
+
+===== PAGE 2 =====
+BIEN 6931   Page 2 
+  3/26/2018 
+ 
+▪ Each method has its advantages and disadvantages (see handout, 
+Motulsky et al. page 367). 
+➢ Gauss-Newton method: 
+ The general approach is to linearize the expectation surface () to iteratively 
+improve on an initial guess  for  until a certain criterion is satisfied. 
+a. For an initial guess  for , linearize () around  
+b. Perform linear regression and find the linear least square estimate , 
+where is closer to  than  (i.e. SSD| =   < SSD|  =  
+c. Linearize () around 1 and perform another linear 
+regression to find 2 (i.e. SSD| =   < SSD|  =  
+d. This iterative process is repeated until you reach some value k for  
+after k iterations, which based on a certain convergence criterion is a 
+good estimate of . 
+▪ So nonlinear regression is an iterative process of linear regressions 
+^ 
+^ 
+^ 
+^
+
+===== PAGE 3 =====
+BIEN 6931   Page 3 
+  3/26/2018 
+Convergence and local minima: 
+▪ For linear regression (linear models), there is one unique minimum.  
+▪ For Nonlinear regression, depending on the model, there may be 
+several local minima. 
+o The smallest is called global minimum (best fit).  
+o Thus, sometimes the estimated parameter values to which nonlinear 
+regression converges to from a given initial values are not the same as 
+those for the best possible fit in the least square sense. 
+ 
+▪ To determine whether your nonlinear regression program converged to the 
+values corresponding to the global minimum: 
+1. Choose reasonable initial values for the parameters. 
+2. Make sure that the estimated values make sense scientifically. 
+3. Repeat nonlinear regression several times using different initial values for 
+the model parameters. 
+Motulsky et al. 
+✓
+
+===== PAGE 4 =====
+BIEN 6931   Page 4 
+  3/26/2018 
+ 
+✓ Matlab optimization function: lsqcurvefit 
+o Implements the Levenberg-Marquardt method 
+o General function form: 
+[x, resnorm, residuals, exitflag, output, lambda, jacobian] = 
+lsqcurvefit(@my_model, x0, xdata, ydata, lb, ub, options, P1, P2, …) 
+where, 
+x = vector with the least square values of the model parameters 
+resnorm = Sum of squares difference between data and best fit 
+residuals = model fit – data 
+exitflag = integer identifying the reason the algorithm terminated. “1” 
+indicates that the function converged to a solution x 
+output =  structure containing information about the optimization, 
+including the # of iterations taken to converge to a solution for x. 
+lambda: The Lagrange multipliers at the solution x. lambda is a structure 
+where each field is for a different constraint type. 
+jacobian: The value of the Jacobian of fun at the solution x.  
+ 
+my_model.m = a function that defines the model to be fitted to the data 
+x0 = initial values of the model parameters 
+xdata =  vector of the predictor (independent) variable 
+ydata = vector of response (dependent) variable 
+lb = lower bounds on model parameters (x) 
+ub = upper bounds on model parameters  
+options = allows user to specify optimization method, maximum number 
+iterations, termination criteria, etc. Use the function optimset to 
+control these parameters  
+P1, P2,… = constants that can be passed directly to the function my_model
+
+===== PAGE 5 =====
+BIEN 6931   Page 5 
+  3/26/2018 
+✓ Examples: Michaelis-Menten model 
+o Model:      
+yi= xi
++xi ;  parameters 1 and 2 
+SSD = yi –  xi
+ + xi
+2
+
+i = 1
+N
+ 
+SSD
+ 
+= 2 yi –  xi
+ + xi
+– xi
+ + xi
+
+i = 1
+N
+ 
+SSD
+
+= – 2 yi –  xi
+ + xi
+ xi
+ + xi
+2
+i = 1
+N
+ 
+ 
+Least square estimates of 1 and 2 are 1 and 2, respectively, must satisfy: 
+yi –  xi
+ + xi
+– xi
+ + xi
+= 0
+i = 1
+N
+   and
+yi –  xi
+ + xi
+ xi
+ + xi
+2 = 0
+i = 1
+N  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+^ 
+^ ^ 
+^ ^ 
+^ ^ 
+^ ^
+
+===== PAGE 6 =====
+BIEN 6931   Page 6 
+  3/26/2018 
+%nonlinear_reg_matlab_example.m  
+% fit the Michaelis-Menten rate equation to the following rate vs. 
+substrate concentration data 
+ 
+% Substrate concentrations in Molar 
+xdata = [1 2 3 4 5 6 7 8 9 10]; 
+ 
+% Reaction rates in microMolar/min 
+ydata = [0.219 0.343 0.4121 0.47 0.49 0.525 0.512 0.535 0.525 0.54]; 
+plot(xdata,ydata); 
+  
+x0 = [1.0, 2.4];   % Initial guess for Vmax and Km 
+[x,resnorm, residual, exitflag, output, lambda, jacobian] = 
+lsqcurvefit(@myfun,x0,xdata,ydata) 
+  
+% Smooth version of the best model fit 
+tdata = [0:0.5:10]; 
+fit = zeros(length(tdata),1); % smooth fit 
+  
+fit = x(1)*tdata./(x(2) + tdata); 
+  
+subplot(2,1,1); 
+plot(xdata,ydata,'s:r', tdata,fit); 
+title('Data and nonlinear regression fit'); 
+xlabel('Substrate concentration (M)') 
+ylabel('Rate (micorMolar/min)');  
+ 
+ 
+ 
+subplot(2,1,2); 
+plot(xdata, residaul, 'v:'); 
+title('Residuals'); 
+xlabel('Substrate concentration (M)') 
+ylabel('Residuals (micorMolar/min)');  
+ 
+%correlation matrix 
+NP = length(x0); 
+h = inv(jacobian'*jacobian); 
+for i = 1:NP; 
+ for j = 1:NP; 
+ cc(i,j) = h(i,j)/((h(i,i)*h(j,j))^0.5); 
+ end 
+end 
+cc 
+ 
+%confidence intervals (95% confidence, alpha = 0.05) 
+s_2 = resnorm/(length(x_data(:,1)) - NP); 
+for i = 1:NP; 
+ seb(i) = ((s_2)^0.5)*(h(i,i)^0.5);
+
+===== PAGE 7 =====
+BIEN 6931   Page 7 
+  3/26/2018 
+end 
+ 
+alpha = 0.05; 
+tt_dis = - tinv(alpha/2, length(x_data(:,1)) - length(x0));  
+% tinv is the Student's t inverse cumulative 
+ 
+seb = seb.*tt_dis; 
+seb 
+  
+ 
+%myfun.m 
+ 
+function F = myfun(x,xdata) 
+F = x(1)*xdata./(x(2) + xdata);
+
+===== PAGE 8 =====
+BIEN 6931   Page 8 
+  3/26/2018 
+Plasma Nicotine Levels
+Time (min)
+0 15 30 45 60 75
+Nicotine concentration (ng/ml)
+0
+4
+8
+12
+16
+One cigarette (0.8 mg of nicotine) 
+One nicotine chewing gum (4 mg of nicotine) 
+ 
+ 
+Example 1 (HW # 4): 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+✓

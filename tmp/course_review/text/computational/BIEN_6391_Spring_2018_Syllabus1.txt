@@ -1,0 +1,151 @@
+
+===== PAGE 1 =====
+Page 1 
+BIEN 6391: Modeling and Simulations of Integrated Cellular Systems 
+Spring 2018 
+Co-Instructors:  Ranjan Dash, Ph.D. 
+Associate Professor of Biomedical Engineering and Physiology 
+Medical College of Wisconsin and Marquette University 
+Room: TBRC 2910 (MCW) 
+Phone: 414-955-4497 (MCW) 
+Email: rdash@mcw.edu  
+ 
+Said Audi, Ph.D. 
+Professor of Biomedical Engineering 
+Marquette University and Medical College of Wisconsin  
+Room: Cramer Hall 160 (MU) 
+Phone: 414-288-3506 (MU) 
+Email: Said.Audi@marquette.edu
+  
+Credits: 3 credits 
+Lectures: MW 5:00-6:15 pm; TBRC 2195 (MCW) 
+Office hours: WF 2.00-3.30 pm (MCW for Dr. Dash and MU for Dr. Audi), or by appointment 
+ 
+Prerequisites:  
+• Calculus; Matrix algebra; Ordinary differential equations (ODEs); Numerical methods 
+• Introductory Biology, Biochemistry, or Physiology 
+• Computer programming (MatLab) 
+ 
+Textbooks (recommended): 
+• Quantitative Analysis of Cellular Systems. DA Beard and H Qian. Cambridge University Press, 
+2008 (Cambridge Texts in Biomedical Engineering). 
+• Simulation of Living Systems. DA Beard. Cambridge University Press 2012 (Cambridge Texts 
+in Biomedical Engineering). 
+• Dynamic Systems Biology Modeling and Simulation. J DiStefano III. Academic Press, 2014 
+Elsevier Inc. 
+ 
+Course description:  
+Quantitative and mechanistic understanding of the behavior of integrated cellular systems is an 
+important aspect of nearly every area of research in biology and biomedical sciences. Cellular 
+biochemical/metabolic networks, signaling networks, protein-protein interaction networks, and gene 
+regulatory networks represent different examples of integrated cellular systems that obey a common 
+set of physicochemical laws, which can be modeled, simulated and analyzed based on a common set 
+of principles derived from such laws. This course will focus on the use of kinetic and thermodynamic 
+principles for modeling and analysis of integrated cellular systems. Examples of systems at different 
+levels of biological organization will be covered, starting with the physiology and biochemistry of the 
+system, use of basic physiochemical laws to derive the governing differential equations, and use of 
+numerical methods to simulate the system behavior under physiological and pathophysiological 
+conditions using computer programming (MatLab).
+
+===== PAGE 2 =====
+1/11/2018 
+ Page 2 
+Tentative Course Outline: This 16-week course will be organized into the following eight modules: 
+1. Introduction to Simulation of Biological Systems. Review of basic mathematical concepts from 
+calculus, matrix algebra, ordinary differential equations (ODEs), and numerical methods; Numerical 
+methods would cover solutions of linear and nonlinear algebraic equations, ODEs, and regression 
+analysis and parameter estimation; Introduction to basic modeling approaches; Mechanistic versus 
+phenomenological modeling. (Weeks 1 and 2) 
+2. Transport of Solutes in Biological Systems. Well-mixed systems and compartmental modeling; 
+Reaction-diffusion systems and spatially-distributed modeling; Example of oxygen transport and 
+metabolism in blood-tissue exchange systems. (Weeks 3 and 4) 
+3. Physiologically-Based Pharmacokinetic Modeling. Tracer kinetic modeling in physiological 
+systems; Pharmacokinetic modeling; Pharmacodynamic modeling; Applications in drug delivery, 
+transport and metabolism. (Weeks 5 and 6) 
+4. Biochemical Reaction Systems: Basic Ideas. Cellular biochemical reaction kinetics and 
+thermodynamics; Catalytic mechanisms of enzymes and transporters; Emergent behaviors in small 
+biochemical reaction systems. (Weeks 7 and 8) 
+5. Biochemical Reaction Systems: Large-Scale System Simulations. Biochemical reaction 
+systems in living cells; Approaches to modeling and simulating large-scale biochemical reaction 
+systems; Examples of mitochondrial bioenergetic system. (Weeks 9 and 10) 
+6. Cellular Growth and Proliferation: Biology of cell cycle regulation; Cell cycle dysregulation in 
+disease; Modeling protein-protein interaction networks and simulations of mitotic cell cycle 
+(dys)regulations in health and disease. (Weeks 11 and 12) 
+The biology aspect of this module (2 lectures) will be taught by a Guest Lecturer: 
+Scott Terhune, PhD 
+Associate Professor of Microbiology and Immunology  
+Medical College of Wisconsin  
+7. Cellular Electrophysiology. Basis concepts of electrophysiology; Thermodynamics of charged 
+species transport; The Hodgkin-Huxley model; Mechanistic models of channel and transporter 
+kinetics; Cardiac electrophysiology. (Weeks 13 and 14) 
+8. Final Project. In the final two weeks students will be asked to develop and independent project, 
+focused on computer simulation of a real-world example, possibly drawn from their own research. 
+Students will be asked to present a short project proposal in Week 15, and a progress report in Week 
+16. A short (5-10 pages) report will be due by the end of the semester. (Weeks 15 and 16) 
+ 
+Assessment: 
+• Homework (5-6 HW): 45% 
+o Must be typed 
+o Include a title page with your 
+name, HW #, and due date 
+o Penalty for unexcused late homework is 10% (of total number of points)/day penalty (for up 
+to three days). A homework that is late for more than three days WILL NOT be accepted 
+and will receive a grade of ZERO.  
+• Midterm Exam:  15%   (Monday, March 5, 2018) 
+• Final exam: 15%  (Wednesday, May 9, 5:45 pm-7:45 pm) 
+• Final project/presentation: 20% (due last week of classes) 
+• Class attendance (REQUIRED) and participation: 5% 
+  
+A >93 B- 82.1 - 85 D+ 65.1 - 69 
+A- 90.1 - 93 C+ 78.1 - 82 D 60.1 - 65 
+B+ 87.1 - 90 C 74.1 - 78 F < 60 
+B 85.1 - 87 C- 69.1 - 74
+
+===== PAGE 3 =====
+1/11/2018 
+ Page 3 
+  
+All excuses for a missed exam MUST be proffered in advance of the exam. Students that miss 
+an exam due to legal obligations or university-sanctioned activities and related travel will be 
+given the opportunity to make up the exam on a day and time agreed upon by instructor and 
+student. 
+ 
+Attendance: 
+ Required for both lectures (see college attendance policy) 
+(http://www.marquette.edu/engineering/pages/AllYouNeed/Policies/attendance.html) 
+ 
+ Students expecting to miss class as a result of legal obligations, or university-sanctioned 
+activities and related travel should notify the instructor prior to the day of the class 
+meeting.  
+ 
+ Students may be withdrawn from or failed the course for excessive lecture absences. 
+Students that have accrued five (5) or more class absences will be withdrawn from the 
+course. 
+ 
+ Please set your cell phones to silent mode and refrain from non-course 
+related activities (internet browsing, texting, facebooking, tweeting, 
+instagramming, snap chatting, etc.) during lecture.  
+ 
+Academic dishonesty: 
+ You are expected to honor Marquette University’s academic integrity code  
+http://bulletin.marquette.edu/undergrad/academicregulations/ and  
+http://www.marquette.edu/provost/integrity-index.php 
+ 
+ Academic dishonesty includes, but is not limited to copying any part of computer programs 
+and/or reports from another student or from previous semesters. 
+ 
+ Any person(s) found engaged in academic dishonesty (e.g., cheating, plagiarism, 
+academic fraud, etc.) will be reported to the University Academic Integrity Council and 
+will be punished according to the policies set forth by Marquette University. 
+ 
+The Honor Pledge: 
+  
+ I recognize the importance of personal integrity in all aspects of life and work.  
+ 
+ I commit myself to truthfulness, honor, and responsibility, by which I earn the respect of others. 
+ 
+ I support the development of good character, and commit myself to uphold the highest 
+standards of academic integrity as an important aspect of personal integrity. 
+ 
+ My commitment obliges me to conduct myself according to the Marquette University Honor 
+Code.

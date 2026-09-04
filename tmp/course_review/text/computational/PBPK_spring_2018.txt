@@ -1,0 +1,509 @@
+
+===== PAGE 1 =====
+BIEN 6931  Page 1 
+  2/18/2018 
+Physiologically Based Pharmacokinetic Models (PBPK) 
+ 
+ Physiologically based models: 
+ For compartment models that we have considered so far: 
+ Fluid streams entering or leaving a given compartment are NOT 
+explicitly expressed.  
+ 
+ A compartment DOES NOT correspond to a specific organ or part of 
+an organ in the body. 
+ 
+ Work well for modeling the body as a whole, since no fluid flows are 
+considered to cross boundaries (e.g., modeling the plasma region as one 
+compartment). 
+ 
+  To model a local region (e.g., uptake by a specific organ), inlet and exit of 
+blood flow (lymph flow is usually neglected) across the compartment 
+boundaries must be explicitly specified.  
+ 
+ This type of compartmental models is referred to physiologically 
+based pharmacokinetic models (PBPK) 
+ 
+ For PBPK models, various organs and tissues are represented by 
+their corresponding volumes and blood flow rates.
+
+===== PAGE 2 =====
+BIEN 6931  Page 2 
+  2/18/2018 
+ 
+ 
+FIG. 1. Whole body PBPK model for FTY720. Subscripts are: A, arterial blood; V, 
+venous blood; b, brain; h, heart; li, liver; sp, spleen; lu, lungs; g, gut-stomachpancreas; 
+kd, kidney; f, fat; sk, skin; m, muscle; th, thymus; ln, lymph nodes; and bn, bone. 
+ 
+Guy M. L. Meno-Tetang et al. DRUG METABOLISM AND DISPOSITION, 34:1480, 2006
+
+===== PAGE 3 =====
+BIEN 6931  Page 3 
+  2/18/2018 
+ 
+ Applications of PBPK include: 
+ Facilitating drug development 
+ Predicting the biodistribution of drugs and their metabolites in the body. 
+ Scaling up the dose and schedule from animal models (rodents) to human being. 
+ Performing risk assessment of environmental chemcials 
+  
+ 
+ 
+ The general approach for PBPK modeling is: 
+ Determine which organs are relevant for a given drug. 
+ Develop mathematical models of drug transport in each organ. 
+ Couple organ models at the systemic level. 
+ Determine all model constants (parameters) based upon data in the literature. 
+ Solve the coupled mathematical equations (ODEs) simultaneously as functions of 
+time. 
+ 
+ 
+ 
+Suggested reading;  
+1. Ball et al. A Physiologically based Modeling Strategy during Preclinical CNS drug 
+development. Molecular Pharmaceutics, 2014. 
+ 
+2. An et al. A physiologically based pharmacokinetic model of mitoxantrone in mice and 
+scale-up to humans: a semi-mechanistic model incorporating DNA and protein binding. 
+The AAPS Journal 14(2): 352, 2012.
+
+===== PAGE 4 =====
+BIEN 6931  Page 4 
+  2/18/2018
+
+===== PAGE 5 =====
+BIEN 6931  Page 5 
+  2/18/2018 
+Nuclear imaging (SPECT, PET) 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+http://www.nibib.nih.gov/science-education/science-topics/nuclear-medicine 
+ 
+ 
+ 
+  
+0 2 
+0 2
+
+===== PAGE 6 =====
+BIEN 6931  Page 6 
+  2/18/2018 
+ 
+ 
+PBPK model for the SPECT biomarker 99mTc-HMPAO
+
+===== PAGE 7 =====
+BIEN 6931  Page 7 
+  2/18/2018 
+  
+ Mass transport between compartments by convection (bulk fluid flow): 
+ So far, we have talked about diffusion (simple and facilitated), active transport, and 
+chemical transformation as mechanisms of mass transport between compartments. 
+ 
+ Another important of mass transport is convection.  
+ 
+Diffusion (optimal for short distances); concentration gradient 
+ 
+Convection (optimal long distances); pressure gradient 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Burness , G.P. Science 296:1245, 2002 
+ 
+ 
+ Convection (or bulk flow): 
+o Is the transport of solute molecules from one part of the body to another by taking 
+on the velocity of the fluid  
+o Requires energy in the form of a pressure gradient.
+
+===== PAGE 8 =====
+BIEN 6931  Page 8 
+  2/18/2018 
+ The convective mass flux = solute concentration x average flow velocity = 
+mass/time/unit area.  
+ Convective mass flow rate = cross-sectional area x convective mass flux  = average 
+flow rate x solute concentration. 
+ 
+ Consider the following blood vessel segment: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Where, 
+  F =  average blood flow (liters/min),  
+A = vessel cross-sectional area (cm2),  
+C0(t) =inlet solute concentration into the blood vessel, and  
+C1(t) = outlet solute concentration.  
+Fluid velocity = Average fluid Velocity = flow/cross-sectional area= F/A 
+ 
+ 
+ Normally, C1 is a function of not only time, but also of x (axial) and r (radial) 
+dimensions. However, for compartmental models, the assumption is that each 
+compartment is well mixed; in other words, axial and radial diffusions are instantaneous.  
+ 
+ Once C0(t) enters into the blood vessel (compartment), it is instantaneously mixed 
+within the compartment resulting in a concentration C1(t) within the compartment. The 
+concentration leaving the compartment is assumed to be the same as that within the 
+compartment.  
+Length L
+Area A
+Flow, F
+C0(t)
+C1(t)
+C1(t)
+F
+Length L
+Area A
+Flow, F
+C0(t)
+C1(t)
+C1(t)
+F
+
+===== PAGE 9 =====
+BIEN 6931  Page 9 
+  2/18/2018 
+C1(t)
+V1
+F (liter/min)
+C0(t)
+F (liter/min)
+C1(t)
+ 
+ 
+ 
+ 
+ 
+ 
+Thus, the mass balance equation is: 
+dq1/dt = V1dC1/dt = convective mass flow rate in – convective mass flow rate out 
+        = FC0  - FC1
+
+===== PAGE 10 =====
+BIEN 6931  Page 10 
+  2/18/2018 
+ 
+Example: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Cb, Cl2, Ck2, Cm2, and Co2 =  drug concentrations in blood, and vascular regions of 
+liver, kidneys, muscles, and other organ tissues, respectively.  
+ Cl1, Ck1, Cm1, and Co1 =  drug concentrations in the tissue regions of liver, kidneys, 
+muscles, and other organ tissues, respectively.  
+ Fs =  flows to the various organs 
+ 
+o Fb = 5000 ml/min ; Fl = 1250 ml/min ; Fk = 1200 ml/min ; Fm = 750 ml/min ;         
+Fo = 1800 ml/min 
+o Fb = Fl + Fk + Fm + Fo
+
+===== PAGE 11 =====
+BIEN 6931  Page 11 
+  2/18/2018 
+ PS1, PS2, PS3, and PS4 =  permeability-surface area products (descriptive of drug 
+diffusion between vascular and tissue regions, Volume/Time) of the liver, kidneys, 
+muscles, and other organs, respectively. 
+ 
+ Vb =  Blood volume 
+ 
+ Vl2, Vk2, Vm2, and Vo2 = volumes of the vascular regions of the liver, kidneys, 
+muscles, and other organs, respectively. 
+ 
+ Vl1, Vk1, Vm1, and Vo1 = volumes of the tissue regions of the liver, kidneys, 
+muscles, and other organs, respectively. 
+ 
+ Governing ODEs descriptive of the rates of changes in the drug 
+concentrations in the various compartments?
+
+===== PAGE 12 =====
+BIEN 6931  Page 12 
+  2/18/2018 
+Example: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+C1(t)
+V1
+F (liter/min)
+C0(t)
+F (liter/min)C1(t)
+C2(t)
+V2
+PS
+ke (1/min)
+C0(t)
+V0
+ 
+Flow, F
+C1(t) C1(t)
+FFlow, F
+C0(t)C0(t)
+C1(t) C1(t)
+F
+PS
+C2(t)C (t)
+C0(t)C0(t)
+Rest of the circulation
+ke
+Flow, F
+C1(t) C1(t)
+FFlow, F
+C0(t)C0(t)C0(t)C0(t)
+C1(t) C1(t)
+F
+PS
+C2(t)C (t)
+C0(t)C0(t)
+Rest of the circulation
+ke
+
+===== PAGE 13 =====
+BIEN 6931  Page 13 
+  2/18/2018 
+Article by Bischoff et al.  1971: 
+ 
+- Methotrexate Pharmacokinetics in mice, rats, and humans 
+o Cancer drug: Inhibits DNA synthesis of tumor cells 
+o Small molecular weight (MW = 545 g/mole) 
+o Tissue uptake is blood flow-limited. Hence, transport across cell walls is much 
+faster than convection of the drug in blood vessels.
+
+===== PAGE 14 =====
+BIEN 6931  Page 14 
+  2/18/2018 
+Example: Rapidly equilibrating compounds 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Cb, Cl, Ck, Cm, and Co are the drug concentrations in blood, liver, kidneys, muscles, and 
+other organ tissues, respectively. The Rs are the respective drug tissue to blood 
+equilibrium or partition coefficients. 
+ 
+ 
+ Fb = 5000 ml/min ; Fl = 1250 ml/min ; Fk = 1200 ml/min ; Fm = 750 ml/min ; Fo = 1800 
+ml/min 
+ 
+ 
+Fb
+Fl
+Fk
+Fm
+Fo
+Blood
+Liver
+Kidneys
+Muscles
+Others
+Cl/Rl
+Cb
+Ck/Rk
+Cm/Rm
+Co/Ro
+Cl
+Ck
+Cm
+Co
+kel
+kek
+
+===== PAGE 15 =====
+BIEN 6931  Page 15 
+  2/18/2018 
+ Mass balance equations: 
+Vb
+dCb
+dt = – Fb Cb + Fl
+Cl
+Rl
++ Fk
+Ck
+Rk
++ Fm
+Cm
+Rm
++ Fo
+Co
+Ro
+   (1) 
+  
+ 
+Vlb
+Rl
++ VlT
+dCl
+dt = Fl Cb – Cl
+Rl
+– k elVlT Cl   
+       
+Vl
+dCl
+dt = Fl Cb – Cl
+Rl
+– CL el Cl         (2) 
+  
+Vkb
+Rk
++ VkT
+dCk
+dt = Fk Cb – Ck
+Rk
+– k ekVkT Ck
+ 
+       
+Vk
+dCk
+dt = Fk Cb – Ck
+Rk
+– CL ek Ck         (3) 
+ 
+Vmb
+Rm
++ VmT
+dCm
+dt = Fm Cb – Cm
+Rm
+ 
+Vm
+dCm
+dt = Fm Cb – Cm
+Rm
+                (4) 
+ 
+Vob
+Ro
++ VoT
+dCo
+dt = Fo Cb – Co
+Ro
+ 
+Vo
+dCo
+dt = Fo Cb – Co
+Ro
+               (5) 
+ 
+Fb = Fl + Fk + Fm + Fo
+ 
+ 
+CLel and CLek are drug liver and kidney clearances (excretion) in units of volumes 
+per unit time.

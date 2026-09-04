@@ -1,0 +1,504 @@
+
+===== PAGE 1 =====
+RESPIRATORY 
+SYSTEM
+LESSON 14
+Ventilation and 
+Perfusion
+
+===== PAGE 2 =====
+Respiratory System
+Nasal Cavity
+Ventilation Perfusion
+Diffusion
+
+===== PAGE 3 =====
+Nasal cavity
+EsophagusLarynx
+Nasopharynx
+Epiglottis
+Nasal conchae
+Pharynx
+
+===== PAGE 4 =====
+Trachea
+Larynx
+Primary bronchi
+Secondary bronchi
+Tertiary bronchi
+Airways
+
+===== PAGE 5 =====
+Respiratory Tree
+Secondary bronchi
+Bronchioles
+Left lung 
+(2 lobes)
+Right lung   
+(3 lobes)
+
+===== PAGE 6 =====
+Respiratory Tree
+
+===== PAGE 7 =====
+Larynx
+
+===== PAGE 8 =====
+Trachea
+Muscle
+Cartilage ring
+Mucosa
+Hyaline Cartilage
+Chondrocytes
+Mucosa
+Goblet cell
+Mucus
+Cilia
+
+===== PAGE 9 =====
+Respiratory Endothelium
+
+===== PAGE 10 =====
+Alveoli
+
+===== PAGE 11 =====
+Bronchioles
+Arteriole
+Venule
+Alveolar sac
+Alveolus
+Capillaries 
+around alveolus
+Alveolus
+
+===== PAGE 12 =====
+Respiratory Membrane
+
+===== PAGE 13 =====
+If atmospheric pressure is set at 0 cm H2O, then:
+Negative Pressure Breathing
+No flow
+Flow inFlow out
+PA = 0 cm H2O
+Ppl = -5 cm H2O
+PA = -1 cm H2O
+Ppl = -7.5 cm H2O
+PA = +1 cm H2O
+Ppl = -5 cm H2O
+
+===== PAGE 14 =====
+A Single Breath
+From the figure:
+• Change in lung volume:
+0.5 L
+• Change in pleural 
+pressure:
+(−5 cm  −7.5 cm H2O)
+2.5 cm H2O 
+• Lung Compliance is 
+V/ P
+500 ml / 2.5 cm H2O 
+or
+200 ml / cm H2O
+the normal adult value. 
+Low compliance means 
+stiff lung tissue, a 
+characteristic of 
+Restrictive Lung 
+Disease.
+
+===== PAGE 15 =====
+Negative Pressure Breathing
+
+===== PAGE 16 =====
+Diaphragm
+Negative Pressure Respirator
+
+===== PAGE 17 =====
+Iron Lung
+
+===== PAGE 18 =====
+2.5 cm H20
+Lung Compliance Curve
+0.8
+500 ml
+2.5 cm H2O
+= 200 ml/cm H2O
+C =
+500 ml
+0.8 cm H2O
+= 625 ml/cm H2O
+C =
+
+===== PAGE 19 =====
+Surfactant
+Alveoli are air-filled but coated with liquid (requirement for 
+living cells). Therefore, there is surface tension.
+Alveoli are coated with a surfactant (dipalmitoyl lecithin) 
+to reduce surface tension.
+From the previous figure:
+• Lung compliance in air-filled lungs is 200 ml/ cm H2O 
+• Lung compliance in saline-filled lungs is about 600 ml/ cm H2O
+• Therefore, about 2/3 of the compliance of an air-filled lung is due to
+surface tension, even with surfactant.
+• And only about 1/3 of the compliance is due to the properties of
+lung elastic tissue.
+
+===== PAGE 20 =====
+Surfactant
+Surface tension is related to pressure and radius by the 
+Law of Laplace: 
+But, assuming not all alveoli are the same radius, if 
+surface tension were constant:
+• Alveoli of small radius would have high pressure
+• Alveoli of large radius would have low pressure
+• Small alveoli would therefore empty in large ones.
+Besides reducing surface tension, surfactant also allows 
+surface tension to change appropriately.
+P =2T
+r
+
+===== PAGE 21 =====
+Surface Tension
+Law of Laplace: P = 2T
+r
+Surfactant
+Compression of surfactant molecules reduces surface 
+tension in small alveoli.
+Alveolus
+
+===== PAGE 22 =====
+Inverted drum
+Mouthpiece
+Water-filled Chamber
+Kymograph
+Graph paper
+Writing stylus
+The Spirometer
+
+===== PAGE 23 =====
+Normal Adult Lung Volumes
+
+===== PAGE 24 =====
+Lungs at FRC volume
+(end of expiration)
+5 liters of
+10% He
+x liters of
+7% He
+5 liters  0.10
+0.07 = 7.14 litersx =
+FRC = 7.14 – 5 liters = 2.14 liters
+Residual Volume
+RV = 2.14 liters – ERV
+
+===== PAGE 25 =====
+Ventilation
+Resting Lung Volumes:
+• Tidal volume = 500 ml/breath
+• Dead space volume = 150 m/breath
+• Alveolar volume = (500 – 150) = 350 ml/breath
+Ventilation = volume  frequency
+If breathing frequency = 12 breaths/min, then
+Minute ventilation = 500 ml/breath  12 breaths/min
+= 6.0 liters/min
+Dead space ventilation = 150 ml/br  12 br/min
+= 1.8 liters/min
+Alveolar ventilation = 350 ml/br  12 br/min
+= 4.2 liters/min
+
+===== PAGE 26 =====
+Obstructive Lung Disease
+Obstructive Impairment: Elevated airway resistance
+Examples:
+• Asthma (airway smooth muscle)
+• Bronchitis (over-production of mucus)
+• Emphysema (loss of elastic recoil)
+Compensation: Increase tidal volume, decrease frequency
+Minute ventilation = 675 ml/breath  8 breaths/min
+= 5.4 liters/min
+Dead space ventilation = 150 ml/br  8 br/min
+= 1.2 liters/min ( by 0.6 liters/min)
+Alveolar ventilation = 525 ml/br  8 br/min
+= 4.2 liters/min (normal value)
+
+===== PAGE 27 =====
+FEV1 = 4 L
+FVC = 5 L
+FEV1/FVC = 4/5 = 80%
+FEV1 = 1 L
+FVC = 3 L
+FEV1/FVC = 1/3 = 33%
+Obstructive Lung Disease
+
+===== PAGE 28 =====
+Restrictive Lung Disease
+Restrictive Impairment: Decreased Lung Compliance
+Examples:
+• Pulmonary fibrosis (elastic tissue)
+• Infant respiratory distress syndrome (surface tension)
+Compensation: Decrease tidal volume, increase frequency
+Minute ventilation = 360 ml/breath  20 breaths/min
+= 7.2 liters/min
+Dead space ventilation = 150 ml/br  20 br/min
+= 3.0 liters/min ( by 1.8 liters/min)
+Alveolar ventilation = 210 ml/br  20 br/min
+= 4.2 liters/min (normal value)
+
+===== PAGE 29 =====
+FEV1 = 4 L
+FVC = 5 L
+FEV1/FVC = 4/5 = 80%
+FEV1 = 2.7 L
+FVC = 3 L
+FEV1/FVC = 2.7/3 = 90%
+Restrictive Lung Disease
+
+===== PAGE 30 =====
+RESPIRATORY 
+SYSTEM
+LESSON 15
+Pulmonary Gas 
+Exchange
+
+===== PAGE 31 =====
+Normal O2 and CO2 Partial Pressures
+760 mmHg
+0.21 Oxygen
+159 mmHg
+O2
+CO2
+Partial Pressure (P):
+
+===== PAGE 32 =====
+Normal Partial Pressures
+
+===== PAGE 33 =====
+Bronchioles
+Arteriole
+Venule
+Alveolar sac
+Alveolus
+Capillaries 
+around alveolus
+Alveolus
+
+===== PAGE 34 =====
+Respiratory Membrane
+
+===== PAGE 35 =====
+D  P  A  S
+d  MW
+D = Diffusion rate P = Pressure
+S = Solubility d = distance
+MW = Molec.wt. A = Area
+Diffusion Formula
+
+===== PAGE 36 =====
+DL= D
+P = D
+PA – Pc
+DL = Diffusing capacity
+D = Diffusion rate
+PA = Alveolar partial pressure
+Pc = Mean capillary partial pressure
+Diffusing Capacity
+
+===== PAGE 37 =====
+Oxygen Diffusing Capacity
+DL= D
+P = D
+PA – Pc
+DL = Diffusing capacity
+D = Diffusion rate
+PA = Alveolar partial pressure
+Pc = Mean capillary partial pressure
+Normal, resting value:
+
+===== PAGE 38 =====
+40
+80
+100
+100
+100
+100
+100
+620/7=88
+Oxygen Diffusing Capacity
+
+===== PAGE 39 =====
+DL = 65-70 ml/min/mmHg
+Oxygen Diffusing Capacity
+
+===== PAGE 40 =====
+Diffusion Impairment
+
+===== PAGE 41 =====
+RESPIRATORY 
+SYSTEM
+LESSON 16
+Transport of Oxygen 
+and Carbon Dioxide
+
+===== PAGE 42 =====
+Gas Transport: Pulmonary Capillaries
+
+===== PAGE 43 =====
+The Oxygen-Hemoglobin Curve
+Dissolved
+Bound to Hb
+
+===== PAGE 44 =====
+Bound to Hemoglobin:
+15 gm Hb/100 ml blood  1.34 ml O2/gm Hb  75% saturation = 15.1 ml O2/100 ml blood
+Dissolved in Plasma:
+40 mmHg  0.003 ml O2/100 ml blood/mmHg = 0.12 ml O2/100 ml blood
+Total = 15.2 ml O2/100 ml blood
+Systemic Arteries
+Bound to Hemoglobin:
+15 gm Hb/100 ml blood  1.34 ml O2/gm Hb  97% saturation = 19.5 ml O2/100 ml blood
+Dissolved in Plasma:
+95 mmHg  0.003 ml O2/100 ml blood/mmHg = 0.28 ml O2/100 ml blood
+Total = 19.8 ml O2/100 ml blood
+Systemic Veins
+Oxygen Content (ml O2 / 100 ml blood)
+
+===== PAGE 45 =====
+Gas Transport: Systemic Capillaries
+Tissue
+
+===== PAGE 46 =====
+RESPIRATORY 
+SYSTEM
+LESSON 17
+Control of Breathing
+
+===== PAGE 47 =====
+Work of Breathing
+
+===== PAGE 48 =====
+Work of Breathing
+
+===== PAGE 49 =====
+Optimal Breathing Pattern
+
+===== PAGE 50 =====
+1. Central Chemoreceptors
+a.  Located in the brain stem (CSF)
+b.  Sense PCO2 and [H+] but not PO2
+c.  Slower to respond to changes
+d.  Respond to small changes
+2. Peripheral Chemoreceptors
+a. Located in arch of aorta and carotid
+arteries (blood)
+b.  Sense PO2 as well as PCO2 and [H+]
+c.  Respond quickly to changes
+d.  Not sensitive to small changes
+Respiratory Chemoreceptors
+
+===== PAGE 51 =====
+Peripheral Chemoreceptors
+
+===== PAGE 52 =====
+Respiratory Control Centers
+Chemoreceptors Phrenic nerve
+Diaphragm
+nerves
+
+===== PAGE 53 =====
+Terminology
+Pneumothorax:    Breach of a pleural cavity
+Atelectasis:          Collapsed lung
+Hyperventilation:  Increased breathing with no need
+Hyperpnea:          Increased breathing to meet a need
+Apnea:                  Temporary cessation of breathing
+Hypoxia:               Lower than normal blood oxygen
+Hypercapnea:       Higher than normal carbon dioxide
+Dyspnea:              Labored breathing
+
+===== PAGE 54 =====
+Reflex Control of Breathing
+HYPERCAPNIA
+ACIDOSIS
+
+===== PAGE 55 =====
+Respiratory Insufficiency
+
+===== PAGE 56 =====
+Respiratory Center
+(drug depression, anesthesia)
+Spinal Tracts
+(cervical dislocation)
+Anterior horn cells
+(polio)
+Motor nerves
+Guillain-Barre disease
+Airways
+(obstructive disease)
+Lung tissue
+(restrictive lung disease)
+Chest wall
+(obesity, spinal curvature)
+Respiratory muscles
+(muscular dystrophy)
+Neuromuscular junction
+(myasthenia gravis)
+Hypoventilation
+
+===== PAGE 57 =====
+Normal Smoker
+Lung Pathology
+
+===== PAGE 58 =====
+HEMATOLOGY
+LESSON 18
+Acid-Base Balance
+
+===== PAGE 59 =====
+Hydrogen Ion Sources
+
+===== PAGE 60 =====
+[H+] Gastric juice = 0.01 Eq/L
+[H+] Water = 0.0000001 Eq/L
+[H+] Ammonia = 0.00000000001 Eq/L
+pH Gastric juice = 2
+pH Water = 7
+pH Ammonia = 11
+= 1.0 x 10-11 Eq/L; log = -11; neg log = 11
+Note: 1-fold change in pH = 10-fold change in [H+].
+High [H+] = low pH = acid
+Low [H+] = high pH = base
+pH
+
+===== PAGE 61 =====
+Buffers
+
+===== PAGE 62 =====
+H+ + HCO3
+-  H2CO3  H2O + CO2
+H+ + NH3  NH4
++                          PCO2 blood
+Secrete
+Reabsorb
+Hyperventilate
+Acidosis
+[H+] is too high
+pH is too low
+
+===== PAGE 63 =====
+H+ + HCO3
+-  H2CO3  H2O + CO2
+PCO2 blood
+Hypoventilate
+Alkalosis
+[H+] is too low
+pH is too high
+
+===== PAGE 64 =====
+Acid-Base Abnormalities
+Arterial blood gas (ABG):
+PO2 = 100 mmHg
+PCO2 = 40 mmHg
+pH = 7.4
+HCO3
+- = 24 mEq/L

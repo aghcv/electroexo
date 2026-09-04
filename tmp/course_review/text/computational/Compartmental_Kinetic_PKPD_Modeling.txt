@@ -1,0 +1,880 @@
+
+===== PAGE 1 =====
+Compartmental Kinetic Modeling:
+Applications to Pharmacokinetic and 
+Pharmacodynamic Modeling in Drug 
+Discovery and Developments
+BIEN6391 (Spring 2018)
+Modeling and Simulations of Integrated 
+Cellular Systems
+
+===== PAGE 2 =====
+Dose of formulated drug
+Disintegration 
+of dosage form
+Dissolution of
+drug
+Absorption,
+distribution,
+metabolism,
+excretion
+Pharmaceutical
+phase
+Drug available for absorption
+Pharmacokinetic
+phase
+Drug-receptor
+interaction
+Desired effect
+Pharmacodynamic
+phase
+Drug available for action
+Processes occurring between the administration of a drug and the production 
+of its desired pharmacological effects can be divided into three phases:
+Reference: W.C. Bowman and M.J. Rand. Textbook of 
+Pharmacology, Second Edition, Blackwell Scientific 
+Publications, January 15, 1991
+A
+D
+M
+E
+
+===== PAGE 3 =====
+Pharmacokinetics (PK)
+…what the body does to the drug?
+Administer Dose
+Drug Concentration at Target Site
+Therapeutic and/or toxic effects
+PK
+PD
+Select Drug
+Select Dose
+
+===== PAGE 4 =====
+Pharmacokinetics (PK)
+…what the body does to the drug?
+A
+D
+M
+E
+Absorption
+Distribution
+Metabolism
+Excretion
+elimination via kidney
+from GI lumen
+Phase I (oxidation, reduction, hydrolysis)
+Phase II (conjugation)
+transport, partitioning
+(e.g. from the administration 
+site to the circulation)
+From the circulation 
+to extravascular space
+Enzymatic breakdown 
+and conversion
+Transport in the 
+urine or bile
+
+===== PAGE 5 =====
+Typical Pharmacokinetic Data
+Pharmacokinetic modeling:
+Quantitative description of the mechanisms of drug absorption, distribution, metabolism, 
+and excretion (ADME) based on kinetic data collected from various biological fluids 
+such as blood (plasma), urine, etc.
+
+===== PAGE 6 =====
+Pharmacodynamics (PD)
+…what the drug does to the body?
+Administer Dose
+Drug Concentration at Target Site
+Therapeutic and/or toxic effects
+PK
+PD
+Select Drug
+Select Dose
+
+===== PAGE 7 =====
+Pharmacodynamics (PD)
+…what the drug does to the body?
+
+===== PAGE 8 =====
+Pharmacodynamics (PD)
+…what the drug does to the body?
+
+===== PAGE 9 =====
+Pharmacokinetics / Pharmacodynamics
+• Pharmacokinetics (PK)
+• “What the body does to the 
+drug”
+• Fairly well known
+• Useful to get to the PD
+• Pharmacodynamics (PD)
+• “What the drug does to the 
+body”
+• Largely unknown
+• Has clinical relevance
+0
+1
+2
+3
+4
+5
+6
+7
+0 5 10 15 20 25
+Time
+Drug Concentration
+0
+0.5
+1
+1.5
+2
+2.5
+3
+3.5
+0 2 4 6 8 10
+Drug Concentration
+Drug Effect
+
+===== PAGE 10 =====
+An Alternative Representation of  
+PK/PD Problems
+PharmacokineticsDose Concentration
+PharmacodynamicsConcentration Effect
+
+===== PAGE 11 =====
+The Dose-Effect Relationship 
+(PK/PD Modeling)
+Pharmacokinetics
+Dose
+Concentration
+Pharmacodynamics
+Effect
+
+===== PAGE 12 =====
+Pharmacokinetic/pharmacodynamic (PK/PD) modeling as combination of the 
+classic pharmacological disciplines: pharmacokinetics and pharmacodynamics.
+Pharmacokinetics / Pharmacodynamics
+
+===== PAGE 13 =====
+Key Concept: Variability
+Dose Effect
+0
+1
+2
+3
+4
+5
+6
+7
+0 5 10 15 20 25
+Time
+Drug Concentration
+PK
+0
+0.5
+1
+1.5
+2
+2.5
+3
+3.5
+0 2 4 6 8 10
+Drug Concentration
+Drug Effect
+PD
+Concentration
+at the Effect Site
+Statistical and
+mathematical models
+of drug distribution and effect
+
+===== PAGE 14 =====
+An Individual
+From Individual to Population:
+Statistical Modeling
+• Many sparsely sampled individuals
+⇒ population rather than individual response
+• Statistical issues become paramount
+• Goal: characterize and modeling variability sources
+A Population
+
+===== PAGE 15 =====
+Terfenadine Kinetics
+Between–subject variation (BSV)
+Between–occasion variation (BOV)
+Residual unexplained variation (RUV)
+V ARIABILITIES !!!
+
+===== PAGE 16 =====
+• ~ 60 % of adult body weight is body fluids (~ 40 liter for 70 kg male)
+• Generally speaking, body fluids can be classified as:
+o Intracellular fluids: 
+- Fluid contained within the body’s cells (RBC, muscle cells, liver cells, etc.)
+- ~ 36% of the body weight (~25 liters)
+o Extracellular fluids: 
+- Interstitial fluid (~ 17% of body weight):
+ Circulates within the spaces (interstitium) between cells
+ Is formed as a filtrate from the plasma within the capillaries
+ Composition similar to that for the plasma
+- Blood plasma (~ 4% of body weight): 
+ Blood volume 5 liters (3 liters plasma and 2 liters cells, mostly RBC) 
+ Hematocrit is the fraction of the blood volume due to RBC
+o Transcellular fluids:
+- Very small fraction of body weight 
+- Consist of fluids formed within specialized compartments (cerebrospinal, 
+pleural (lung), pericardial, synovial (joint tendon), sweat, digestive fluids).
+• These different classes of fluids have different compositions.
+Types and characteristics of the fluids within the human body:
+
+===== PAGE 17 =====
+1. Cell membrane permeability: Drug lipid solubility
+- Access to cells is limited by a lipid bilayer membrane.
+2. Volume of distribution:
+- The drug could just distribute within the plasma volume of the circulatory system. 
+- If the drug can penetrate the vascular walls, then it can distribute throughout the 
+extracellular fluid volume. 
+- If the drug can also penetrate the cell wall, then it can also distribute within the intracellular 
+fluid.
+3. Drug biological affinity:
+- A given drug has affinity to the various proteins found in the plasma and extravascular 
+spaces. 
+- Determines the fraction of drug available for participation in various processes (e.g. uptake, 
+excretion, metabolism).
+4. Drug metabolism:
+- Once the drug is absorbed and distributed throughout the body by the circulatory system, a 
+variety of biochemical reactions will begin to degrade (metabolize) the drug to inactive form
+(metabolite). 
+- This breakdown of the drug is part of the body’s immune response or natural defense against 
+foreign materials. 
+- The major site for drug metabolism is the liver (enzymes). 
+5. Renal excretion:
+- The drug and its metabolite(s) (inactive form) are removed from the body via the kidneys.
+Factors that determine drug concentration, and hence its pharmacologic effect…
+
+===== PAGE 18 =====
+The Drug Discovery and 
+Development Pipeline
+
+===== PAGE 19 =====
+The Drug Discovery and Development Pipeline
+Reference: Pharmacokinetics and 
+pharmacodynamics of Biotech 
+Drugs: Principles and Case Studies 
+in Drug Development. Edited by 
+Bernd Meibohm, Wiley-VCH, 2006
+
+===== PAGE 20 =====
+Rowland M. Annu. Rev. Pharmacol. Toxicol., 2011
+The Drug Discovery and Development Pipeline
+
+===== PAGE 21 =====
+Gilbert J, Henske P, Singh A. In Vivo: The Business & Medicine Report. Vol. 21, No. 10, 2003 
+Cost of Drug Discovery and Development
+
+===== PAGE 22 =====
+Disease Descriptors: Definitions
+• Biomarkers
+– signs: physiological/biological measures of 
+disease activity
+• Clinical Endpoints
+– symptoms: measures of how a patient feels, 
+functions or survives
+• Surrogate Endpoints
+– biomarkers that achieve surrogacy status 
+through scientific evidence
+
+===== PAGE 23 =====
+Disease Descriptors: Examples
+• Biomarkers
+– Clearance of 99mTc-sestamibi, HIV plasma viral 
+load, CD4 cell counts
+• Clinical Endpoints
+– Survival, myocardial infarction, stroke, bone 
+fracture, recurrence of cancer
+• Surrogate Endpoints
+– Arterial blood pressure, serum cholesterol level
+
+===== PAGE 24 =====
+Why Model the Biosystem?
+• Aid in understanding:
+– drug distribution (PK)
+– response to the drug (PD)
+– the relevant disease process/progression
+– therapeutic action
+• Role of kinetic analysis (dy/dt):
+– quantitatively interpret a biomarker’s raw data
+– investigate the relevant pathophysiology
+– evaluate patient’s response to therapy
+
+===== PAGE 25 =====
+BLOOD
+(often)
+(KNOWN)
+INPUT
+MEASURED
+OUTPUT
+TIME
+Key Concept: Predicting inaccessible features of the system (PK, 
+PD, metabolism, regulation mechanism, disease progression) based 
+upon measurements in the accessible portion, while estimating the 
+specific parameters of interest (biomarkers).
+Accessible 
+Portion
+Adapted from Cobelli and Caumo, Metabolism: 47: 1009-35, 1998.
+Inaccessible Portion
+A
+C B
+D
+++
+-
+CELL
+(often)
+Example: Biosystem Modeling
+
+===== PAGE 26 =====
+Problems To Solve
+• Direct problem
+• Use simulation 
+techniques to guide 
+experimental design
+• In silico before in vivo
+• All assumptions must 
+be clearly stated
+• Model-dependent to 
+some extent
+• Inverse problem
+• Use estimation to get 
+useful parameters 
+from experiment data
+• In silico after in vivo
+• All assumptions must 
+be clearly stated
+• Model-dependent to 
+some extent
+
+===== PAGE 27 =====
+Example: The Direct Problem
+• Old technologies, e.g., Monte Carlo 
+simulation, are nowadays being applied to a 
+new problem:
+• How to maximize the information content 
+obtained during the drug development process 
+with an intent to have the greatest chance of 
+“success” in a clinical trial
+• This is the (new) discipline of clinical trial 
+simulation
+
+===== PAGE 28 =====
+Example: The Inverse Problem
+• Data from clinical trials also need to be 
+analyzed a posteriori
+• The purpose is to quantify the variability 
+within the population of key parameters 
+describing the distribution, metabolism and 
+effect of a therapeutic agent
+• This is the (new) discipline of (population) 
+kinetic analysis
+
+===== PAGE 29 =====
+Kinetics: A Definition
+• Kinetics are the temporal (when) and spatial 
+(where) distribution patterns of a substance in a 
+biological system.
+• It is essential to realize that the boundaries of the 
+“system” are defined in advance, and their 
+definition depends upon the kind of experiment 
+being performed.
+• For example, the system can be a cell culture, a 
+perfused organ, or the whole body
+
+===== PAGE 30 =====
+0
+500
+1000
+1500
+2000
+2500
+3000
+3500
+0 20 40 60 80 100
+Time (arbitrary units)
+Concentration
+Key Parameters (Pharmacokinetics)
+Cmax = max[c(t)]
+Area Under the
+Concentration Curve
+Mean Residence Time
+∫
+∫
+∞
+∞
+=
+0
+0
+dt)t(c
+dt)t(tc
+MRT
+∫
+∞
+=
+0
+dt)t(cAUC
+tmax
+
+===== PAGE 31 =====
+Clearance (CL)
+• The proportionality constant that relates the 
+rate of drug elimination (mass/time) to the 
+blood (plasma) concentration:
+Rate of elimination = CL × C
+• Clearance has units of volume/time
+• For an intravenous dose:
+CL = Doseiv / AUCiv
+
+===== PAGE 32 =====
+Bioavailability (F)
+• The fraction of extravascularly administered 
+dose that reaches the systemic circulation
+• It can be absolute:
+F = [AUCext/Doseext] / [AUCiv/Doseiv]
+• Or relative to a reference dose:
+F = [AUC/Dose]test / [AUC/Dose]ref
+• It has units of percent (%).
+
+===== PAGE 33 =====
+Compartmental Pharmacokinetics
+One Compartment Model
+
+===== PAGE 34 =====
+Cadralazine Measurements (N=10)
+0
+0.5
+1
+1.5
+2
+2.5
+0 6 12 18 24
+Time (hours)
+Concentration (mg/L)
+P01
+P02
+P03
+P04
+P05
+P06
+P07
+P08
+P09
+P10
+Cadralazine is an antihypertensive drug
+
+===== PAGE 35 =====
+Cadralazine Measurements (N=10)
+0.01
+0.1
+1
+10
+0 6 12 18 24
+Time (hours)
+Concentration (mg/L)
+P01
+P02
+P03
+P04
+P05
+P06
+P07
+P08
+P09
+P10
+
+===== PAGE 36 =====
+By Inspection: Exponential Decay
+Does It Mean Anything?
+• Compartmental models
+• They are a way to express systems of (linear 
+or nonlinear) ordinary differential equations
+• Their natural solution is given by sums of 
+exponentials
+• They are based on balance of mass
+
+===== PAGE 37 =====
+Ingredients of Model Building
+• Model of the system
+– Independent of experiment design
+– Principal components of the biological system
+• Experiment design
+– Two parts:
+• Input function (dose, shape, protocol)
+• Measurement function (sampling, location)
+
+===== PAGE 38 =====
+Single Compartment Model
+• The rate of change of 
+the amount in the 
+compartment, q1(t), is 
+equal to what enters the 
+compartment (inputs or 
+initial conditions), minus 
+what leaves the 
+compartment, a quantity 
+proportional to q1(t)
+• k(0,1) is a rate constant
+)t(1q)1,0(kdt
+)t(1dq −=
+
+===== PAGE 39 =====
+Experiment Design: Inputs
+• The rate of change of 
+the amount in the 
+compartment, q1(t), is 
+equal to what enters the 
+compartment (Dose), 
+minus what leaves the 
+compartment, a quantity 
+proportional to q1(t)
+• Dose(t) can be any 
+function of time
+)t(Dose)t(1q)1,0(kdt
+)t(1dq +−=
+
+===== PAGE 40 =====
+Experiment Design: Measurement
+• The measurement (sample) 
+s1 does not subtract mass or 
+perturb the system
+• The measurement equation 
+s1 links q1 with the 
+experimental data thus 
+preserving the units of the 
+differential equations and the 
+data (e.g.:  q1 is mass
+, the 
+measurement is 
+concentration ⇒ s1 = q1/v1)
+• v1= volume of distribution 
+of compartment 1
+1v
+)t(1q)t(1s =
+
+===== PAGE 41 =====
+For the Engineers:
+Linear System Theory
+1v
+)t(1q)t(1s
+)t(Dose)t(1q)1,0(kdt
+)t(1dq
+=
++−=
+)t(cx)t(y
+)t(bu)t(Axdt
+)t(dx
+=
++=
+can be recast as:
+
+===== PAGE 42 =====
+One Compartment ⇒ One Exponential
+1v
+)t(1q)t(1s
+)t(D)t(1q)1,0(kdt
+)t(1dq
+=
+δ+−=
+t)1,0(k
+t)1,0(k
+e1v
+D
+1v
+)t(1q)t(1s
+De)t(1q
+−
+−
+==
+=
+For a pulse input δ(t)
+
+===== PAGE 43 =====
+Half-Life
+• Given a certain removal rate k(0,1), what is the 
+required time for the drug concentration to 
+become 50% of the initial, maximum value, c
+0?
+0t,ec)t(c t)1,0(k
+0 ≥= −
+After Riggs, 1984
+2
+cec)t(c 0t)1,0(k
+02/1
+2/1 == −
+2
+1e 2/1t)1,0(k =− )2ln(t)1,0(k 2/1 −=−
+)1,0(k
+)2ln(t 2/1 =
+
+===== PAGE 44 =====
+V olume of Distribution 
+• It is a proportionality constant relating the 
+amount of drug to blood (plasma) 
+concentration
+Amount of drug = V × C
+• It is the apparent volume where the drug 
+distributes, assuming that mixing is 
+instantaneous within the compartment
+• Note that, for a one-compartment model:
+CL = k(0,1) × V
+
+===== PAGE 45 =====
+Compartmental Pharmacokinetics
+Two Compartment Model
+
+===== PAGE 46 =====
+1v
+)t(1q)t(c
+)t(Dose0
+1
+)t(2q
+)t(1q
+)2,1(k)1,2(k
+)2,1(k)]1,2(k)1,0(k[
+dt
+)t(2dq
+dt
+)t(1dq
+=
+
+
+
++
+
+
+
+
+
+
+
+−+
+++−=
+
+
+
+
+
+
+
+
+
+
+Two-Compartment Model
+
+===== PAGE 47 =====
+Response in the Time Domain
+• We can use partial fraction expansion and 
+the inverse Laplace transform:
+• c(t) = [fast phase (α)] + [slow phase (β)]
+)1,0(k)2,1(ks)]2,1(k)1,2(k)1,0(k[s
+1v/)]2,1(ks[)s(C 2 ++++
++=
+β++α+= s
+B
+s
+A)s(C
+tt BeAe)t(c β−α− +=
+
+===== PAGE 48 =====
+First-Order Drug Absorption
+)t(2q)2,0(k)t(1q)1,2(kdt
+)t(2dq
+)t(1ex)t(1q)1,2(kdt
+)t(1dq
+−=
+δ⋅+−=
+1V
+)t(1q)t(1s =
+It is a second-order system
+
+===== PAGE 49 =====
+First-Order Drug Absorption
+• k(2,1) = absorption rate
+• k(0,2) = elimination rate
+)t(2q)2,0(k)t(1q)1,2(kdt
+)t(2dq
+)t(1ex)t(1q)1,2(kdt
+)t(1dq
+−=
+δ⋅+−=
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+0 30 60 90 120 150 180
+Time (days)
+Slow
+Fast
+Drug plasma concentration:
+Different absorption rates
+[ ]t)1,2(kt)2,0(k
+1 ee)]1,2(k)2,0(k[2V
+)1,2(k1ex)t(s −− −−
+⋅=
+
+===== PAGE 50 =====
+First-Order Drug Absorption
+• k(2,1) = absorption rate
+• k(0,2) = elimination rate
+Drug plasma concentration:
+Same elimination rates
+1
+10
+100
+0 30 60 90 120 150 180
+Time (days)
+Slow
+Fast
+[ ]t)1,2(kt)2,0(k
+1 ee)]1,2(k)2,0(k[2V
+)1,2(k1ex)t(s −− −−
+⋅=
+)t(2q)2,0(k)t(1q)1,2(kdt
+)t(2dq
+)t(1ex)t(1q)1,2(kdt
+)t(1dq
+−=
+δ⋅+−=
+
+===== PAGE 51 =====
+Linear and Nonlinear Kinetics
+• Linear kinetics
+– (Multi)exponential decay of the concentration vs. 
+time curve
+– Characterized by constant transfer rates, distribution 
+volumes, etc.
+• Nonlinear kinetics
+– decay of the time vs. concentration curve is not
+(multi)exponential
+– Transfer rates are changing with time and with the 
+values of the states
+
+===== PAGE 52 =====
+Nonlinear Kinetics in Practice
+• Remember the one-compartment model:
+• What if we had a concentration-dependent 
+drug elimination rate?
+1v
+)t(1q)t(c
+)t(D)t(1q)1,0(kdt
+)t(1dq
+=
+δ+−=
+
+===== PAGE 53 =====
+Nonlinear Kinetics: Example
+• Michaelis-Menten kinetics:
+• Vm = maximal metabolic rate
+• Km = Michaelis-Menten constant
+• Drugs for which this applies: ethanol, phenytoin
+1v
+)t(1q)t(c
+)t(D)t(1q)t(cKm
+Vm
+dt
+)t(1dq
+=
+δ++−=
+
+===== PAGE 54 =====
+Linear vs. Nonlinear Kinetics
+• If Km >> c(t) then:
+• The kinetics become linear, as we have seen 
+before (first-order kinetics)
+• This is true at low concentrations (w.r.t. Km)
+1v
+)t(1q)t(c
+)t(D)t(1qKm
+Vm
+dt
+)t(1dq
+=
+δ+−≅
+
+===== PAGE 55 =====
+Linear vs. Nonlinear Kinetics
+• If Km << c(t) then:
+• The concentration declines at a constant rate 
+(zero-order kinetics)
+• This is true at high concentrations (w.r.t. Km)
+1v
+)t(1q)t(c
+)t(D1vVm)t(D)t(1q)t(c
+Vm
+dt
+)t(1dq
+=
+δ+×−=δ+−≅
+
+===== PAGE 56 =====
+Tracking Nonlinearities
+• How to find nonlinear behavior?
+• Watch: Simulated concentration time 
+profile for D = 180 mg, Vm = 20 mg/L/hr, 
+Km = 1 mg/L, v1 = 5 L
+1v
+)t(1q)t(c
+)t(D)t(1q)t(cKm
+Vm
+dt
+)t(1dq
+=
+δ++−=
+
+===== PAGE 57 =====
+Tracking Nonlinearities
+1v
+)t(1q)t(c
+)t(D)t(1q)t(cKm
+Vm
+dt
+)t(1dq
+=
+δ++−=
+0
+5
+10
+15
+20
+25
+30
+35
+40
+0 3 6 9 12
+Time (days)
+Concentration (mg/L)
+
+===== PAGE 58 =====
+0.0001
+0.001
+0.01
+0.1
+1
+10
+100
+0 3 6 9 12
+Time (days)
+Log Concentration (mg/L)
+Tracking Nonlinearities
+1v
+)t(1q)t(c
+)t(D)t(1q)t(cKm
+Vm
+dt
+)t(1dq
+=
+δ++−=

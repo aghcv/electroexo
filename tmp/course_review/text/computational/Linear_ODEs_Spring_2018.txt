@@ -1,0 +1,456 @@
+
+===== PAGE 1 =====
+S. Audi  BIEN 6391 (Spring 2018) 
+  Page 1 
+  1/22/2018 
+Exact Solution of a System of Linear, Coupled, Constant Coefficients 
+ODEs of the Initial Value Type 
+ 
+ Review of Matrices and Linear Systems: 
+ 
+- An “m x n” matrix A is a rectangular array of “m*n” numbers (or elements) 
+arranged in “m” rows and “n” columns. 
+ 
+A =
+a11 a12 . . . a1n
+a21 a22 . . . a2n
+...
+...
+. . .. . .. . .
+...
+am1 am2 . . . amn
+ 
+ 
+A = (aij) 
+ 
+aij is the element in the ith row and jth column of A. 
+ 
+ 
+- Two m x n matrices A = (aij) and B = (bij) are equal if corresponding elements are equal: 
+ 
+    aij =   bij   for 1  i    m    and   1  j    n     
+ 
+We add A and B by adding corresponding elements: 
+ 
+     C = A + B = (aij + bij) 
+ 
+-   To multiply a matrix A = (aij) by a scalar c, we simply multiple each of its elements by c: 
+ 
+  cA = Ac = (caij)  
+ 
+A + B = B + A      Matrix addition is commutative 
+A + (B + C) =  (A + B) + C  Matrix addition is associative  
+(A+ B) = A + B   Matrix addition is distributive 
+where  is a constant 
+- The transpose of an “m x n” matrix A, referred to as AT, is an “n x m” matrix whose 
+jth column is the ith row of A and its ith row is the jth column of A. 
+AT = (aji)
+
+===== PAGE 2 =====
+S. Audi  BIEN 6391 (Spring 2018) 
+  Page 2 
+  1/22/2018 
+ 
+- Square matrix:  number of rows =  number of columns 
+ 
+ 
+- Matrix multiplication: 
+ Product of two matrices A and B is possible if the number of columns of 
+A is equal to the number of rows of B (hence A and B are conformable). 
+ 
+If A is an m x p matrix and B is a p x n matrix 
+ 
+Then, 
+ 
+C = AB is an m x n matrix 
+ 
+C = (cij) where cij is the scalar (or dot) product of the ith row vector ai of A and 
+the jth column vector bj of B 
+ 
+cij = 
+aikb kjk = 1
+p  
+ 
+Example:               
+2 – 3
+– 1 5
+13 9
+4 0 = 14 18
+7 – 9  
+ 
+ Provided that the matrices have the appropriate dimensions (i.e. conformable): 
+ 
+o Associative:    A(BC) = (AB)C 
+ 
+o Distributive with respect to matrix addition:  A(B+C) =  AB + AC 
+ 
+ Matrix multiplication is NOT commutative 
+ 
+AB  BA
+
+===== PAGE 3 =====
+S. Audi  BIEN 6391 (Spring 2018) 
+  Page 3 
+  1/22/2018 
+- The identity matrix of order n, “I”, is the square matrix (n x n): 
+ 
+For n = 3, 
+ 
+I =    
+1 0 0
+0 1 0
+0 0 1  
+ 
+Principal diagonal is 1 
+ 
+AI = IA = A     For every square matrix of the same order as I  
+ 
+ 
+- If A is a square matrix, then the inverse of A is a square matrix B of the same 
+order such that  
+ 
+AB = BA = I 
+ 
+B = inverse of A = A-1 
+ 
+AA-1 = A-1A = I
+
+===== PAGE 4 =====
+S. Audi  BIEN 6391 (Spring 2018) 
+  Page 4 
+  1/22/2018 
+- Canonical form for a set of first order ODEs: 
+ 
+o Many methods for integrating a set of “n” ODEs (linear or nonlinear) 
+require the transformation of the equations to canonical form 
+ 
+dx1/dt = f1(t, x1, x2 , x3, …, xn) ;   x1(t0) = x10 
+dx2/dt = f2(t, x1, x2 , x3, …, xn)  ;   x2(t0) = x10 
+. 
+. 
+. 
+dxn/dt = fn(t, x1, x2 , x3, …, xn)      ;   xn(t0) = x10 
+ 
+ 
+ 
+o Example 1: 3 homogenous, linear, coupled, first order ODEs 
+ 
+dx1/dt = a11 x1 + a12 x2 + a13 x3    ;   x1(t0) = x10 
+ 
+dx2/dt = a21 x1 + a22 x2 + a23 x3    ;   x2(t0) = x20 
+ 
+dx3/dt = a31 x1 + a32 x2 + a33 x3      ;   x3(t0) = x20 
+ 
+ 
+o Example 2:  Non-homogenous, linear, coupled, first order ODEs 
+ 
+dx1/dt = a11 x1 + a12 x2 + a13 x3 + u1(t)      ;     x1(t0) = x10 
+ 
+dx2/dt = a21 x1 + a22 x2 + a23 x3 + u2(t)       ;     x2(t0) = x20 
+ 
+dx3/dt = a31 x1 + a32 x2 + a33 x3 + u3(t)       ;     x3(t0) = x30
+
+===== PAGE 5 =====
+S. Audi  BIEN 6391 (Spring 2018) 
+  Page 5 
+  1/22/2018 
+- Exact solution of a  system of linear, homogenous, coupled, constant 
+coefficients (time-invariant) ODEs of the initial value type (IVP): 
+ 
+dx1/dt = a11 x1 + a12 x2 +…… + a1n xn    ;   x1(t0) = x10 
+dx2/dt = a21 x1 + a22 x2 +…… + a2n xn    ;   x2(t0) = x10 
+. 
+. 
+. 
+dxn/dt = an1 x1 + an2 x2 +…… + ann xn      ;   xn(t0) = x10 
+ 
+o The above system of ODEs can be rewritten in a matrix notation: 
+ 
+dX/dt = AX    with the initial conditions X0 
+ 
+where X(t) and X0 are column vectors representing the states and initial values, 
+respectively. 
+ 
+X(t) =
+x1(t)
+x2(t)
+...
+xn(t)
+  is an n x 1 matrix             
+X0 =
+x10
+x20
+...
+xn0     and A = (aij) is an n x n matrix  
+o A system of ODEs of this form has a closed form solution that can be readily 
+obtained using the eigenvalue-eigenvector method.  
+ 
+The solution of the above system of equations in matrix notation is: 
+ 
+X(t) = [V etV] X0 
+ 
+ (V etV) referred to as state transition matrix 
+ Columns of V are the eigenvectors of the matrix A 
+ V is the inverse of V  
+ Diagonal elements of the diagonal matrix  are the eigenvalues (poles) of 
+the matrix A  
+ t is time.
+
+===== PAGE 6 =====
+S. Audi  BIEN 6391 (Spring 2018) 
+  Page 6 
+  1/22/2018 
+- How do your determine V and  using MatLab? 
+ 
+     A = 
+4 2
+3 – 1  
+  A = [4 3; 2 –1]; 
+ 
+[V, lambda] = eig(A); 
+ 
+o Example (IVP): 
+dC1/dt =   C1 +  2 C2  
+ 
+dC2/dt =   C1   C2  
+ 
+Initial conditions:   C1(t = 0) = 1;    C2(t = 0) = 1 
+ 
+% Solution of a system of two coupled, linear, constant coefficient, 
+% homogeneous ODES of the initial value type using the 
+% Eigenvalues-Eigenvectors method 
+ 
+A = [4 2; 3 -1]; 
+C0 = [1 ; -1]; 
+  
+[V, lambda] = eig(A); 
+  
+t = [0: 0.1: 1.0]; 
+  
+c  = zeros(length(t), 2); 
+cc = zeros(length(t), 2); !compare to closed form solution using  
+                          !Laplace transform 
+B = inv(V); 
+ 
+for i = 1:length(t) 
+    W = V*expm(lambda*t(i))*B*C0; 
+    c(i,1) = W(1,1);  ! C1(t) 
+    c(i,2) = W(2,1);  ! C2(t) 
+end 
+  
+%  Solution of C1(t) using Laplace Transform 
+for j = 1:length(t) 
+    cc(j,1) = (3.0/7)*exp(-2*t(j)) + (4.0/7)*exp(5*t(j)); 
+end 
+ 
+% plot data 
+  plot(t,c(:,1),'rx', t, cc(:,1), 'bd'); 
+  title('Y1(t)'); 
+  xlabel('time (sec)'); 
+  ylabel('concentration (Molar)');
+
+===== PAGE 7 =====
+S. Audi  BIEN 6391 (Spring 2018) 
+  Page 7 
+  1/22/2018 
+- Exact solution of a  system of linear, non-homogenous, coupled, constant 
+coefficient (time-invariant) ODEs of the initial value type using the MatLab 
+function “lsim” 
+ 
+o lsim simulates the response of linear, time-invariant system to arbitrary input 
+ 
+o System ODEs should be in a canonical form 
+ 
+o Example: 
+ 
+dx1/dt = a11 x1 + a12 x2 + a13 x3 + u1(t)            ;     x1(t0) = x10 
+ 
+dx2/dt = a21 x1 + a22 x2 + a23 x3 + u2(t)       ;     x2(t0) = x20 
+ 
+dx3/dt = a31 x1 + a32 x2 + a33 x3 + u3(t)                ;     x3(t0) = x30 
+ 
+   We have: 
+Three state (dependent) variables (n = 3):  x1, x2, and x3 
+Three inputs (p = 3): u1, u2, u3  
+Three outputs (q = 3) 
+ 
+The above system of ODEs  in matrix notation 
+ 
+dX(t)/dt = AX(t) + BU(t)       linear state equation 
+ 
+Y(t) = CX(t) + DU(t)  output equation 
+ 
+Where X(t),U(t) and Y(t) are column vectors representing the states, inputs and 
+outputs, respectively. 
+ 
+ 
+A, B, C and D are matrices. 
+  
+X(t) = 
+x1(t)
+x2(t)
+x3(t)   U(t) = 
+u1(t)
+u2(t)
+u3(t)        X0 =   
+x10
+x20
+x30
+
+===== PAGE 8 =====
+S. Audi  BIEN 6391 (Spring 2018) 
+  Page 8 
+  1/22/2018 
+A = n x n = 3 x 3  matrix of coefficients =  
+a11 a12 a13
+a21 a22 a23
+a31 a32 a33  
+ 
+Since we have 3 inputs and 3 state variables,  B =  n x p =  3 x 3 =  
+ 0 0
+0  0
+0 0   
+ 
+Suppose the desired outputs are Y(t) =  
+x1(t)
+x2(t)
+x3(t)   or Y(t) = X(t) 
+Hence q = 3 outputs 
+ 
+Then, 
+ 
+ 
+C = q x n = 3 x 3 =  
+1 0 0
+0 1 0
+0 0 1    and  
+ 
+D = q x p matrix = 3 x 3 = 
+0 0 0
+0 0 0
+0 0 0  
+ 
+ 
+ 
+Using the lsim Matlab function (part of the control system toolbox)  
+ 
+Define A, B, C, D, X0, U 
+ 
+t = [t0:t:Tfinal]; 
+ 
+[Y, X] = lsim(A,B,C,D,U,t,X0); 
+ 
+ 
+NOTE:  
+o U should have as many rows as time samples (length(t)) and as many 
+columns as system inputs 
+ 
+o Each row U(i,:)  specifies the input value(s) at the time point t(i)
+
+===== PAGE 9 =====
+S. Audi  BIEN 6391 (Spring 2018) 
+  Page 9 
+  1/22/2018 
+Example: 
+ 
+% Solution for a system of two linear ODEs (IVP) with constant 
+coefficients 
+% dx1/dt = 4x1 + 2x2 
+% dx2/dt = 3x1 - x2 
+% initial (t = 0) conditions:  x1(t = 0) = 1 and x2(t = 0) = -1 
+% time vector 
+   
+  t = [0: 0.1: 1]; 
+  
+  % solve equations using lsim 
+  % Specify A, B, C and D matrices for the state and output equations 
+   
+  A = [4 2; 3 -1]; 
+  B =  [0  0;  0 0]; 
+  C = [1 0; 0 1]; 
+  D = [0 0 ;  0 0]; 
+  X0 = [1; -1]; % initial conditions 
+  
+% set input to zero 
+  U = zeros(length(t), 2); 
+% NOTE: U should have as many rows as time samples (length(t)) and as many 
+% columns as system inputs 
+  
+  [YS,X] = lsim(A,B,C,D,U,t,X0); 
+    
+% plot data 
+  subplot(2,2,1);  
+  plot(t,YS(:,1),'rx', t, X(:,1), 'rd'); 
+  title('x1(t)'); 
+  xlabel('time (sec)'); 
+  ylabel('concentration (Molar)'); 
+% 
+  subplot(2,2,2); 
+  plot(t,YS(:,2),'rx', t, X(:,2), 'rd'); 
+  title('x2(t)'); 
+  xlabel('time (sec)'); 
+  ylabel('concentration (Molar)'); 
+  
+ %Output filename, open file 
+   outfile = [ 'out.dat']; 
+    fid = fopen(outfile,'w'); 
+  
+ %Data to be saved 
+  for i = 1:length(t) 
+         fprintf(fid,'%f\t%f\t%f\t%f\t%f\n',t(i),YS(i,1),YS(i,2),X(i,1), 
+X(i,2)); 
+  end 
+     
+  fclose(fid);
+
+===== PAGE 10 =====
+S. Audi  BIEN 6391 (Spring 2018) 
+  Page 10 
+  1/22/2018 
+ 
+- How do you find V and ? 
+ 
+(A - I)V = 0 
+ 
+o The diagonal elements of  are the eigenvalues (i) of A. The columns of V 
+(vi) are the eigenvectors of A.  
+o det(A –  I) = 0  is called the characteristic equation and its roots are the 
+eignevalues of A. 
+o The number i is called an eigenvalue of the n x n matrix A provided that: 
+ 
+   det(A –  i I) = 0  
+ 
+o An eigenvector associated with the eigenvalue i is a nozero vector vi such that  
+ 
+(A – i I) vi = 0 
+ 
+o Example: 
+     A = 
+4 2
+3 – 1  
+ 
+det(A –  I) =  
+4 –  2
+3 – 1 –   = 3 - 10 = 0  
+ 
+Roots are 1 = 2 and 2 = 5 
+ 
+For 1 = 2, the associated eigenvector v1 = 
+v11
+v12  
+  
+4 + 2 2
+3 – 1 + 2
+v11
+v12
+= 0
+0  
+ 
+Two equivalent equations with two unknowns. For v11 = 1 
+v1 = 1
+– 3
+ 
+  Similarly 
+   
+v2 = 2
+1

@@ -1,0 +1,170 @@
+{
+  "input": "/Users/aghorban/code/electroexo/output/documents/Computational_Systems_Biology_for_EV_Biogenesis_Course_Plan.docx",
+  "fonts_by_char_count": {
+    "Calibri": 25646
+  },
+  "direct_run_formatting_runs": 386,
+  "direct_paragraph_formatting_paragraphs": 373,
+  "heading_like_paragraphs_not_heading_style": [
+    {
+      "para_index": 1,
+      "text": "COURSE PLANNING GUIDE",
+      "style": "Normal"
+    },
+    {
+      "para_index": 2,
+      "text": "From Cell Physiology to Modular EV Biogenesis Simulation",
+      "style": "Normal"
+    },
+    {
+      "para_index": 7,
+      "text": "Prepared for long-range course development | August 2026",
+      "style": "Normal"
+    },
+    {
+      "para_index": 56,
+      "text": "Input: what arrives from the experiment or the previous module?",
+      "style": "Normal"
+    },
+    {
+      "para_index": 57,
+      "text": "State: what quantities must be remembered over time?",
+      "style": "Normal"
+    },
+    {
+      "para_index": 58,
+      "text": "Process: what balance, rate law, threshold, or mapping changes those states?",
+      "style": "Normal"
+    },
+    {
+      "para_index": 59,
+      "text": "Output: what is passed downstream and what can be measured?",
+      "style": "Normal"
+    },
+    {
+      "para_index": 121,
+      "text": "Course block",
+      "style": "Normal"
+    },
+    {
+      "para_index": 122,
+      "text": "Weeks",
+      "style": "Normal"
+    },
+    {
+      "para_index": 123,
+      "text": "Purpose",
+      "style": "Normal"
+    },
+    {
+      "para_index": 124,
+      "text": "I. Biological and modeling grammar",
+      "style": "Normal"
+    },
+    {
+      "para_index": 127,
+      "text": "II. Transferable modeling templates",
+      "style": "Normal"
+    },
+    {
+      "para_index": 130,
+      "text": "III. EV-biogenesis capstone",
+      "style": "Normal"
+    },
+    {
+      "para_index": 134,
+      "text": "Source",
+      "style": "Normal"
+    },
+    {
+      "para_index": 135,
+      "text": "Pages",
+      "style": "Normal"
+    },
+    {
+      "para_index": 136,
+      "text": "Recommended teaching use",
+      "style": "Normal"
+    },
+    {
+      "para_index": 137,
+      "text": "Syllabus sp18.pdf",
+      "style": "Normal"
+    },
+    {
+      "para_index": 140,
+      "text": "01homeostasis.pdf",
+      "style": "Normal"
+    },
+    {
+      "para_index": 143,
+      "text": "01homeostasis.pdf",
+      "style": "Normal"
+    },
+    {
+      "para_index": 146,
+      "text": "01homeostasis.pdf",
+      "style": "Normal"
+    }
+  ],
+  "examples": {
+    "direct_paragraph_formatting": [
+      {
+        "para_index": 1,
+        "text": "COURSE PLANNING GUIDE",
+        "style": "Normal"
+      },
+      {
+        "para_index": 2,
+        "text": "From Cell Physiology to Modular EV Biogenesis Simulation",
+        "style": "Normal"
+      },
+      {
+        "para_index": 3,
+        "text": "A beginner-first computational systems biology course built around electro-exocytosis",
+        "style": "Normal"
+      },
+      {
+        "para_index": 4,
+        "text": "Source review: BIEN5700 Systems Physiology, BIEN6931 Modeling and Simulations of Integrated Cellular Systems, the EV-bio",
+        "style": "Normal"
+      },
+      {
+        "para_index": 5,
+        "text": "",
+        "style": "Normal"
+      }
+    ],
+    "direct_run_formatting": [
+      {
+        "para_index": 1,
+        "run_text": "COURSE PLANNING GUIDE",
+        "style": "Normal"
+      },
+      {
+        "para_index": 2,
+        "run_text": "From Cell Physiology to Modular EV Biogenesis Simulation",
+        "style": "Normal"
+      },
+      {
+        "para_index": 3,
+        "run_text": "A beginner-first computational systems biology course built around electro-exocy",
+        "style": "Normal"
+      },
+      {
+        "para_index": 4,
+        "run_text": "Source review: BIEN5700 Systems Physiology, BIEN6931 Modeling and Simulations of",
+        "style": "Normal"
+      },
+      {
+        "para_index": 7,
+        "run_text": "Prepared for long-range course development | August 2026",
+        "style": "Normal"
+      }
+    ]
+  },
+  "notes": [
+    "Direct formatting is not always wrong, but it often causes inconsistent output when templates change.",
+    "Heading-like paragraphs not using Heading styles can break TOC and accessibility."
+  ]
+}

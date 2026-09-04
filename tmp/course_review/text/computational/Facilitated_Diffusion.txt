@@ -1,0 +1,250 @@
+
+===== PAGE 1 =====
+BIEN 6931 
+  Page 1 
+  02/21/18 
+ 
+Facilitated Diffusion 
+ 
+Mathematical description of these processes? 
+ 
+ 
+ 
+Simple 
+Diffusion
+Facilitated
+Diffusion
+(Glucose, amino acids)
+Diffusion Active transport
+Channel protein
+(Ions, H2O) Carrier protein
+Energy
+O2, CO2
+(Ions)
+Lipid
+bilayer
+
+===== PAGE 2 =====
+BIEN 6931 
+  Page 2 
+  02/21/18 
+ 
+ 
+✓ Simple versus facilitated diffusion: 
+ 
+➢ Simple: The rate of diffusion across a cell membrane increases 
+proportionately with the concentration or amount gradient of the neutral 
+diffusing substance.  
+ 
+➢ Facilitated diffusion: The rate of diffusion approaches a maximum, Vmax, as 
+the concentration gradient of the diffusing substance increases. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+Vmax, maximun rate of diffusion
+0 5 10 15 20 25 30 35
+Rate of diffusion
+0
+5
+10
+15
+20
+Facilitated diffusion
+Concentration of diffusiong substance
+Simple diffusion
+Vmax, maximun rate of diffusion
+0 5 10 15 20 25 30 35
+Rate of diffusion
+0
+5
+10
+15
+20
+Facilitated diffusion
+Concentration of diffusiong substance
+Simple diffusion
+
+===== PAGE 3 =====
+BIEN 6931 
+  Page 3 
+  02/21/18 
+ 
+Facilitated diffusion or carrier-mediated transport:  
+ 
+ 
+➢ Differs from simple diffusion through open channels.  
+ 
+➢ Requires interaction of the molecules or ions with a carrier protein that 
+facilitates its passage through the membrane (conformational changes).  
+ 
+➢ Highly selective 
+ 
+➢ Saturable: The rate of diffusion 
+approaches a maximum rate as the 
+concentration of the substance in the 
+donor compartment increases.  
+ 
+ 
+➢ Driven by electrochemical gradient 
+ 
+➢ Examples of substances transported via carrier-mediated transport include 
+glucose (neutral, polar molecule) and amino acids.   
+Vmax, maximun rate of diffusion
+0 5 10 15 20 25 30 35
+Rate of diffusion
+0
+5
+10
+15
+20
+Facilitated diffusion
+Concentration of diffusiong substance
+Simple diffusion
+Vmax, maximun rate of diffusion
+0 5 10 15 20 25 30 35
+Rate of diffusion
+0
+5
+10
+15
+20
+Facilitated diffusion
+Concentration of diffusiong substance
+Simple diffusion
+
+===== PAGE 4 =====
+BIEN 6931 
+  Page 4 
+  02/21/18 
+ 
+➢ Three types of carrier-mediated transport: 
+o Uniport: Carrier proteins that transport a single solute across a cell 
+membrane.  
+Example: Glucose transporter 
+o Symport: Carrier proteins that simultaneously transport two different 
+solute molecules in the SAME direction across the cell membrane.  
+Example: Sodium-driven glucose symport which transports 
+glucose and sodium from the lumen of the gut to the intestinal 
+epithelium. 
+o Antiport: Carrier proteins that simultaneously transport two different 
+solute molecules in the OPPOSITE direction across the cell membrane.  
+Example: Sodium-calcium exchanger in muscle and nerve cells.
+
+===== PAGE 5 =====
+BIEN 6931 
+  Page 5 
+  02/21/18 
+ 
+➢ Mathematical representation of uniport carrier-mediated transport 
+(glucose transport). 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+S = free substrate 
+E = free carrier protein 
+SE = substrate bound to carrier protein 
+i = intracellular 
+o = extracellular 
+K = equilibrium dissociation constant 
+k = rate constant 
+ET = E0 + SE0 + Ei + SEi  
+     = total number of transporters 
+ 
+ 
+ 
+Vmax, maximun rate of diffusion
+0 5 10 15 20 25 30 35
+Rate of diffusion
+0
+5
+10
+15
+20
+Facilitated diffusion
+Concentration of diffusiong substance
+Simple diffusion
+Vmax, maximun rate of diffusion
+0 5 10 15 20 25 30 35
+Rate of diffusion
+0
+5
+10
+15
+20
+Facilitated diffusion
+Concentration of diffusiong substance
+Simple diffusion
+
+===== PAGE 6 =====
+BIEN 6931 
+  Page 6 
+  02/21/18 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+- Protein carrier E has two conformational states, Ei and EO with its glucose 
+binding site exposed on the cell interior (Ei) or exterior (EO) 
+- Glucose substrate on the exterior (SO) binds with EO and glucose substrate on 
+the interior (Si) binds with Ei to form the complexes SEO and SEi, 
+respectively. 
+- A conformational change transforms SEO to SEi and vice versa 
+The above schematic can be represented by the following chemical reactions: 
+
+
+   
+oi S
+o o oi i i
+oSi
+k kk
+S E SE SE S E
+k kk
+    
+
+
+
+E
+oi
+E
+k
+EE
+k

@@ -1,0 +1,382 @@
+
+===== PAGE 1 =====
+Our understanding of the real world requires the 
+development of models
+1
+Reminder from Introductory Lectures
+
+===== PAGE 2 =====
+The process of using mathematics or computing for increasing 
+scientific understanding can be divided in three steps:
+Formulation of the scientific 
+problems in mathematical terms
+Solution and analysis of the 
+mathematical problem created
+Interpretation of the solution 
+and its empirical verification 
+2
+Reminder from Introductory Lecture
+
+===== PAGE 3 =====
+The modeling process requires a continuous 
+revaluation of our objectives with reality
+3
+
+===== PAGE 4 =====
+The major challenge is that building a model is 
+like eating an elephant
+4
+Those legs look 
+scrumptious!
+Don’t worry 
+honey, I’ll get 
+one for you!
+It’s hard to know where to begin!
+
+===== PAGE 5 =====
+Example: Biochemistry of a Home Aquarium
+theaquariumwiki.com
+
+===== PAGE 6 =====
+x1(t) = [ammonia]
+x2 (t) = [nitrite]
+x3 (t) = [nitrate]
+First model: Nonmechanistic analysis
+123xxx→→
+rate of production or rate of loss
+input measured in units measured in units
+of mass per unit time of mass per unit ti me
+per unit volume per unit volume
+dc
+dt
+  
+  
+  = −  
+    
+Fundamental Principle: Conservation of Mass
+
+===== PAGE 7 =====
+First model: Nonmechanistic analysis
+rate of production or rate of loss
+input measured in units measured in units
+of mass per unit time of mass per unit ti me
+per unit volume per unit volume
+dc
+dt
+  
+  
+  = −  
+    
+Variable Units Description
+x1 mg l-1 concentration of ammonia
+x2 mg l-1 concentration of nitrite
+x3 mg l-1 concentration of nitrate
+k mg l-1 day-1 rate of ammonia production
+r12 mg l-1 day-1 rate of nitrite production from ammonia
+r23 mg l-1 day-1 rate of nitrate production from nitrite
+1
+12
+2
+12 23
+3
+23
+() ()
+() ()
+()
+dx kt r tdt
+dx rt rtdt
+dx rtdt
+= −
+= −
+=
+123xxx→→
+
+===== PAGE 8 =====
+First model: Nonmechanistic analysis
+1
+12
+2
+12 23
+3
+23
+() ()
+() ()
+()
+dx kt r tdt
+dx rt rtdt
+dx rtdt
+= −
+= −
+=
+finite difference approximation for r23: 33
+23
+( )( )ˆ () 2
+xt t xt trt t
++∆ − −∆= ∆
+ 
+f (x) 
+x x + Δx 
+f (x) 
+f (x + Δx) 
+slope = df
+dx  
+slope = ( ) ()fx x fx
+x
++∆ −
+∆
+
+===== PAGE 9 =====
+First model: Nonmechanistic analysis
+1
+12
+2
+12 23
+3
+23
+() ()
+() ()
+()
+dx kt r tdt
+dx rt rtdt
+dx rtdt
+= −
+= −
+=
+33
+23
+( )( )ˆ () 2
+xt t xt trt t
++∆ − −∆= ∆
+22 2
+12 23 23 12
+( )( ) ˆˆ() 2
+d x xt t xt trt r r rdt t
++∆ − −∆= +≈ +=∆
+11 1
+12 12
+( )( ) ˆˆ() 2
+d x xt t xt tkt r r kdt t
++∆ − −∆= +≈ +=∆
+
+===== PAGE 10 =====
+First model: Nonmechanistic analysis
+1
+12
+2
+12 23
+3
+23
+() ()
+() ()
+()
+dx kt r tdt
+dx rt rtdt
+dx rtdt
+= −
+= −
+=
+• Rate of ammonia production 
+is approximately constant,   
+≈ 0.45 mg l-1 day-1.
+• Rates nitrite and nitrate 
+production peak around day 
+13 and day 14, respectively.
+
+===== PAGE 11 =====
+Nonmechanistic analysis with noise
+1
+12
+2
+12 23
+3
+23
+() ()
+() ()
+()
+dx kt r tdt
+dx rt rtdt
+dx rtdt
+= −
+= −
+=
+• Numerical differentiation is 
+extremely sensitive to noise.
+
+===== PAGE 12 =====
+Nonmechanistic analysis with noise
+1
+12
+2
+12 23
+3
+23
+() ()
+() ()
+()
+dx kt r tdt
+dx rt rtdt
+dx rtdt
+= −
+= −
+=
+( )123 ()d x x x ktdt ++ =
+
+===== PAGE 13 =====
+Nonmechanistic analysis with noise
+( )123 ()d x x x ktdt ++ =
+Is k constant?
+k ≈ 0.45 mg l-1 day-1.
+
+===== PAGE 14 =====
+Nonmechanistic analysis with noise
+1
+12
+2
+12 23
+3
+23
+() ()
+() ()
+()
+dx kt r tdt
+dx rt rtdt
+dx rtdt
+= −
+= −
+=
+1
+12
+2
+12 23
+3
+23
+           ()
+() ()
+            ()
+dxrt k dt
+dxrt rt dt
+dxrt dt
+= −
+−=
+=
+11
+12
+22
+12 23
+33
+23
+( )( )ˆˆ           () 2
+( )( )ˆˆ () () 2
+( )( )ˆ            () 2
+xt t xt trt k t
+xt t xt trt rt t
+xt t xt trt t
++∆ − −∆= − ∆
++∆ − −∆−= ∆
++∆ − −∆= ∆
+…three equations and two unknowns:
+
+===== PAGE 15 =====
+Nonmechanistic analysis with noise
+11
+12 22
+23
+33
+( )( )ˆ
+210 ˆ () ( )( )11 ˆ () 201 ( )( )
+2
+xt t xt tk t
+rt xt t xt t
+rt t
+xt t xt t
+t
++∆ − −∆ − ∆  +∆ − −∆ −=   ∆  +∆ − −∆
+ ∆
+=xb
+TT =xb  least-square solution to over-determined linear system:
+3311 2 2
+12
+33 22
+23 12
+( )( )() () () ()1 ˆˆ () 2 232 2 2
+( )( ) ( )( )1ˆˆ () () 22 2
+xt t xt txt t xt t xt t xt trt k ttt
+xt t xt t xt t xt trt rt tt
++∆ − −∆+∆ − −∆ +∆ − −∆= − ++ ∆∆∆
++∆ − −∆ +∆ − −∆= +− ∆∆
+
+===== PAGE 16 =====
+Nonmechanistic analysis with noise
+11
+12 22
+23
+33
+( )( )ˆ
+210 ˆ () ( )( )11 ˆ () 201 ( )( )
+2
+xt t xt tk t
+rt xt t xt t
+rt t
+xt t xt t
+t
++∆ − −∆ − ∆  +∆ − −∆ −=   ∆  +∆ − −∆
+ ∆
+
+===== PAGE 17 =====
+Mechanistic modeling
+Assumptions:
+1
+12 ()dx krtdt = −
+1. k is constant.
+2. r12 is proportional to x1 and x4, where x4 is the 
+level of nitrifying bacteria.
+12 4 1k k xx= −
+3. r23 is proportional to x2 and x4.
+2
+12 4 1 23 4 2
+dx k xx k xxdt = −
+3
+23 4 2
+dx k xxdt =
+4. Growth of bacteria, x4, is exponential when x4 
+is small, is proportional to available substrates, 
+and is limited by a carrying capacity.
+( )( )4
+44 4 1 21dx kx x x xdt =−+
+
+===== PAGE 18 =====
+Mechanistic modeling
+1
+12 4 1
+dx k k xxdt = −
+2
+12 4 1 23 4 2
+dx k xx k xxdt = −
+3
+23 4 2
+dx k xxdt =
+( )( )4
+44 4 1 21dx kx x x xdt =−+
+What are the parameter values?
+Parameter Units Value
+k mg l-1 day-1 0.45
+k12 day-1 1.0
+k23 day-1 2.0
+k4 day-1 0.05
+x4(0) -- 0.1
+
+===== PAGE 19 =====
+Mechanistic modeling
+Parameter Units guess op. value
+k mg l-1 day-1 0.45 0.445
+k12 day-1 1.0 5.71
+k23 day-1 2.0 10.0
+k4 day-1 0.05 0.183
+x4(0) -- 0.1 0.00027
+
+===== PAGE 20 =====
+Mechanistic modeling
+• Is the model correct?
+• Is the model useful? For what?
+• What about the prediction that bacterial population continues to 
+rise asymptotically to the carrying capacity?

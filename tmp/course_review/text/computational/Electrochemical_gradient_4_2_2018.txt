@@ -1,0 +1,230 @@
+
+===== PAGE 1 =====
+BIEN 6931 Page 1/6 
+  
+  
+  04/02/18 
+ 
+Transport through the membrane either directly through the lipid bilayer or through 
+the proteins occurs by two major processes: 
+ 
+ 
+Simple diffusion: The substance is driven by concentration difference across the 
+membrane (Fick’s law) or electrochemical gradient via an ion channel (Nernst-
+Planck equation). 
+Simple 
+Diffusion
+Facilitated
+Diffusion
+(Glucose, amino acids)
+Diffusion Active transport
+Channel protein
+(Ions, H2O) Carrier protein
+Energy
+O2, CO2
+(Ions)
+Lipid
+bilayer
+
+===== PAGE 2 =====
+BIEN 6931 Page 2/6 
+  
+  
+  04/02/18 
+ 
+Simple Diffusion: 
+ 
+ Assume that compound “A” (e.g. drug) diffusing across the cell membrane is a 
+non-electrolyte (neutral) so that membrane electrical gradient needs not be 
+considered.   
+ 
+ Assume thin uniform cellular membrane of thickness x, and area S, that 
+separates two well-stirred spaces (compartments).  
+ 
+ Let C1 and C2 be the concentrations of the solute in the two spaces with volumes 
+V1 and V2, where   C1 > C2 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+f = net rate of transfer of A from plasma region to tissue region 
+ Simple diffusion across a biological membrane obeys Fick’s first law of 
+diffusion:     
+     For one dimensional case (x direction):    
+Mass flux through membrane = J =  D dC/dx   
+         C = concentration at membrane location x  
+   D = diffusion coefficient of the molecule 
+f
+1 2
+C1
+C2
+Plasma Tissue
+ 
+Cell membrane 
+C1
+C2
+x
+C1
+C2
+C1
+C2
+x
+C1
+C2
+
+===== PAGE 3 =====
+BIEN 6931 Page 3/6 
+  
+  
+  04/02/18 
+ 
+ Assuming the concentration gradient across the thin membrane of 
+thickness x falls linearly with x:   
+dC
+dx = C
+x = C2 – C1
+x
+   and  
+J = – DC
+x  
+ J depends only on: 
+  diffusion coefficient of the molecule (D),  
+ concentration gradient across the membrane, C, and  
+ thickness of the membrane x. 
+ The diffusion coefficient D (cm2/sec) is; 
+ Directly proportional to temperature 
+ Inversely proportional to the square of molecular weight of  “A” 
+ 
+ Membrane permeability coefficient = P = D/x 
+ 
+ The rate of transfer (f) of a neutral compound across a biological membrane 
+of surface area (S) is: 
+    
+f = J S = – S DC
+x   =  PS(C2 – C1),  moles/min   (1) 
+ PS = permeability-surface area product or coefficient of diffusivity 
+(in units of ml/min). 
+ 
+ The negative sign on the right side of equation (1) indicates that the net 
+mass transfer due to diffusion is in a direction away from the location 
+with high concentration.
+
+===== PAGE 4 =====
+BIEN 6931 Page 4/6 
+  
+  
+  04/02/18 
+ 
+ Diffusion of an ion (charged compound) “B” across a cellular membrane 
+is described by the Nernst-Planck equation. The one-dimensional form of 
+this equation is 
+J = – D dC
+dx + zF
+RTC d
+dx
+ 
+z = valence of the ion (amount of charge on one ion, +1 for Na+ and K+), 
+F  =  Faradays constant 
+R = Gas constant 
+T =  Absolute temperature. Note:  RT/F has units of mV 
+ = membrane potential at location x, usually determined by local  
+     charge density.  
+ 
+ Under the following assumptions:  
+- Membrane is a homogenous substance 
+- The electrical field is constant and the transmembrane potential varies 
+linearly across the membrane 
+ 
+d/dx =  /x    
+where (x = x) –  (x = ) = membrane potential 
+ 
+- The ions access the membrane instantaneously from the intra- and 
+extracellular solutions 
+ 
+- The movement of the ions is affected by both concentration difference 
+and voltage differences.
+
+===== PAGE 5 =====
+BIEN 6931 Page 5/6 
+  
+  
+  04/02/18 
+ 
+ The solution of the Nernst-Planck equation results in the famous 
+Goldman-Hodgkin-Katz equation for passive flux of an ion through a 
+biological membrane: 
+ 
+    
+J = P   C2 – C1 e– 
+1 – e–   
+
+ = zF/RT = constant  
+P = permeability coefficient = D/x 
+ 
+ For a charged compound, the net rate of transfer across a cellular 
+membrane with surface area S: 
+   
+f = (Goldman-Hodgkin-Katz equation) S = JS
+
+===== PAGE 6 =====
+BIEN 6931 Page 6/6 
+  
+  
+  04/02/18 
+ 
+ Examples of simple diffusion of a neutral and charged compounds : 
+ Mass balance: 
+ 
+ 
+ 
+ 
+q1 = C1V1 and  q2 = C2V2, masses of  “A” in plasma and tissue, 
+respectively. 
+ 
+ 
+ 
+ 
+ 
+For a neutral compound: 
+ 
+f = F12 – F21 
+ 
+dq1
+dt = – f = S D
+x (C2 – C1)
+  
+dq2
+dt = f = – S D
+x (C2 – C1)  
+ 
+ 
+The ratio D/x = P = membrane permeability coefficient (in units cm/sec).  
+dq1
+dt = V1
+dC1
+dt = PS (C2 – C1)
+            
+dq2
+dt = V2
+dC2
+dt = PS (C1 – C2)  
+  PS = permeability surface area product or coefficient of diffusivity (in 
+units of ml/min). 
+ 
+What is the form of above equations for a charged compound?   
+q1 q2
+PS
+Plasma Tissue
+ 
+f
+1 2
+C1
+C2
+Plasma Tissue

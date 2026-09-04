@@ -1,0 +1,416 @@
+
+===== PAGE 1 =====
+Said Audi  Page 1/12  
+BIEN 6391 (Spring 2018) 
+  1/22/2018 
+Brief Review of Ordinary Differential Equations (ODEs)  
+ 
+ An ODE is any statement linking the values of a dependent (or state) variable 
+to its derivative(s) with respect to a single independent variable (e.g., time). 
+C = dependent variable, function of time (t) 
+Time = t = independent variable 
+Rate of changein C = dC
+dt = f(C,t)
+ 
+ 
+ If the dependent variable (C)  is a function of two of more independent 
+variables (e.g., time (t), and space (x)), the resulting rates of change of C with 
+respect to t and x are in the form of partial differential equations (PDEs): 
+Rate of changein C with respect to t = C
+t
+ 
+Rate of change in C with respect to x = C
+x
+ 
+ 
+ General form of an nth order ODE is: 
+ 
+an
+dnC
+dtn + an – 1
+dn – 1C
+dtn – 1 + an – 2
+dn – 2C
+dtn – 2 + ... + a1
+dC
+dt + a0 C = g
+ 
+ 
+where “g” is the input function. 
+ For a linear ODE, the coefficients (a0, a1, a2,…, an) can be constants or a 
+function of the independent variable (t), but cannot be a function of the 
+dependent variable, C, or its derivatives. 
+ 
+ The order of the ODE is the order of the highest derivative that appears 
+in the equation.
+
+===== PAGE 2 =====
+Said Audi  Page 2/12  
+BIEN 6391 (Spring 2018) 
+  1/22/2018 
+ Classification of ODEs:  
+- Order  
+- Linearity 
+- Homogeneity  
+- Boundary conditions 
+ 
+ If g(t) = 0, homogenous ODE, otherwise non-homogenous. 
+ 
+ Examples: 
+ 
+  
+d3C
+dt3 + 2tdC
+dt + t2C = 0           
+ 
+d2C
+dt3 + 2C dC
+dt + C2 = sin(t)
+      
+ 
+dC
+dt – k 1C = 0
+
+===== PAGE 3 =====
+Said Audi  Page 3/12  
+BIEN 6391 (Spring 2018) 
+  1/22/2018 
+ 
+ Boundary conditions: To obtain a unique solution of an nth order 
+ODE (or of a set of “n” simultaneous first-order ODEs), it is necessary 
+to specify “n” values of the dependent variables (or their derivatives) at 
+specific values of the independent variable. Those are referred to as the 
+initial or boundary conditions. 
+ 
+ Initial-value vs. boundary-value problem 
+ 
+o Initial-value problem: Values of dependent variables and/or their 
+derivatives are all known at the initial value of the independent 
+variable (normally t = 0 in the time domain or x = 0 in the space 
+domain). 
+ 
+Example:  
+ 
+ 
+ 
+ 
+ 
+o Boundary-value problem: The values of dependent variables 
+and/or their derivatives are known at more than one point of the 
+independent variable.  
+ 
+Example:
+
+===== PAGE 4 =====
+Said Audi  Page 4/12  
+BIEN 6391 (Spring 2018) 
+  1/22/2018 
+  
+ We may substitute a higher order ODE with a set of first order ODEs. 
+Example:
+
+===== PAGE 5 =====
+Said Audi  Page 5/12  
+BIEN 6391 (Spring 2018) 
+  1/22/2018 
+ System of ODEs: 
+- Involves two or more dependent (state) variables, each a function of the 
+same independent variable.  
+- Example: system of two first order, linear, non-homogenous ODEs: 
+ Uncoupled 
+a1
+d.C1
+dt + b1 C1 = g1
+ 
+   
+a2
+dC2
+dt – b2 C1 = g2  
+ 
+ Coupled 
+a1
+d.C1
+dt + b1 C1 + d1 C2 = g1
+  
+a2
+C2
+dt + b 2 C2 + d2 C1 = g2
+ 
+ 
+- C1 and C2 are referred to as state or dependent variables. 
+- a1, a2, b1, b2, d1 and d2 are the coefficients 
+- g1 and g2 are the input functions
+
+===== PAGE 6 =====
+Said Audi  Page 6/12  
+BIEN 6391 (Spring 2018) 
+  1/22/2018 
+ Simple first order ODEs can be solved analytically (exact or closed-form 
+solution) by direct integration, using Laplace transform, or MatLab 
+(symbolic toolbox or lsim). 
+ 
+ Example: dC/dt =  C   with initial condition   C(t = 0) = y0
+
+===== PAGE 7 =====
+Said Audi  Page 7/12  
+BIEN 6391 (Spring 2018) 
+  1/22/2018 
+Laplace Transform 
+ Powerful technique for solving linear ordinary (and some partial) differential 
+equations. 
+ 
+ Laplace transform is a mathematical transformation method that can be used to 
+transform differential equations into algebraic equations. 
+ 
+ Let f(t) be a function defined for t  0. The Laplace transform of f(t) is: 
+L(f(t)) = f(s) = f(t) e– st
+0
+
+dt
+ 
+Where s =   jw = new complex variable (has a real part, , and 
+imaginary part, jw) where j = 
+– 1  and w is the frequency 
+ 
+ Convenient technique for obtaining an analytical solution for linear, constant 
+coefficient systems of one or two ODEs. The schematic diagram below depicts the 
+steps involved 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Linear ODE Initial Laplace 
+representation
+L
+Modified Laplace
+representationTime solution
+Algebra (roots, partial 
+fraction expansion)
+L1
+Calculus
+Linear ODE Initial Laplace 
+representation
+L
+Modified Laplace
+representationTime solution
+Algebra (roots, partial 
+fraction expansion)
+L1
+Calculus
+
+===== PAGE 8 =====
+Said Audi  Page 8/12  
+BIEN 6391 (Spring 2018) 
+  1/22/2018 
+ General properties of Laplace transform: 
+1. L(A) = 
+As , A is a constant   
+2. L(A f(t)) = A f(s) 
+3. 
+L df(t)
+dt = s f(s) – f(t = 0)  
+4. Laplace transform is a linear operation: 
+L(a f(t)  b g(t) ) = a L(f(t))  b L(g(t)) = a f(s)  b g(s) 
+5. Initial value theorem: Assuming that the limit of f(t) as 
+t    exists and 
+that f(t) has a Laplace transform: 
+limit
+t  
+f(t) = limit
+s  0
+sf(s)
+ 
+ 
+ To inverse the Laplace transform f(s) back to f(t), we use lookup tables 
+(see D2L) and partial fraction expansion when needed. 
+ 
+ Example:         dC/dt =  C   with initial condition   C(t = 0) = y0
+
+===== PAGE 9 =====
+Said Audi  Page 9/12  
+BIEN 6391 (Spring 2018) 
+  1/22/2018 
+ 
+ Partial fraction expansion (PFE):  
+ If the Laplace transform of an ordinary differential equation has the 
+following form: 
+              
+f(s) = N(s)
+s – p1 s – p2 s – pn   
+where p1, p2, …, pn are distinct poles (eigenvalues).  
+Change f(s) to a form that we can find in a lookup table using PFE. 
+ 
+f(s) = N(s)
+s – p1 s – p2 s – pn
+= A1
+s – p1
++ A2
+s – p2
++ An
+s – pn
+ 
+where A1, A2, …, An are constants. 
+    
+   
+f(t) = L– 1 f(s) = A 1ep1t + A 2ep2t + A nepnt  
+   
+    A1, A2, …, An can be obtained using N(s)  
+ 
+N(s) = A1(s – p2) (s – p3)…(s – pn) + A2(s – p1) (s – p3)…(s – pn) + …  
+An(s – p1) (s – p2)…(s – pn1)
+
+===== PAGE 10 =====
+Said Audi  Page 10/12  
+BIEN 6391 (Spring 2018) 
+  1/22/2018 
+Example 1: 
+dC(t)
+dt + k e C(t) = Iin
+V ; C(t = 0) = 0
+ 
+ 
+L dC(t)
+dt + Lk e C(t) = L Iin
+V
+ 
+ 
+sC(s) – C(0) + k eC(s) = Iin
+V
+1s
+  and  
+C(s) = Iin
+V
+1
+s s + k e  
+ 
+Partial fraction expansion: 
+ 
+ 
+C(s) = Iin
+V
+A 1
+s
++ A 2
+s + k e
+= Iin
+V
+S A 1 + A 2 + A 1k e
+s s + k e  
+ 
+ Equal iff   A1 + A2 = 0, and A1 ke = 1 
+       
+    Thus,  
+A 1 = 1
+k e
+and A 2 = – 1
+k e  
+   
+C(s) = Iin
+V
+1
+k e
+s
+–
+1
+k e
+s + k e
+= Iin
+V k e
+1
+s
+– 1
+s + k e
+ 
+       
+    
+C(t) = L– 1 C(s) = Iin
+V k e
+1 – e–k et
+
+===== PAGE 11 =====
+Said Audi  Page 11/12  
+BIEN 6391 (Spring 2018) 
+  1/22/2018 
+ 
+ If the Laplace transform of an ordinary differential equation has the following 
+form: 
+              
+f(s)= N(s)
+s–p1
+2 s–p2 s–pn–1    
+ 
+Where the pole p1 is repeated twice and poles p2, …, pn-1 are distinct poles 
+(eigenvalues).  
+ 
+f(s) = A 11
+s – p1
+2 + A12
+s – p1
++ A2
+s – p2
++ An – 1
+s – pn – 1
+ 
+ 
+Using lookup table: 
+f(t) = L– 1 f(s) = A 11tep1t + A 12 ep1t + A 2ep2t + A n – 1epn – 1t
+ 
+ 
+ 
+ 
+ If the Laplace transform of an ordinary differential equation has the following 
+form: 
+              
+     
+f(s) = N(s)
+s2 + p1 s – p2 s – pn   
+ 
+f(s) = A11s
+s2 + p1
++ A12
+s2 + p1
++ A2
+s – p2
++ An
+s – pn
+ 
+ 
+ 
+f(t) = L– 1 f(s) = A 11cos(p1t) + A 12 p1sin(p1t) + A2ep2t + A nepnt
+
+===== PAGE 12 =====
+Said Audi  Page 12/12  
+BIEN 6391 (Spring 2018) 
+  1/22/2018 
+Example:  Solution of two linear, constant coefficients, coupled equations using 
+Laplace transform 
+ 
+dC1/dt =   C1 +  2 C2  
+ 
+dC1/dt =   C1   C2  
+ 
+ 
+Initial conditions:   C1(t = 0) = 1;    C2(t = 0) = 1 
+ 
+Two ODE’s (linear, first order, coupled) 
+ 
+ 
+ 
+ 
+ 
+ Obtaining the solution for 2 OD2s is time consuming. Imagine trying to get 
+the solution for a system of 4 or more coupled ODEs.  
+ 
+ Next, we will talk about how we can use the MatLab function “lsim” to 
+obtain an exact solution for a system of LTI ODEs using the eigenvalue-
+eigenvector method. 
+ 
+ The solutions of most second order or higher linear ODE with variable 
+coefficient, and most nonlinear ODEs require numerical methods since 
+exact solutions are not easily obtained.

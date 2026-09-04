@@ -1,0 +1,374 @@
+
+===== PAGE 1 =====
+Cellular Electrophysiology – The Hodgkin and 
+Huxley Model for Ion Conduction Across the 
+Membrane and Excitation in Nerves 
+BIEN6391 (Spring 2018)
+Modeling and Simulations of Integrated 
+Cellular Systems
+
+===== PAGE 2 =====
+Hodgkin and Huxley
+
+===== PAGE 3 =====
+Basic concepts of cell electrophysiology
+ 
+K+ 
+electrostatic gradient 
+concentration gradient 
+K+ 
+K+ 
+K+ 
+K+ 
+K+ K+ 
+K+ 
+K+ 
+K+ 
+K+ 
+K+ 
+K+ 
+K+ 
+K+ 
+Outside 
+cell 
+Cell 
+Membrane 
+Inside 
+cell 
+∆Ψ 
++ 
+− 
+There is no net movement of K+ ions 
+from one side to the other when the 
+diffusional gradient is in balance with 
+the electrostatic gradient (the Nernst 
+equation):
+K
+ln
+K
+o
+i eq
+F RT
++
++
+∆Ψ = 
+K
+ln
+K
+o
+i
+RT
++
++
+= − 
+Free energy change 
+due to concentration 
+gradient:
+F= ∆Ψ
+Free energy change due 
+to electrical potential:
+Thus, with [K
++]o = 5 mM and [K+]i = 140 mM, the Nernst (equilibrium) potential: 
+( )
+K 5ln 25 mV ln 80 mV140K
+o
+K
+i
+RT
+F
++
++
+ ∆Ψ = = ≈ − 
+F = 96.5;  % Coul/mmol or mJ/mmol/mV; 
+% Coul = J/V = mJ/mV
+T = 273+37;   % K (37 oC)
+R = 8.314; % J/mol/K = mJ/mmol/K
+
+===== PAGE 4 =====
+Basic concepts of cell electrophysiology
+source: http://en.wikipedia.org/wiki/File:Action_potential_vert.png
+[K+]o = 5 mM
+[K+]i = 140 mM∆Ψ = -70 mV
+outside
+inside
+[Na+]o = 140 mM
+[Na+]i = 15 mM
+( )
+K
+ln
+K
+5        25 mV ln 80 mV140
+o
+K
+i
+RT
+F
++
++
+∆Ψ = 
+= ≈−
+( )
+Na
+ln
+Na
+140         25 mV ln 55 mV15
+o
+Na
+i
+RT
+F
++
++
+∆Ψ = 
+= ≈+
+( )
+( )    125 mV
+Na Na Na
+Na
+Ig
+g
+= ∆Ψ − ∆Ψ
+= +
+( )
+( )    10 mV
+KK K
+K
+Ig
+g
+= ∆Ψ − ∆Ψ
+= −
+Ohm’s law 
+(I-V equation)
+
+===== PAGE 5 =====
+Hodgkin & Huxley (J. Physiol. 117:500-544, 1952)
+( 60) mVov = ∆Ψ − ∆Ψ ≈ ∆Ψ − −
+4
+(1 )
+KK
+nn
+g ng
+dn nndt αβ
+=
+= −−
+( )
+( )
+( )
+/()
+1
+nt
+o
+nnn
+n nn
+nt n n n e
+n
+τ
+ααβ
+τ αβ
+−
+∞∞
+∞
+= −−
+= +
+= +
+( )1
+nn
+nn
+n
+n
+ατ
+βτ
+∞
+∞
+=
+= −
+( ) ( ),KK K K KI g g vV= − ∆Ψ − ∆Ψ = − −
+( 12 mV)K KoV = ∆Ψ − ∆Ψ = −
+
+===== PAGE 6 =====
+Hodgkin & Huxley (J. Physiol. 117:500-544, 1952)
+4
+(1 )
+KK
+nn
+g ng
+dn nndt αβ
+=
+= −−
+( )
+( )
+( )
+/()
+1
+nt
+o
+nnn
+n nn
+nt n n n e
+n
+τ
+ααβ
+τ αβ
+−
+∞∞
+∞
+= −−
+= +
+= +
+( )1
+nn
+nn
+n
+n
+ατ
+βτ
+∞
+∞
+=
+= −
+100.01 10exp 1 10
+0.125exp 80
+n
+n
+v
+v
+v
+α
+β
+−= − −
+−= 
+
+===== PAGE 7 =====
+The Sodium Current
+3
+(1 )
+(1 )
+Na Na
+mm
+hh
+g m hg
+dm mmdt
+dh hhdt
+αβ
+αβ
+=
+= −−
+= −−
+( )
+( )
+( )
+/()
+1
+mt
+o
+mmm
+m mm
+mt m m m e
+m
+τ
+ααβ
+τ αβ
+−
+∞∞
+∞
+= −−
+= +
+= +
+( )
+( )
+( )
+/()
+1
+ht
+o
+hhh
+h hh
+ht h h h e
+h
+τ
+ααβ
+τ αβ
+−
+∞∞
+∞
+= −−
+= +
+= +
+
+===== PAGE 8 =====
+The Sodium Current
+“m” gate “h” gate
+
+===== PAGE 9 =====
+The Sodium Current
+“m” gate “h” gate
+250.1 25exp 1 25
+4exp 18
+m
+m
+v
+v
+v
+α
+β
+−= − −
+−= 
+0.07exp 20
+1
+30exp 1 10
+h
+h
+v
+v
+α
+β
+−= 
+= − +
+
+===== PAGE 10 =====
+The 1952 Hodgkin-Huxley Model
+( )
+( ) ( )
+4
+3
+;
+(1 )
+(1 )
+(1 )
+om K K
+Na Na L L app
+nn
+mm
+hh
+dvv C gn v vdt
+gm h vv gvv I
+dn nndt
+dm mmdt
+dh hhdt
+αβ
+αβ
+αβ
+= ∆Ψ − ∆Ψ = − −
+− − − −+
+= −−
+= −−
+= −−
+Cm gNa gK
+VNa VK
+INa IK
+Iapp
+V
++
+_
++
+_
+outside
+inside
+0 10 20 30
+0
+50
+100
+0 10 20 30
+0
+20
+40

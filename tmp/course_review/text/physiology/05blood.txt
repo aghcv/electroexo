@@ -1,0 +1,320 @@
+
+===== PAGE 1 =====
+HEMATOLOGY
+LESSON 12
+Blood
+
+===== PAGE 2 =====
+Functions of Blood
+• Transport Respiratory Gasses (O2, CO2)
+• Pickup and Deliver Nutrients (glucose, amino acids, 
+fats, vitamins, minerals, water)
+• Thermoregulation by conducting heat to the body 
+surface as needed
+• Clearing metabolic wastes- urinary blood flow
+• Transporting internal secretions (e.g. hormones)
+• Buffering blood hydrogen ions (acid-base balance)
+• Providing generalized and specific protections
+-Phagocytic blood cells
+-Immune system
+
+===== PAGE 3 =====
+Hematocrit
+
+===== PAGE 4 =====
+Formed Elements
+
+===== PAGE 5 =====
+Formation of 
+Blood Cells
+
+===== PAGE 6 =====
+Cell that 
+rapidly divides.
+Cell released from 
+the bone marrow.
+Erythrocytes
+Precursor cell 
+for all blood 
+cells.
+Hemocytoblast
+
+===== PAGE 7 =====
+Control of Erythrocyte Production
+
+===== PAGE 8 =====
+Erythrocyte Structure
+
+===== PAGE 9 =====
+Hemoglobin
+
+===== PAGE 10 =====
+Erythrocyte 
+Life Cycle
+
+===== PAGE 11 =====
+Examples:
+Pernicious
+Iron deficiency
+Aplastic
+Hemolytic
+Sickle Cell
+Sickle Cell
+Anemias
+
+===== PAGE 12 =====
+Leukocytes
+Granular
+Agranular
+
+===== PAGE 13 =====
+• Neutorphils (60%)
+– Phagocytize bacteria (micro-phagocytes)
+• Eosinophils (3%)
+– Release enzymes to destroy parasites
+– Destroy antigen-antibody complexes in allergic reactions
+• Basophils (<1%)
+– Secrete histamine (vasodilator) to increase blood flow
+– Secrete heparin to prevent blood clotting
+• Monocytes (7%)
+– Convert to macrophages (macro-phagocytes) in tissues
+– Phagocytize dead neutrophils and debris of dead tissue
+• Lymphocytes (30%)  The Immune System
+Leukocytes
+
+===== PAGE 14 =====
+Neutrophils
+
+===== PAGE 15 =====
+Thrombocytes
+Hemocytoblast
+Action:
+1. Vascular spasm (serotonin)
+2. Platelet plug
+3. Fibrin clot
+
+===== PAGE 16 =====
+Clotting Mechanism
+
+===== PAGE 17 =====
+Blood Clotting Mechanism
+
+===== PAGE 18 =====
+Simplified Mechanism
+Injured 
+Tissue
+Vitamin
+K
+Liver
+
+===== PAGE 19 =====
+Components of Blood
+
+===== PAGE 20 =====
+A-B-O Blood Group
+
+===== PAGE 21 =====
+Agglutination Reaction
+
+===== PAGE 22 =====
+Rh Factor
+
+===== PAGE 23 =====
+IMMUNOLOGY
+LESSON 13
+The Immune System
+
+===== PAGE 24 =====
+Lymphocytes
+
+===== PAGE 25 =====
+Thymus Gland and T Cells
+NEWBORN ADULT
+
+===== PAGE 26 =====
+External Barriers (Non-specific- no prior 
+exposure required)
+– Skin
+• Tough outer layer of keratin is dry and nutrient-poor
+• Lactic acid (acid mantle) is a component of perspiration
+– Mucous membranes
+• Line body cavities open to the exterior
+• Stickiness of mucus with antibacterial enzymes
+First Line of Defense
+
+===== PAGE 27 =====
+Non-specific Internal Processes (no prior 
+exposure required)
+– Phagocytic cells 
+• Neutrophils, monocytes, macrophages
+– Inflammatory response
+• Increased blood flow (hyperemia) causing redness
+• Increased capillary permeability (swelling)
+– Fever
+• Low tolerance of pathogens to temperature elevation
+– Interferons
+• Released by viruses
+• Target infected cells for macrophage destruction
+Second Line of Defense
+
+===== PAGE 28 =====
+Immune System (Specific: prior exposure 
+required)
+– Exhibits specificity and memory
+• Recognize
+• React
+• Remember
+– Involves lymphocytes
+– Cellular immunity mediated by cells (T cells)
+– Humoral immunity mediated by antibodies (B cells)
+Third Line of Defense
+
+===== PAGE 29 =====
+Antigens
+• Complex molecules
+– Structure unique to each person
+– Proteins, polysaccharides, glycoproteins, glycolipids
+• Trigger an immune response 
+• Epitope (antigenic determinant)
+– Part of an antigen that stimulates immune responses
+Antigens
+
+===== PAGE 30 =====
+• Fetal stem cells from red bone marrow
+• Mature in thymus
+– thymosins stimulate maturing T cells to 
+produce antigen receptors
+– immunocompetent T cell has antigen 
+receptors in place
+• Deployment
+– naïve T cells colonize lymphatic tissue and 
+organs
+Life Cycle of T Cells
+
+===== PAGE 31 =====
+T cells are exposed to “self” antigens within 
+the thymus gland
+– Cells that react (98%)
+• destroyed or inactivated
+– Cells that do not react (2%) 
+• form clones with identical receptors for a specific 
+antigen
+• constitute naïve lymphocyte pool
+• colonize lymphatic tissue and organs throughout 
+the body.
+Selection of T Cell Lymphocytes
+
+===== PAGE 32 =====
+• Fetal stem cells remain in red bone marrow
+• Undergo same selection as T cells
+• Self-tolerant B cells form B cell clones
+– synthesize receptors for their antigens, divide rapidly, 
+produce immunocompetent clones
+• Deploy to lymphatic tissue (lymph nodes, 
+spleen), mucus membranes and other organs
+Selection of B Cell Lymphocytes
+
+===== PAGE 33 =====
+• T cells cannot recognize antigens directly
+• B cells and macrophages act as APCs
+• APCs have Major Histocompatability Complex 
+(MHC-II)
+– surface proteins that “present” antigen 
+fragment to T cells
+Note: the “self” identifying proteins on the surfaces of 
+most of our cells are referred to as MHC-I
+Antigen-Presenting Cells (APCs)
+
+===== PAGE 34 =====
+Antigen Processing
+
+===== PAGE 35 =====
+T Cell Activation
+
+===== PAGE 36 =====
+T Cell Activation
+
+===== PAGE 37 =====
+• Cytotoxic T cell binding to cancer cell
+Cytotoxic T Cell Function
+
+===== PAGE 38 =====
+– Coordinate non-specific defenses
+• attract neutrophils, natural killer (NK) cells, 
+macrophages
+• stimulate phagocytosis
+– Coordinate specific defenses
+• stimulate T and B cell mitosis and maturation
+– Coordinate humoral and cellular immunity 
+directly
+Interleukins
+
+===== PAGE 39 =====
+“Recall”
+– long-lived; in higher numbers than naïve cells
+– upon reexposure to same pathogen, memory 
+cells launch a quick attack
+– pathogen is attacked so quickly no noticeable 
+illness occurs- immunity
+Memory T Cells
+
+===== PAGE 40 =====
+Humoral Immunity
+
+===== PAGE 41 =====
+Humoral Immunity
+
+===== PAGE 42 =====
+Plasma cells
+• Larger than B cells
+• Develop mainly in lymph nodes
+• Only about 10% remain there
+• Produce antibodies until they die
+– Produce about 2,000 per second
+– Cells survive for 4 or 5 days
+Plasma Cells
+
+===== PAGE 43 =====
+Antibodies
+• Form classes of immunoglobulin proteins
+– IgA, IgD, IgE, IgG, IgM
+• Attack by
+– Neutralization (mask antigen pathogenic site)
+– Agglutination (clumping enemy cells to immobilize)
+– Precipitation (antigens settle out and phagocytized)
+– Compliment fixation (compliment proteins undergo 
+reaction pathways leading to destruction of 
+pathogenic cells)
+Antibodies
+
+===== PAGE 44 =====
+Humoral Immunity
+Agglutination
+Precipitation
+Erythrocyte
+
+===== PAGE 45 =====
+Memory
+
+===== PAGE 46 =====
+• Natural active immunity (produces memory 
+cells)
+– production of one’s own antibodies or T cells 
+as a result of infection or natural exposure to 
+antigen
+• Artificial active immunity (produces memory 
+cells)
+– production of one’s own antibodies or T cells 
+as a result of vaccination
+Active Immunity
+
+===== PAGE 47 =====
+• Natural passive immunity (through placenta, 
+milk)
+– temporary, fetus acquires antibodies from 
+mother
+• Artificial passive immunity (snakebite, rabies, 
+tetanus)
+– temporary, injection of immune serum 
+(antibodies)
+Passive Immunity

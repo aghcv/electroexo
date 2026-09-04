@@ -1,0 +1,610 @@
+
+===== PAGE 1 =====
+BIEN 6931 
+  Page 1 
+  02/18/18 
+ 
+qi(t)
+Fij
+Fji
+Foi
+Foi
+qi(t)
+Fij
+Fji
+Foi
+Foi
+ 
+COMPARTMENTAL MODELING 
+ Symbolic representation of a compartmental system or model: 
+ 
+ A circle is used to represent a 
+compartment. 
+ Consider a system with n 
+compartment (i = 1,…, n; j = 1, …, n) 
+ 
+ Each arrow leaving or entering a 
+compartment is referred to as the rate of flow or rate of transfer of a given 
+species into or out of the compartment, where: 
+o qi(t) = the amount of material in compartment i at time t 
+o Fij and Fji = Respective rates of flow or rates of transfer of material 
+from compartment i to compartment j and from compartment j to 
+compartment i.  
+o Foi = Instantaneous rate of flow of material from outside the system 
+(environment) into compartment i. 
+o Fio = Rate of flow or rate of transfer of material directly out of the 
+system from compartment i into the environment.  
+ Closed system if Fio = 0 and Foi = 0, i = 1, 2,…, n, otherwise an open 
+system.
+
+===== PAGE 2 =====
+BIEN 6931 
+  Page 2 
+  02/18/18 
+ 
+ How do we relate the amounts and rates of transfer among the various 
+compartments? 
+ 
+Rate of change in the mass or amount of a species within each 
+compartment = rate at which the species enters the compartment – the 
+rate at which the species leaves the compartment 
+ 
+ The mass balance equation for the ith compartment ( i = 1, …, n) is:  
+ 
+dqi
+dt = Foi + Fji
+j = 1
+j  i
+n
+– Fij
+j = 1
+j  i
+n
+– Fio, i = 1, ...,n; j = 1, ..., n
+ 
+ 
+where: 
+ 
+o Number of ODEs is equal to the number of number of 
+compartments.
+
+===== PAGE 3 =====
+BIEN 6931 
+  Page 3 
+  02/18/18 
+ 
+qi(t)
+Fij
+Fji
+Foi
+Foi
+qi(t)
+Fij
+Fji
+Foi
+Foi
+ 
+Functional form of the rate of flows, Fij, Fji, Fio, and Foi: 
+For compartment systems where inter-
+compartment transfer occurs via a chemical 
+reaction: 
+   Law of mass action
+
+===== PAGE 4 =====
+BIEN 6931 
+  Page 4 
+  02/18/18 
+ 
+Channel protein
+(Ions, H2O) Carrier protein
+O2, CO2
+(Ions)
+Lipid
+bilayer
+Channel protein
+(Ions, H2O) Carrier protein
+O2, CO2
+(Ions)
+Lipid
+bilayer
+ 
+qi(t)
+Fij
+Fji
+Foi
+Foi
+qi(t)
+Fij
+Fji
+Foi
+Foi
+ 
+Functional form of the rate of flows, Fij, Fji, Fio, and Foi: 
+ 
+For compartment systems where inter-compartment transfer 
+occurs by passing through a physical barrier (e.g., a 
+biological membrane).  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+a. Transport properties of a biological membrane such as a cell membrane. 
+i. Cell membranes are dynamic and selective structures (~ 7.5 to 
+10 m thick), which regulate the movement of molecules (e.g., 
+glucose) and ions (e.g., Na+, K+, Cl) in and out of cells. 
+ 
+ii. Cell membranes consist almost entirely of a lipid (phospholipid) 
+bilayer (2 molecules thick) with large number of protein molecules 
+floating in the lipid, many penetrating all the way through.  
+iii. Each lipid molecule has a hydrophilic head and a hydrophobic tail.
+
+===== PAGE 5 =====
+BIEN 6931 
+  Page 5 
+  02/18/18 
+ 
+iv. Few substances can penetrate the lipid bilayer. The lipid 
+solubility of a substance determines its permeability across the 
+lipid bilayer. 
+a. Lipid-soluble molecules such as O2, N2, alcohols readily 
+dissolve in the lipid bilayer.  
+ 
+b. Small neutral polar molecules such as H2O, CO2, urea can 
+penetrate the lipid bilayer because of their much smaller 
+size and neutral charge.  
+ 
+v. The lipid bilayer forms a barrier for the movement of most 
+water-soluble (hydrophilic) substances and charged ions and 
+molecules between the extracellular fluid and the intracellular 
+fluid.
+
+===== PAGE 6 =====
+BIEN 6931 
+  Page 6 
+  02/18/18 
+ 
+Channel protein
+(Ions, H2O) Carrier protein
+O2, CO2
+(Ions)
+Lipid
+bilayer
+Channel protein
+(Ions, H2O) Carrier protein
+O2, CO2
+(Ions)
+Lipid
+bilayer
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+vi. Protein molecules: 
+- Penetrate the lipid bilayer all the way through.  
+- Have entirely different transport properties and provide 
+alternative pathway through the cell membrane, and hence play 
+an important role in membrane fluidity.  
+- Many are called transport proteins.  
+a. Channel proteins:  
+i. Watery spaces all the way through and allow 
+free movement of certain ions or molecules 
+(e.g., Na+, K+, H2O).   
+ii. For ion channels, the driving force is an 
+electrochemical gradient across the cell membrane 
+(ion concentration gradient + voltage gradient 
+across the cell membrane (40 to 90 mv))  
+iii. Do not exhibit saturability of their binding 
+sites.
+
+===== PAGE 7 =====
+BIEN 6931 
+  Page 7 
+  02/18/18 
+ 
+Channel protein
+(Ions, H2O) Carrier protein
+O2, CO2
+(Ions)
+Lipid
+bilayer
+Channel protein
+(Ions, H2O) Carrier protein
+O2, CO2
+(Ions)
+Lipid
+bilayer
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+b. Carrier proteins:  
+i. Bind with substances that are to be transported 
+(e.g., glucose). These proteins then carry these 
+substances through the membrane. 
+ii. Unlike channel proteins, they are saturable. 
+ 
+- Both channels and carrier proteins are highly selective.
+
+===== PAGE 8 =====
+BIEN 6931 
+  Page 8 
+  02/18/18 
+ 
+ Transport through the membrane either directly through the lipid bilayer or 
+through the proteins occurs by two major processes: 
+ 
+ 
+Mathematical description of these processes? 
+ 
+ 
+ 
+Simple 
+Diffusion
+Facilitated
+Diffusion
+(Glucose, amino acids)
+Diffusion Active transport
+Channel protein
+(Ions, H2O) Carrier protein
+Energy
+O2, CO2
+(Ions)
+Lipid
+bilayer
+
+===== PAGE 9 =====
+BIEN 6931 
+  Page 9 
+  02/18/18 
+ 
+1. Passive processes 
+a. Diffusion 
+i. Simple diffusion: the substance is driven by concentration difference 
+across the membrane (Fick’s law) or electrochemical gradient via an 
+ion channel (Nernst-Planck equation). 
+ 
+ii. Facilitated (or carrier-mediated) diffusion: Requires interaction of 
+the molecule or ion with a carrier protein that facilitates its passage 
+through the cell membrane (e.g. glucose transport).  
+2. Active processes:  
+i. Movement of ions or molecules across the cell membrane in 
+combination with a carrier protein against an energy gradient (e.g. 
+electrochemical gradient) such as from a low concentration region to 
+a high concentration region. 
+ 
+ii. Requires the expenditure of energy (adenosine tri-phosphate, ATP).
+
+===== PAGE 10 =====
+BIEN 6931 
+  Page 10 
+  02/18/18 
+ 
+ 
+ Simple Diffusion: 
+ 
+ Assume that compound “A” (e.g. drug) diffusing across the cell membrane is a 
+neutral so that membrane electrical gradient needs not be considered.   
+ 
+ Assume thin uniform cellular membrane of thickness x, and area S, that 
+separates two well stirred spaces (compartments).  
+ 
+ Let C1 and C2 be the concentrations of the solute in the two spaces with volumes 
+V1 and V2, where   C1 > C2 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+f = net rate of transfer of A from plasma region to tissue region 
+ Simple diffusion across a biological membrane obeys Fick’s first law of 
+diffusion:     
+     For one dimensional case (x direction):    
+Mass flux through membrane = J =  D dC/dx   
+         C = concentration at membrane location x  
+   D = diffusion coefficient of the molecule 
+f
+1 2
+C1
+C2
+Plasma Tissue
+ 
+Cell membrane 
+C1
+C2
+x
+C1
+C2
+C1
+C2
+x
+C1
+C2
+
+===== PAGE 11 =====
+BIEN 6931 
+  Page 11 
+  02/18/18 
+ 
+ Assuming the concentration gradient across the thin membrane of 
+thickness x falls linearly with x:   
+dC
+dx = C
+x = C2 – C1
+x
+   and  
+J = – DC
+x  
+ J depends only on: 
+  diffusion coefficient of the molecule (D),  
+ concentration gradient across the membrane, C, and  
+ thickness of the membrane x. 
+ The diffusion coefficient D (cm2/sec) is; 
+ Directly proportional to temperature 
+ Inversely proportional to the square of molecular weight of  “A” 
+ 
+ Membrane permeability coefficient = P = D/x 
+ 
+ The rate of transfer (f) of a neutral compound across a biological membrane 
+of surface area (S) is: 
+    
+f = J S = – S DC
+x   =  PS(C2 – C1),  moles/min   (1) 
+ PS = permeability-surface area product or coefficient of diffusivity 
+(in units of ml/min). 
+ 
+ The negative sign on the right side of equation (1) indicates that the net 
+mass transfer due to diffusion is in a direction away from the location 
+with high concentration.
+
+===== PAGE 12 =====
+BIEN 6931 
+  Page 12 
+  02/18/18 
+ 
+ 
+ Mathematical representation of drug elimination/absorption processes:  
+o Drug absorption into the blood stream and elimination from the blood 
+stream (e.g., metabolism, excretion) are complex processes that could 
+involve enzymes, transporters with complex nonlinear kinetics.  
+ 
+o Assume these processes follow linear (first order) kinetics. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ka and ke are absorption and elimination first-order rate constants, 
+respectively, in units of inverse time. 
+   
+Governing differential equations? 
+ 
+ 
+ 
+ 
+ For simple diffusion, the rate of transfer of material between the two spaces 
+is a linear or first order process, which means that the rate is 
+proportional to the concentration of material in the donor compartment.  
+ 
+kaq1 q2
+ke
+GI, mouth, airways
+etc.
+Plasma
+
+===== PAGE 13 =====
+BIEN 6931 
+  Page 13 
+  02/18/18 
+ 
+Time (hrs)
+0 5 10 15 20 25 30
+C(t), mg/liter
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+ 
+ Constant i.v. infusion of a drug: 
+ 
+- In certain conditions, a drug is infused i.v. at a constant rate Iin moles/time.  
+- So-called released drug delivery system (e.g. birth control or chemotherapy).   
+- C(t) gradually increases until it reaches a steady state level once a balance is 
+reached between the infusion rate and the drug elimination rate.   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+- Mass balance: 
+ine
+dq k q Idt   
+  ;    C= q/V 
+e inI
+V
+dC kCdt   
+  ;    Initial condition, C(t = 0) = 0 
+ 
+- Linear, first order, non-homogenous ODE.  
+ 
+- Direct integration or Laplace transform to obtain a closed form solution: 
+C(t) = Iin
+Vk e
+1 – e– k et
+   
+- Two parameters: ke and V 
+ 
+- Steady state value? 
+ 
+ 
+ 
+keC(t)
+V
+Iin (mg/hrs)
+q(t)
+
+===== PAGE 14 =====
+BIEN 6931 
+  Page 14 
+  02/18/18 
+ 
+kaq1 q2
+ke
+GI, mouth, airways
+etc.
+Plasma
+ 
+Time (hrs)
+0 10 20 30
+C(t), mg/liter
+0.0
+0.1
+0.2
+0.3
+0.4
+0.5
+ 
+ Two compartment models: 
+ 
+- Many drugs are administrated via other routes, 
+including orally, by inhalation, or 
+subcutaneously.  
+- Under such conditions, the drug is first 
+absorbed into the blood stream after which it 
+becomes available for uptake and/or 
+metabolism by various tissues/organs.  
+- Assume first order absorption rate (ka in units of 1/time) 
+- Assume first order elimination rate (ke in 
+units of 1/time) 
+ 
+- Mass balance: 
+1
+1a
+dq kqdt 
+ 
+2
+12ae
+dq k q k qdt 
+ 
+C1 = q1/V1  and C2 = q2/V2 
+ 
+Initial conditions:    q1(t = 0) = q0 (moles or grams)  ;    C2(t = 0) = 0 
+ 
+Two compartments, two ODE’s (linear, first order). 
+ 
+- Analytical Solution:  
+C2(t) = k aq 0
+V2 k a – k e
+e– k e t – e– k a t
+   ;        ka  ke. 
+ 
+t   , C2(t)  0
+ 
+- Time at which C2(t) reaches its maximum value (maximum plasma 
+concentration)?
+
+===== PAGE 15 =====
+BIEN 6931 
+  Page 15 
+  02/18/18 
+ 
+Example: Compartment Model of Hemodialysis:  
+- The model for dialysis treatment depicts only urea (marker of the effectiveness 
+of dialysis) dynamics, but it could be altered to model other blood solutes or 
+pH level. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Mass balance: 
+dq1
+dt = V1
+dC1
+dt = R + PS 1 C2 – C1
+ 
+ 
+dq2
+dt = V2
+dC2
+dt = PS 1 C1 – C2 – PS 2C2
+ 
+where  
+ C1 = q1/V1 and C2 = q2/V2 are the concentrations of urea in the 
+intracellular and extracellular (includes plasma) fluids, respectively.  
+ Fo1 = rate of urea production by the patient’s body 
+ V1 = volume of the intracellular fluid 
+ V2 = volume the extracellular fluid (plasma and interstitial fluids) 
+ (PS)1 = permeability-surface area product which is descriptive of the 
+rate of urea transport between the intracellular and extracellular fluids 
+ (PS)2 = permeability-surface area product which is descriptive of the 
+rate of urea removed by dialysis 
+ 
+(PS)1
+Fo1
+(PS)2 
+q1 q2
+Intracellular 
+fluid 
+Extracellular
+fluid 
+Rate constant for urea
+removed by dialysis
+Urea production
+(protein metabolism)
+(PS)1
+Fo1
+(PS)2 
+q1 q2
+Intracellular 
+fluid 
+Extracellular
+fluid 
+Rate constant for urea
+removed by dialysis
+Urea production
+(protein metabolism)
+ 
+R

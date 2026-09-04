@@ -1,0 +1,1430 @@
+
+===== PAGE 1 =====
+Introduction to Modeling and Simulations of 
+Integrated Cellular Systems
+General Concepts in Computational Systems 
+Biology/Physiology/Bioengineering
+BIEN6391 (Spring 2018)
+
+===== PAGE 2 =====
+What is Systems Biology?
+ The behavior of biological systems (e.g. an organelle, a cell, an 
+organ, an organelle, …) is usually non-intuitive and non-linear, 
+making it very challenging to understand how such systems 
+function in health, how they are disrupted in disease, and what 
+are the possible impacts of potential treatments
+ Understanding how all the components of a biological system 
+work together, and how changes in one component (e.g. cell’s 
+ATP demand) impact the overall biological function (e.g. cell’s 
+ATP supply) is often referred to as systems biology
+ To a biomedical engineer, systems biology is concerned with 
+the study of biological functions and mechanisms by means of 
+signal- and system-oriented approaches
+ Examples: Understand the internal working of a cell in health and 
+disease based on engineering principles
+
+===== PAGE 3 =====
+What is Computational Systems Biology?
+ Computational systems biology aims to develop and apply efficient 
+numerical methods, data structures, visualization and communication 
+tools with the goal of computer modeling of biological systems
+ It involves the use of computer (in-silico) simulations of cellular systems, 
+including cellular subsystems (such as the networks of metabolites and 
+enzymes which comprise metabolism, signal transduction pathways, and 
+gene regulatory networks), to both analyze and visualize the complex 
+connections/interactions of these cellular processes
+ A computational systems biology approach comprises of:
+ Investigating the key components of cellular networks (e.g. metabolic, 
+signaling) and their interactions in health and diseases
+ Applying high-throughput experimental techniques to measure systems 
+responses to external/environmental perturbations
+ Integrating theoretical and computational methods with experimental 
+efforts to generate new testable hypotheses on systems (dys)function
+
+===== PAGE 4 =====
+Computational Systems Biology: An Iterative Approach!
+Existing experimental 
+data and knowledge 
+from the literature are 
+highly valuable for initial 
+model development 
+Computational systems 
+biology discipline is highly 
+interdisciplinary
+
+===== PAGE 5 =====
+Motivation for Computational Systems Biology Research
+ Improved biological knowledge with the prospect of 
+utilization in biotechnology and health care industries
+ New experimental techniques in genomics, proteomics, 
+and metabolomics for better probing biological systems
+ Classical mathematical modeling of biological processes
+ Computer power for accurate simulation and prediction 
+of complex biological systems
+ Storage and retrieval capability in large databases and 
+data mining techniques
+ Internet as the medium for widespread availability of 
+knowledge from multiple sources
+
+===== PAGE 6 =====
+Ultimate Goals of Computational Systems Biology
+ Develop a theoretical basis for understanding regulatory 
+and control mechanisms in complex biological systems 
+(phenotyping, target identification, gene modification, 
+drug response)
+ Models can unveil molecular mechanisms causing altered 
+phenotypes to perturbations/diseases and enable devising 
+novel therapies and drugs to alleviate dysfunctions
+ Develop predictive tools to design cells (“digital cells”) with 
+desired properties cheaply and reliably
+ Digital cells can provide an engineering (mechanistic) approach 
+for predicting the consequences of genome manipulations and 
+other environmental perturbations
+ Foster individualized and predictive medicine
+
+===== PAGE 7 =====
+Modeling Application: Biosystem Identification
+BLOOD
+(often)
+(KNOWN)
+INPUT
+MEASURED
+OUTPUT
+TIME
+Key Concept: Predicting inaccessible features of the system (PK, 
+PD, metabolism, regulation mechanism, disease progression) based 
+upon measurements in the accessible portion, while estimating the 
+specific parameters of interest (biomarkers).
+Accessible 
+Portion
+Adapted from Cobelli and Caumo, Metabolism: 47: 1009-35, 1998.
+Inaccessible Portion
+A
+C B
+D
+++
+-
+CELL
+(often)
+
+===== PAGE 8 =====
+Guyton & Hall, Figure1-1
+Heart
+Skeletal Muscle
+Others
+Lungs
+O2 CO2
+Gut/Liver
+FH FH
+FSM FSM
+FGL FGL
+FO FO
+FL FL
+BrainFB FB
+KidneyFK FK
+Physiologically-based pharmacokinetic (PBPK) modeling
+
+===== PAGE 9 =====
+Modeling O2 and CO2 transport and exchange (whole-body)
+Blood-Tissue
+Exchange System
+Lungs
+FA,O2, FA,CO2
+PulCap
+QB QB
+FI,O2
+VI VA
+. .
+. .
+Tissue
+SysCap
+QB
+QB
+. .
+
+===== PAGE 10 =====
+Publications:
+Dash & Bassingthwaighte, Ann Biomed 
+Eng 32(12): 1676-1693, 2004
+Dash & Bassingthwaighte, Ann Biomed 
+Eng 34(7): 1129-1148, 2006
+Dash, Korman, & Bassingthwaighte Eur J 
+Appl Physiol 116(1): 97-113, 2016
+Myocytes
+Dash-Bassingthwaighte 2006 blood-tissue exchange model for O2 and CO2
+Applications:
+ O2 consumption and 
+CO2 production during 
+ischemia and exercise 
+(to study acid-base 
+regulation)
+ Analysis of tracer 
+kinetics (PET imaging 
+using radio-labeled O2
+to study metabolic 
+heterogeneity)
+
+===== PAGE 11 =====
+Integrated biochemical pathways coupling substrate metabolism, Ca2+ homeostasis, 
+ROS homeostasis, and oxidative ATP synthesis in cardiomyocytes (and other cells)
+CoA-SH
+Ac-CoA CIT
+CoA-SH
+ICIT
+AKG
+S-CoA
+SUC
+FUM
+MAL
+OAA
+CO2
+NADH
+NAD
+NADH
+NAD
+CO2FADH2
+FAD
+NADH
+NAD
+2
+ 3
+4
+5
+6
+7
+8
+9
+CoA-SH
+GDP + PI
+GTP
+11
+ASP
+GLU
+1
+PYR
+CoA-SH
+NADH
+NAD
+CO2
+10
+ATP
+ADP
+TCA Cycle
+PYR-
+H+
+ PC
+GLU-
+H+
+ GC
+MAL2-
+Pi2-
+ DCC1
+SUC2-
+Pi2-
+ DCC2
+AKG2-
+MAL2-
+OGC
+HGLU0
+ASP-
+ AGC
+MAL2-
+HCIT2-
+ CC1
+MAL2-
+HICIT2-
+ CC2
+AKG ICIT
+NADPH NADP
+ICDH
+CO2
+PYR OAA
+ADP + PIATP
+CO2
+PYR
+Carboxylase
+MAL PYR
+NADP NADPH
+Malic 
+Enzyme
+CO2
+Matrix
+IMS
+Mitochondria
+PYR
+GLU
+MAL
+AKG
+ASP
+CIT
+ICIT
+SUC
+K+ H+ Mg2+ Na+ Ca2+
+ATP ADP Pi
+Myocyte MbO2 ⇌ O2 + Mb
+O2
+O2
+CO2
+CO2
+Glucose
+GLUT
+1 or 4
+Glucose
+Lactate/Pyruvate
+MCT
+1 or 4
+Lactate/Pyruvate
+FFA
+FAT/
+CD36
+FFA
+NADP
+NADPH
+AKG
+ICIT
+ICDH
+CO2
+NADH
+MAL
+OAA
+ASP
+AKG
+GLU
+NAD
+AST
+MDH
+CO2
+NADP
+NADPH
+Malic 
+Enzyme
+PYR
+MAL
+Fatty Acids 
+Synthesis
+Triglycerides 
+Synthesis
+Cytosol
+G3P
+DHAP
+G3PDH
+NAD
+NADH
+G3PDH
+GlucoseG6PF6PF16BPGA3P13BPG3PG
+ATP
+ADP
+NADH
+Glycogen
+NADH
+NAD
+NAD, PI
+DHAP G1P
+ATP ADP+2PI
+PI
+Glycolysis & 
+Glycogenolysis
+1
+2
+3,4
+5
+ATP
+ADP
+6
+9
+7
+8
+10
+ADP
+ATP
+11
+2PG
+12
+PEP
+13
+PYR
+Lactate
+15
+ADP
+ATP
+14
+FADH2 FAD
+Q QH2
+CII
+Q
+H+
+NADH NAD+
+QH2
+CI
+H+
+ADP3-+
+HPO4
+2-
+ATP4-
+CV
+H+ H2PO4
+-
+P
+I
+C
+C(ox)3+H+
+O2 H2O
+CIV
+ADP3-
+ATP4- ADP3-
+A
+N
+T
+HPO4
+2-
+A
+P
+C
+ATPMg2-C(red)2+
+Q
+C(ox)3+ H+
+CIII
+QH2
+e − e −
+O2
+• −
+ SOD2 H2O2
+e −
+O2
+• −
+ SOD1 H2O2
+IMAC
+O2
+• − H2O2
+CK
+Cr
+CrP ATP
+ATPase
+ADP
++ PI
+AMP
+ADP
+AK
+CIT OAA
+ADP+PIATPCoA-SH Ac-CoA
+ATP-
+Citratelyase Ac-CoA Mal-CoA
+ADP + PIATP
+HCO3
+-
+ACC
+Fattyacyl-CoA
+Fatty Acid
+ATP + CoA-SH
+AMP + 2PI
+Fattyacyl-
+Carnitine
+CoA-SH
+Carnitine
+Carnitine
+FAA
+CPTf1
+CPTl
+Fattyacyl-
+Carnitine
+Fattyacyl-CoA
+CoA-SH
+Carnitine
+FAD
+FADH2
+Enoyl-CoAHydroxyacyl-CoA
+β-Ketoacyl-CoA
+NADH
+NAD
+β-Oxidation
+CoA-SH Ac-CoA
+ 1
+2
+3
+4
+5
+CPTf2
+H+K+
+K+H+
+KHE
+H+Na+
+Na+H+
+NHE
+Na+Ca2+
+Na+ Ca2+
+ NCE
+H+Ca2+
+H+ Ca2+
+ CHE
+Ca2+
+mRyR
+K+
+mKATP, mKCa
+H+
+H+ Leak (UCP)
+Ca2+
+CU1/CU2
+Ca2+
+PTP
+Ca2+
+RaM
+H2O2 H2O + 0.5O2
+CAT
+2H2O
+2GSH
+GSSG
+GPx
+Prx3(r)
+Prx3(o)
+Prx
+Trx2(o)
+Trx2(r)
+Grx3(r)
+Grx3(o)
+GSSG
+2GSH
+Prx-
+Trx
+Trx-
+Grx
+Grx-
+GS
+2GSH
+GSSG
+NADP
+NADPH
+GRd
+Trx2(r)
+Trx2(o)
+NADP
+NADPH
+TrxRd
+Ca2+ Buffering
+(Sequestration)
+G3P
+TGL
+PI
+3 CoA-SH
+3 Fatty-
+acyl-CoA
+Acyl-
+Transferase
+NADHNADP
+NADNADPH
+NNTHH+
+Cell and tissue/organ systems pathologies or dysfunctions 
+are manifested through dysregulations in these metabolic  
+pathways (e.g. cardiac I/R injury, heart disease, diabetes, 
+salt-sensitive hypertension, ALI/ARDS)
+
+===== PAGE 12 =====
+ACoA
+TCA 
+cycle
+OMM
+PDH  and
+β-oxidation
+Metabolite Transporters
+IMM
+I
+NADH NAD+
+Q
+4H+
+QH2
+II
+FADH2 FAD
+Q QH2
+F1F0
+ATP
+3H+
+V
+III
+Q
+4H+
+CytC
+(ox) 
+CytC
+(red)
+IV
+O2 H2O
+2H+
+CytC
+(ox) 
+IMS
+Matrix
+Mitochondria
+Cation Channels/Transporters
+ADP
+AN T ADP
+ATP
+H+
+Pi PiC Pi
+H+H+
+Hleak
+[a3
+3+-cu2+]
+f1f.k1f .c2+
+f1r.k1r .c3+
+[H2O2
+2--a3
+3+-cu2+]
+KH
+2, f3ar.k3ar 
+.c3+
+f2f.k2f .O2
+f2r.k2r 
+f3af.k3af 
+.2H.c2+
+[a3
+3+-cu2+-NO]
+NOKi1
+K5, 2H.2c2+
+KH
+2
+(E1)
+(E5)
+(E1p)
+[a3
+3+-cu1+]
+NO
+[a3
+3+-cu1+-NO]
+Ki2
+(E2)
+(E2p)
+[a3
+3+-cu1+-O2]
+K3, H
+KH
+[HO2-a3
+2+-cu2+]
+(E3) (E4)
+f3bf.k
+3bf 
+.H.c
+2+
+KH, f
+3br
+.k
+3br 
+.c 3+
+Cytochrome c Oxidase
+CoA-SH
+ACoA CIT
+CoA-SH
+ICIT
+AKG
+S-CoA
+SUC
+FUM
+MAL
+OAA
+CO2
+NADH
+NAD
+NADH
+NAD
+CO2
+FADH2
+FAD
+NADH
+NAD
+2
+ 3
+4
+5
+6
+7
+8
+9
+CoA-SH
+GDP + PI
+GTP
+11
+ASP
+GLU
+10
+ATP
+ADP
+TCA Cycle
+PDH
+phosphatase
+PDH
+Kinase
+PDH
+active
+PYR + CoA-SH + NAD Ac-CoA + NADH + CO2
+ATP
+ADP
+PI
+Mg2+, Ca2+, 
+Insulin, Cate-
+cholamine
++Ve
+NADH, ATP, 
+Ac-CoA
++Ve
+PYR, CoA-SH, 
+NAD, ADP, Ca2+,
+Dichloroacetate
+-Ve
+PDH
+inactive
+P
+(CN) Acyl-
+Carnitine(CN) Acyl-CoA
+CoA-SHCarnitine
+FAD
+FADH2
+(CN) Enoyl-CoA(CN) Hydroxyacyl-
+CoA
+(CN) β-Ketoacyl-
+CoA
+NADH
+NAD
+β-Oxidation
+CoA-SH Ac-CoA
+1
+2
+3
+4
+5
+CPTf2
+1
+PYR
+CoA-SH
+NADH
+NAD
+CO2
+ACoA
+PDH
+Important in heart 
+& skeletal muscle
+
+===== PAGE 13 =====
+Integrated mitochondrial model(A)
+(C) (E)(D)
+mCU kinetic model 
+(slow mode of mCa2+uptake)
+mRTC kinetic model 
+(fast mode of mCa2+uptake)
+mCSS conceptual model 
+(mCa2+ buffering)
+E
+C
+D
+ 
+ 
+  
+ 
+  
+ 
+ 
+ 
+ 
+ 
+  
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+  
+ 
+  
+  
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+T = mCU
+ 
+2+ +
+xeCa E2Na  
+2+ +
+xeCa ENa  
++
+eENa  
+2+
+xCa E  
++
+eE3Na  
++
+eE2Na
+ 
++ 2+
+xe3Na ECa  
+E
+ 
+2+
+eECa  
++ 2+
+xeNa ECa  
++ 2+
+xe2Na ECa  
++
+xNa E  
++
+x2Na E  
++
+x3Na E  
+2+ +
+xeCa E3Na  
+Ne,1K′  Ne,2K′  
+CeK′  
+bk  ak  
+Ne,2K′  
+CxK′  
+CxK′  Ne,3K′  
+CeK′  
+2+
+xCa
+ 
++
+eNa  
++
+eNa  
+2+
+xCa  
++
+eNa  +
+eNa  
+2+
+eCa
+ 
+2+
+eCa
+ 
+Ne,1K′  
++
+eNa  
+Nx,3K′  
++
+xNa  
+Nx,2K′  
++
+xNa  
+Nx,1K′  
++
+xNa  
+Nx,3K′  
++
+xNa  
+Nx,2K′  
++
+xNa  
+Nx,1K′  
++
+xNa  
++
+eNa  
+Ne,3K′  
+mNCE kinetic model (Na+ influx and Ca2+ efflux)(B)
+B
+
+===== PAGE 14 =====
+Complex I model
+ Complex III model
+GSH system
+kinetic model
+GR modelGPx model
+TrxR model
+Prx modelTrx system
+kinetic model
+Integrated model of mitochondrial bioenergetics, ROS 
+handling, and Ca2+-ROS interactions/crosstalk
+
+===== PAGE 15 =====
+Cardiac Myocyte Excitation-Contraction Coupling
+Bers, D. M. Physiology 21: 2006; 380-387 20066
+doi:10.1152/physiol.00019.2006
+
+===== PAGE 16 =====
+Ca2+ Diffusion
+Ca2+ Diffusion
+Ca2+ Diffusion
+Ca2+
+Ca2+
+PLB
+JSR     
+JSR     
+CSQ     
+NSR     NSR     
+SERCA
+Pump     
+Ca2+ Ca2+
+IP3R
+Ca2+
+Leak
+CaM
+RyR
+Dyadic 
+Space
+MAM
+CaMKII 
+Ca2+
+IbNa
+Na+ K+
+IbK
+Ca2+
+IbCaIfNa
+Na+
+NKP
+K+ Na+
+INaKP
+K+
+IKir
+K+ K+ K+
+IKf IKss IKt IKATP
+K+
+IPMCA
+Ca2+
+Troponin  
+Myofilaments 
+NHE
+Na+
+H+
+NCE
+Ca2+
+3Na+
+GS
+Agonist  
+AC 
+PKA
+cAMP
+ATP
+β-AR  
+Cytoplasm 
+T-Tubule   
+CK
+Cr
+CrP ATP
+ATPase
+ADP + PI
+AMP
+ADP
+AK
+CaMKII CaM Ca2+
+LCC
+NCE
+Ca2+
+3Na+
+Ca2+
+Ca2+
+LCC
+NCE
+Ca2+
+3Na+
+DAG
+PKC
+IP3
+IP3P
+Ca2+
+IP3K
+Agonist  
+GPCR  
+Gα PLC  
+PIP2
+Cyto Ca2+
+Buffering
+CaMKII 
+MCU
+RTC Ca2+
+IMM
+OMM
+NCE
+Ca2+
+3Na+
+NHE
+Na+
+H+CHE
+Ca2+
+H+
+Legend: CaMKII regulates the activities of ion channels (-ve) 
+PKA/PKC regulates the activities of CaMKII (-ve) and PLB (+ve)
+Integrated processes governing cardiac electrophysiology, Ca2+
+handling, and excitation-contraction coupling?
+
+===== PAGE 17 =====
+Cdc25
+Wee1
+Cdc14
+kf,7
+kd,15.2
+SecurinAPCP:Cdc20
+Wee1
+P
+Cdk1
+P
+CCNB Cdk1CCNB
+P
+CCNB
+Cdc25
+Cdc14
+APC/C
+S P
+Cdh1
+APC/C
+APC/C
+S P
+Cdc20
+Cdc20 Cdc20
+T P
+Cdh1 APC/C
+PP2A
+Securin
+P
+Separase
+S P
+Separase
+Cdh1
+Anaphase 
+Trigger
+Mitotic
+Exit
+Separase P
+PP2A
+ks,13
+ks,9
+kd,10
+ks,1
+ks,21
+S P
+PP2A
+Metaphase
+kd,13.1
+kd,1.1
+kd,1.2
+kd,1.3
+kr,7
+kd,21.2
+kr,2
+kf,2
+kr,4
+kd,3.1
+kd,4.1
+kd,4.2
+LMNA/C
+P
+LMNA/Ckd,4.3
+kf,6
+kr,6
+kf,8
+kr,8
+kf,9
+kr,9
+kf,10
+kr,10
+kr,3
+kf,3
+kd,3.2
+kd,3.3
+Cdk1
+kf,4
+kr,1
+kf,1
+ks,8
+kd,8
+ks,15
+kf,11
+kr,11
+kd,18
+ks,18
+APC/C:Cdc20Mitosis
+kr
+kf
+kr,7
+kr,6
+kr,9
+kr,6
+kd,7
+kd,9
+kd,14
+kd,15.1
+kd,21.1
+APCP:Cdh1
+Plk1
+P
+Plk1
+PTEN ks,12
+kd,12.2
+kr,5
+kf,5
+kd,12.1
+kd,11
+Integrated protein-protein interaction network governing mitotic cell cycle 
+(cell division process; mitosis) in human fibroblast cells (and other cells)
+Two guest lectures by Dr. Scott Terhune, a virologist, 
+focusing on the biology of cell cycle regulation and its 
+disruption during viral infection and cancer, followed 
+by modeling of the topics by Dr. Dash
+
+===== PAGE 18 =====
+Integrative Approach to Biomedical Science
+Function
+…omics
+Bioinformatics
+Data Mining
+Genome Annotation
+Mechanistic 
+Modeling
+Physiology
+Biophysics
+Biochemistry
+Computational 
+Systems Biology
+Integrated
+Computational
+Modeling
+
+===== PAGE 19 =====
+From Prof. Andrew 
+McCulloch, UCSD
+
+===== PAGE 20 =====
+From Prof. Andrew 
+McCulloch, UCSD
+
+===== PAGE 21 =====
+genome
+ networks modules
+Experiment
+cell
+tissue
+organ
+Multi-scale Modeling
+Structural Integration 
+Systems Biology
+Functional Integration
+Bioinformatics
+Information Integration
+body
+functional
+subsystems
+organelle
+moleculeFrom Prof. Andrew McCulloch, UCSD
+
+===== PAGE 22 =====
+
+
+===== PAGE 23 =====
+Schematic illustrating the scope of multi-scale modeling techniques, panning spatial 
+and temporal scales, to complement experimental data at all biological scales
+Dewan, …, McCulloch, Front Physiol 8 (e151), 2017
+
+===== PAGE 24 =====
+The Heart as an Electro-Mechanical System
+ion channels ventricles electrocardiogram
+whole cell
+sarcomere
+circulation
+Electrophysiology
+Biomechanics
+myocardium
+Excitation-
+Contraction 
+Coupling
+From Prof. Andrew McCulloch, UCSD
+
+===== PAGE 25 =====
+The Heart as an Electro-Mechanical Model
+Open
+Inactivated
+Markov kinetics
+3D finite 
+element 
+model
+Electrical 
+propagation
+whole cell
+Myofilament 
+kinetics
+Ca2+ release unit
+Boundary Conditions
+Roff Roff
+RonRon
+A1 A1
+0
+0
+0
+*
+*
+*
+kon
+fg g
+Ca2+
+Ca2+
+Ca2+
+Ca2+
+Ca2+
+Ca2+
+*
+kb
+kn
+Material 
+structure
+Constitutive law
+Electrophysiology
+Biomechanics
+From Prof. Andrew McCulloch, UCSD
+
+===== PAGE 26 =====
+Why Multi-Scale Modeling of Biological Systems?
+ Integrative modeling of genome network, protein-protein 
+interaction network, signaling network, metabolic network, 
+and of intact in vivo systems can, via iteration with carefully 
+designed experiments, resolve contradictions among prior 
+observations and interpretations.
+ Comprehensive, accurate, and realistic models can very well 
+demonstrate the “emergent properties” not inherent to the 
+individual components, but apparent in the intact organism. 
+ The “reverse engineering” of biology can aid clinical diagnosis 
+and the design and the evaluation of therapy.
+ Databases, concepts, descriptions, and mathematical models  
+can be best shared in the public domain (an open system) to 
+foster rapid progress.
+
+===== PAGE 27 =====
+Models are not real, though reality can be modeled!
+ In almost all cases, mathematical models are only 
+rough representations of their biological counterparts
+ Nevertheless, mathematical models enable to
+ Analyze and interpret experimental data; design critical 
+experiments for further understanding
+ Check the reliability of basic model assumptions
+ Formulate hypothesis, fix or improve hypotheses, and 
+generate further hypotheses
+ Elucidate biological network (“emergent”) properties
+ Uncover the lack of knowledge and requirements for 
+clarification and improved understanding
+ Create large repository of current knowledge, formalized in 
+a nonambiguous way and including quantitative data
+
+===== PAGE 28 =====
+Mathematical Modeling of Biological Systems
+ Biological processes can be described in terms of mathematics 
+to form mathematical models
+ However, a biological object can only be investigated by means of 
+different kind of experimental methods
+ Each biological process can be described through different kind 
+of mathematical models
+ The choice of a mathematical model or a numerical algorithm 
+depends on the problem, the purpose, and the intention of the 
+investigator (i.e. depends on the biological question)
+ Modeling has to reflect the essential properties of the system: 
+Different models may highlight different aspects of the same 
+system (e.g. steady-state model vs. dynamic model)
+ Efforts should be made to make the models close to reality
+
+===== PAGE 29 =====
+Explanatory modeling using inductive reasoning!
+Experiments
+Observations
+(behavior in situ)
+Hypothesis
+(on mechanisms 
+and constraints)
+Knowledge
+(from literature, 
+databases or 
+previous models)
+Mathematical 
+Model
+Predictions
+(behavior in silico)Compare
+Accept or reject 
+hypothesis
+The experimental observations and the model predictions (possibly those of 
+several alternative models) are compared in order to confirm or reject the 
+hypotheses encoded in the mathematical model. The term ‘behavior’ can be 
+referred to features of physiological variables such as species concentrations.
+
+===== PAGE 30 =====
+Predictive modeling using deductive reasoning!
+Knowledge
+Mathematical 
+Model
+Predictions
+(behavior in silico)
+Hypothesis
+(on mechanisms 
+and constraints)
+Experiments
+(suggestions)
+Treatment
+(suggestions)
+A computational implementation of the mathematical model may be used to 
+conduct artificial (in silico) experiments that can suggest novel hypotheses or 
+support decisions on novel experimental designs and therapeutic strategies. 
+Observations from the real system may be used to validate new hypotheses or 
+provide parameters or initial conditions to the mathematical model.
+Laboratory 
+Experiments
+Mathematical 
+Models
+Simulation - Validation
+Prediction - Experimentation
+Iterative Experiments 
+and Modeling Paradigm
+
+===== PAGE 31 =====
+Hypothesis testing via iterative experiments and modeling
+Hypothesis
+Experiment
+Quantitative
+Hypothesis
+= Model
+Comparison
+Data Solutions
+Hypothesis
+Working Hypothesis
+OK?
+Expt.
+Design
+Yes
+No Rethink, remodel,
+Redesign, redo!
+Unproven but
+not disproven
+
+===== PAGE 32 =====
+Model Development – Key Steps
+ Formulation of the problem:
+ Specific questions that shall be answered, along with existing 
+background knowledge and hypotheses
+ Background knowledge and hypotheses:
+ System components, interaction map, and kind of interactions
+ Experimental results with respect to phenotypic responses 
+against different stimuli (e.g. gene knockout, environmental 
+conditions)
+ Selection of the model structure:
+ Level of details (molecular, cellular, physiological)
+ Deterministic, stochastic, or statistical
+ Discrete or continuous variables
+ Static, dynamic, or spatiotemporal
+
+===== PAGE 33 =====
+Model Development – Key Steps (Cont’d)
+ Robustness/sensitivity analysis:
+ Test the dependence of the system behavior on changes in 
+the model parameter values
+Stability analysis (oscillation, chaos)
+Bifurcation analysis (phase-plane analysis)
+ Experimental tests:
+ Model-generated hypotheses testing via experimentation
+ Choice of parameters to be measured, different types of 
+experiments, number of samples and repetitions, …
+ Assessment of the agreement and divergences between 
+experimental results and model behavior
+ Iterative refinement of the hypotheses (and of the 
+model = quantitative hypothesis)
+
+===== PAGE 34 =====
+Model Parameterization and Validation
+ Using approximate parameter values without any explicit 
+experimental basis
+ Using parameters values obtained from the literature
+ Using parameter values based on curve fittings (brute 
+force, least squares, genetic algorithms, etc.)
+ Using hybrids of above approaches where appropriate, 
+possibly guided by sensitivity analysis
+ Validating individual modules before piecing together
+ Testing with both time-course and dose-response data
+ Testing with independent experimental data for further 
+model comparison (corroboration)
+
+===== PAGE 35 =====
+Model Parameter Estimation: Key Concept
+exp data
+2
+data model
+data data
+m i n () ; ()
+( ( ) ( , ))1
+max( ( ))p
+N N
+jj
+ij j
+Ep Ep
+y t y tp
+N Yt
+=
+ −
+
+∑∑
+Model parameters (p) are estimated by optimization of mean square error E(p): 
+(gradient-based methods, simplex method, genetic algorithms, MCMC methods)
+MATHEMATICAL
+MODEL: f = f(p,t)
+PHYSIOLOGICAL
+SYSTEM
+PARAMETER
+ESTIMATION
+ALGORITHM
+DATA
+PARAMETERS
+WITH 
+PRECISION
+MODEL 
+OUTPUT
+1
+2 3
+INPUT
+MODEL FIT
+yi = f(ti,p) + εi (noisy)
+
+===== PAGE 36 =====
+Model Analysis (Exploration/Behavior)
+Methods from control theory:
+ Sensitivity analysis (dY(t)/dP, dY/dP*(P/Y))
+A higher sensitivity coefficient indicates that a small change 
+in a given parameter can result in a significant change in the 
+model output. The parameter is sensitively identifiable.
+ Stability analysis and bifurcation analysis
+In-silico experimentation:
+ Overexpression (Xtot,new = c*Xtot,old; c > 1)
+ Underexpression or Knockout (Xtot,new = c*Xtot,old; 0 ≤ c < 1)
+ Inhibition or activation with drugs
+( )( )ln 0.01 0.01; ln 0.02 ( )
+P
+ii
+N
+Y YY i i ii i
+P PP
+i ii i
+YP YPY PY P PS SS P Y P YP
+−= ∂ ∂+ −= = ≈∂∂∑
+
+===== PAGE 37 =====
+Interdisciplinary Information Exchange
+The highly interdisciplinary nature of systems biology 
+requires the exchange of information among scientists 
+from different fields
+Mathematical formulas and modeling concepts have 
+to be made easily understandable to biologists
+People acquainted with the rigid rules of mathematics 
+and computers have to understand the diversity of 
+biological objects and the uncertainty in the outcome 
+of experiments
+Biologists should attempt to understand important 
+aspects of computational modeling

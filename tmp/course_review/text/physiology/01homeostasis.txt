@@ -1,0 +1,564 @@
+
+===== PAGE 1 =====
+
+
+===== PAGE 2 =====
+Course: 
+BIEN 4700-101 Systems Physiology
+BIEN 5700-101 Systems Physiology
+Instructor:
+David Rickaby, PhD, Research Physiologist
+Assistance: 
+•david.rickaby@marquette.edu
+•Before or after class
+•By appointment
+General Information
+
+===== PAGE 3 =====
+Text: 
+Guyton, AC and Hall, JE; Textbook of Medical 
+Physiology (13th ed.) Philadelphia, PA: Elsevier 
+Health Sciences, 2015
+Additional Resources:
+https://D2L.mu.edu
+•Syllabus
+•Course notes
+•Course slides
+•Sample Exams
+Attendance
+General Information
+
+===== PAGE 4 =====
+
+
+===== PAGE 5 =====
+Grading: 
+Five Exams
+Exam 1 - 4: new material only (9-10 lessons each)
+Exam 5: cumulative
+Exam 4 and 5: taken together as the “Final Exam”
+Questions (40/exam): 
+• Multiple choice
+• True/False
+• Matching
+The “Curve”
+90-100: A         87-89: AB         80-86: B         75-79: BC
+65-74: C           62-64: CD         55-61: D        <55: F
+General Information
+
+===== PAGE 6 =====
+INTRODUCTION
+LESSON 1
+Homeostasis
+
+===== PAGE 7 =====
+Organization of Living Systems
+
+===== PAGE 8 =====
+Musculoskeletal
+•Locomotion
+•Communication
+•Movement (internal & external)
+Circulatory
+•Distribution, exchange, collection
+•Control of blood pressure and flow
+Urinary
+•Elimination of metabolic wastes
+•Fluid and electrolyte balance
+•Long-term control of blood pressure
+Respiratory
+•Ventilation, perfusion, diffusion
+•Exchange of O2 and CO2
+Organ Systems
+
+===== PAGE 9 =====
+Nervous
+•Electrochemical communication
+•Receptors sense
+•Central nervous system evaluates
+•Effectors (muscles/glands) respond
+Digestive
+•Digestion of ingested nutrients
+•Absorption of digested nutrients
+•Utilization of absorbed nutrients
+Endocrine
+•Chemical communication
+•Hormone production and transport in blood
+Reproductive
+•Production of germinal cells (sperm/ova)
+•Synthesis of steroid hormones
+Organ Systems
+
+===== PAGE 10 =====
+Homeostasis  =
+Optimal Dynamic
+Steady-state
+condition
+Perfect
+Health=
+Homeostasis   Equilibrium Disease/
+Death
+Physiological Imperative:
+Maintain Homeostasis  
+The Goal
+
+===== PAGE 11 =====
+Feedback Control
+Negative
+Feedback
+Positive
+Feedback
+
+===== PAGE 12 =====
+100
+90
+80
+70
+60
+50
+Arterial Pressure (mm Hg)
+Hemorrhage
+1.0 Liter
+90
+Correction:
+ 40 mm Hg
+Error:
+ 10 mm Hg
+Gain = Correction  40
+Error                10               = =  4.0
+Negative Feedback
+
+===== PAGE 13 =====
+CYTOLOGY
+LESSON 2
+Transport Through 
+Cell Membranes
+
+===== PAGE 14 =====
+Cell Membranes: “Fluid Mosaic”
+
+===== PAGE 15 =====
+1. Receptors
+2. Enzymes 
+3. Leak channels
+1               2                  3                  4              5               6   
+2
+Membrane Protein Function
+4. Gated channels
+5. Cell identity markers
+6. Cell adhesion proteins
+
+===== PAGE 16 =====
+Physical Methods:
+-Require no ATP
+-Can occur outside 
+of living systems
+1. Diffusion
+2. Osmosis
+3. Filtration
+Physiological Methods:
+-Require ATP
+-Can only occur in living 
+systems
+1.  Active Transport
+2.  Endocytosis
+-Pinocytosis
+-Phagocytosis
+3. Exocytosis
+Transport Across Cell Membranes
+
+===== PAGE 17 =====
+Diffusion
+Time
+C  S  T A 
+d  MWD 
+
+===== PAGE 18 =====
+Concentration Gradient
+
+===== PAGE 19 =====
+Electrical Gradient
+B
+
+===== PAGE 20 =====
+Pressure Gradient
+
+===== PAGE 21 =====
+Facilitated Diffusion
+
+===== PAGE 22 =====
+facilitated diffusion
+rate of 
+diffusion
+Concentration gradient
+simple diffusion
+Vmax
+rate of diffusion  (Co-Ci)
+Facilitated Diffusion
+
+===== PAGE 23 =====
+Osmosis
+Time
+Osmotic 
+Pressure
+
+===== PAGE 24 =====
+Pure Water
+3% Salt Solution
+Osmosis and Blood Cells
+
+===== PAGE 25 =====
+Hemolysis Normal Crenation
+Osmosis and Blood Cells
+
+===== PAGE 26 =====
+Filtration
+
+===== PAGE 27 =====
+Filtration Rate
+
+===== PAGE 28 =====
+Hydrostatic 
+Pressure
+(23 ml out)
+Osmotic 
+Pressure
+(20 ml in)
+Exchange of Water (per minute)
+Diffusion 
+(4000 ml)
+Net fluid loss 
+of 3 ml/min 
+from the blood
+
+===== PAGE 29 =====
+Lymphatic Disorders
+
+===== PAGE 30 =====
+Physical Methods:
+-Require no ATP
+-Can occur outside 
+of living systems
+1. Diffusion
+2. Osmosis
+3. Filtration
+Physiological Methods:
+-Require ATP
+-Can only occur in living 
+systems
+1.  Active Transport
+2.  Endocytosis
+-Pinocytosis
+-Phagocytosis
+3. Exocytosis
+Transport Across Cell Membranes
+
+===== PAGE 31 =====
+Na+
+K+
+Mg2+
+Ca2+
+H+
+HCO3
+-
+Cl-
+SO4
+2-
+PO3
+-
+protein
+inside
+(in mM)
+14
+140
+0.5
+10-4
+(pH 7.2)
+10
+5-15
+2
+75
+40
+outside
+(in mM)
+142
+4
+1-2
+1-2
+(pH 7.4)
+28
+110
+1
+4
+5
+“Dynamic Steady-state”
+
+===== PAGE 32 =====
+Active Transport
+
+===== PAGE 33 =====
+Counter-transport
+
+===== PAGE 34 =====
+glucose
+Na+
+intestinal 
+lining
+lumen of
+the gut
+extracellular 
+fluid
+Na+
+K+
+glucoseglucose
+Co-transport
+ATP
+ADP
+Intestinal endothelial cell
+
+===== PAGE 35 =====
+Diffusion vs. Active Transport
+
+===== PAGE 36 =====
+Pinocytosis
+
+===== PAGE 37 =====
+Pinocytosis
+
+===== PAGE 38 =====
+Phagocytosis
+
+===== PAGE 39 =====
+Hydrolysis
+
+===== PAGE 40 =====
+Exocytosis
+
+===== PAGE 41 =====
+Exporting Proteins
+Exocytosis
+
+===== PAGE 42 =====
+CYTOLOGY
+LESSON 3
+Membrane Electrical 
+Potentials
+
+===== PAGE 43 =====
+Na+
+K+
+Mg2+
+Ca2+
+H+
+HCO3
+-
+Cl-
+SO4
+2-
+PO3
+-
+protein
+inside
+(in mM)
+14
+140
+0.5
+10-4
+(pH 7.2)
+10
+5-15
+2
+75
+40
+outside
+(in mM)
+142
+4
+1-2
+1-2
+(pH 7.4)
+28
+110
+1
+4
+5
+Chemical Gradients
+− +
+
+===== PAGE 44 =====
+Electrical Gradient
+
+===== PAGE 45 =====
+Voltage
+Faraday’s constant 
+Valence (charge) of the ion
+Electromotive = Chemical
+Concentration Gradient
+Universal gas constant 
+Absolute temperature (K)
+Electrochemical Gradient
+
+===== PAGE 46 =====
+Example: If Ko = 4 mM and Ki = 140 mM 
+EMF = -61 log(140/4) 
+EMF = -61 log(35) 
+EMF = -94 mV
+EMF = -61 log Ki
+Ko
+EMF = -61 log Ki
+Ko
+Ki
+Ko
+So, if the membrane were freely permeable to K+, 
+and K+ used diffusion only, Vm would be -94 mV
+Nernst Equation: Potassium
+
+===== PAGE 47 =====
+Example: If Nao = 142 mM and Nai = 14 mM 
+EMF = -61 log(14/142) 
+EMF = -61 log(0.1) 
+EMF = +61 mV
+EMF = -61 log Nai
+Nao
+Nai
+Nao
+So, if the membrane were freely permeable to Na+, 
+and Na+ used diffusion only, Vm would be +65 mV
+Nernst Equation: Sodium
+
+===== PAGE 48 =====
+0 mV
+EMFK
+-94
+EMFK
+-94
+EMFNa
++61
+EMFNa
++61
+Vm  -90Vm  -90
+Why is Vm so close to EMFK?
+Ans.  The membrane is far 
+more permeable to K than Na.
+measured
+calculated
+Membrane Permeability
+
+===== PAGE 49 =====
+Example: If Clo = 103 mM and Cli = 3.5 mM 
+EMF = +61 log(3.5/103) 
+EMF = +61 log(0.034) 
+EMF = -90 mV
+EMF = +61 log Cli
+Clo
+Cli
+Clo
+So, if the membrane were freely permeable to Cl-, 
+and Cl- used diffusion only, Vm would be -90 mV
+Nernst Equation: Chloride
+
+===== PAGE 50 =====
+NOTE:
+P = permeability
+iCloNaoK
+oCliNaiK
+m
+ClPNaPKP
+ClPNaPKPV ][][][
+][][][log. -++
+-++
+++
+++= -61
+iCloNaoK
+oCliNaiK
+m
+ClPNaPKP
+ClPNaPKPV ][][][
+][][][log. -++
+-++
+++
+++= -61
+Vm = -86 mV
+Goldman, Hodgkin, Katz Equation
+
+===== PAGE 51 =====
+Nernst Equation                  GHK Equation
+EMF: Measured vs. Predicted
+Measured EMF = -90 mV
+
+===== PAGE 52 =====
+Electrogenic Na+/K+ 
+Exchange Pump:
+3 Na+ pumped out for 
+every 2 K+ pumped in.
+EMF: Measured vs. Predicted
+3
+2
+very low
+very high
+2
+3
+
+===== PAGE 53 =====
+Action Potential
+
+===== PAGE 54 =====
+Depolarization and Repolarization
+
+===== PAGE 55 =====
+Membrane Ion Flux
+
+===== PAGE 56 =====
+Generator vs. Action Potentials
+
+===== PAGE 57 =====
+1
+2
+3
+4
+Action Potential Propagation
+Nerve Fiber
+
+===== PAGE 58 =====
+Voltage Clamp Technique
+
+===== PAGE 59 =====
+Patch Clamp Technique
+
+===== PAGE 60 =====
+The Myelin Sheath
+Unmyelinated axons
+Myelinated axon
+
+===== PAGE 61 =====
+Saltatory Conduction
+
+===== PAGE 62 =====
+Saltatory Conduction
+
+===== PAGE 63 =====
+unmyelinated
+myelinated
+Conduction velocities as slow as 0.5 M/sec
+Conduction velocities as fast as 130 M/sec
+Saltatory Conduction
+
+===== PAGE 64 =====
+Cardiac
+Muscle Cells
+Cardiac 
+Pacemaker Cells
+Action Potential Variations
+Threshold
+Millivolts
+
+===== PAGE 65 =====
+Parasympathetic 
+Nervous System
+ Heart Rate
+Sympathetic 
+Nervous System
+ Heart Rate
+Control of Heart Rate
+Cardiac 
+Pacemaker Cells

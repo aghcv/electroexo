@@ -1,0 +1,866 @@
+
+===== PAGE 1 =====
+Cellular and Mitochondrial Metabolism and 
+Energetics – Thermodynamics and Kinetic 
+Modeling of Biochemical Reaction and 
+Transport Systems
+BIEN6391 (Spring 2018)
+Modeling and Simulations of Integrated 
+Cellular Systems
+
+===== PAGE 2 =====
+Buffer
+IMS
+Matrix𝐂𝐎𝟐PYR
+𝐍𝐀𝐃+ NADH
+ACOACOA
+𝑪𝑶𝟐
+COA
+CIT
+AKG
+𝐍𝐀𝐃+
+NADH
+𝐍𝐀𝐃+
+NADH
+SCOA
+OXA
+SUC
+COA
+𝐍𝐀𝐃+
+NADH
+𝐅𝐀𝐃+
+𝐅𝐀𝐃𝐇𝟐
+MAL
+FUM
+GDP+PiGTP
+COA
+TCA 
+CYCLE
+𝑪𝑶𝟐GLU
+ASP
+ATP ADP
+-
++
+AT P
+ADP
+Pi
+𝐇+
+𝐇+
+4𝐇+
+NADH 𝐍𝐀𝐃+
+𝐔𝐐𝐇𝟐𝐔𝐐
+𝐅𝐀𝐃𝐇𝟐 𝐅𝐀𝐃
+𝐔𝐐𝐇𝟐𝐔𝐐
+𝐂𝐲𝐭𝐂𝟐+ 𝐂𝐲𝐭𝐂𝟑+
+𝐎𝟐 𝐇𝟐𝐎
+2𝐇+
+𝐂𝐲𝐭𝐂𝟑+ 𝐂𝐲𝐭𝐂𝟐+
+𝐔𝐐𝐔𝐐𝐇𝟐
+4𝐇+
+3𝐇+
+ADP 𝐀𝐓𝐏
+Pi
+PYR
+𝐇+
+MAL
+𝐏𝐢
+GLU
+𝐇+
+SUC
+𝐏𝐢
+MAL
+𝐂𝐈𝐓
+MAL
+A𝐊𝐆
+HGLU
+𝐀𝐒𝐏
+Integrated Modeling of Channels/Transporters/Enzymes Governing 
+Mitochondrial Energy Metabolism and Signal Transduction
+
+===== PAGE 3 =====
+Integrated Modeling of Channels/Transporters/Enzymes Governing 
+Mitochondrial Energy Metabolism and Signal Transduction
+
+===== PAGE 4 =====
+Mass Conservation Equations for Biochemical Systems
+Dynamic State: dC/dt =  S * Jrxn – Jtran (Mass Balance Eqs.)
+C = (C1,…,CM) is the vector of metabolite concentrations
+Jrxn = (Jrxn1,…,JrxnN) is the vector of metabolic reaction fluxes/rates
+Jtran = (Jtran1,…,JtranN) is the vector of outward transport fluxes/rates
+S = [Sij] = matrix of metabolites stoichiometric coefficients
+M = number of metabolites in the system (i = 1,…,M)
+N = number of reactions in the system (j = 1, …,N)
+Steady State: S * Jrxn = Jtran (Flux Balance Eqs.)
+In a closed system without any synthesis or degradation: Jtran = 0
+Kinetic modeling of transport fluxes Jtran via channels and transporters 
+(uniporters, symporters, antiporters) and reaction fluxes Jrxn via enzymes 
+are key to dynamic modeling of integrated metabolic systems and gain 
+mechanistic understanding of the systems.
+
+===== PAGE 5 =====
+Example: A Simple Biochemical Reaction Network
+11
+12 342
+2 5 63
+3457 4
+6 75
+[]
+[]
+[]
+[]
+[]
+tr
+rr r r t
+rrrt
+rrrrt
+rrt
+dA JJdt
+dB JJ JJJdt
+dC JJJJdt
+dD JJJJJdt
+dE JJJdt
+= −
+= + −+−−
+= +−−−
+= −+ + − −
+= ++ −
+Dynamic Mass Balance Equations:
+1
+21
+32
+43
+54
+65
+7
+[]
+[] 1 000000
+1 11 1000
+[] 0100 11 0
+0 0 1 11 0 1[]
+0000011
+[]
+r
+rt
+rt
+rt
+rt
+rt
+r
+dA
+dt J
+dB JJ
+dt JJ
+dC JJ
+dt JJdD
+JJdt
+JdE
+dt
+
+   −−    −−   = −−−   −−       
+
+Stoichiometry Matrix
+A B C E
+Jt1: JA Jr1: JA→B Jr2: JB→C
+Cell membrane
+D
+Jr5: JC→D
+Jr6: JC→E
+Jr7: JD→E
+Jt4: JD
+IntracellularExtracellular 
+Jt3: JC
+Jt5: JE
+Jt2: JB
+Dynamic Mass Balance
+Equations in Matrix Form:
+
+===== PAGE 6 =====
+1. One-substrate and one-product reactions 
+𝑘−𝑝𝑘𝑝
+2. Two-substrate and two-product reactions
+E
+ES
+EP
+ESP𝑘−𝑝𝑘𝑝
+𝐾𝐾𝑆𝑆
+𝐾𝐾𝑆𝑆
+𝐾𝐾𝑃𝑃
+𝐾𝐾𝑃𝑃
+𝑆𝑆
+𝑃𝑃 𝑆𝑆
+𝑃𝑃
+𝑘−𝑝𝑘𝑝
+3. Membrane co-transporters 
+4. Membrane anti-transporters 
+𝑘−𝑝𝑘𝑝
+𝐽𝐽𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡=
+𝑇𝑇𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚
+𝐴𝐴1 𝐴𝐴2
+𝐾𝐾𝐴𝐴1𝐾𝐾𝐴𝐴2
+− 𝑉𝑉𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚
+𝐵𝐵1 𝐵𝐵2
+𝐾𝐾𝐵𝐵1𝐾𝐾𝐵𝐵2
+1 + 𝐴𝐴1
+𝐾𝐾𝐴𝐴1
++ 𝐴𝐴2
+𝐾𝐾𝐴𝐴2
++ 𝐵𝐵1
+𝐾𝐾𝐵𝐵1
++ 𝐵𝐵2
+𝐾𝐾𝐵𝐵2
++ 𝐴𝐴1 𝐵𝐵1
+𝐾𝐾𝐴𝐴1𝐾𝐾𝐵𝐵1
++ 𝐴𝐴2 𝐵𝐵2
+𝐾𝐾𝐴𝐴2𝐾𝐾𝐵𝐵2
+𝐽𝐽𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡=
+𝑇𝑇𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚
+𝐴𝐴1 𝐵𝐵2
+𝐾𝐾𝐴𝐴1𝐾𝐾𝐵𝐵2
+− 𝑇𝑇𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚
+𝐴𝐴2 𝐵𝐵1
+𝐾𝐾𝐴𝐴2𝐾𝐾𝐵𝐵1
+1 + 𝐴𝐴1
+𝐾𝐾𝐴𝐴1
++ 𝐴𝐴2
+𝐾𝐾𝐴𝐴2
++ 𝐵𝐵1
+𝐾𝐾𝐵𝐵1
++ 𝐵𝐵2
+𝐾𝐾𝐵𝐵2
++ 𝐴𝐴1 𝐵𝐵2
+𝐾𝐾𝐴𝐴1𝐾𝐾𝐵𝐵2
++ 𝐴𝐴2 𝐵𝐵1
+𝐾𝐾𝐴𝐴2𝐾𝐾𝐵𝐵1
+𝐽𝐽𝑡𝑡𝑟𝑟𝑡𝑡= �𝑉𝑉𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚
+𝑆𝑆
+𝐾𝐾𝑆𝑆
+− 𝑉𝑉𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚
+𝑃𝑃
+𝐾𝐾𝑃𝑃
+1 + 𝑆𝑆
+𝐾𝐾𝑆𝑆
+1 + 𝑃𝑃
+𝐾𝐾𝑃𝑃
+𝐽𝐽𝑡𝑡𝑟𝑟𝑡𝑡=
+𝑉𝑉𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚
+𝑆𝑆1 𝑆𝑆2
+𝐾𝐾𝑆𝑆1𝐾𝐾𝑆𝑆2
+− 𝑉𝑉𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚
+𝑃𝑃1 𝑃𝑃2
+𝐾𝐾𝑃𝑃1𝐾𝐾𝑃𝑃2
+1 + 𝑆𝑆1
+𝐾𝐾𝑆𝑆1
+1 + 𝑆𝑆2
+𝐾𝐾𝑆𝑆2
+1 + 𝑃𝑃1
+𝐾𝐾𝑃𝑃1
+1 + 𝑃𝑃2
+𝐾𝐾𝑃𝑃2
+Easily extended from 
+a uniporter (A       B)
+
+===== PAGE 7 =====
+Law of mass action
+Given a basic reaction: A + B C + D
+kf
+kr
+if we assume that the rate of forward reaction is linearly 
+proportional to the concentrations of A and B, and backward 
+reaction is linearly proportional to the concentrations of C and 
+D, then
+[] [ ][ ] [ ][ ]rf
+dA kC D k ABdt = −
+Equilibrium
+Equilibrium is reached when the net rate of reaction is zero:
+[ ][ ] , (apparent)[][]
+eq eq f
+eq eq
+eq eq r
+CD kKK AB k
+′′ = =
+The equilibrium constant tells us the extent of the reaction, NOT speed.
+[ ][ ] [][] 0r eq eq f eq eqkC D k A B −=
+
+===== PAGE 8 =====
+Gibb’s Free Energy of a Biochemical Reaction
+The free energy change (∆G) of a reaction determines its 
+spontaneity. A reaction is spontaneous if ∆G is negative (if 
+the free energy of products is less than that of reactants). 
+∆Go' = standard free energy change (at pH 7, 1M reactants 
+and products); R = gas constant; T = temperature.
+   
+    For a reaction A + B  C + D 
+ 
+     ∆G = ∆Go' + RT ln  
+ 
+[C] [D] 
+[A] [B] 
+∆Go' of a reaction may be positive & ∆G negative, depending 
+on cellular concentrations of reactants and products. 
+An important 
+quantity defining 
+the biochemical 
+reaction direction 
+(thermodynamics)
+
+===== PAGE 9 =====
+At equilibrium, ∆G = 0. 
+This enables expressing 
+∆G°' in terms of K'eq, the
+mass action ratio 
+[C][D]/[A][B] at 
+equilibrium, which is the 
+equilibrium constant.
+An equilibrium constant 
+(K'
+eq) greater than one
+indicates a spontaneous
+reaction (negative ∆G°').
+  ∆G = ∆Gº' + RT ln
+      0 = ∆Gº' + RT ln
+      ∆Gº' = - RTln
+     defining K'eq =
+      ∆Gº' = - RT ln K'eq
+[C] [D]
+[A] [B]
+[C] [D]
+[A] [B]
+[C] [D]
+[A] [B]
+[C] [D]
+[A] [B]
+Equilibrium Constant of a Biochemical Reaction
+
+===== PAGE 10 =====
+K'eq ∆G º' 
+kJ/mol 
+Starting with 1 M reactants & 
+products, the reaction: 
+104 - 23 proceeds forward (spontaneous)  
+102 - 11 proceeds forward (spontaneous) 
+100 = 1     0 is at equilibrium 
+10-2 + 11 reverses to form “reactants” 
+10-4 + 23 reverses to form “reactants” 
+ 
+∆Go' = − RT ln K'eq
+Variation of equilibrium constant with ∆Go' (25 oC)
+
+===== PAGE 11 =====
+Energy Coupling
+ A spontaneous reaction may drive a non-spontaneous 
+reaction through energy coupling.  
+ Free energy changes of coupled reactions are additive.  
+Some enzyme-catalyzed reactions are interpretable as       
+two coupled half-reactions, one spontaneous and the    
+other non-spontaneous. 
+ At the enzyme active site, the coupled reaction is 
+kinetically facilitated, while individual half-reactions  
+are prevented. 
+ Free energy changes of half reactions may be summed,  
+to yield the free energy of the coupled reaction.
+
+===== PAGE 12 =====
+For example, in the reaction catalyzed by the glycolysis 
+enzyme Hexokinase, the half-reactions are:
+ATP + H2O ↔ ADP  +  Pi ,           ∆Go' = -31 kJ/mol
+Pi + glucose ↔ glucose-6-P + H2O, ∆Go' = +14 kJ/mol
+Coupled reaction:
+ATP+ glucose ↔ ADP + glucose-6-P, ∆Go' = -17 kJ/mol
+The structure of the enzyme active site, from which H2O    
+is excluded, prevents the individual hydrolytic reactions,
+while favoring the coupled reaction. 
+Energy Coupling (Cont’d)
+
+===== PAGE 13 =====
+Energy Coupling in Ion Transport
+Ion transport may be coupled 
+to a chemical  reaction, e.g., 
+hydrolysis or synthesis of ATP. 
+In this diagram and below,  
+water is not shown. It should 
+be recalled that the ATP 
+hydrolysis/synthesis reaction  
+is:  ATP + H2O ↔ ADP + Pi.
+S1 S2
+ATP
+ADP  +  Pi
+Side 1 Side 2
+The question is what is the change in free energy associated 
+with this kind of energy coupled ion transport processes???
+
+===== PAGE 14 =====
+The free energy change (electrochemical potential 
+difference) associated with transport of an ion S across 
+a membrane from side 1 to side 2 is: 
+R = gas constant, T = temperature, Z = charge on the ion, 
+F = Faraday constant, ∆Ψ = voltage.
+   
+   ∆G  = R T ln            +  Z F ∆Ψ
+[S]1
+[S]2
+S1 S2
+Side 1 Side 2
+
+===== PAGE 15 =====
+ ∆G for ion flux - varies with ion gradient and voltage.
+ ∆G for chemical reaction - negative ∆Go' for ATP 
+hydrolysis; ∆G depends also on [ATP], [ADP], [Pi]. 
+Since the free energy 
+changes are additive, the 
+spontaneous direction
+for the coupled reaction 
+will depend on relative 
+magnitudes of:
+S1 S2
+ATP
+ADP  +  Pi
+Side 1 Side 2
+2
+0' 0'
+ATPase ATPase ATPase
+Energy
+[ADP].[Pi]ln ; 31 kJ / mol[ATP]
+ATP Hydrolysis Reaction: iATP H O ADP P
+G G RT G
++ ↔ ++
+∆= ∆+ ∆= −
+Coupled Ion Transport Reaction:
+
+===== PAGE 16 =====
+Two examples:
+Active Transport: Spontaneous ATP hydrolysis 
+(negative ∆G) is coupled to (drives) ion flux against a 
+gradient (positive ∆G). 
+ATP Synthesis: Spontaneous H+ flux (negative ∆G) is 
+coupled to (drives) ATP synthesis (positive ∆G). 
+S1 S2
+ATP
+ADP  +  Pi
+active
+transport
+H+
+1 H+
+2
+ATP
+ADP  +  Pi
+ATP
+synthesis
+
+===== PAGE 17 =====
+Enzymes
+ Enzymes are catalysts, that speed up the rate of reactions, 
+without changing the extent of the reactions.
+ They are (in general) large proteins and are highly specific; 
+usually each enzyme speeds up only a single reaction.
+ They are highly regulated by a pile of things: phosphorylation, 
+calcium, ATP , their own products, etc., resulting in extremely 
+complex webs of intracellular biochemical reactions.
+Basic problem of enzyme kinetics
+Suppose an enzyme reacts with a substrate, giving a product.
+S + E P + E
+If we simply apply the law of mass action to this reaction, the 
+rate of reaction would be a linearly increasing function of [S]. 
+As [S] gets very big, so would the reaction rate. This doesn’t 
+happen. In reality, the reaction rate saturates.
+
+===== PAGE 18 =====
+Michaelis-Menten kinetics
+In 1913, Michaelis & Menten proposed the following mechanism 
+for a saturating reaction rate:
+S + E 
+k1
+k-1
+C k2
+P + E
+Complex Product
+It is easy to use the law of mass action to derive the reaction rate 
+equation. There are conservation constraints.
+Rapid equilibrium approximation
+ 
+k−1c = k1se
+ 
+c + e = e0
+ 
+c = e0s
+Ks + s
+ 
+V = k2c = k2e0s
+Ks + s = Vmax s
+Ks + s
+Reaction velocity:
+Key relationships:
+
+===== PAGE 19 =====
+Pseudo-steady state approximation
+ 
+(k−1 + k2 )c = k1se
+ 
+c + e = e0
+ 
+c = e0s
+Km + s
+ 
+V = k2c = k2e0s
+Km + s = Vmax s
+Km + s
+Reaction 
+velocity:
+Looks very similar to 
+the previous, but it is 
+actually quite different!
+Relationships:
+Lineweaver-Burke plots
+ 
+1
+V = 1
+Vmax
++ Km
+Vmax
+1
+s
+One can plot 1/V vs. 1/s and determine the slope and y-intercept 
+to get the required constants (Vmax and Km).
+A linear equation 
+for 1/V vs. 1/s
+
+===== PAGE 20 =====
+Basic saturating velocity and Lineweaver-Burke plot of an enzyme 
+catalyzed reaction obeying Michaelis-Menten kinetics
+Graphical determination of Vmax and Km
+1
+𝑉𝑉
+V
+
+===== PAGE 21 =====
+Reversible enzymes
+Of course, all enzymes HAVE to be reversible, so it’s naughty to 
+put no back reaction from P to C. We should use
+S + E 
+k1
+k-1
+C
+k2
+P + Ek-2
+Based on pseudo-steady state assumption, it can be easily shown that
+−− −+ −+
+−+ −+ + −
+++= = = =++
+012 0 1 2 12 12
+12 12 1 2
+;; ;fr s p
+ekk ek k kk kkVVK Kkk kk k k
+−−
+−−
+− −= =+ ++ + +
+0 12 1 2
+1 1 12
+()
+1/ /
+fr
+sp
+e kks k k p Vs VpV ks k p k k s K p K
+where
+Vf and Vr are related by Haldane constraint: Vf/Vr = (p/s)eq = Keq
+
+===== PAGE 22 =====
+Variants of One-Substrate One-Product Enzyme Kinetic Models
+E
+𝑘2𝑚𝑚
+𝑘1𝑚𝑚
+S
+𝑘1𝑚𝑚
+P
+ES
+E
+𝑘2𝑚𝑚
+P
+ES𝐾𝐾𝑆𝑆
+E
+ES
+EP
+𝑘2𝑚𝑚𝑘2𝑚𝑚
+S
+𝑘3𝑚𝑚
+𝑘3𝑚𝑚
+P
+E
+ES
+EP
+𝑘𝑚𝑚𝑘𝑚𝑚
+𝐾𝐾𝑆𝑆
+𝐾𝐾𝑃𝑃
+D
+E
+ES
+EP
+𝑘𝑚𝑚𝑘𝑚𝑚
+𝐾𝐾𝑆𝑆
+𝐾𝐾𝑃𝑃
+ESP
+𝐾𝐾𝑃𝑃
+𝐾𝐾𝑆𝑆
+Thus, we can have 6 different models for one-substrate one-product 
+reversible enzymatic reaction. Which model is considered suitable is 
+dependent on available experimental data. Thermodynamic (Haldane) 
+constraint provide relationship between kinetic parameters.
+
+===== PAGE 23 =====
+1. One-substrate and one-product reactions 
+𝑘−𝑝𝑘𝑝
+2. Two-substrate and two-product reactions
+E
+ES
+EP
+ESP𝑘−𝑝𝑘𝑝
+𝐾𝐾𝑆𝑆
+𝐾𝐾𝑆𝑆
+𝐾𝐾𝑃𝑃
+𝐾𝐾𝑃𝑃
+𝑆𝑆
+𝑃𝑃 𝑆𝑆
+𝑃𝑃
+𝑘−𝑝𝑘𝑝
+3. Membrane co-transporters 
+4. Membrane anti-transporters 
+𝑘−𝑝𝑘𝑝
+𝐽𝐽𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡=
+𝑇𝑇𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚
+𝐴𝐴1 𝐴𝐴2
+𝐾𝐾𝐴𝐴1𝐾𝐾𝐴𝐴2
+− 𝑉𝑉𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚
+𝐵𝐵1 𝐵𝐵2
+𝐾𝐾𝐵𝐵1𝐾𝐾𝐵𝐵2
+1 + 𝐴𝐴1
+𝐾𝐾𝐴𝐴1
++ 𝐴𝐴2
+𝐾𝐾𝐴𝐴2
++ 𝐵𝐵1
+𝐾𝐾𝐵𝐵1
++ 𝐵𝐵2
+𝐾𝐾𝐵𝐵2
++ 𝐴𝐴1 𝐵𝐵1
+𝐾𝐾𝐴𝐴1𝐾𝐾𝐵𝐵1
++ 𝐴𝐴2 𝐵𝐵2
+𝐾𝐾𝐴𝐴2𝐾𝐾𝐵𝐵2
+𝐽𝐽𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡=
+𝑇𝑇𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚
+𝐴𝐴1 𝐵𝐵2
+𝐾𝐾𝐴𝐴1𝐾𝐾𝐵𝐵2
+− 𝑇𝑇𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚
+𝐴𝐴2 𝐵𝐵1
+𝐾𝐾𝐴𝐴2𝐾𝐾𝐵𝐵1
+1 + 𝐴𝐴1
+𝐾𝐾𝐴𝐴1
++ 𝐴𝐴2
+𝐾𝐾𝐴𝐴2
++ 𝐵𝐵1
+𝐾𝐾𝐵𝐵1
++ 𝐵𝐵2
+𝐾𝐾𝐵𝐵2
++ 𝐴𝐴1 𝐵𝐵2
+𝐾𝐾𝐴𝐴1𝐾𝐾𝐵𝐵2
++ 𝐴𝐴2 𝐵𝐵1
+𝐾𝐾𝐴𝐴2𝐾𝐾𝐵𝐵1
+𝐽𝐽𝑡𝑡𝑟𝑟𝑡𝑡= �𝑉𝑉𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚
+𝑆𝑆
+𝐾𝐾𝑆𝑆
+− 𝑉𝑉𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚
+𝑃𝑃
+𝐾𝐾𝑃𝑃
+1 + 𝑆𝑆
+𝐾𝐾𝑆𝑆
+1 + 𝑃𝑃
+𝐾𝐾𝑃𝑃
+𝐽𝐽𝑡𝑡𝑟𝑟𝑡𝑡=
+𝑉𝑉𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚
+𝑆𝑆1 𝑆𝑆2
+𝐾𝐾𝑆𝑆1𝐾𝐾𝑆𝑆2
+− 𝑉𝑉𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚
+𝑃𝑃1 𝑃𝑃2
+𝐾𝐾𝑃𝑃1𝐾𝐾𝑃𝑃2
+1 + 𝑆𝑆1
+𝐾𝐾𝑆𝑆1
+1 + 𝑆𝑆2
+𝐾𝐾𝑆𝑆2
+1 + 𝑃𝑃1
+𝐾𝐾𝑃𝑃1
+1 + 𝑃𝑃2
+𝐾𝐾𝑃𝑃2
+Easily extended from 
+a uniporter (A       B)
+
+===== PAGE 24 =====
+Cooperativity
+S + E 
+k1
+k-1
+C1
+k2
+P + E
+S + C1
+k3
+k-3
+C2
+k4
+P + E
+Enzyme can bind two substrates molecules at different binding sites.
+Pseudo-steady state assumption
+= =++ ++
++= += ++
+2
+20 0
+12 22
+12 2 12 2
+22 4 0
+21 42 2
+12 2
+;
+()
+Kes escc KK Ks s KK Ks s
+kK ksesV kc kc KK Ks s
+Note the 
+quadratic
+behavior
+E C1 C2
+E E
+S S
+S SP P
+k1
+k-1
+k2
+k3
+k-3
+k4
+
+===== PAGE 25 =====
+Independent binding sites
+ 
+k1 = 2k3 = k+
+2k−1 = k−3 = k−
+2k2 = k4
+ 
+V = 2 k2e0s
+K + s
+Just twice the 
+single binding 
+rate, as expected
+Hill equation
+In the limit as the binding of the second S becomes infinitely 
+fast, we get a nice reduction.
+ 
+Let   k3 → ∞, and k1 → 0, while keeping k1k3 constant.
+ 
+V = (k2K2 + k4 s)e0s
+K1K2 + K2s + s2 → Vmax s2
+Km
+2
++ s2
+Hill equation, with
+Hill coefficient of 2.
+VERY special assumptions, note.
+This equation is used all the time to describe a cooperative 
+reaction. Mostly use of this equation is just a heuristic kludge.
+E C1 C2
+E E
+S S
+S S
+P P
+k+ k+/2
+k-k-/2
+k2 2k2
+
+===== PAGE 26 =====
+Positive/negative cooperativity
+Usually, the binding of the 
+first S changes the rate at 
+which the second S binds.
+• If the binding rate of the 
+second S is increased, it’s 
+called positive cooperativity
+• If the binding rate of the 
+second S is decreased, it’s 
+called negative cooperativity.
+
+===== PAGE 27 =====
+“Competitive” Enzyme Inhibition
+[ ]
+[ ] [ ]
+[ ]
+[ ]
+max
+max
+1 1 []
+S
+S
+SI I
+SV VSKV
+SI IKSKK K
+= =  ++ ++   
+
+===== PAGE 28 =====
++ S
+[ ]
+[ ] [ ]( )
+max
+1 S
+I
+VSV
+I KSK
+=  ++
+
+“Noncompetitive” Enzyme Inhibition
+
+===== PAGE 29 =====
+“Uncompetitive” Enzyme Inhibition
+[ ]
+[ ] [ ]
+[ ] [ ]
+[ ] [ ]
+max
+max
+1
+1
+1
+I
+S
+S
+I
+I
+V SI
+KVSV KI SKS IK
+K
+ +
+= =  +++    +
+
+
+===== PAGE 30 =====
+
+
+===== PAGE 31 =====
+Allosteric modulation (Inhibition in this case, but 
+it doesn’t have to be)
+substrate binding
+inhibitor
+binding at a
+different site
+this state can
+form no product
+X
+Y Z
+α
+β
+Rapid equilibrium approximation
+−−− − = −−− − =
+−= = ==++ + +
+0 10 3
+0 3 max
+12
+3 1 31
+() 0 ; () 0 ;
+0; ; 1/
+e x y zs Kx e x y zi Ky
+eK Vssys K z x V k xKi Ks i K Ks
+Inhibition decreases the Vmax in this model
+(α = β = 1)
+(α ≤ 1, 
+β  ≤ 1)

@@ -1,0 +1,28 @@
+
+===== PAGE 1 =====
+BIEN 6931  Spring 2018 
+          
+        3/28/2018 
+✓  
+✓ Assessment of model fit (how well does the model fit the data), and least 
+square estimates of model parameters: 
+ 
+1. A measure of how well does the model fit the data.  
+o Involves determining whether the residuals (model fit  data) are 
+consistent with the stochastic part () of the regression model (using 
+runs test).  
+o Other global measures of consistency between model fit and data 
+include coefficient of variations, coefficient of determination (linear 
+regression). 
+ 
+2. Measures of confidence in the least square estimates of the model 
+parameters 
+o Confidence intervals 
+o Correlation matrix 
+o Sensitivity analysis 
+ 
+3.  A measure of how well does the model compare to other models 
+(when applicable), or when you have different candidate models: 
+o F-test 
+o Akaike information criterion 
+o Schwarz criterion

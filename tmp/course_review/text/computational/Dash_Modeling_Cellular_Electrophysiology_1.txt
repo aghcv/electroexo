@@ -1,0 +1,689 @@
+
+===== PAGE 1 =====
+Cellular and Mitochondrial Electrophysiology –
+Kinetic Modeling of Channels and Transporters 
+for Ion Transport and Electrophysiology
+BIEN6391 (Spring 2018)
+Modeling and Simulations of Integrated 
+Cellular Systems
+
+===== PAGE 2 =====
+Structure and Function of Cell Membranes
+Cell membrane distinguishes one cell from the next.
+Cell membranes do the following:
+a) Regulates exchange of salts, nutrients, and waste with the environment.
+b) Mediate communication between the cytosol and the environment.
+c) Maintain cell volume, shape, and integrity.
+Similar for any biomembrane, e.g. 
+mitochondrial inner membrane
+
+===== PAGE 3 =====
+Ion channels, including ligand- and voltage-gated channels, and ion transporters, 
+including uniporter/symporter/antiporter and ATP-dependent pumps.
+Ion Movement across the Cell Membranes
+= 
+
+ln o
+m
+i
+CRTV ZF C
+Vm Cell membrane potential
+Co Concentration of ion outside cell
+Ci Concentration of ion inside cell
+R Gas constant;   T Temperature
+Z Valence; F Faraday’s constant
+Nernst Equation:
+Ions cross the cell membrane by two methods: passive transport (simple diffusion, 
+carrier-mediated transport) and active transport (energy-coupled).
+ATP
+3Na2+
+2K+
+Na+
+Closed Open Inactivated
+F = 96.5;  % Coul/mmol or mJ/mmol/mV; Coul = J/V = mJ/mV
+T = 273+37;   % K (37 oC)
+R = 8.314; % J/mol/K = mJ/mmol/K Thus, at 37°C, RT/F = 26.7 mV
+
+===== PAGE 4 =====
+Nernst Equation Derivation
+Z.F.Vin + R.T.ln [Ion]in = Z.F.Vout + R.T.ln [Ion]out
+Z.F (Vin –Vout) = R.T (ln [Ion]out –ln [Ion]in)
+EIon = Vin –Vout
+= (R.T/Z.F).ln([Ion]out/[Ion]in)
+EIon = 2.303 (R.T / Z.F) * log10([Ion]out/[Ion]in)
+In general, for monovalent cation (z = +1) at 30°
+Eion ≈ 60 * log ([cation]out / [cation]in)
+
+===== PAGE 5 =====
+Nernst Potential Calculations
+First K and Cl
+EK = 60 mV log (3 / 90) = 60 * -1.477 = -89 mV
+ECl = (60 mV / -1) log (120 / 4) = -60 * 1.477 = -89 mV
+Both Cl and K are at electrochemical equilibrium at -89 mV
+Now for Sodium 
+ENa = 60 mV log (117 / 30) = 60 * 0.591 = +36 mV
+When Vm = -89 mV, both the concentration gradient and 
+electrical gradient for Na are from outside to inside
+
+===== PAGE 6 =====
+Ion gradients and Resting membrane 
+potential (in typical Nerve Cells)
+-90 mV
+K
+Cl
+K Na
+In a resting nerve cell, 
+the membrane potential 
+is closely equal to K
++ ion 
+reverse potential (Nernst 
+equilibrium potential)
+
+===== PAGE 7 =====
+Recording Ion Currents and Membrane Potential 
+The patch clamp technique is a laboratory technique in electrophysiology, used to study 
+ionic currents in individual isolated living cells, tissue sections, or patches of cell membrane.
+
+===== PAGE 8 =====
+( )
+( )
+( )
+= −
+= −
+= −
+K Km K
+Na Na m Na
+Cl Cl m Cl
+I gV E
+I gV E
+I gV E
+4
+3
+KK
+Na Na
+Cl Cl
+g gn
+g g mh
+gg
+=
+=
+=
+[ ]
+[ ]
+[ ]
+[ ]
+[ ]
+[ ]
+o
+K
+i
+o
+Na
+i
+o
+Cl
+i
+KRTE
+FK
+NaRTE
+F Na
+ClRTE
+F Cl
+=
+=
+=
+
+
+
+
+
+
+
+
+
+ln
+ln
+ln
+Nernst
+potentials:
+Conductances 
+(1/resistance):
+Ohm’s
+Law:
+Gating variables: n, m, and h
+m app ion
+m
+m app Na K Cl
+II I
+dVC I I IIdt
+= +
+= + ++
+Kirchhoff's
+current law:
+4 ODEs:
+For 3 gating 
+variables and 
+membrane 
+potential:
+( ) ( ) ( )ClmClNamNaKmK
+m
+m EVgEVhmgEVngdt
+dVC −+−+−=− 34
+( )
+( )
+( )
+1
+1
+1
+nn
+mn
+hh
+dn nndt
+dm mmdt
+dh hhdt
+αβ
+αβ
+αβ
+= −−
+= −−
+= −−
+αi and βi are 
+functions of Vm
+determined by 
+experimental 
+curve fit
+Hodgkin-Huxley Ionic Current Model for Nerve Excitation
+Hodgkin & Huxley (J. Physiol. 117:500-544, 1952)
+
+===== PAGE 9 =====
+ Unit of conductivity (mS/cm), Siemens are inverse of resistivity:
+secμ1000μμ1
+2222
+2
+m
+cm
+mF
+cm
+F
+cm
+F
+cmmS
+cm
+F
+cm
+cm
+mS
+CS mV
+=Ω=Ω==
+⋅
+=
+
+
+ G
+ Therefore the units of flux are: 
+V
+A1S =Ω=
+[ ] [ ] 22 cm
+μA
+cm1,000,000
+A
+mV1000
+V
+cm
+mV
+cm1000
+1
+cm
+mV
+cm
+mS =⋅=⋅⋅⋅Ω⋅=⋅== GEJ
+ All terms in the HH equation have units of (mV/msec) including:
+secsecμμ
+11
+m
+mVV
+F
+V
+F
+AAFIC
+ion
+m
+==Ω==⋅=
+
+
+
+A Note on Units (Very Important in Modeling)
+
+===== PAGE 10 =====
+n is the gating variable for K+
+current
+n = #open/(#open+#closed) 
+= fraction of open channels 
+= probability a channel is open
+αn = rate of channel opening
+βn = rate of channel closing
+αn and βn are f(Vm) found by fitting
+4ngg KK =
+Potassium conductance was 
+found empirically to have 
+behavior:
+Corresponds to four gates 
+with equal open probability.
+Gating kinetics:
+( ) nndt
+dn
+nn βα −−= 1 where:
+Solution:
+and n∞ comes from steady state:
+nn
+nn βα
+α
++=∞( ) ∞∞ −−= nn nn βα 10
+( ) nt
+o ennnn τ−
+∞∞ −−=
+nn
+n
+βατ += 1
+no is an initial condition,
+So gating equation 
+can be rewritten:
+( )
+n
+nn
+dt
+dn
+τ
+−= ∞
+Hodgkin, A.L. and A.F. Huxley, A quantitative description of 
+membrane current and its application to conduction and 
+excitation in nerve. J Physiol, 1952. 117: p. 500-544.
+Modeling Gating Kinetics and Fitting the K+ Conductance 
+Parameters from Voltage Clamp Measurements
+
+===== PAGE 11 =====
+Potassium conductance for different voltage clamp experiments
+( 60) mVm m rest mVVV V= − ≈ −−
+4
+(1 )
+KK
+nn
+g ng
+dn nndt αβ
+=
+= −−
+( )
+( )
+( )
+/()
+1
+nt
+o
+nnn
+n nn
+nt n n n e
+n
+τ
+αα β
+τ αβ
+−
+∞∞
+∞
+= −−
+= +
+= +
+( )1
+nn
+nn
+n
+n
+ατ
+βτ
+∞
+∞
+=
+= −
+( ) ( ),K Km K Km KI gV V gV V= −− = −−
+( 12 mV)K K restVVV= −= −
+
+===== PAGE 12 =====
+4
+(1 )
+KK
+nn
+g ng
+dn nndt αβ
+=
+= −−
+( )
+( )
+( )
+/()
+1
+nt
+o
+nnn
+n nn
+nt n n n e
+n
+τ
+αα β
+τ αβ
+−
+∞∞
+∞
+= −−
+= +
+= +
+( )1
+nn
+nn
+n
+n
+ατ
+βτ
+∞
+∞
+=
+= −
+100.01 10exp 1 10
+0.125exp 80
+m
+n
+m
+m
+n
+V
+V
+V
+α
+β
+−= − −
+−= 
+
+Potassium conductance parameters from different voltage clamp experiments
+
+===== PAGE 13 =====
+3
+(1 )
+(1 )
+Na Na
+mm
+hh
+g m hg
+dm mmdt
+dh hhdt
+αβ
+αβ
+=
+= −−
+= −−
+( )
+( )
+( )
+/()
+1
+mt
+o
+mmm
+m mm
+mt m m m e
+m
+τ
+αα β
+τ αβ
+−
+∞∞
+∞
+= −−
+= +
+= +
+( )
+( )
+( )
+/()
+1
+ht
+o
+hhh
+h hh
+ht h h h e
+h
+τ
+αα β
+τ αβ
+−
+∞∞
+∞
+= −−
+= +
+= +
+Sodium conductance for different voltage clamp experiments
+
+===== PAGE 14 =====
+“m” gate “h” gate
+Potassium conductance parameters from different voltage clamp experiments
+250.1 ; 4exp25 18exp 1 25
+mm
+mm
+m
+VV
+Vαβ −− = = − −
+10.07exp ; 3020 exp 1 10
+m
+hh
+m
+V
+Vαβ −= = − +
+
+===== PAGE 15 =====
+The 1952 Hodgkin-Huxley Model
+( )
+( ) ( )
+4
+3
+;
+(1 )
+(1 )
+(1 )
+m
+m m rest m K m K
+Na m Na L m L app
+nn
+mm
+hh
+dVVVV C g n VV dt
+g m h VV g VV I
+dn nndt
+dm mmdt
+dh hhdt
+αβ
+αβ
+αβ
+= − = −−
+− − − −+
+= −−
+= −−
+= −−
+Cm gNa gK
+VNa VK
+INa IK
+Iapp
+V
++
+_
++
+_
+outside
+inside
+0 10 20 30
+0
+50
+100
+0 10 20 30
+0
+20
+40
+
+===== PAGE 16 =====
+0,
+exp
+..
+givin
+1 exp
+g
+in out
+dC ZFV C J
+dx RT L D
+zFVCCD zFV RTJ zFVL RT
+RT
+− +=
+ −−  =  −−  
+Electro-Diffusion Model of a Cell Membrane
+Ion permeation across the cell 
+membrane is governed by the 
+Nernst-Plank Equation:
+Goldman-Hodgkin-
+Katz Equation
+
+===== PAGE 17 =====
+Electrochemical Equilibrium with Multiple Ions
+Ions in a resting cell are in electrochemical equilibrium. The resting membrane 
+potential is determined by the Goldman-Hodgkin-Katz (GHK) equation that is 
+based on weighted sum of conductances for various ions:
+=+= −
+=+= −
+ +
+=  +
+∑∑
+∑∑
+,,
+,,
+ln
+Z Z out Z Z in
+zz
+m
+Z Z in Z Z out
+zz
+PC PCRTV F PC PC
+11
+11
+Vm Cell membrane Potential
+PZ Permeability of membrane to particular ion
+CZ Concentration of a particular ion
+when considering ions 
+with valance +1 or -1.
+++ −
+++ −
+ ++=  ++
+[ ] [] [ ]ln [ ] [] [ ]
+Na out K out Cl in
+m
+Na in K in Cl out
+P Na P K P ClRTV F P Na P K P Cl
++ +−
++ +−
+ ++=  ++
+[ ] .* [ ] [ ]ln [ ] .* [ ] [ ]
+Na out K out Cl in
+m
+Na in K in Cl out
+P Na P K P ClRTV F P Na P K P Cl
+15
+15
+With Na+, K+ and Cl-
+ions separated by the 
+membrane
+With Na+, K+ and Cl-
+ions separated by the 
+membrane and also 
+considering contribution 
+of 3Na+/2K+ pumping
+
+===== PAGE 18 =====
++
+ −+=  +
+()ln ( [ ])
+m
+Ca in
+RT B A CV F A P Ca 224
+( )( )
++ +−
++ +−
+++
+= ++
+= ++
+= −+ + +
+[ ] .* [ ] [ ]
+[ ] .* [ ] [ ]
+( ) [] []
+Na in K in Cl out
+Na out K out Cl in
+Ca in Ca out
+A P Na P K P Cl
+B P Na P K P Cl
+C B A A P Ca B P Ca22 2
+15
+15
+44 4
+Electrochemical Equilibrium with Multiple Ions
+When considering monovalent ions (valence +1 and -1) and 
+divalent cations (valence +2) all together across a membrane, 
+then the resting potential can be derived as:
+Where
+i.e., with Na+, K+, Cl- and Ca2+ ions separated by 
+the membrane and also considering the contribution 
+of 3Na+/2K+ pumping
+
+===== PAGE 19 =====
+Example: Channels and Transporters Across the Cardiac Cell 
+Membrane Governing Excitation-Contraction Coupling
+ Leaky pores (e.g. background Na+, K+, Ca2+ and Cl- channels) and ATPase pumps (e.g. Ca2+
+ATPase and 3Na+/2K+ ATPase) govern the resting membrane potential in cardiac myocytes.
+ V oltage-gated channels (e.g. Na+, K+ and Ca2+ channels), ligand-gated channels (e.g. RyR, 
+IP3R, KCa, KATP, and P2Y7), and other ion exchangers govern the cell excitation-contraction 
+coupling and many other functions defining the cell physiology and pathophysiology.
+
+===== PAGE 20 =====
+Markovian Modeling of Ion Channel Kinetics 
+ In probability theory, a Markov model is a stochastic model used 
+to model randomly changing systems, where it is assumed that 
+future states depend only on the present state and not on the 
+sequence of events that preceded it. 
+ Ion channel kinetics (opening and gating) is highly stochastic. So 
+recently there have been a significant interests in modeling ion 
+channels kinetics using Markovian state modeling, rather than 
+Hodgkin-Huxley formalism (phenomenological).
+A. Clancy & Rudy (2002) INa
+B. Jafri et al. (1998) ILCC
+
+===== PAGE 21 =====
+Characteristics of L-Type Ca2+ Channel 
+ L-type Ca2+ channels (LCC) are special kind of voltage-gated Ca2+
+channels. LCC are closed in a resting cell (V = -90 mV)
+ LCC opens when membrane depolarizes that leads to Ca2+ entry 
+into the cell and Ca2+ release from SR via RyRs
+ LCC kinetics (opening and gating) is highly complex. It is both 
+activated and inactivated by voltage and inactivated by Ca2+ in 
+the dyadic space (localized between T-tubules and SR)
+Rose et al. (1992)
+
+===== PAGE 22 =====
+Markovian Modeling of L-Type Ca2+ Channel 
+(Faber et al, 2007)
+ Two modes: Mode V and Mode Ca
+ Each mode goes through inactivation
+ Rate constants of transitions are V-dependent and Ca-dependent
+ Kinetics of the LCC is modeled via a system of ODEs for different states
+ Model is parameterized to describe the well-known features of the LCC
+Exploration:
+To run the Matlab 
+codes and explore 
+different protocols
+1. Effects of sub-
+space Ca
+2+
+2. Voltage-clamp
+3. I-V relationship
+Extension of Jafri et al. 
+(1998) ILCC model
