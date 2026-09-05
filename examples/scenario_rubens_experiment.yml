@@ -13,7 +13,7 @@ exposure:
   geometry: cuvette
   medium_conductivity_S_m: 1.6
   temperature_C: 37
-  cell_density_per_ml: 1,000,000
+  cell_density_per_ml: 1000000
 
 cell_state:
   cell_type: generic

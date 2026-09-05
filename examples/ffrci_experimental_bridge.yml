@@ -1,0 +1,14 @@
+# Provisional FFRCI Exoid-to-single-cell conversion.
+# Confirm the medium volume, time-resolved viability, dilution, recovery, and
+# background subtraction with the collaborator before interpreting absolute
+# per-cell release rates. Five million starting cells were supplied by the PI;
+# 5 mL is inferred from the repository's previous 1e6 cells/mL assumption.
+experimental_bridge:
+  initial_cell_count: 5000000
+  medium_volume_ml: 5.0
+  cell_basis: initial
+  viability_fraction: 1.0
+  recovery_fraction: 1.0
+  dilution_factor: 1.0
+  background_concentration_particles_per_ml: 0.0
+

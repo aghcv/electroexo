@@ -14,3 +14,6 @@ venv/
 .env
 results/
 *.png
+
+# Unpublished collaborator datasets remain local and are not versioned.
+data/experimental/ffrci_data_sharing/

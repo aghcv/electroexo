@@ -22,6 +22,12 @@ The model is organized around eight biological/computational layers plus a cross
 8. **Manufacturing, isolation, QC interface**
 9. **Cross-cutting cell-state and disease modifiers**
 
+Experimental datasets pass through a separate observation bridge before model
+calibration. This bridge converts population-level particle concentration into
+single-cell-equivalent output without embedding culture volume, cell count,
+assay recovery, or dilution inside the intracellular equations. See
+[`docs/experimental_observation_bridge.md`](docs/experimental_observation_bridge.md).
+
 The simulator resolves nanosecond pulses through descriptors, then integrates a stable ODE system over seconds to hours.
 
 ## Installation
@@ -123,6 +129,22 @@ This writes a library of `scenario_*.yml` files under
 figures under `results/solution_space_analysis` for field amplitude, pulse
 width, pulse count, repetition rate, waveform, conductivity, dosimetry-model,
 and cell-state modifier sweeps.
+
+Convert experimental concentration to the representative-cell scale while
+fitting the FFRCI EV time course:
+
+```bash
+MPLCONFIGDIR=/tmp/electroexo-mpl PYTHONPATH=. python \
+  tools/fit_ffrci_ev_kinetics.py \
+  --experimental-bridge-config examples/ffrci_experimental_bridge.yml \
+  --output-dir results/ffrci_ev_kinetics_fit_per_cell
+```
+
+The example bridge is provisional: it uses five million initial cells and an
+assumed 5 mL volume. Replace its volume, viability, recovery, dilution, and
+background fields with measured values before interpreting absolute rates. The
+complete FFRCI rerun is summarized in
+[`docs/ffrci_single_cell_reanalysis.md`](docs/ffrci_single_cell_reanalysis.md).
 
 ## Output files
 
