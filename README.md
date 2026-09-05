@@ -162,6 +162,21 @@ background fields with measured values before interpreting absolute rates. The
 complete FFRCI rerun is summarized in
 [`docs/ffrci_single_cell_reanalysis.md`](docs/ffrci_single_cell_reanalysis.md).
 
+Fit the v1.1 pathway-to-size observation model to the FFRCI concentration and
+size distributions:
+
+```bash
+MPLCONFIGDIR=/tmp/electroexo-mpl PYTHONPATH=. python \
+  tools/fit_ffrci_size_resolved.py \
+  --experimental-bridge-config examples/ffrci_experimental_bridge.yml \
+  --output-dir results/ffrci_size_resolved_fit_v1_1
+```
+
+This compares static, state-conditioned, and diagnostic dose-corrected kernel
+variants while keeping total concentration and size composition distinct. See
+[`docs/size_resolved_ev_observation.md`](docs/size_resolved_ev_observation.md)
+for the model, outputs, assumptions, and interpretation limits.
+
 ## Output files
 
 Each run writes a directory containing:
