@@ -1,9 +1,9 @@
-# Size-Resolved EV Observation and FFRCI Fit
+# Size-Resolved EV Observation and Batch-Mean Fit
 
 ## Purpose and scope
 
 The size-resolved observation update connects the existing intracellular EV
-release model to the diameter distributions reported by the FFRCI Exoid data.
+release model to experimentally measured particle-diameter distributions.
 It does not replace or reinterpret the established `sEV`, `mlEV`, and `AB`
 trajectories. Those remain reduced mechanistic release pathways. The update
 adds a standalone forward model that:
@@ -15,7 +15,7 @@ adds a standalone forward model that:
    sources of information.
 
 The implementation is in
-`electro_exocytosis/models/ev_size_observation.py`. The FFRCI calibration
+`electro_exocytosis/models/ev_size_observation.py`. The current calibration
 driver is `tools/fit_ffrci_size_resolved.py`. Because this layer is standalone,
 the legacy cumulative outputs and the version 1.1 three-class extracellular
 outputs remain unchanged.
@@ -63,7 +63,7 @@ biogenesis pathway.
 ### Broad latent size domain and extracellular loss
 
 The calibration uses a broad 40–2000 nm latent domain. It contains 20 nm bins
-through the common Exoid window and progressively wider tail bins outside it.
+through the common measurement window and progressively wider tail bins outside it.
 The measured comparison is restricted to the common 80–380 nm range in 20 nm
 bands. Modeling a broader latent range prevents probability just outside the
 reported window from being forced artificially into the edge measurement
@@ -102,12 +102,12 @@ time-by-bin background concentration. Columns of the observation matrix may
 sum below one when latent particles fall outside the observed diameter window
 or measurement error scatters them outside it.
 
-For the current FFRCI fit, the common Exoid bins are exact subsets of the
+For the current fit, the common measurement bins are exact subsets of the
 latent bins, instrument log-diameter error is fixed to zero, recovery is fixed
 to one, and background is zero. The resulting response is identity-like within
 80–380 nm and zero outside that reported window. Keeping the matrix explicit
 makes this provisional assumption visible and provides a direct place to add
-Exoid pore size, detection efficiency, and calibration data later.
+instrument pore size, detection efficiency, and calibration data later.
 
 ## Experimental alignment
 
@@ -129,19 +129,32 @@ viability, dilution, recovery, and background handling are confirmed. The
 dynamic concentration prediction is compared directly with particles/mL; it
 is not converted to particles per cell and then scaled a second time.
 
-### p-matched Sham2 initialization
+### Batch aggregation and control initialization
 
-The source file provides `Sham2` distributions labeled p1, p2, and p3 but does
-not assign them harvest times. Each treatment histogram is provisionally
-initialized at time zero from the `Sham2` histogram with the same p label.
-Only its common 80–380 nm bins are populated initially; the unobserved latent
-tails begin at zero. This ambient distribution then decays under the same
-smooth size-dependent loss used for released particles.
+Raw measurement histograms are first rebinned to the common 80–380 nm grid.
+Within each condition, time, and diameter band, the experimental bridge then
+exports the arithmetic mean, sample SD, SE, and non-missing measurement count.
+The fit receives one mean distribution per condition and time; acquisition
+identifiers are retained only in the raw audit table and do not appear in the
+model-facing table or figures.
 
-The p matching preserves the labeling available in the file, but it does not
-prove that p1–p3 are biological replicates, technical scans, or longitudinally
-linked cultures. The fit therefore calls them nominal histograms and records
-their provenance uncertainty in its summary.
+The three undated cell-containing control histograms are summarized in the
+same way. Their all-batch mean distribution provisionally initializes the
+extracellular state at time zero. Only common-window bins are populated
+initially; the unobserved latent tails begin at zero. This ambient distribution
+then experiences the same smooth size-dependent loss as newly released
+particles. Because the source file does not establish the experimental-unit
+metadata, the records are described conservatively as repeated batch
+measurements rather than independent biological replicates.
+Treatment and control tables are rebinned and summarized independently; an
+acquisition identifier never pairs a treatment histogram to a control
+histogram or enters the objective.
+
+The experimental condition labels report 20 kV and 40 kV without confirming
+whether these are generator voltages or electric-field strengths. Figures
+retain those literal voltage labels. The current simulation provisionally uses
+the numerical values as kV/cm; this is an explicit scenario assumption that
+must be corrected if the protocol metadata establish another interpretation.
 
 ## Calibration objective
 
@@ -149,16 +162,23 @@ The driver deliberately separates concentration scale from distribution
 shape:
 
 - The total component contributes one natural-log residual for each
-  condition/time mean. There are nine such targets: three exposure conditions
-  at 0.5, 1, and 3 hours. Repeated p histograms do not multiply the total
-  concentration evidence.
-- The composition component normalizes every p-labeled histogram to sum to
-  one and compares square-root fractions. This is the geometry underlying the
-  Hellinger distance and accepts zero-concentration bins without logarithms or
-  pseudocounts. Histograms at a condition/time are scaled so their aggregate
-  weight is one.
+  condition/time batch mean. There are nine such targets: three exposure
+  conditions at 0.5, 1, and 3 hours. Total concentration is summed within each
+  raw histogram before calculating its mean and SD, which preserves covariance
+  across size bands.
+- The composition component normalizes each condition/time mean distribution
+  to sum to one and compares square-root fractions. This is the geometry
+  underlying the Hellinger distance and accepts zero-concentration bins without
+  logarithms or pseudocounts.
 - Weak penalties regularize pathway medians and widths, the size-loss slope,
   state shifts, and the optional dose correction around their prior centers.
+
+Sample SD is exported and plotted as descriptive uncertainty but does not
+inverse-variance weight the objective. With only two or three measurements per
+cell, uncertain independence, zero-valued bands, and strong covariance across
+diameter bands, such weighting would imply more precision than the data
+support. SE is exported for downstream sensitivity analyses but is not the
+default figure uncertainty.
 
 The optimizer uses bounded, multistart nonlinear least squares. Model ranking
 uses a descriptive BIC-like score calculated from the composite data
@@ -209,12 +229,14 @@ line assumptions through `--pulse-width-ns` and `--repetition-rate-hz`.
 
 The output directory contains:
 
+- `experimental_batch_summary.csv`: model-facing mean, sample SD, SE, and
+  measurement count for every condition, time, and diameter band;
 - `observed_vs_predicted_size_bins.csv`: observed and predicted 20 nm bins for
   every fitted variant;
 - `total_concentration_fit.csv`: the nine longitudinal total-concentration
   targets and predictions;
-- `size_distribution_fit_metrics.csv`: per-histogram Hellinger distance and
-  mean-diameter error;
+- `size_distribution_fit_metrics.csv`: condition/time mean-distribution
+  Hellinger distance and mean-diameter error;
 - `pathway_size_kernels.csv`: pathway kernel probability, observed-window
   mass, loss rate, and dose gain by condition, time, and latent bin;
 - `fitted_parameters.csv`: fitted values, bounds, and bound-contact flags for
@@ -228,34 +250,43 @@ The output directory contains:
 - `longitudinal_total_fit.png`, `size_profile_fit.png`, and
   `size_time_fit.png`: conventional total, profile, and size–time fit
   diagnostics for the selected variant;
-- `size_time_surface_overlay.png`: the p-mean observed concentration surface
+- `size_time_surface_overlay.png`: the observed mean concentration surface
   with the selected fit overlaid as a translucent surface; and
-- `size_time_fit_error_contours.png`: signed bounded normalized difference of
-  the nominal-p means on the top row, and mean absolute paired-p normalized
-  difference on the bottom row. The signed diagnostic is
+- `size_time_fit_error_contours.png`: signed and absolute bounded normalized
+  difference between the fitted model and experimental mean. The signed
+  diagnostic is
   `100 * (predicted - observed) / (predicted + observed)`; it is not the
   optimizer's residual or a conventional percent error.
 
+The bounded normalization can make differences in low-concentration tail bins
+look visually large. No detection-limit mask is applied because the instrument
+limit of detection was not supplied; interpret the contours together with the
+absolute concentration profiles and exported tables.
+
 The driver also writes a concise `README.md` into the result directory.
+All plots follow `docs/manuscript_figure_policy.md`. Mean line and point plots
+show sample SD explicitly; surface, heatmap, and contour views use the mean and
+are accompanied by the error-bar profile figure and the exported SD table.
 
 The surface and contour figures are visual connections across the measured
 size–time grid, not additional temporal data. Only 0.5, 1, and 3 hours were
 observed. Surface faces and contour bands between those rows are rendering
-interpolations between grid points; the overlaid dots identify nominal-p mean
-grid nodes, not individual observations. The 3p40kV 1-hour row averages two
-histograms because p3 is absent; the other rows average three. These figures
+interpolations between grid points; the overlaid dots identify measured mean
+grid nodes, not individual observations. One condition/time cell contains two
+measurements; the other cells contain three. These figures
 must not be read as measured or independently predicted intermediate-time
 kinetics. Bins where both observed and predicted concentration are zero are
 undefined and masked rather than displayed as perfect agreement.
 
 ## Interpretation limits
 
-1. `Sham2` has no harvest time. Treating it as the time-zero extracellular
-   distribution is a visible but unverified assumption.
-2. The provenance and dependence structure of p1–p3 are unknown. They must not
-   be described as independent biological replicates or longitudinal cultures
-   without confirmation.
-3. The current Exoid response is identity-like over the common 80–380 nm
+1. The cell-containing controls have no harvest time. Treating their mean as
+   the time-zero extracellular distribution is a visible but unverified
+   assumption.
+2. The provenance and dependence structure of the repeated measurements are
+   unknown. They must not be described as independent biological replicates or
+   longitudinal cultures without confirmation.
+3. The current instrument response is identity-like over the common 80–380 nm
    window. Pore size, detection efficiency, resolution, dilution, recovery,
    and background require instrument and protocol metadata.
 4. The optional dose-response correction is a diagnostic adapter. It should
@@ -267,8 +298,9 @@ undefined and masked rather than displayed as perfect agreement.
 6. Kernel shape, pathway scale, initial ambient particles, and size-dependent
    loss can compensate for one another. Parameter bounds and weak penalties do
    not remove this practical identifiability problem.
-7. The 3p40kV, 1-hour, p3 histogram is absent, leaving 26 nominal treated
-   histograms rather than 27.
+7. One condition/time histogram is absent, leaving 26 treated histograms rather
+   than the otherwise expected 27. That mean and SD therefore have n=2; all
+   other condition/time summaries have n=3.
 8. The upstream equations, viability trajectory, pulse-unit interpretation,
    and assumed 60 ns/1 Hz exposure settings remain provisional. The fitted
    values are exploratory observation-layer parameters, not validated

@@ -173,9 +173,16 @@ MPLCONFIGDIR=/tmp/electroexo-mpl PYTHONPATH=. python \
 ```
 
 This compares static, state-conditioned, and diagnostic dose-corrected kernel
-variants while keeping total concentration and size composition distinct. See
+variants against batch-mean size distributions while exporting sample SD, SE,
+and measurement counts. Total concentration and size composition remain
+distinct. See
 [`docs/size_resolved_ev_observation.md`](docs/size_resolved_ev_observation.md)
 for the model, outputs, assumptions, and interpretation limits.
+
+All new or regenerated scientific plots follow the repository-wide
+[`manuscript figure policy`](docs/manuscript_figure_policy.md): generic labels,
+mean ± sample SD for repeated measurements, consistent semantic colors, and
+one external legend per figure.
 
 ## Output files
 

@@ -106,6 +106,37 @@ The forward and inverse functions accept scalars or arrays and validate all
 scale factors. `to_metadata()` returns the supplied assumptions and derived
 cell density for inclusion in result manifests.
 
+## Repeated-Measurement Aggregation
+
+The observation bridge also provides the standard reduction from repeated
+experimental measurements to one model-facing observation. It preserves a
+deep copy of the raw rows and returns the arithmetic mean, sample SD
+(`ddof=1`), SE, and non-missing count for every requested value:
+
+```python
+from electro_exocytosis.experimental_bridge import (
+    aggregate_repeated_observations,
+)
+
+aggregation = aggregate_repeated_observations(
+    rebinned_measurements,
+    group_columns=["condition", "time_h", "size_bin_center_nm"],
+    value_columns=["concentration_particles_per_ml"],
+)
+
+raw_measurements = aggregation.raw_observations
+model_observations = aggregation.summary
+```
+
+For size-resolved measurements, rebin each raw histogram onto the common
+diameter grid before aggregation. Calculate an integrated total separately for
+each raw histogram and then summarize those totals; summing per-bin SD values
+is not a valid total uncertainty because diameter bands are correlated. The
+fit target is the batch mean. SD is the default descriptive uncertainty in
+figures, while SE and the sample count remain available in exported tables.
+Do not call the repeated records independent biological replicates unless the
+experimental metadata establish that independence.
+
 ## Calibration Command
 
 The FFRCI fit driver accepts the bridge directly:

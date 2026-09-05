@@ -22,6 +22,7 @@ from tools.fit_ffrci_size_resolved import (
     FIT_VARIANTS,
     OBSERVATION_TIMES_H,
     SizeResolvedFFRCIPredictor,
+    aggregate_size_resolved_observations,
     build_upstream_trajectories,
     hellinger_distance,
     load_size_resolved_observations,
@@ -58,6 +59,11 @@ def real_observations():
 
 
 @pytest.fixture(scope="module")
+def batch_observations(real_observations):
+    return aggregate_size_resolved_observations(real_observations)
+
+
+@pytest.fixture(scope="module")
 def provisional_bridge() -> ExperimentalObservationBridge:
     return ExperimentalObservationBridge.from_yaml(DEFAULT_BRIDGE_CONFIG)
 
@@ -75,46 +81,205 @@ def test_loader_retains_all_available_histograms_and_common_bins(
     real_observations,
 ) -> None:
     observations = real_observations
-    distribution_keys = observations[
-        ["condition", "time_h", "replicate"]
+    treatment = observations[observations["sample_role"] == "treatment"]
+    controls = observations[observations["sample_role"] == "initial_control"]
+    distribution_keys = treatment[
+        ["condition", "time_h", "measurement_id"]
     ].drop_duplicates()
-    condition_time_keys = observations[["condition", "time_h"]].drop_duplicates()
+    condition_time_keys = treatment[["condition", "time_h"]].drop_duplicates()
 
-    assert len(observations) == 390
+    assert len(observations) == 435
+    assert len(treatment) == 390
+    assert len(controls) == 45
     assert len(distribution_keys) == 26
+    assert controls["measurement_id"].nunique() == 3
     assert len(condition_time_keys) == 9
     assert set(condition_time_keys.itertuples(index=False, name=None)) == (
         EXPECTED_CONDITION_TIMES
     )
 
-    missing_cell = distribution_keys[
+    two_measurement_cell = distribution_keys[
         (distribution_keys["condition"] == "3p40kV")
         & np.isclose(distribution_keys["time_h"], 1.0)
     ]
-    assert set(missing_cell["replicate"]) == {1, 2}
-    assert not (
-        (distribution_keys["condition"] == "3p40kV")
-        & np.isclose(distribution_keys["time_h"], 1.0)
-        & (distribution_keys["replicate"] == 3)
-    ).any()
+    assert len(two_measurement_cell) == 2
 
     expected_lower = np.arange(80.0, 380.0, 20.0)
     expected_upper = np.arange(100.0, 400.0, 20.0)
     expected_centers = np.arange(90.0, 380.0, 20.0)
     assert np.array_equal(COMMON_SIZE_BIN_EDGES_NM, np.arange(80.0, 400.0, 20.0))
     assert np.array_equal(
-        np.sort(observations["size_bin_lower_nm"].unique()), expected_lower
+        np.sort(treatment["size_bin_lower_nm"].unique()), expected_lower
     )
     assert np.array_equal(
-        np.sort(observations["size_bin_upper_nm"].unique()), expected_upper
+        np.sort(treatment["size_bin_upper_nm"].unique()), expected_upper
     )
     assert np.array_equal(
-        np.sort(observations["size_bin_center_nm"].unique()), expected_centers
+        np.sort(treatment["size_bin_center_nm"].unique()), expected_centers
     )
+    assert observations.groupby("measurement_id").size().eq(len(expected_centers)).all()
+    assert "replicate" not in observations.columns
+
+
+def test_loader_does_not_pair_treatment_and_control_acquisition_ids(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    rows = []
+    labels = {
+        101: "1p20kV 30min CD4+ p7",
+        202: "3p40kV 30min CD4+ p8",
+        303: "5p40kV 30min CD4+ p9",
+        909: "Sham2 CD4+ p99",
+    }
+    for measurement_id, label in labels.items():
+        rows.extend(
+            [
+                {
+                    "dataset_number": measurement_id,
+                    "particle_diameter_nm": 90.0,
+                    "concentration_particles_per_ml": 10.0,
+                    "label": label,
+                },
+                {
+                    "dataset_number": measurement_id,
+                    "particle_diameter_nm": 110.0,
+                    "concentration_particles_per_ml": 0.0,
+                    "label": label,
+                },
+            ]
+        )
+    monkeypatch.setattr(
+        "tools.fit_ffrci_size_resolved.parse_exoid_file",
+        lambda _path: pd.DataFrame(rows),
+    )
+
+    observations = load_size_resolved_observations(tmp_path)
+
+    assert observations["measurement_id"].nunique() == 4
+    assert len(observations) == 4 * (len(COMMON_SIZE_BIN_EDGES_NM) - 1)
+    assert "replicate" not in observations
     assert (
-        observations.groupby(["condition", "time_h", "replicate"]).size()
-        == len(expected_centers)
-    ).all()
+        observations.loc[
+            observations["sample_role"] == "initial_control",
+            "concentration_particles_per_ml",
+        ]
+        == 0.0
+    ).any()
+
+
+def test_specialized_aggregation_retains_single_measurement_groups() -> None:
+    rows: list[dict[str, float | int | str]] = []
+    measurement_id = 0
+    for exposure in EXPOSURES:
+        for time_h in OBSERVATION_TIMES_H:
+            measurement_id += 1
+            for lower, upper in zip(
+                COMMON_SIZE_BIN_EDGES_NM[:-1],
+                COMMON_SIZE_BIN_EDGES_NM[1:],
+                strict=True,
+            ):
+                rows.append(
+                    {
+                        "sample_role": "treatment",
+                        "condition": exposure.condition,
+                        "time_h": time_h,
+                        "measurement_id": measurement_id,
+                        "size_bin_lower_nm": lower,
+                        "size_bin_upper_nm": upper,
+                        "size_bin_center_nm": 0.5 * (lower + upper),
+                        "concentration_particles_per_ml": 1.0,
+                    }
+                )
+    for lower, upper in zip(
+        COMMON_SIZE_BIN_EDGES_NM[:-1],
+        COMMON_SIZE_BIN_EDGES_NM[1:],
+        strict=True,
+    ):
+        rows.append(
+            {
+                "sample_role": "initial_control",
+                "condition": "initial_control",
+                "time_h": np.nan,
+                "measurement_id": 999,
+                "size_bin_lower_nm": lower,
+                "size_bin_upper_nm": upper,
+                "size_bin_center_nm": 0.5 * (lower + upper),
+                "concentration_particles_per_ml": 1.0,
+            }
+        )
+
+    summary = aggregate_size_resolved_observations(pd.DataFrame(rows))
+
+    assert summary["observed_measurement_count"].eq(1).all()
+    assert summary["initial_control_measurement_count"].eq(1).all()
+    assert summary["observed_particles_per_ml_sd"].isna().all()
+    assert summary["initial_control_particles_per_ml_se"].isna().all()
+
+
+def test_batch_aggregation_produces_one_mean_distribution_per_condition_time(
+    real_observations,
+    batch_observations,
+) -> None:
+    summary = batch_observations
+
+    assert len(summary) == 135
+    assert len(summary[["condition", "time_h"]].drop_duplicates()) == 9
+    assert not {
+        "replicate",
+        "sample_set",
+        "treatment_particles_per_ml",
+        "matched_sham2_particles_per_ml",
+    }.intersection(summary.columns)
+
+    counts = summary.groupby(["condition", "time_h"])[
+        "observed_measurement_count"
+    ].first()
+    assert counts.loc[("3p40kV", 1.0)] == 2
+    assert counts.drop(("3p40kV", 1.0)).eq(3).all()
+    assert summary["initial_control_measurement_count"].eq(3).all()
+
+    raw_cell = real_observations[
+        (real_observations["sample_role"] == "treatment")
+        & (real_observations["condition"] == "1p20kV")
+        & np.isclose(real_observations["time_h"], 0.5)
+        & np.isclose(real_observations["size_bin_center_nm"], 90.0)
+    ]["concentration_particles_per_ml"]
+    aggregate_cell = summary[
+        (summary["condition"] == "1p20kV")
+        & np.isclose(summary["time_h"], 0.5)
+        & np.isclose(summary["size_bin_center_nm"], 90.0)
+    ].iloc[0]
+    assert aggregate_cell["observed_particles_per_ml_mean"] == pytest.approx(
+        raw_cell.mean()
+    )
+    assert aggregate_cell["observed_particles_per_ml_sd"] == pytest.approx(
+        raw_cell.std(ddof=1)
+    )
+
+    raw_totals = (
+        real_observations[
+            (real_observations["sample_role"] == "treatment")
+            & (real_observations["condition"] == "1p20kV")
+            & np.isclose(real_observations["time_h"], 0.5)
+        ]
+        .groupby("measurement_id")["concentration_particles_per_ml"]
+        .sum()
+    )
+    assert aggregate_cell["observed_total_particles_per_ml_mean"] == pytest.approx(
+        raw_totals.mean()
+    )
+    assert aggregate_cell["observed_total_particles_per_ml_sd"] == pytest.approx(
+        raw_totals.std(ddof=1)
+    )
+
+    raw_control = real_observations[
+        (real_observations["sample_role"] == "initial_control")
+        & np.isclose(real_observations["size_bin_center_nm"], 90.0)
+    ]["concentration_particles_per_ml"]
+    assert aggregate_cell["initial_control_particles_per_ml_mean"] == pytest.approx(
+        raw_control.mean()
+    )
 
 
 def test_hellinger_distance_handles_proportional_vectors_and_zero_bins() -> None:
@@ -170,13 +335,13 @@ def test_cached_upstream_trajectories_cover_all_conditions(
 @pytest.mark.parametrize("variant_name", ["static_kernel", "state_conditioned"])
 def test_initial_predictors_are_finite_nonnegative_and_scaled_once(
     variant_name,
-    real_observations,
+    batch_observations,
     provisional_bridge,
     cached_upstream_trajectories,
 ) -> None:
     variant = next(item for item in FIT_VARIANTS if item.name == variant_name)
     predictor = SizeResolvedFFRCIPredictor(
-        real_observations,
+        batch_observations,
         cached_upstream_trajectories,
         provisional_bridge,
         variant,
@@ -184,10 +349,12 @@ def test_initial_predictors_are_finite_nonnegative_and_scaled_once(
     prediction = predictor.predict(predictor.initial_vector)
     metrics, total_frame, sample_frame = prediction_metrics(prediction)
 
-    assert len(prediction) == 390
+    assert len(prediction) == 135
     assert len(total_frame) == 9
-    assert len(sample_frame) == 26
-    assert metrics["independent_total_targets"] == 9
+    assert len(sample_frame) == 9
+    assert metrics["model_facing_total_targets"] == 9
+    assert metrics["batch_mean_size_distributions"] == 9
+    assert len(predictor.data_residuals(prediction)) == 144
     predicted_condition_times = set(
         total_frame[["condition", "time_h"]].itertuples(index=False, name=None)
     )
@@ -208,7 +375,7 @@ def test_initial_predictors_are_finite_nonnegative_and_scaled_once(
     )
     assert np.allclose(
         prediction["observed_particle_equivalents_per_initial_cell"],
-        prediction["treatment_particles_per_ml"] / initial_cell_density_per_ml,
+        prediction["observed_particles_per_ml_mean"] / initial_cell_density_per_ml,
     )
     assert np.allclose(
         prediction["predicted_particle_equivalents_per_initial_cell"],
@@ -248,32 +415,27 @@ def _synthetic_size_time_prediction() -> pd.DataFrame:
     size_centers_nm = np.arange(90.0, 180.0, 20.0)
     for condition_index, exposure in enumerate(EXPOSURES):
         for time_index, time_h in enumerate(OBSERVATION_TIMES_H):
-            for replicate in (1, 2, 3):
-                is_missing_p3 = (
-                    exposure.condition == "3p40kV" and time_h == 1.0 and replicate == 3
+            measurement_count = (
+                2 if exposure.condition == "3p40kV" and time_h == 1.0 else 3
+            )
+            for size_index, size_nm in enumerate(size_centers_nm):
+                observed = (
+                    1.0e8
+                    * (1.0 + 0.20 * condition_index + 0.10 * time_index)
+                    * np.exp(-0.20 * size_index)
                 )
-                if is_missing_p3:
-                    continue
-                for size_index, size_nm in enumerate(size_centers_nm):
-                    observed = (
-                        1.0e8
-                        * (1.0 + 0.20 * condition_index + 0.10 * time_index)
-                        * (1.0 + 0.03 * (replicate - 2))
-                        * np.exp(-0.20 * size_index)
-                    )
-                    predicted = observed * (
-                        0.82 + 0.04 * size_index + 0.03 * time_index
-                    )
-                    rows.append(
-                        {
-                            "condition": exposure.condition,
-                            "time_h": float(time_h),
-                            "replicate": replicate,
-                            "size_bin_center_nm": size_nm,
-                            "treatment_particles_per_ml": observed,
-                            "predicted_particles_per_ml": predicted,
-                        }
-                    )
+                predicted = observed * (0.82 + 0.04 * size_index + 0.03 * time_index)
+                rows.append(
+                    {
+                        "condition": exposure.condition,
+                        "time_h": float(time_h),
+                        "size_bin_center_nm": size_nm,
+                        "observed_particles_per_ml_mean": observed,
+                        "observed_particles_per_ml_sd": 0.08 * observed,
+                        "observed_measurement_count": measurement_count,
+                        "predicted_particles_per_ml": predicted,
+                    }
+                )
     return pd.DataFrame(rows)
 
 
@@ -282,8 +444,8 @@ def test_size_time_visualizations_render_headlessly(tmp_path: Path) -> None:
     surface_path = tmp_path / "size_time_surface_overlay.png"
     error_path = tmp_path / "size_time_error_contours.png"
 
-    plot_size_time_surface_overlay(prediction, surface_path, "synthetic")
-    plot_size_time_error_contours(prediction, error_path, "synthetic")
+    plot_size_time_surface_overlay(prediction, surface_path)
+    plot_size_time_error_contours(prediction, error_path)
 
     for output in (surface_path, error_path):
         assert output.read_bytes().startswith(b"\x89PNG\r\n\x1a\n")
