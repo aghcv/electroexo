@@ -20,11 +20,23 @@ The `Sham2` and `sham media` controls have summed concentrations of 6.85e9 and 3
 
 The RNA matrix contains 78,986 gene rows and paired CPM and reported-count columns for 33 samples. It includes CD4 and HUVEC samples plus CD4 EGTA conditions. The provided CD4 sham versus 3p40kV table has 236 differential-expression rows at FDR below 0.05. Thirteen of 50 enrichment rows have FDR q-values below 0.05. The prominent enriched programs include TNFA signaling through NFKB, cholesterol homeostasis, hypoxia, apoptosis, IL2 STAT5 signaling, and p53. These signals support a stress and membrane-remodeling response, but do not directly measure a kinetic rate constant.
 
-## Immediate Structural Mismatch
+## Extracellular Structural Extension
 
-The current simulator reports cumulative EV release. A cumulative state cannot decline. The Exoid concentration can decline across independently harvested cultures because the measured supernatant pool reflects production, uptake, degradation, aggregation, loss during processing, changing volume, and the number of viable producer cells.
+The version 1.0 simulator reported cumulative EV release, which cannot decline.
+The version 1.1 development branch preserves those cumulative outputs and adds
+an extracellular stock that can decrease through an unresolved effective loss
+or explicit uptake, degradation, adsorption, aggregation, sampling, and medium
+replacement. Its source is scaled by initial cell density, culture volume, and
+a time-varying viable producer fraction. The Exoid concentration may decline
+across independently harvested cultures because secretion competes with these
+processes.
 
-The repository now includes `ExperimentalObservationBridge`, which corrects the static population/volume unit mismatch and records cell count, volume, viability basis, recovery, dilution, and background assumptions. The three FFRI analyses have been repeated on a particle-equivalents-per-initial-cell basis and are summarized in `docs/ffrci_single_cell_reanalysis.md`. This bridge is necessary but is not the dynamic supernatant observation layer described below:
+The repository includes `ExperimentalObservationBridge`, which corrects the
+static population/volume unit mismatch and records cell count, volume,
+viability basis, recovery, dilution, and background assumptions. The three
+FFRCI analyses were repeated on a particle-equivalents-per-initial-cell basis
+and are summarized in `docs/ffrci_single_cell_reanalysis.md`. The new dynamic
+supernatant layer implements the following balance directly:
 
 ```text
 dN_m/dt = viable_cells(t) * release_rate_m(t) - loss_rate_m * N_m(t)
@@ -141,7 +153,8 @@ Fit at the pathway level with sign-constrained, regularized coefficients. A time
 
 1. Resolve the collaborator questions and construct a machine-readable sample manifest.
 2. Confirm per-sample Exoid concentration and whether the time points are cumulative or interval collections.
-3. Add a supernatant-particle observation layer with viable-cell normalization and loss or uptake.
+3. Calibrate the new supernatant-particle observation layer, beginning with one
+   unresolved effective loss rather than separately named sink mechanisms.
 4. Re-run sensitivity screening using measured pulse and exposure inputs.
 5. Calibrate upstream electrical, calcium, and repair parameters to literature data or matching assays, not to EV concentration alone.
 6. Fit a four-to-six-parameter reduced EV observation model with blocked cross-validation.

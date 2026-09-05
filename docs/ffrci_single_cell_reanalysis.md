@@ -13,6 +13,11 @@ experimental observation bridge. This corrects the population scale but does
 not correct the separate structural mismatch: simulated release is cumulative,
 whereas the experimental supernatant concentration rises and falls.
 
+> Historical-version note: the results in this document were produced with the
+> frozen version 1.0 cumulative-output workflow. Version 1.1 subsequently added
+> the extracellular stock recommended below, but these folders have not been
+> refitted with that state and their reported metrics are unchanged.
+
 ## Current Framework Audit
 
 ### Representative-cell mechanistic core
@@ -113,7 +118,7 @@ below-200-nm dataset. This should not be interpreted as evidence that the
 measured particles are medium/large EVs. Diameter alone does not identify
 biogenesis, and the current observation function sums all modeled subtypes.
 
-The remaining failure is structural:
+For the historical version 1.0 fits, the remaining failure was structural:
 
 - cumulative model outputs cannot decrease;
 - no extracellular uptake, degradation, aggregation, adsorption, or sampling
@@ -134,17 +139,19 @@ The remaining failure is structural:
 6. Confirm whether time points are destructive cultures, cumulative medium, or
    serial sampling with replacement.
 
-## Recommended Next Computational Step
+## Implemented Next Step and Remaining Calibration Work
 
-Keep the new bridge as the input/output boundary and add an extracellular
-particle-stock observation model rather than changing intracellular pool
-definitions:
+Version 1.1 keeps the bridge and intracellular pool definitions intact and adds
+the extracellular particle-stock observation model:
 
 ```text
 dC_ext,m/dt = viable_cell_density(t) * release_rate_per_cell,m(t)
               - k_loss,m * C_ext,m(t)
 ```
 
-Begin with one shared loss constant and one measured or interpolated viable-cell
-trajectory. Add subtype-specific loss, sampling impulses, or adaptation only
-if the confirmed experimental design can identify them.
+The implementation supports a shared effective loss, separate named mechanisms,
+class multipliers, sampling impulses, medium replacement, assay transformation,
+and model-derived viability. The next step is to connect the FFRCI optimizer to
+this output, beginning with one shared effective loss and a measured or
+interpolated viable-cell trajectory. Add subtype-specific loss or additional
+mechanisms only if the confirmed experimental design can identify them.

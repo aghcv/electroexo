@@ -50,8 +50,11 @@ dC_ext/dt = viable_cell_density(t) * release_rate_per_cell(t)
 C_measured = recovery * C_ext / dilution_factor + background
 ```
 
-The present bridge performs the static unit transformation. It does not yet
-add the missing extracellular stock or loss state to the mechanistic model.
+The bridge still performs the reversible static unit transformation used by
+the legacy FFRCI fitting tools. The version 1.1 simulator now implements the
+time-resolved stock equation separately in `models/extracellular_kinetics.py`.
+Keeping the two interfaces distinct avoids applying the same cell-count or
+volume conversion twice. See `docs/extracellular_ev_kinetics.md`.
 
 ## Standard YAML Configuration
 
@@ -145,7 +148,8 @@ time-matched denominator even when its cell count is known.
 3. State whether normalization uses starting cells, viable cells at harvest,
    or viable-cell-hours.
 4. Do not interpret particle-diameter bins as biogenesis-defined EV subtypes.
-5. Do not infer an extracellular clearance rate from a static unit conversion.
+5. Do not infer an extracellular clearance rate from a static unit conversion;
+   use the dynamic extracellular stock and fit an unresolved effective loss.
 6. Propagate uncertainty in cell count, volume, recovery, and viability into
    parameter intervals once those measurements are available.
 7. Reject or sensitivity-test any fit whose constitutive rates change strongly
@@ -156,12 +160,16 @@ time-matched denominator even when its cell count is known.
 - The bridge currently uses one static metadata set per loaded dataset. The
   class can be instantiated per sample, but the FFRCI command-line driver does
   not yet read a row-specific sample manifest.
-- The current EV state remains cumulative and cannot reproduce falling
-  supernatant concentration.
+- The intracellular EV states remain cumulative by design, but the version 1.1
+  extracellular stock can rise or fall and is the appropriate supernatant-fit
+  target.
 - The current model uses reduced particle-equivalent states rather than a
   traceable absolute particle-count calibration.
 - Viability, recovery, dilution, background, and culture volume are unconfirmed
   for the supplied FFRCI file.
-- A full observation layer should next add time-varying viable-cell density,
-  an extracellular EV stock, uptake/degradation/adsorption loss, sampling or
-  medium replacement, and measurement uncertainty.
+- The standard scenario interface now supports model-derived time-varying
+  viability, extracellular loss, sampling, and medium replacement. Directly
+  measured viable-cell trajectories and observation uncertainty are not yet
+  accepted as row-specific inputs.
+- The legacy FFRCI fitting commands have not yet been migrated to optimize the
+  new extracellular stock; their published output folders remain v1.0 analyses.

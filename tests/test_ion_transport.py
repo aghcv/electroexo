@@ -70,6 +70,29 @@ def test_rhs_advances_ca_ions_and_mitochondrial_stress() -> None:
     assert derivatives["mitochondrial_potential"] < 0.0
 
 
+def test_closed_unstimulated_cell_does_not_clear_calcium_below_baseline() -> None:
+    params = IonTransportParams()
+    rhs = build_ion_transport_rhs(params, _electro_state(0.0), t_pulse_end=0.0)
+    derivatives = dict(
+        zip(get_ion_state_names(), rhs(10.0, get_ion_initial_conditions(params)), strict=True)
+    )
+
+    assert derivatives["Ca_i"] == pytest.approx(0.0, abs=1.0e-8)
+
+
+def test_sub_baseline_calcium_has_restoring_homeostatic_flux() -> None:
+    params = IonTransportParams()
+    state = get_ion_initial_conditions(params)
+    state[0] = 0.05
+    fluxes = compute_ion_transport_fluxes(
+        params, _electro_state(0.0), 10.0, state, t_pulse_end=0.0
+    )
+
+    assert fluxes["J_PMCA"] == pytest.approx(0.0)
+    assert fluxes["J_NCX"] == pytest.approx(0.0)
+    assert fluxes["J_Ca_homeostasis"] > 0.0
+
+
 def test_nested_ion_transport_params_are_coerced_to_float() -> None:
     params = coerce_ion_transport_params({"ion_transport": {"Ca_ext_uM": "5.0", "tau_ion_recovery_s": "1200.0"}})
 

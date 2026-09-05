@@ -25,6 +25,19 @@ def load_default_parameters() -> dict[str, Any]:
         return yaml.safe_load(handle) or {}
 
 
+def load_parameter_overrides(path: str | Path) -> dict[str, Any]:
+    """Load and validate a YAML mapping of parameter overrides."""
+
+    parameter_path = Path(path)
+    with parameter_path.open("r", encoding="utf-8") as handle:
+        raw = yaml.safe_load(handle) or {}
+    if not isinstance(raw, dict):
+        raise ValueError(
+            f"parameter override file must contain a YAML mapping: {parameter_path}"
+        )
+    return raw
+
+
 
 def merge_parameters(defaults: dict[str, Any], overrides: dict[str, Any] | None) -> dict[str, Any]:
     """Deep-merge parameter dicts."""

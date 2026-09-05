@@ -40,6 +40,22 @@ class SimulationConfig(BaseModel):
     numerical_method: Literal["solve_ivp", "euler"] = "solve_ivp"
 
 
+class MediumSamplingEventConfig(BaseModel):
+    """A well-mixed sample withdrawal followed by optional fresh-medium replacement."""
+
+    time_s: float = Field(ge=0)
+    sampled_volume_ml: float = Field(default=0.0, ge=0)
+    replacement_volume_ml: float = Field(default=0.0, ge=0)
+
+
+class ExtracellularMediumConfig(BaseModel):
+    """Culture-medium geometry and discrete collection events."""
+
+    initial_volume_ml: float = Field(default=1.0, gt=0)
+    use_time_varying_viability: bool = True
+    sampling_events: list[MediumSamplingEventConfig] = Field(default_factory=list)
+
+
 class ScenarioConfig(BaseModel):
     name: str
     mode: Literal["cell_based_electro_exocytosis", "direct_EV_engineering"] = "cell_based_electro_exocytosis"
@@ -51,3 +67,6 @@ class SimulationScenario(BaseModel):
     exposure: ExposureConfig
     cell_state: CellStateConfig = Field(default_factory=CellStateConfig)
     simulation: SimulationConfig = Field(default_factory=SimulationConfig)
+    extracellular_medium: ExtracellularMediumConfig = Field(
+        default_factory=ExtracellularMediumConfig
+    )

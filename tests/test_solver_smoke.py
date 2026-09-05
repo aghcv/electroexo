@@ -31,6 +31,9 @@ def test_solver_smoke() -> None:
         "peak_docked_MVB_pool",
         "cumulative_repair_shedding",
         "cumulative_small_EV",
+        "terminal_extracellular_total_concentration_particles_per_ml",
+        "peak_extracellular_total_concentration_particles_per_ml",
+        "extracellular_decline_from_peak_fraction",
         "purity_score",
         "protein_enrichment",
         "RNA_enrichment",
@@ -72,3 +75,35 @@ def test_solver_smoke() -> None:
         "fusion_signal",
     ]:
         assert column in result.state_timeseries
+
+    for column in [
+        "sEV_extracellular_concentration_particles_per_ml",
+        "mlEV_extracellular_concentration_particles_per_ml",
+        "AB_extracellular_concentration_particles_per_ml",
+        "total_extracellular_concentration_particles_per_ml",
+        "measured_particle_concentration_particles_per_ml",
+        "extracellular_medium_volume_ml",
+        "viable_producer_fraction",
+    ]:
+        assert column in result.ev_timeseries
+
+
+def test_simulation_extracellular_stock_can_decline() -> None:
+    scenario = load_scenario(Path("examples/scenario_baseline.yaml"))
+    scenario.extracellular_medium.use_time_varying_viability = False
+    result = Simulation(
+        scenario,
+        params_override={
+            "extracellular_kinetics": {
+                "source_scale_particles_per_model_unit": 0.0,
+                "initial_sEV_concentration_particles_per_ml": 1.0e9,
+                "degradation_rate_s": 0.0002,
+            }
+        },
+    ).run()
+
+    concentration = result.ev_timeseries[
+        "total_extracellular_concentration_particles_per_ml"
+    ].to_numpy()
+    assert concentration[-1] < concentration[0]
+    assert result.summary["extracellular_decline_from_peak_fraction"] > 0.5

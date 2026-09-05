@@ -31,6 +31,7 @@ class IonTransportParams:
     Ca_mito_baseline_uM: float = 0.2
     Ca_max_uM: float = 10.0
     tau_pore_reseal_s: float = 0.5
+    tau_Ca_homeostasis_s: float = 600.0
     J_Ca_pore_factor: float = 1.5
     J_ER_release_factor: float = 1.5
     ER_activation_threshold_V: float = 0.05
@@ -95,6 +96,7 @@ def build_ion_transport_rhs(
         d_ca_i = (
             fluxes["J_Ca_pore"]
             + fluxes["J_ER_release"]
+            + fluxes["J_Ca_homeostasis"]
             - fluxes["J_SERCA"]
             - fluxes["J_PMCA"]
             - fluxes["J_NCX"]
@@ -167,14 +169,18 @@ def compute_ion_transport_fluxes(
     er_drive = max(ca_er - ca_i, 0.0) / max(params.Ca_ER_uM, 1e-9)
     j_er_release = params.J_ER_release_factor * er_activation * er_drive
 
-    ca_hill = _hill(ca_i, params.SERCA_K_uM, params.calcium_hill_n)
+    ca_excess_uM = max(ca_i - params.Ca_baseline_uM, 0.0)
+    ca_hill = _hill(ca_excess_uM, params.SERCA_K_uM, params.calcium_hill_n)
     atp_gate = atp / (params.SERCA_ATP_K + atp) if atp > 0 else 0.0
     er_capacity_gate = max(params.Ca_ER_uM - ca_er, 0.0) / max(params.Ca_ER_uM, 1e-9)
     j_serca = params.SERCA_Vmax_uM_s * ca_hill * atp_gate * er_capacity_gate
-    j_pmca = params.PMCA_Vmax_uM_s * _hill(ca_i, params.PMCA_K_uM, params.calcium_hill_n) * atp_gate
-    j_ncx = params.NCX_Vmax_uM_s * _hill(ca_i, params.NCX_K_uM, params.calcium_hill_n)
+    j_pmca = params.PMCA_Vmax_uM_s * _hill(ca_excess_uM, params.PMCA_K_uM, params.calcium_hill_n) * atp_gate
+    j_ncx = params.NCX_Vmax_uM_s * _hill(ca_excess_uM, params.NCX_K_uM, params.calcium_hill_n)
+    j_ca_homeostasis = max(params.Ca_baseline_uM - ca_i, 0.0) / max(
+        params.tau_Ca_homeostasis_s, 1e-9
+    )
 
-    mito_ca_hill = _hill(ca_i, params.mitochondrial_Ca_K_uM, params.calcium_hill_n)
+    mito_ca_hill = _hill(ca_excess_uM, params.mitochondrial_Ca_K_uM, params.calcium_hill_n)
     j_mito_uptake = params.mitochondrial_uptake_Vmax_uM_s * mito_ca_hill * mito_potential
     depolarization_gate = max(1.0 - mito_potential, 0.0)
     j_mito_release = (
@@ -218,6 +224,7 @@ def compute_ion_transport_fluxes(
         "ER_activation": float(er_activation),
         "J_Ca_pore": float(j_ca_pore),
         "J_ER_release": float(j_er_release),
+        "J_Ca_homeostasis": float(j_ca_homeostasis),
         "J_SERCA": float(j_serca),
         "J_PMCA": float(j_pmca),
         "J_NCX": float(j_ncx),

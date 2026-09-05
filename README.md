@@ -6,7 +6,7 @@
 
 nsPEF exposures can perturb plasma and organelle membranes, trigger calcium mobilization, alter ROS and bioenergetics, and reshape vesicle release pathways. These mechanisms matter both for understanding electro-exocytosis as a biological phenomenon and for designing EV engineering workflows that bias yield, subtype balance, and product quality.
 
-This package provides a first professional implementation of that conceptual framework. Version 0.1.0 is intentionally conservative: it offers a coherent, testable, end-to-end simulator while clearly marking all mechanistic modules as placeholders pending literature-backed parameterization.
+This package provides a professional preliminary implementation of that conceptual framework. Version 1.0 freezes the stable cumulative-release model; the version 1.1 development line adds a dynamic extracellular-medium stock while keeping the scientific parameters explicitly provisional.
 
 ## Modular solver architecture
 
@@ -27,6 +27,12 @@ calibration. This bridge converts population-level particle concentration into
 single-cell-equivalent output without embedding culture volume, cell count,
 assay recovery, or dilution inside the intracellular equations. See
 [`docs/experimental_observation_bridge.md`](docs/experimental_observation_bridge.md).
+
+Version 1.1 also propagates per-cell release into explicit extracellular
+particle stocks. Secretion can compete with effective loss, uptake,
+degradation, adsorption, aggregation, sampling, medium replacement, and
+time-varying viability. See
+[`docs/extracellular_ev_kinetics.md`](docs/extracellular_ev_kinetics.md).
 
 The simulator resolves nanosecond pulses through descriptors, then integrates a stable ODE system over seconds to hours.
 
@@ -49,6 +55,16 @@ Other examples:
 ```bash
 python -m electro_exocytosis run examples/scenario_high_dose.yaml --out results/high_dose
 python -m electro_exocytosis run examples/scenario_direct_EV_engineering.yaml --out results/direct_ev
+```
+
+Exercise the extracellular rise-and-fall model with an illustrative, unfitted
+15-minute effective half-life:
+
+```bash
+python -m electro_exocytosis run \
+  examples/scenario_rubens_experiment.yml \
+  --parameters-file examples/parameters_extracellular_decline.yml \
+  --out results/extracellular_decline_example
 ```
 
 Compare the pulse/dosimetry model choices directly:
@@ -152,7 +168,7 @@ Each run writes a directory containing:
 
 - `summary.json` – compact run summary and headline metrics
 - `state_timeseries.csv` – time series with standard-language column names for cytosolic calcium, endoplasmic-reticulum calcium, mitochondrial calcium, mitochondrial membrane potential, reactive oxygen species, adenosine triphosphate, intracellular sodium/potassium/chloride, osmotic stress, ion-flux diagnostics, remodeling/repair diagnostics, and damage
-- `ev_outputs.csv` – EV rates, cumulative counts, viability, quality gate
+- `ev_outputs.csv` – EV rates, legacy cumulative outputs, extracellular stocks and concentrations, source/sink diagnostics, viability, and quality gate
 - `parameters_used.yaml` – merged parameter set used for the run
 - `run_metadata.json` – metadata, warnings, timestamps
 - `abbreviations.json`, `abbreviations.md`, `abbreviations.tex` – a synchronized abbreviation bundle for manuscript, figure-caption, and table-footnote reuse
@@ -169,9 +185,9 @@ print-friendly: up to three series use monochrome line styles and markers; plots
 with more than three series switch to a color-blind-safe palette while retaining
 distinct line formats.
 
-## Placeholder status in v0.1.0
+## Scientific status
 
-All scientific modules are placeholders in this release. The code structure is real, the numerical workflow is functional, and the interfaces are designed for extension, but the equations and constants should be treated as exploratory defaults rather than validated mechanistic truth.
+The code structure is real, the numerical workflow is functional, and the interfaces are designed for extension, but the equations and constants should be treated as exploratory defaults rather than validated mechanistic truth. Extracellular losses are disabled by default and the example nonzero loss rate is illustrative, not fitted.
 
 Placeholder-heavy modules include:
 

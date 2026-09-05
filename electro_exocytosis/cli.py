@@ -6,7 +6,7 @@ from typing import Optional
 import typer
 
 from electro_exocytosis.evidence.evidence_loader import EvidenceLoader
-from electro_exocytosis.io.readers import load_scenario
+from electro_exocytosis.io.readers import load_parameter_overrides, load_scenario
 from electro_exocytosis.io.writers import (
     save_ev_outputs_csv,
     save_parameters_yaml,
@@ -26,10 +26,14 @@ def run(
     out: str = "results/output",
     no_plots: bool = False,
     evidence_file: Optional[str] = None,
+    parameters_file: Optional[str] = None,
 ):
     """Run an nsPEF EV release simulation from a YAML scenario file."""
     scenario = load_scenario(scenario_file)
-    simulation = Simulation(scenario)
+    parameter_overrides = (
+        load_parameter_overrides(parameters_file) if parameters_file else None
+    )
+    simulation = Simulation(scenario, params_override=parameter_overrides)
     result = simulation.run()
 
     outdir = Path(out)

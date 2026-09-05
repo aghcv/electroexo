@@ -1,0 +1,21 @@
+# Illustrative extracellular-stock settings for exercising the v1.1 kinetics.
+# These values are not fitted to FFRCI data and must not be interpreted as
+# biological estimates. A 15-minute effective half-life is used only to make
+# rise-and-fall behavior visible in an example run.
+extracellular_kinetics:
+  source_scale_particles_per_model_unit: 1.0
+  initial_sEV_concentration_particles_per_ml: 0.0
+  initial_mlEV_concentration_particles_per_ml: 0.0
+  initial_AB_concentration_particles_per_ml: 0.0
+  effective_loss_rate_s: 0.00077016
+  uptake_rate_s: 0.0
+  degradation_rate_s: 0.0
+  adsorption_rate_s: 0.0
+  sEV_loss_multiplier: 1.0
+  mlEV_loss_multiplier: 1.0
+  AB_loss_multiplier: 1.0
+  sEV_to_mlEV_aggregation_rate_s: 0.0
+  aggregation_particle_yield: 0.5
+  assay_recovery_fraction: 1.0
+  assay_dilution_factor: 1.0
+  assay_background_concentration_particles_per_ml: 0.0

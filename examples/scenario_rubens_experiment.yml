@@ -15,6 +15,13 @@ exposure:
   temperature_C: 37
   cell_density_per_ml: 1000000
 
+# Provisional 5 mL volume gives 5 million starting cells at the density above.
+# Replace this and the event list with the confirmed collection protocol.
+extracellular_medium:
+  initial_volume_ml: 5.0
+  use_time_varying_viability: true
+  sampling_events: []
+
 cell_state:
   cell_type: generic
   membrane_modifier: 1.0
@@ -24,6 +31,6 @@ cell_state:
 
 simulation:
   t_start_s: 0
-  t_end_s: 7200
+  t_end_s: 10800
   output_dt_s: 60
   numerical_method: solve_ivp

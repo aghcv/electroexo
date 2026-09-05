@@ -6,6 +6,7 @@ from electro_exocytosis.models.ev_release import (
     EVReleaseParams,
     coerce_ev_release_params,
     compute_ev_release_fluxes,
+    compute_ev_release_derivatives,
     get_ev_initial_conditions,
 )
 
@@ -161,3 +162,71 @@ def test_nested_ev_release_params_are_coerced_to_float() -> None:
 
     assert params.k_MVB_maturation_s == pytest.approx(0.004)
     assert params.ceramide_baseline == pytest.approx(0.55)
+
+
+def test_voltage_stimulus_is_not_sustained_after_pore_resealing() -> None:
+    params = EVReleaseParams()
+    state = get_ev_initial_conditions(params)
+    common = {
+        "Ca_i": 0.1,
+        "Ca_submembrane": 0.1,
+        "ROS": 0.1,
+        "ATP": 1.0,
+        "damage_state": 0.0,
+        "PS_exposure": 0.0,
+        "calpain_activity": 0.0,
+        "annexin_activity": 0.0,
+        "actomyosin_tension": 0.0,
+        "actin_disruption": 0.0,
+        "repair_state": 0.0,
+        "repair_shedding_rate": 0.0,
+    }
+    resealed = compute_ev_release_fluxes(
+        params,
+        state,
+        delta_V_MVB=0.2,
+        pore_activation=0.0,
+        **common,
+    )
+    no_voltage = compute_ev_release_fluxes(
+        params,
+        state,
+        delta_V_MVB=0.0,
+        pore_activation=0.0,
+        **common,
+    )
+
+    assert resealed["rab_conversion_signal"] == pytest.approx(
+        no_voltage["rab_conversion_signal"]
+    )
+
+
+def test_homeostatic_reference_balances_baseline_ev_pools() -> None:
+    params = EVReleaseParams()
+    state = get_ev_initial_conditions(params)
+    reference = compute_ev_release_fluxes(
+        params,
+        state,
+        Ca_i=0.1,
+        Ca_submembrane=0.1,
+        ROS=0.1,
+        ATP=1.0,
+        damage_state=0.0,
+        delta_V_MVB=0.0,
+        pore_activation=0.0,
+        PS_exposure=0.0,
+        calpain_activity=0.0,
+        annexin_activity=0.0,
+        actomyosin_tension=0.0,
+        actin_disruption=0.0,
+        repair_state=0.0,
+        repair_shedding_rate=0.0,
+    )
+    derivatives = compute_ev_release_derivatives(
+        params,
+        state,
+        reference,
+        homeostatic_reference_fluxes=reference,
+    )
+
+    assert derivatives == pytest.approx([0.0] * len(state), abs=1.0e-15)

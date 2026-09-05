@@ -19,6 +19,11 @@ from electro_exocytosis.models.ev_release import (
     get_ev_initial_conditions,
     get_ev_state_names,
 )
+from electro_exocytosis.models.extracellular_kinetics import (
+    MediumSamplingEvent,
+    coerce_extracellular_kinetics_params,
+    simulate_extracellular_kinetics,
+)
 from electro_exocytosis.models.injury_quality import InjuryParams, compute_quality_gate
 from electro_exocytosis.models.ion_transport import (
     build_ion_transport_rhs,
@@ -77,7 +82,20 @@ class Simulation:
         )
         ion_params = coerce_ion_transport_params(self.params_flat)
         ev_params = coerce_ev_release_params(self.params_flat)
+        extracellular_params = coerce_extracellular_kinetics_params(self.params_flat)
         remodeling_params = coerce_remodeling_params(self.params_flat)
+        if (
+            extracellular_params.effective_loss_rate_s
+            + extracellular_params.uptake_rate_s
+            + extracellular_params.degradation_rate_s
+            + extracellular_params.adsorption_rate_s
+            + extracellular_params.sEV_to_mlEV_aggregation_rate_s
+            == 0.0
+        ):
+            self.warnings.append(
+                "Extracellular loss mechanisms are present but disabled by zero-valued defaults; "
+                "configure or fit them before interpreting supernatant concentration kinetics."
+            )
         ion_state_names = get_ion_state_names()
         ev_state_names = get_ev_state_names()
         effective_ion_perturbation_s = min(
@@ -88,6 +106,31 @@ class Simulation:
             ion_params,
             electro_state,
             t_pulse_end=effective_ion_perturbation_s,
+        )
+        baseline_remodeling = compute_remodeling_state(
+            ion_params.Ca_baseline_uM,
+            remodeling_params,
+            osmotic_stress=0.0,
+            mitochondrial_potential=1.0,
+            pore_activation=0.0,
+        )
+        homeostatic_ev_fluxes = compute_ev_release_fluxes(
+            ev_params,
+            get_ev_initial_conditions(ev_params),
+            Ca_i=ion_params.Ca_baseline_uM,
+            Ca_submembrane=float(baseline_remodeling["Ca_submembrane"]),
+            ROS=ion_params.ROS_baseline,
+            ATP=ion_params.ATP_baseline,
+            damage_state=0.0,
+            delta_V_MVB=0.0,
+            pore_activation=0.0,
+            PS_exposure=float(baseline_remodeling["PS_exposure"]),
+            calpain_activity=float(baseline_remodeling["calpain_activity"]),
+            annexin_activity=float(baseline_remodeling["annexin_activity"]),
+            actomyosin_tension=float(baseline_remodeling["actomyosin_tension"]),
+            actin_disruption=float(baseline_remodeling["actin_disruption"]),
+            repair_state=float(baseline_remodeling["repair_state"]),
+            repair_shedding_rate=float(baseline_remodeling["repair_shedding_rate"]),
         )
 
         scheduler = MultiscaleScheduler(descriptors, self.scenario.simulation.t_start_s, self.scenario.simulation.t_end_s)
@@ -159,7 +202,12 @@ class Simulation:
                 repair_state=float(remodeling_state["repair_state"]),
                 repair_shedding_rate=float(remodeling_state["repair_shedding_rate"]),
             )
-            ev_derivatives = compute_ev_release_derivatives(ev_params, ev_y, ev_fluxes)
+            ev_derivatives = compute_ev_release_derivatives(
+                ev_params,
+                ev_y,
+                ev_fluxes,
+                homeostatic_reference_fluxes=homeostatic_ev_fluxes,
+            )
 
             dDamage = p["damage_rate"] * damage_input - p["repair_rate"] * damage / (1.0 + damage)
             return [
@@ -319,6 +367,45 @@ class Simulation:
             cumulative_AB=float(ab_cum[-1]),
         )
 
+        if self.scenario.extracellular_medium.use_time_varying_viability:
+            viable_producer_fraction = np.array(
+                [
+                    float(
+                        compute_quality_gate(
+                            float(current_damage),
+                            0.0,
+                            injury_params,
+                        )["viability_fraction"]
+                    )
+                    for current_damage in damage
+                ],
+                dtype=float,
+            )
+        else:
+            viable_producer_fraction = np.ones_like(t_eval, dtype=float)
+        sampling_events = [
+            MediumSamplingEvent(
+                time_s=float(event.time_s),
+                sampled_volume_ml=float(event.sampled_volume_ml),
+                replacement_volume_ml=float(event.replacement_volume_ml),
+            )
+            for event in self.scenario.extracellular_medium.sampling_events
+        ]
+        extracellular = simulate_extracellular_kinetics(
+            t_eval,
+            {
+                "sEV": sev_cum,
+                "mlEV": mlev_cum,
+                "AB": ab_cum,
+            },
+            extracellular_params,
+            initial_cell_density_per_ml=self.scenario.exposure.cell_density_per_ml,
+            initial_volume_ml=self.scenario.extracellular_medium.initial_volume_ml,
+            viable_fraction=viable_producer_fraction,
+            sampling_events=sampling_events,
+        )
+        extracellular_timeseries = pd.DataFrame(extracellular.timeseries)
+
         manufacturing_params = ManufacturingParams(
             cell_count=self.params_flat["cell_count"],
             harvest_time_h=self.params_flat["harvest_time_h"],
@@ -352,6 +439,7 @@ class Simulation:
                 "sEV_cumulative": sev_cum,
                 "mlEV_cumulative": mlev_cum,
                 "AB_cumulative": ab_cum,
+                **extracellular.timeseries,
                 **ev_series,
                 "rab_conversion_signal": ev_release_timeseries["rab_conversion_signal"].to_numpy(dtype=float),
                 "escrt_dependent_signal": ev_release_timeseries["escrt_dependent_signal"].to_numpy(dtype=float),
@@ -365,6 +453,21 @@ class Simulation:
                 "scission_signal": ev_release_timeseries["scission_signal"].to_numpy(dtype=float),
                 "apoptotic_blebbing_signal": ev_release_timeseries["apoptotic_blebbing_signal"].to_numpy(dtype=float),
             }
+        )
+
+        extracellular_total = extracellular_timeseries[
+            "total_extracellular_concentration_particles_per_ml"
+        ].to_numpy(dtype=float)
+        extracellular_measured = extracellular_timeseries[
+            "measured_particle_concentration_particles_per_ml"
+        ].to_numpy(dtype=float)
+        extracellular_peak_index = int(np.argmax(extracellular_total))
+        extracellular_peak = float(extracellular_total[extracellular_peak_index])
+        extracellular_terminal = float(extracellular_total[-1])
+        extracellular_decline_from_peak = (
+            max(0.0, 1.0 - extracellular_terminal / extracellular_peak)
+            if extracellular_peak > 0.0
+            else 0.0
         )
 
         summary = {
@@ -391,6 +494,32 @@ class Simulation:
             "cumulative_small_EV": float(sev_cum[-1]),
             "cumulative_medium_large_EV": float(mlev_cum[-1]),
             "cumulative_apoptotic_body": float(ab_cum[-1]),
+            "terminal_extracellular_small_EV_concentration_particles_per_ml": float(
+                extracellular_timeseries[
+                    "sEV_extracellular_concentration_particles_per_ml"
+                ].iloc[-1]
+            ),
+            "terminal_extracellular_medium_large_EV_concentration_particles_per_ml": float(
+                extracellular_timeseries[
+                    "mlEV_extracellular_concentration_particles_per_ml"
+                ].iloc[-1]
+            ),
+            "terminal_extracellular_apoptotic_body_concentration_particles_per_ml": float(
+                extracellular_timeseries[
+                    "AB_extracellular_concentration_particles_per_ml"
+                ].iloc[-1]
+            ),
+            "terminal_extracellular_total_concentration_particles_per_ml": extracellular_terminal,
+            "terminal_measured_particle_concentration_particles_per_ml": float(
+                extracellular_measured[-1]
+            ),
+            "peak_extracellular_total_concentration_particles_per_ml": extracellular_peak,
+            "time_of_peak_extracellular_concentration_s": float(
+                t_eval[extracellular_peak_index]
+            ),
+            "extracellular_decline_from_peak_fraction": float(
+                extracellular_decline_from_peak
+            ),
             "total_measured_particles": float(manufacturing["total_measured_particles"]),
             "purity_score": float(min(1.0, manufacturing["purity_score"] * float(quality["purity_score"]))),
             "viability_fraction": float(quality["viability_fraction"]),
@@ -421,9 +550,15 @@ class Simulation:
             "ion_transport": asdict(ion_params),
             "remodeling_repair": asdict(remodeling_params),
             "ev_release": asdict(ev_params),
+            "extracellular_kinetics": asdict(extracellular_params),
+            "extracellular_medium": self.scenario.extracellular_medium.model_dump(
+                mode="python"
+            ),
+            "extracellular_sampling_event_log": extracellular.event_log,
             "effective_ion_perturbation_s": float(effective_ion_perturbation_s),
             "terminal_remodeling": remodeling[-1],
             "terminal_ev_release": ev_release[-1],
+            "homeostatic_ev_release_reference": homeostatic_ev_fluxes,
             "terminal_cargo": cargo_state,
             "terminal_quality": quality,
             "manufacturing": manufacturing,

@@ -27,6 +27,7 @@ ion_transport:
   Ca_mito_baseline_uM: 0.2
   Ca_max_uM: 10.0
   tau_pore_reseal_s: 0.5
+  tau_Ca_homeostasis_s: 600.0
   J_Ca_pore_factor: 1.5
   J_ER_release_factor: 1.5
   ER_activation_threshold_V: 0.05
@@ -183,6 +184,30 @@ ev_release:
   apoptosis_ATP_loss_weight: 0.20
   apoptosis_ROS_weight: 0.15
   apoptosis_tension_weight: 0.15
+
+extracellular_kinetics:
+  # Release rates are preliminary model units per representative cell per second.
+  # This scale maps one model unit to particle equivalents and is intended for calibration.
+  source_scale_particles_per_model_unit: 1.0
+  initial_sEV_concentration_particles_per_ml: 0.0
+  initial_mlEV_concentration_particles_per_ml: 0.0
+  initial_AB_concentration_particles_per_ml: 0.0
+  # All loss mechanisms default to zero to preserve the v1.0 cumulative-release behavior.
+  # Fit this unresolved effective loss first; separate mechanisms require
+  # discriminating experiments such as cell-free stability and uptake assays.
+  effective_loss_rate_s: 0.0
+  uptake_rate_s: 0.0
+  degradation_rate_s: 0.0
+  adsorption_rate_s: 0.0
+  sEV_loss_multiplier: 1.0
+  mlEV_loss_multiplier: 1.0
+  AB_loss_multiplier: 1.0
+  # Optional reduced transfer: lost small particles form fewer medium/large particles.
+  sEV_to_mlEV_aggregation_rate_s: 0.0
+  aggregation_particle_yield: 0.5
+  assay_recovery_fraction: 1.0
+  assay_dilution_factor: 1.0
+  assay_background_concentration_particles_per_ml: 0.0
 
 cargo_potency:
   protein_enrichment_baseline: 1.0

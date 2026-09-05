@@ -165,7 +165,7 @@ def compute_ev_release_fluxes(
     atp_gate = atp / (params.atp_half_max + atp) if atp > 0 else 0.0
     ros_gate = _clip01(max(ros - params.ros_reference, 0.0) / max(params.ros_stress_scale, 1e-12))
     voltage_gate = _logistic_activation(
-        float(delta_V_MVB),
+        float(delta_V_MVB) * pore_activation,
         threshold=params.MVB_voltage_threshold_V,
         slope=params.MVB_voltage_slope,
     )
@@ -282,8 +282,36 @@ def compute_ev_release_derivatives(
     params: EVReleaseParams,
     y: list[float],
     fluxes: Mapping[str, float],
+    *,
+    homeostatic_reference_fluxes: Mapping[str, float] | None = None,
 ) -> list[float]:
-    """Return Layer 5 state derivatives from the current state and fluxes."""
+    """Return Layer 5 state derivatives from the current state and fluxes.
+
+    When a homeostatic reference is supplied, its net pool derivatives are
+    subtracted. The configured baseline pools are then an equilibrium under
+    baseline calcium, repair, bioenergetic, and voltage conditions instead of
+    drifting simply because constitutive production and turnover were not
+    algebraically balanced.
+    """
+    derivatives = _compute_raw_ev_release_derivatives(params, y, fluxes)
+    if homeostatic_reference_fluxes is None:
+        return derivatives
+    reference = _compute_raw_ev_release_derivatives(
+        params,
+        get_ev_initial_conditions(params),
+        homeostatic_reference_fluxes,
+    )
+    return [
+        float(current - baseline)
+        for current, baseline in zip(derivatives, reference, strict=True)
+    ]
+
+
+def _compute_raw_ev_release_derivatives(
+    params: EVReleaseParams,
+    y: list[float],
+    fluxes: Mapping[str, float],
+) -> list[float]:
     state = ev_state_to_dict(y, params)
     d_mvb = (
         params.k_MVB_maturation_s * fluxes["rab_conversion_signal"] * fluxes["secretory_bias"]

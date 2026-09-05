@@ -243,6 +243,62 @@ def plot_cumulative_ev_yield(result: SimulationResult, outdir: Path) -> None:
     plt.close(fig)
 
 
+def plot_extracellular_ev_kinetics(result: SimulationResult, outdir: Path) -> None:
+    """Plot extracellular EV concentrations separately from cumulative release."""
+
+    outdir.mkdir(parents=True, exist_ok=True)
+    fig, axes = plt.subplots(1, 2, figsize=MANUSCRIPT_LANDSCAPE_FIGSIZE)
+    time_h = result.ev_timeseries["t"] / 3600.0
+
+    subtype_styles = line_styles(3)
+    axes[0].plot(
+        time_h,
+        result.ev_timeseries["sEV_extracellular_concentration_particles_per_ml"],
+        label=STANDARD_ABBREVIATIONS.plot_label("sEV"),
+        **subtype_styles[0],
+    )
+    axes[0].plot(
+        time_h,
+        result.ev_timeseries["mlEV_extracellular_concentration_particles_per_ml"],
+        label=STANDARD_ABBREVIATIONS.plot_label("m/lEV"),
+        **subtype_styles[1],
+    )
+    axes[0].plot(
+        time_h,
+        result.ev_timeseries["AB_extracellular_concentration_particles_per_ml"],
+        label=STANDARD_ABBREVIATIONS.plot_label("AB"),
+        **subtype_styles[2],
+    )
+    axes[0].set_xlabel("Time (h)")
+    axes[0].set_ylabel("True extracellular concentration (particles/mL)")
+    axes[0].legend()
+
+    observation_styles = line_styles(2)
+    axes[1].plot(
+        time_h,
+        result.ev_timeseries["total_extracellular_concentration_particles_per_ml"],
+        label="True total",
+        **observation_styles[0],
+    )
+    axes[1].plot(
+        time_h,
+        result.ev_timeseries["measured_particle_concentration_particles_per_ml"],
+        label="Assay observation",
+        **observation_styles[1],
+    )
+    axes[1].set_xlabel("Time (h)")
+    axes[1].set_ylabel("Particle concentration (particles/mL)")
+    axes[1].legend()
+
+    fig.tight_layout()
+    save_manuscript_figure(
+        fig,
+        outdir / "extracellular_ev_kinetics.png",
+        abbreviation_keys=("EV", "sEV", "m/lEV", "AB"),
+    )
+    plt.close(fig)
+
+
 
 def plot_quality_viability(result: SimulationResult, outdir: Path) -> None:
     """Plot damage and viability proxy."""
@@ -268,4 +324,5 @@ def generate_all_plots(result: SimulationResult, outdir: Path) -> None:
     plot_ev_biogenesis_panel(result, outdir)
     plot_ev_release_rates(result, outdir)
     plot_cumulative_ev_yield(result, outdir)
+    plot_extracellular_ev_kinetics(result, outdir)
     plot_quality_viability(result, outdir)

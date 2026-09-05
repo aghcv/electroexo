@@ -15,6 +15,17 @@ The reduced implementation now maps cytosolic Ca2+, pore activation, osmotic str
 ## Layer 5: EV biogenesis and subtype release
 Layer 5 now uses a reduced pool-balance release architecture with explicit MVB pool, ILV load, docked-MVB, budding-precursor, and apoptotic-commitment states. These states are driven by Rab-conversion/maturation, ESCRT-dependent and ceramide-assisted ILV loading, secretory-versus-lysosomal routing, Ca2+-sensitive fusion, and budding/blebbing proxies. The structure is literature-backed and aligned to Table A9/A10, but the parameters remain provisional and should be calibrated against subtype-resolved secretion, trafficking, and inhibition data.
 
+## Extracellular EV kinetics and observation
+The version 1.1 development model converts representative-cell release into
+particle stocks in a defined culture volume and supports effective loss,
+uptake, degradation, adsorption, aggregation, discrete sampling, fresh-medium
+replacement, assay recovery, dilution, background, and time-varying viable
+producer fraction. All loss rates default to zero for version 1.0 compatibility.
+Only the combined effective disappearance rate is expected to be identifiable
+from the present FFRCI concentration trajectories. The named mechanisms require
+separate controls before being estimated individually. See
+`docs/extracellular_ev_kinetics.md`.
+
 ## Layer 6: Cargo sorting, composition, potency
 Cargo enrichment and potency score are linear proxies from Ca2+, ROS, and ATP. Literature is needed to map stimulation history to protein, RNA, lipid, and functional potency outputs.
 
@@ -28,7 +39,10 @@ Isolation efficiency, purity factor, batch consistency, and scalability are stat
 Cell-state modifiers scale calcium handling, baseline EV release, and stress sensitivity. Future work should map these modifiers to curated cell-type and disease-state evidence.
 
 ## Overall status
-Version 0.1.0 is structurally complete but scientifically provisional. Every mechanistic layer still requires targeted literature review and parameter replacement.
+Version 1.0 is the frozen stable baseline. Version 1.1 adds extracellular stock
+bookkeeping and restores calcium and EV-pool homeostasis, but remains
+scientifically provisional. Every mechanistic layer still requires targeted
+literature review and parameter replacement.
 
 ## Full-text calibration targets
 The first full-text PDF pass identified experimental targets that map directly
