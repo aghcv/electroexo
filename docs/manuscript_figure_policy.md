@@ -100,6 +100,28 @@ history, file provenance, or parameter interpretation into the plotted area.
 Provenance and complete sample counts belong in the generated data tables and
 methods documentation.
 
+## Fit diagnostics and parameter plots
+
+- Error and goodness-of-fit figures must keep total-concentration and
+  size-composition residual families separate unless a statistically explicit
+  joint scale is defined. Display every condition–time target when the design
+  is small.
+- Agreement plots use an identity line and the experimental SD on the observed
+  axis. Metrics calculated on fitted data are labeled as in-sample descriptive
+  diagnostics, not predictive validation.
+- A single fitted parameter is shown as an initial/final point with its search
+  bounds, not as a box plot.
+- A parameter box plot may summarize repeated optimizer endpoints only when at
+  least 12 successful multistart endpoints are available; 20–30 are preferred.
+  Show the individual endpoints and the selected solution. State explicitly
+  that their spread measures optimization stability, not a confidence
+  interval, posterior distribution, or biological variation.
+- Parameter values with incompatible units may share a panel only after a
+  clearly labeled transformation such as position within the configured
+  optimizer range. Search bounds are not biological validity ranges.
+- With fewer than 12 successful starts, retain the endpoint points and
+  initial/final markers but omit the box glyphs.
+
 ## Required generator pattern
 
 Every new or modified plot generator should:

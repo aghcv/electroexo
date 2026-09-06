@@ -26,6 +26,7 @@ import numpy as np
 import pandas as pd
 import yaml
 from scipy.optimize import least_squares
+from scipy.stats import qmc
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -41,8 +42,13 @@ from electro_exocytosis.models.ev_size_observation import (  # noqa: E402
     SizeResolvedKineticsParams,
     simulate_size_resolved_extracellular_kinetics,
 )
+from electro_exocytosis.parameter_registry import (  # noqa: E402
+    build_model_registry,
+    build_parameter_snapshot,
+)
 from electro_exocytosis.simulation import Simulation  # noqa: E402
 from electro_exocytosis.visualization.style import (  # noqa: E402
+    COLORBLIND_PALETTE,
     FITTED_COLOR,
     FITTED_MODEL_LABEL,
     MANUSCRIPT_COLOR_DPI,
@@ -85,6 +91,8 @@ CONDITION_LABELS = {
     "3p40kV": "3 pulses, 40 kV",
     "5p40kV": "5 pulses, 40 kV",
 }
+TIME_MARKERS = {0.5: "o", 1.0: "s", 3.0: "^"}
+MIN_ENDPOINTS_FOR_BOXPLOT = 12
 
 
 @dataclass(frozen=True)
@@ -194,6 +202,125 @@ DOSE_PARAMETER_DEFINITIONS = (
     ParameterDefinition("dose_response_linear", 0.0, -8.0, 8.0, 0.0, 2.0),
     ParameterDefinition("dose_response_quadratic", 0.0, -8.0, 8.0, 0.0, 2.0),
 )
+
+
+RAW_TO_PHYSICAL_PARAMETER = {
+    "log_sEV_source_scale": "sEV_source_scale_particles_per_model_unit",
+    "log_mlEV_source_scale": "mlEV_source_scale_particles_per_model_unit",
+    "log_AB_source_scale": "AB_source_scale_particles_per_model_unit",
+    "log_effective_half_life_h": "effective_half_life_h",
+    "loss_size_exponent": "loss_size_exponent",
+    "log_sEV_median_nm": "sEV_median_diameter_nm",
+    "log_mlEV_median_nm": "mlEV_median_diameter_nm",
+    "log_AB_median_nm": "AB_median_diameter_nm",
+    "log_sEV_gsd_minus_one": "sEV_geometric_sd",
+    "log_mlEV_gsd_minus_one": "mlEV_geometric_sd",
+    "log_AB_gsd_minus_one": "AB_geometric_sd",
+    "sEV_state_shift": "sEV_state_shift",
+    "mlEV_state_shift": "mlEV_state_shift",
+    "AB_state_shift": "AB_state_shift",
+    "dose_response_linear": "dose_response_linear",
+    "dose_response_quadratic": "dose_response_quadratic",
+}
+
+FIT_PARAMETER_METADATA = {
+    "sEV_source_scale_particles_per_model_unit": {
+        "module": "Source conversion",
+        "short_label": "sEV scale",
+        "units": "particles per model unit",
+        "role": "constitutive adapter",
+    },
+    "mlEV_source_scale_particles_per_model_unit": {
+        "module": "Source conversion",
+        "short_label": "m/lEV scale",
+        "units": "particles per model unit",
+        "role": "constitutive adapter",
+    },
+    "AB_source_scale_particles_per_model_unit": {
+        "module": "Source conversion",
+        "short_label": "AB scale",
+        "units": "particles per model unit",
+        "role": "constitutive adapter",
+    },
+    "effective_half_life_h": {
+        "module": "Extracellular loss",
+        "short_label": "Effective half-life",
+        "units": "h",
+        "role": "kinetic",
+    },
+    "loss_size_exponent": {
+        "module": "Extracellular loss",
+        "short_label": "Size-loss exponent",
+        "units": "dimensionless",
+        "role": "kinetic",
+    },
+    "sEV_median_diameter_nm": {
+        "module": "Size-kernel center",
+        "short_label": "sEV median",
+        "units": "nm",
+        "role": "constitutive size kernel",
+    },
+    "mlEV_median_diameter_nm": {
+        "module": "Size-kernel center",
+        "short_label": "m/lEV median",
+        "units": "nm",
+        "role": "constitutive size kernel",
+    },
+    "AB_median_diameter_nm": {
+        "module": "Size-kernel center",
+        "short_label": "AB median",
+        "units": "nm",
+        "role": "constitutive size kernel",
+    },
+    "sEV_geometric_sd": {
+        "module": "Size-kernel width",
+        "short_label": "sEV geometric SD",
+        "units": "dimensionless",
+        "role": "constitutive size kernel",
+    },
+    "mlEV_geometric_sd": {
+        "module": "Size-kernel width",
+        "short_label": "m/lEV geometric SD",
+        "units": "dimensionless",
+        "role": "constitutive size kernel",
+    },
+    "AB_geometric_sd": {
+        "module": "Size-kernel width",
+        "short_label": "AB geometric SD",
+        "units": "dimensionless",
+        "role": "constitutive size kernel",
+    },
+    "sEV_state_shift": {
+        "module": "State adapter",
+        "short_label": "sEV state shift",
+        "units": "dimensionless",
+        "role": "state coupling",
+    },
+    "mlEV_state_shift": {
+        "module": "State adapter",
+        "short_label": "m/lEV state shift",
+        "units": "dimensionless",
+        "role": "state coupling",
+    },
+    "AB_state_shift": {
+        "module": "State adapter",
+        "short_label": "AB state shift",
+        "units": "dimensionless",
+        "role": "state coupling",
+    },
+    "dose_response_linear": {
+        "module": "Condition adapter",
+        "short_label": "Linear dose term",
+        "units": "dimensionless",
+        "role": "empirical condition coupling",
+    },
+    "dose_response_quadratic": {
+        "module": "Condition adapter",
+        "short_label": "Quadratic dose term",
+        "units": "dimensionless",
+        "role": "empirical condition coupling",
+    },
+}
 
 
 def parameter_definitions(variant: FitVariant) -> tuple[ParameterDefinition, ...]:
@@ -406,20 +533,64 @@ def aggregate_size_resolved_observations(
         }
     )
 
-    summary = bin_summary.merge(
-        control_summary,
-        on=[
-            "size_bin_lower_nm",
-            "size_bin_upper_nm",
-            "size_bin_center_nm",
-        ],
-        how="left",
-        validate="many_to_one",
-    ).merge(
-        total_summary,
-        on=["condition", "time_h"],
-        how="left",
-        validate="many_to_one",
+    measurement_mean_diameter = treatment_rows.assign(
+        diameter_weighted_concentration=(
+            treatment_rows["size_bin_center_nm"]
+            * treatment_rows["concentration_particles_per_ml"]
+        )
+    )
+    measurement_mean_diameter = (
+        measurement_mean_diameter.groupby(
+            ["condition", "time_h", "measurement_id"],
+            observed=True,
+            sort=True,
+        )[["diameter_weighted_concentration", "concentration_particles_per_ml"]]
+        .sum()
+        .reset_index()
+    )
+    measurement_mean_diameter["histogram_mean_diameter_nm"] = (
+        measurement_mean_diameter["diameter_weighted_concentration"]
+        / measurement_mean_diameter["concentration_particles_per_ml"]
+    )
+    mean_diameter_summary = aggregate_repeated_observations(
+        measurement_mean_diameter,
+        group_columns=("condition", "time_h"),
+        value_columns=("histogram_mean_diameter_nm",),
+        sort_groups=True,
+    ).summary.rename(
+        columns={
+            "histogram_mean_diameter_nm_mean": (
+                "observed_histogram_mean_diameter_nm_mean"
+            ),
+            "histogram_mean_diameter_nm_sd": "observed_mean_diameter_nm_sd",
+            "histogram_mean_diameter_nm_se": "observed_mean_diameter_nm_se",
+            "histogram_mean_diameter_nm_n": "mean_diameter_measurement_count",
+        }
+    )
+
+    summary = (
+        bin_summary.merge(
+            control_summary,
+            on=[
+                "size_bin_lower_nm",
+                "size_bin_upper_nm",
+                "size_bin_center_nm",
+            ],
+            how="left",
+            validate="many_to_one",
+        )
+        .merge(
+            total_summary,
+            on=["condition", "time_h"],
+            how="left",
+            validate="many_to_one",
+        )
+        .merge(
+            mean_diameter_summary,
+            on=["condition", "time_h"],
+            how="left",
+            validate="many_to_one",
+        )
     )
     summary = summary.sort_values(
         ["condition", "time_h", "size_bin_center_nm"]
@@ -440,6 +611,7 @@ def aggregate_size_resolved_observations(
         "observed_measurement_count",
         "initial_control_measurement_count",
         "total_measurement_count",
+        "mean_diameter_measurement_count",
     )
     means = summary.loc[:, mean_columns].to_numpy(dtype=float)
     counts = summary.loc[:, count_columns].to_numpy(dtype=float)
@@ -464,6 +636,11 @@ def aggregate_size_resolved_observations(
             "observed_total_particles_per_ml_sd",
             "observed_total_particles_per_ml_se",
             "total_measurement_count",
+        ),
+        (
+            "observed_mean_diameter_nm_sd",
+            "observed_mean_diameter_nm_se",
+            "mean_diameter_measurement_count",
         ),
     )
     for sd_column, se_column, count_column in uncertainty_groups:
@@ -908,13 +1085,18 @@ def fit_variant(
     seed: int,
 ) -> tuple[object, list[object]]:
     lower, upper = predictor.bounds
-    rng = np.random.default_rng(seed)
     guesses = [predictor.initial_vector]
-    for _ in range(starts - 1):
-        guess = predictor.initial_vector + rng.normal(0.0, 0.55, len(lower))
-        guesses.append(np.clip(guess, lower + 1.0e-8, upper - 1.0e-8))
-    candidates = [
-        least_squares(
+    strategies = ["canonical_initial"]
+    if starts > 1:
+        sampler = qmc.LatinHypercube(d=len(lower), seed=seed)
+        unit_starts = sampler.random(n=starts - 1)
+        span = upper - lower
+        space_filling_starts = lower + unit_starts * span
+        guesses.extend(np.clip(space_filling_starts, lower + 1.0e-8, upper - 1.0e-8))
+        strategies.extend(["latin_hypercube_full_bounds"] * (starts - 1))
+    candidates: list[object] = []
+    for guess, strategy in zip(guesses, strategies, strict=True):
+        candidate = least_squares(
             predictor.residuals,
             guess,
             bounds=(lower, upper),
@@ -926,8 +1108,9 @@ def fit_variant(
             xtol=1.0e-8,
             gtol=1.0e-8,
         )
-        for guess in guesses
-    ]
+        candidate["start_strategy"] = strategy
+        candidate["start_vector"] = np.asarray(guess, dtype=float).copy()
+        candidates.append(candidate)
     return min(candidates, key=lambda candidate: candidate.cost), candidates
 
 
@@ -952,6 +1135,12 @@ def prediction_metrics(
                 "predicted_total_particles_per_ml": predicted,
                 "predicted_over_observed": predicted / observed,
                 "log10_residual": math.log10(predicted / observed),
+                "signed_symmetric_percent_difference": (
+                    200.0 * (predicted - observed) / (predicted + observed)
+                ),
+                "symmetric_absolute_percent_error": (
+                    200.0 * abs(predicted - observed) / (predicted + observed)
+                ),
             }
         )
     total_frame = pd.DataFrame(total_rows)
@@ -987,9 +1176,32 @@ def prediction_metrics(
                 "time_h": float(time_h),
                 "measurement_count": int(counts[0]),
                 "hellinger_distance": hellinger_distance(observed, predicted),
-                "observed_mean_diameter_nm": float(np.sum(centers * observed_fraction)),
+                "observed_batch_mean_distribution_diameter_nm": float(
+                    np.sum(centers * observed_fraction)
+                ),
+                "observed_mean_diameter_nm": float(
+                    group["observed_histogram_mean_diameter_nm_mean"].iloc[0]
+                ),
+                "observed_histogram_mean_diameter_nm_mean": float(
+                    group["observed_histogram_mean_diameter_nm_mean"].iloc[0]
+                ),
+                "observed_mean_diameter_nm_sd": float(
+                    group["observed_mean_diameter_nm_sd"].iloc[0]
+                ),
+                "observed_mean_diameter_nm_se": float(
+                    group["observed_mean_diameter_nm_se"].iloc[0]
+                ),
                 "predicted_mean_diameter_nm": float(
                     np.sum(centers * predicted_fraction)
+                ),
+                "wasserstein_size_distance_nm": float(
+                    np.sum(
+                        np.abs(
+                            np.cumsum(observed_fraction)[:-1]
+                            - np.cumsum(predicted_fraction)[:-1]
+                        )
+                        * np.diff(centers)
+                    )
                 ),
             }
         )
@@ -1010,9 +1222,15 @@ def prediction_metrics(
         "model_facing_total_targets": int(len(total_frame)),
         "batch_mean_size_distributions": int(len(distribution_frame)),
         "rmse_log10_total": float(np.sqrt(np.mean(log_total_residual**2))),
+        "typical_fold_error_total": float(
+            10.0 ** np.sqrt(np.mean(log_total_residual**2))
+        ),
         "mae_log10_total": float(np.mean(np.abs(log_total_residual))),
         "median_absolute_percent_total_error": float(
             100.0 * np.median(np.abs(total_predicted - total_observed) / total_observed)
+        ),
+        "median_symmetric_absolute_percent_total_error": float(
+            total_frame["symmetric_absolute_percent_error"].median()
         ),
         "mean_hellinger_size_distance": float(
             distribution_frame["hellinger_distance"].mean()
@@ -1022,6 +1240,9 @@ def prediction_metrics(
         ),
         "mae_mean_diameter_nm": float(
             distribution_frame["mean_diameter_error_nm"].abs().mean()
+        ),
+        "mean_wasserstein_size_distance_nm": float(
+            distribution_frame["wasserstein_size_distance_nm"].mean()
         ),
         "descriptive_fraction_totals_within_observed_sd": float(
             total_frame["model_within_observed_sd"].mean()
@@ -1039,50 +1260,183 @@ def prediction_metrics(
     return metrics, total_frame, distribution_frame
 
 
+def _active_physical_parameter_names(variant: FitVariant) -> list[str]:
+    return [
+        RAW_TO_PHYSICAL_PARAMETER[definition.name]
+        for definition in parameter_definitions(variant)
+    ]
+
+
+def _fit_parameter_submodule(parameter: str) -> str:
+    if "source_scale" in parameter:
+        return "source conversion"
+    if parameter in {"effective_half_life_h", "loss_size_exponent"}:
+        return "size-dependent loss"
+    if parameter.endswith("_state_shift"):
+        return "state adapter"
+    if parameter.startswith("dose_response_"):
+        return "condition adapter"
+    return "pathway-to-size kernel"
+
+
 def _parameter_rows(
     predictor: SizeResolvedFFRCIPredictor,
     vector: np.ndarray,
-) -> list[dict[str, float | str | bool]]:
+) -> list[dict[str, float | str | bool | None]]:
     variant = predictor.variant
+    definitions = parameter_definitions(variant)
     lower, upper = predictor.bounds
     fitted = decode_parameters(vector, variant)
     initial = decode_parameters(predictor.initial_vector, variant)
     lower_values = decode_parameters(lower, variant)
     upper_values = decode_parameters(upper, variant)
-    active_names = [
-        "sEV_source_scale_particles_per_model_unit",
-        "mlEV_source_scale_particles_per_model_unit",
-        "AB_source_scale_particles_per_model_unit",
-        "effective_half_life_h",
-        "loss_size_exponent",
-        "sEV_median_diameter_nm",
-        "mlEV_median_diameter_nm",
-        "AB_median_diameter_nm",
-        "sEV_geometric_sd",
-        "mlEV_geometric_sd",
-        "AB_geometric_sd",
-    ]
-    if variant.fit_state_shifts:
-        active_names += [f"{pathway}_state_shift" for pathway in PATHWAYS]
-    if variant.fit_dose_response:
-        active_names += ["dose_response_linear", "dose_response_quadratic"]
-    return [
-        {
-            "variant": variant.name,
-            "parameter": name,
-            "initial": initial[name],
-            "fitted": fitted[name],
-            "lower_bound": lower_values[name],
-            "upper_bound": upper_values[name],
-            "at_lower_bound": math.isclose(
-                fitted[name], lower_values[name], rel_tol=1e-4, abs_tol=1e-10
+    rows: list[dict[str, float | str | bool | None]] = []
+    for index, (definition, name) in enumerate(
+        zip(definitions, _active_physical_parameter_names(variant), strict=True)
+    ):
+        metadata = FIT_PARAMETER_METADATA[name]
+        rows.append(
+            {
+                "variant": variant.name,
+                "module": metadata["module"],
+                "submodule": _fit_parameter_submodule(name),
+                "role": metadata["role"],
+                "parameter": name,
+                "label": metadata["short_label"],
+                "units": metadata["units"],
+                "optimizer_parameter": definition.name,
+                "transform": "log"
+                if definition.name.startswith("log_")
+                else "identity",
+                "initial": initial[name],
+                "fitted": fitted[name],
+                "lower_bound": lower_values[name],
+                "upper_bound": upper_values[name],
+                "optimizer_bound_fraction": float(
+                    (vector[index] - lower[index]) / (upper[index] - lower[index])
+                ),
+                "fitted_over_initial": (
+                    fitted[name] / initial[name] if initial[name] != 0.0 else None
+                ),
+                "at_lower_bound": math.isclose(
+                    fitted[name], lower_values[name], rel_tol=1e-4, abs_tol=1e-10
+                ),
+                "at_upper_bound": math.isclose(
+                    fitted[name], upper_values[name], rel_tol=1e-4, abs_tol=1e-10
+                ),
+            }
+        )
+    return rows
+
+
+def optimizer_endpoint_frames(
+    predictor: SizeResolvedFFRCIPredictor,
+    best: object,
+    candidates: list[object],
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Describe every multistart endpoint without treating spread as uncertainty."""
+
+    definitions = parameter_definitions(predictor.variant)
+    physical_names = _active_physical_parameter_names(predictor.variant)
+    lower, upper = predictor.bounds
+    physical_initial = decode_parameters(predictor.initial_vector, predictor.variant)
+    physical_lower = decode_parameters(lower, predictor.variant)
+    physical_upper = decode_parameters(upper, predictor.variant)
+    best_cost = float(best.cost)
+    cost_denominator = max(abs(best_cost), 1.0e-12)
+    start_rows: list[dict[str, object]] = []
+    parameter_rows: list[dict[str, object]] = []
+
+    for start_index, candidate in enumerate(candidates):
+        start_vector = np.asarray(
+            candidate.get("start_vector", predictor.initial_vector), dtype=float
+        )
+        start_decoded = decode_parameters(start_vector, predictor.variant)
+        prediction = predictor.predict(candidate.x)
+        data_residuals = predictor.data_residuals(prediction)
+        prior_residuals = predictor.prior_residuals(candidate.x)
+        decoded = decode_parameters(candidate.x, predictor.variant)
+        relative_cost_excess = (float(candidate.cost) - best_cost) / cost_denominator
+        selected = candidate is best
+        successful = bool(candidate.success)
+        start_row: dict[str, object] = {
+            "variant": predictor.variant.name,
+            "start_index": int(start_index),
+            "start_strategy": str(candidate.get("start_strategy", "not_recorded")),
+            "optimizer_success": successful,
+            "optimizer_status": int(candidate.status),
+            "optimizer_message": str(candidate.message),
+            "nfev": int(candidate.nfev),
+            "optimality": float(candidate.optimality),
+            "optimizer_cost_with_priors": float(candidate.cost),
+            "data_residual_sse": float(np.sum(data_residuals**2)),
+            "prior_residual_sse_unweighted": float(np.sum(prior_residuals**2)),
+            "relative_cost_excess": float(relative_cost_excess),
+            "within_one_percent_of_best": bool(
+                successful and relative_cost_excess <= 0.01
             ),
-            "at_upper_bound": math.isclose(
-                fitted[name], upper_values[name], rel_tol=1e-4, abs_tol=1e-10
-            ),
+            "selected_endpoint": bool(selected),
         }
-        for name in active_names
-    ]
+        start_row.update({name: decoded[name] for name in physical_names})
+        start_row.update(
+            {f"start_{name}": start_decoded[name] for name in physical_names}
+        )
+        start_rows.append(start_row)
+
+        for parameter_index, (definition, physical_name) in enumerate(
+            zip(definitions, physical_names, strict=True)
+        ):
+            metadata = FIT_PARAMETER_METADATA[physical_name]
+            optimizer_fraction = float(
+                (candidate.x[parameter_index] - lower[parameter_index])
+                / (upper[parameter_index] - lower[parameter_index])
+            )
+            parameter_rows.append(
+                {
+                    "variant": predictor.variant.name,
+                    "start_index": int(start_index),
+                    "start_strategy": str(
+                        candidate.get("start_strategy", "not_recorded")
+                    ),
+                    "optimizer_success": successful,
+                    "selected_endpoint": bool(selected),
+                    "optimizer_cost_with_priors": float(candidate.cost),
+                    "relative_cost_excess": float(relative_cost_excess),
+                    "within_one_percent_of_best": bool(
+                        successful and relative_cost_excess <= 0.01
+                    ),
+                    "module": metadata["module"],
+                    "submodule": _fit_parameter_submodule(physical_name),
+                    "role": metadata["role"],
+                    "parameter": physical_name,
+                    "label": metadata["short_label"],
+                    "units": metadata["units"],
+                    "optimizer_parameter": definition.name,
+                    "transform": (
+                        "log" if definition.name.startswith("log_") else "identity"
+                    ),
+                    "initial": float(physical_initial[physical_name]),
+                    "lower_bound": float(physical_lower[physical_name]),
+                    "upper_bound": float(physical_upper[physical_name]),
+                    "fitted": float(decoded[physical_name]),
+                    "optimizer_initial": float(definition.initial),
+                    "optimizer_lower_bound": float(definition.lower),
+                    "optimizer_upper_bound": float(definition.upper),
+                    "optimizer_fitted": float(candidate.x[parameter_index]),
+                    "optimizer_start": float(start_vector[parameter_index]),
+                    "optimizer_start_bound_fraction": float(
+                        (start_vector[parameter_index] - lower[parameter_index])
+                        / (upper[parameter_index] - lower[parameter_index])
+                    ),
+                    "start_value": float(start_decoded[physical_name]),
+                    "optimizer_bound_fraction": optimizer_fraction,
+                    "active_bound": bool(
+                        optimizer_fraction <= 1.0e-4
+                        or optimizer_fraction >= 1.0 - 1.0e-4
+                    ),
+                }
+            )
+    return pd.DataFrame(start_rows), pd.DataFrame(parameter_rows)
 
 
 def build_kernel_frame(
@@ -1435,6 +1789,98 @@ def signed_normalized_error_percent(
     )
 
 
+def add_size_bin_diagnostics(prediction: pd.DataFrame) -> pd.DataFrame:
+    """Add composition-aware diagnostics to a size-bin comparison table."""
+
+    diagnosed = prediction.copy()
+    for column in (
+        "observed_fraction",
+        "predicted_fraction",
+        "hellinger_contribution",
+        "cumulative_fraction_difference",
+        "wasserstein_contribution_nm",
+    ):
+        diagnosed[column] = np.nan
+    for _, group in diagnosed.groupby(["condition", "time_h"], sort=False):
+        ordered = group.sort_values("size_bin_center_nm")
+        observed = ordered["observed_particles_per_ml_mean"].to_numpy(dtype=float)
+        predicted = ordered["predicted_particles_per_ml"].to_numpy(dtype=float)
+        centers = ordered["size_bin_center_nm"].to_numpy(dtype=float)
+        observed_fraction = observed / observed.sum()
+        predicted_fraction = predicted / predicted.sum()
+        cumulative_difference = np.cumsum(predicted_fraction - observed_fraction)
+        wasserstein_contribution = np.zeros_like(cumulative_difference)
+        wasserstein_contribution[:-1] = np.abs(cumulative_difference[:-1]) * np.diff(
+            centers
+        )
+        diagnosed.loc[ordered.index, "observed_fraction"] = observed_fraction
+        diagnosed.loc[ordered.index, "predicted_fraction"] = predicted_fraction
+        diagnosed.loc[ordered.index, "hellinger_contribution"] = (
+            0.5 * (np.sqrt(predicted_fraction) - np.sqrt(observed_fraction)) ** 2
+        )
+        diagnosed.loc[ordered.index, "cumulative_fraction_difference"] = (
+            cumulative_difference
+        )
+        diagnosed.loc[ordered.index, "wasserstein_contribution_nm"] = (
+            wasserstein_contribution
+        )
+    return diagnosed
+
+
+def goodness_of_fit_by_condition(
+    totals: pd.DataFrame,
+    distributions: pd.DataFrame,
+) -> pd.DataFrame:
+    """Summarize descriptive fit metrics by condition and for the joint fit."""
+
+    rows: list[dict[str, object]] = []
+    variants = list(dict.fromkeys(totals["variant"].astype(str)))
+    for variant in variants:
+        variant_totals = totals[totals["variant"] == variant]
+        variant_distributions = distributions[distributions["variant"] == variant]
+        conditions: list[str | None] = [
+            *list(dict.fromkeys(variant_totals["condition"].astype(str))),
+            None,
+        ]
+        for condition in conditions:
+            if condition is None:
+                total_subset = variant_totals
+                distribution_subset = variant_distributions
+                condition_label = "All conditions"
+            else:
+                total_subset = variant_totals[variant_totals["condition"] == condition]
+                distribution_subset = variant_distributions[
+                    variant_distributions["condition"] == condition
+                ]
+                condition_label = CONDITION_LABELS[condition]
+            log_residual = total_subset["log10_residual"].to_numpy(dtype=float)
+            rows.append(
+                {
+                    "variant": variant,
+                    "condition": condition if condition is not None else "all",
+                    "condition_label": condition_label,
+                    "n_condition_time_targets": int(len(total_subset)),
+                    "rmse_log10_total": float(np.sqrt(np.mean(log_residual**2))),
+                    "typical_fold_error_total": float(
+                        10.0 ** np.sqrt(np.mean(log_residual**2))
+                    ),
+                    "median_symmetric_absolute_percent_total_error": float(
+                        total_subset["symmetric_absolute_percent_error"].median()
+                    ),
+                    "mean_hellinger_size_distance": float(
+                        distribution_subset["hellinger_distance"].mean()
+                    ),
+                    "mean_wasserstein_size_distance_nm": float(
+                        distribution_subset["wasserstein_size_distance_nm"].mean()
+                    ),
+                    "mae_mean_diameter_nm": float(
+                        distribution_subset["mean_diameter_error_nm"].abs().mean()
+                    ),
+                }
+            )
+    return pd.DataFrame(rows)
+
+
 def plot_size_time_surface_overlay(
     prediction: pd.DataFrame,
     output: Path,
@@ -1645,6 +2091,611 @@ def plot_size_time_error_contours(
         plt.close(figure)
 
 
+def _condition_color(condition: str) -> str:
+    condition_order = [exposure.condition for exposure in EXPOSURES]
+    return COLORBLIND_PALETTE[condition_order.index(condition)]
+
+
+def plot_fit_error_diagnostics(
+    total_frame: pd.DataFrame,
+    distribution_frame: pd.DataFrame,
+    output: Path,
+) -> None:
+    """Plot complementary total and size-distribution error diagnostics."""
+
+    merged = total_frame.merge(
+        distribution_frame,
+        on=["variant", "condition", "time_h", "measurement_count"],
+        validate="one_to_one",
+    )
+    with manuscript_style_context():
+        figure, axes = plt.subplots(2, 2, figsize=(10.8, 7.1), sharex=True)
+        panels = (
+            ("log10_residual", r"log$_{10}$(model / observed)"),
+            (
+                "symmetric_absolute_percent_error",
+                "Symmetric absolute error (%)",
+            ),
+            ("hellinger_distance", "Hellinger distance"),
+            ("mean_diameter_error_nm", "Mean-diameter error (nm)"),
+        )
+        for condition_index, exposure in enumerate(EXPOSURES):
+            subset = merged[merged["condition"] == exposure.condition].sort_values(
+                "time_h"
+            )
+            for panel_index, (column, y_label) in enumerate(panels):
+                axis = axes.ravel()[panel_index]
+                axis.plot(
+                    subset["time_h"],
+                    subset[column],
+                    color=_condition_color(exposure.condition),
+                    linestyle=("-", "--", "-.")[condition_index],
+                    marker=("o", "s", "^")[condition_index],
+                    label=(
+                        CONDITION_LABELS[exposure.condition]
+                        if panel_index == 0
+                        else None
+                    ),
+                )
+                style_manuscript_axis(
+                    axis,
+                    x_label=(
+                        "Time after pulse exposure (h)" if panel_index >= 2 else None
+                    ),
+                    y_label=y_label,
+                )
+                axis.set_xticks(OBSERVATION_TIMES_H)
+        axes[0, 0].axhline(0.0, color="#777777", linewidth=0.8, zorder=0)
+        axes[1, 1].axhline(0.0, color="#777777", linewidth=0.8, zorder=0)
+        axes[0, 1].set_ylim(bottom=0.0)
+        axes[1, 0].set_ylim(0.0, 1.0)
+        place_manuscript_legend(figure, axes, multi_panel=True, location="right")
+        figure.suptitle("Fit-error diagnostics", fontsize=11)
+        figure.subplots_adjust(
+            left=0.10, right=0.97, bottom=0.16, top=0.90, wspace=0.30, hspace=0.26
+        )
+        add_figure_note(
+            figure,
+            "Each point is one batch-mean condition–time target. Errors are in-sample descriptive diagnostics; connected lines do not imply observations between harvest times.",
+            x=0.10,
+            y=0.02,
+            reserve_bottom=0.14,
+        )
+        save_manuscript_figure(figure, output, dpi=MANUSCRIPT_COLOR_DPI)
+        plt.close(figure)
+
+
+def plot_goodness_of_fit(
+    total_frame: pd.DataFrame,
+    distribution_frame: pd.DataFrame,
+    output: Path,
+) -> None:
+    """Show agreement and the distribution of errors across design cells."""
+
+    with manuscript_style_context():
+        figure, axes = plt.subplots(2, 2, figsize=(10.8, 8.0))
+        total_axis, diameter_axis, total_error_axis, size_error_axis = axes.ravel()
+
+        for condition_index, exposure in enumerate(EXPOSURES):
+            color = _condition_color(exposure.condition)
+            total_subset = total_frame[
+                total_frame["condition"] == exposure.condition
+            ].sort_values("time_h")
+            size_subset = distribution_frame[
+                distribution_frame["condition"] == exposure.condition
+            ].sort_values("time_h")
+            for time_h in OBSERVATION_TIMES_H:
+                total_row = total_subset[
+                    np.isclose(total_subset["time_h"], time_h)
+                ].iloc[0]
+                size_row = size_subset[np.isclose(size_subset["time_h"], time_h)].iloc[
+                    0
+                ]
+                marker = TIME_MARKERS[float(time_h)]
+                total_axis.errorbar(
+                    total_row["observed_total_particles_per_ml"] / 1.0e9,
+                    total_row["predicted_total_particles_per_ml"] / 1.0e9,
+                    xerr=total_row["observed_total_particles_per_ml_sd"] / 1.0e9,
+                    color=color,
+                    marker=marker,
+                    linestyle="none",
+                    capsize=2.5,
+                    elinewidth=0.9,
+                )
+                diameter_axis.errorbar(
+                    size_row["observed_mean_diameter_nm"],
+                    size_row["predicted_mean_diameter_nm"],
+                    xerr=size_row["observed_mean_diameter_nm_sd"],
+                    color=color,
+                    marker=marker,
+                    linestyle="none",
+                    capsize=2.5,
+                    elinewidth=0.9,
+                )
+
+        observed_total = (
+            total_frame["observed_total_particles_per_ml"].to_numpy(dtype=float) / 1.0e9
+        )
+        predicted_total = (
+            total_frame["predicted_total_particles_per_ml"].to_numpy(dtype=float)
+            / 1.0e9
+        )
+        total_low = 0.82 * min(observed_total.min(), predicted_total.min())
+        total_high = 1.18 * max(observed_total.max(), predicted_total.max())
+        total_axis.plot(
+            [total_low, total_high],
+            [total_low, total_high],
+            color="#555555",
+            linestyle=":",
+            label="Identity",
+        )
+        total_axis.set_xlim(total_low, total_high)
+        total_axis.set_ylim(total_low, total_high)
+        style_manuscript_axis(
+            total_axis,
+            x_label=r"Observed mean ($10^9$ particles mL$^{-1}$)",
+            y_label=r"Fitted model ($10^9$ particles mL$^{-1}$)",
+            title="Total concentration",
+            x_scale="log",
+            y_scale="log",
+        )
+
+        diameter_values = np.r_[
+            distribution_frame["observed_mean_diameter_nm"],
+            distribution_frame["predicted_mean_diameter_nm"],
+        ]
+        diameter_low = float(np.nanmin(diameter_values) - 8.0)
+        diameter_high = float(np.nanmax(diameter_values) + 8.0)
+        diameter_axis.plot(
+            [diameter_low, diameter_high],
+            [diameter_low, diameter_high],
+            color="#555555",
+            linestyle=":",
+        )
+        diameter_axis.set_xlim(diameter_low, diameter_high)
+        diameter_axis.set_ylim(diameter_low, diameter_high)
+        style_manuscript_axis(
+            diameter_axis,
+            x_label="Observed mean diameter (nm)",
+            y_label="Fitted mean diameter (nm)",
+            title="Distribution center",
+        )
+
+        positions = np.arange(len(EXPOSURES), dtype=float)
+        total_box_data: list[np.ndarray] = []
+        size_box_data: list[np.ndarray] = []
+        for exposure in EXPOSURES:
+            total_subset = total_frame[total_frame["condition"] == exposure.condition]
+            size_subset = distribution_frame[
+                distribution_frame["condition"] == exposure.condition
+            ]
+            total_box_data.append(
+                total_subset["symmetric_absolute_percent_error"].to_numpy(dtype=float)
+            )
+            size_box_data.append(
+                size_subset["hellinger_distance"].to_numpy(dtype=float)
+            )
+        for axis, values in (
+            (total_error_axis, total_box_data),
+            (size_error_axis, size_box_data),
+        ):
+            boxes = axis.boxplot(
+                values,
+                positions=positions,
+                widths=0.48,
+                patch_artist=True,
+                showfliers=False,
+                manage_ticks=False,
+            )
+            for patch in boxes["boxes"]:
+                patch.set(facecolor="#DDDDDD", edgecolor="#555555", alpha=0.55)
+            for item in (*boxes["whiskers"], *boxes["caps"], *boxes["medians"]):
+                item.set(color="#555555", linewidth=0.9)
+        for condition_index, exposure in enumerate(EXPOSURES):
+            total_subset = total_frame[
+                total_frame["condition"] == exposure.condition
+            ].sort_values("time_h")
+            size_subset = distribution_frame[
+                distribution_frame["condition"] == exposure.condition
+            ].sort_values("time_h")
+            for time_h in OBSERVATION_TIMES_H:
+                marker = TIME_MARKERS[float(time_h)]
+                total_row = total_subset[
+                    np.isclose(total_subset["time_h"], time_h)
+                ].iloc[0]
+                size_row = size_subset[np.isclose(size_subset["time_h"], time_h)].iloc[
+                    0
+                ]
+                total_error_axis.scatter(
+                    condition_index,
+                    total_row["symmetric_absolute_percent_error"],
+                    color=_condition_color(exposure.condition),
+                    marker=marker,
+                    zorder=3,
+                )
+                size_error_axis.scatter(
+                    condition_index,
+                    size_row["hellinger_distance"],
+                    color=_condition_color(exposure.condition),
+                    marker=marker,
+                    zorder=3,
+                )
+        short_condition_labels = [
+            CONDITION_LABELS[exposure.condition].replace(", ", "\n")
+            for exposure in EXPOSURES
+        ]
+        for axis in (total_error_axis, size_error_axis):
+            axis.set_xticks(positions, short_condition_labels)
+        style_manuscript_axis(
+            total_error_axis,
+            y_label="Symmetric absolute error (%)",
+            title="Total-concentration error",
+        )
+        style_manuscript_axis(
+            size_error_axis,
+            y_label="Hellinger distance",
+            title="Size-distribution error",
+        )
+        total_error_axis.set_ylim(bottom=0.0)
+        size_error_axis.set_ylim(0.0, 1.0)
+
+        for exposure in EXPOSURES:
+            total_axis.scatter(
+                [],
+                [],
+                color=_condition_color(exposure.condition),
+                marker="o",
+                label=CONDITION_LABELS[exposure.condition],
+            )
+        for time_h in OBSERVATION_TIMES_H:
+            total_axis.scatter(
+                [],
+                [],
+                color="#333333",
+                marker=TIME_MARKERS[float(time_h)],
+                label=f"{time_h:g} h",
+            )
+        place_manuscript_legend(figure, axes, multi_panel=True, location="right")
+        figure.suptitle("In-sample goodness of fit", fontsize=11)
+        figure.subplots_adjust(
+            left=0.10, right=0.97, bottom=0.17, top=0.91, wspace=0.30, hspace=0.38
+        )
+        add_figure_note(
+            figure,
+            "All metrics are in-sample diagnostics. Horizontal error bars show observed SD. Mean-diameter points and SD are calculated across whole-histogram diameter means. Boxes summarize only the three measured times per condition and are descriptive, not confidence intervals.",
+            x=0.10,
+            y=0.02,
+            reserve_bottom=0.15,
+        )
+        save_manuscript_figure(figure, output, dpi=MANUSCRIPT_COLOR_DPI)
+        plt.close(figure)
+
+
+def _endpoint_plot_rows(endpoint_parameters: pd.DataFrame) -> pd.DataFrame:
+    successful = endpoint_parameters[endpoint_parameters["optimizer_success"]].copy()
+    return successful if not successful.empty else endpoint_parameters.copy()
+
+
+def _draw_endpoint_boxes(
+    axis: plt.Axes,
+    endpoint_parameters: pd.DataFrame,
+    parameter_names: list[str],
+    *,
+    normalized: bool,
+) -> None:
+    plot_rows = _endpoint_plot_rows(endpoint_parameters)
+    near_rows = plot_rows[plot_rows["within_one_percent_of_best"]].copy()
+    all_values_by_parameter: list[np.ndarray] = []
+    near_values_by_parameter: list[np.ndarray] = []
+    for parameter_name in parameter_names:
+        all_subset = plot_rows[plot_rows["parameter"] == parameter_name]
+        near_subset = near_rows[near_rows["parameter"] == parameter_name]
+        column = "optimizer_bound_fraction" if normalized else "fitted"
+        all_values_by_parameter.append(all_subset[column].to_numpy(dtype=float))
+        near_values_by_parameter.append(near_subset[column].to_numpy(dtype=float))
+    positions = np.arange(len(parameter_names), dtype=float)
+    near_endpoint_count = min(len(values) for values in near_values_by_parameter)
+    if near_endpoint_count >= MIN_ENDPOINTS_FOR_BOXPLOT:
+        boxes = axis.boxplot(
+            near_values_by_parameter,
+            positions=positions,
+            widths=0.52,
+            patch_artist=True,
+            showfliers=False,
+            manage_ticks=False,
+        )
+        for patch in boxes["boxes"]:
+            patch.set(facecolor="#BBBBBB", edgecolor="#555555", alpha=0.38)
+        for item in (*boxes["whiskers"], *boxes["caps"], *boxes["medians"]):
+            item.set(color="#555555", linewidth=0.9)
+    for position, parameter_name, all_values, near_values in zip(
+        positions,
+        parameter_names,
+        all_values_by_parameter,
+        near_values_by_parameter,
+        strict=True,
+    ):
+        offsets = (
+            np.linspace(-0.14, 0.14, len(all_values)) if len(all_values) > 1 else [0.0]
+        )
+        axis.scatter(
+            position + np.asarray(offsets),
+            all_values,
+            color="#BBBBBB",
+            s=11,
+            alpha=0.50,
+            zorder=2,
+        )
+        near_offsets = (
+            np.linspace(-0.12, 0.12, len(near_values))
+            if len(near_values) > 1
+            else [0.0]
+        )
+        axis.scatter(
+            position + np.asarray(near_offsets),
+            near_values,
+            color="#666666",
+            s=12,
+            alpha=0.65,
+            zorder=3,
+        )
+        parameter_subset = endpoint_parameters[
+            endpoint_parameters["parameter"] == parameter_name
+        ]
+        selected = parameter_subset[parameter_subset["selected_endpoint"]].iloc[0]
+        initial_value = (
+            (selected["optimizer_initial"] - selected["optimizer_lower_bound"])
+            / (selected["optimizer_upper_bound"] - selected["optimizer_lower_bound"])
+            if normalized
+            else selected["initial"]
+        )
+        selected_value = (
+            selected["optimizer_bound_fraction"] if normalized else selected["fitted"]
+        )
+        axis.scatter(
+            position,
+            initial_value,
+            marker="D",
+            facecolors="white",
+            edgecolors="#111111",
+            linewidths=1.0,
+            s=35,
+            zorder=4,
+        )
+        axis.scatter(
+            position,
+            selected_value,
+            marker="*",
+            color=FITTED_COLOR,
+            edgecolors="#222222",
+            linewidths=0.5,
+            s=68,
+            zorder=5,
+        )
+
+
+def _add_endpoint_legend(axis: plt.Axes) -> None:
+    axis.scatter([], [], color="#BBBBBB", s=15, label="All optimizer endpoints")
+    axis.scatter([], [], color="#666666", s=15, label="Within 1% of best objective")
+    axis.scatter(
+        [],
+        [],
+        marker="D",
+        facecolors="white",
+        edgecolors="#111111",
+        label="Initial value",
+    )
+    axis.scatter(
+        [],
+        [],
+        marker="*",
+        color=FITTED_COLOR,
+        edgecolors="#222222",
+        label="Selected fit",
+    )
+
+
+def plot_constitutive_and_kinetic_parameter_boxplots(
+    endpoint_parameters: pd.DataFrame,
+    output: Path,
+) -> None:
+    """Plot source-conversion and loss endpoint stability in physical units."""
+
+    source_parameters = [
+        "sEV_source_scale_particles_per_model_unit",
+        "mlEV_source_scale_particles_per_model_unit",
+        "AB_source_scale_particles_per_model_unit",
+    ]
+    with manuscript_style_context():
+        figure, axes = plt.subplots(1, 3, figsize=(11.8, 4.4))
+        _draw_endpoint_boxes(
+            axes[0], endpoint_parameters, source_parameters, normalized=False
+        )
+        axes[0].set_xticks(np.arange(3), ["sEV", "m/lEV", "AB"])
+        style_manuscript_axis(
+            axes[0],
+            y_label="Source conversion (particles per model unit)",
+            title="Pathway-to-observation conversion",
+            y_scale="log",
+        )
+        _draw_endpoint_boxes(
+            axes[1], endpoint_parameters, ["effective_half_life_h"], normalized=False
+        )
+        axes[1].set_xticks([0], ["Effective loss"])
+        style_manuscript_axis(
+            axes[1],
+            y_label="Effective half-life (h)",
+            title="Extracellular loss timescale",
+            y_scale="log",
+        )
+        _draw_endpoint_boxes(
+            axes[2], endpoint_parameters, ["loss_size_exponent"], normalized=False
+        )
+        axes[2].set_xticks([0], ["Size dependence"])
+        axes[2].axhline(0.0, color="#777777", linewidth=0.8, zorder=0)
+        style_manuscript_axis(
+            axes[2],
+            y_label="Size-loss exponent",
+            title="Extracellular loss shape",
+        )
+        _add_endpoint_legend(axes[0])
+        place_manuscript_legend(figure, axes, multi_panel=True, location="right")
+        figure.suptitle("Source conversion and extracellular kinetics", fontsize=11)
+        endpoint_count = endpoint_parameters["start_index"].nunique()
+        near_endpoint_count = endpoint_parameters.loc[
+            endpoint_parameters["within_one_percent_of_best"], "start_index"
+        ].nunique()
+        box_note = (
+            f"boxes summarize the {near_endpoint_count} endpoints within 1% of the best regularized objective"
+            if near_endpoint_count >= MIN_ENDPOINTS_FOR_BOXPLOT
+            else f"only {near_endpoint_count} endpoints were within 1% of the best objective, so no box summary is drawn"
+        )
+        figure.subplots_adjust(
+            left=0.08, right=0.97, bottom=0.23, top=0.83, wspace=0.34
+        )
+        add_figure_note(
+            figure,
+            f"Points are {endpoint_count} endpoints from the canonical initial value plus Latin-hypercube starts spanning the full configured bounds; {box_note}. Spread measures numerical solution stability, not biological variation or parameter uncertainty. Source scales are observation-layer adapters, not upstream release rates.",
+            x=0.08,
+            y=0.02,
+            reserve_bottom=0.21,
+        )
+        save_manuscript_figure(figure, output, dpi=MANUSCRIPT_COLOR_DPI)
+        plt.close(figure)
+
+
+def plot_parameter_space_boxplots(
+    endpoint_parameters: pd.DataFrame,
+    output: Path,
+) -> None:
+    """Plot every active parameter in its bounded optimizer coordinate."""
+
+    active_modules = list(dict.fromkeys(endpoint_parameters["module"].astype(str)))
+    with manuscript_style_context():
+        figure, axes = plt.subplots(2, 3, figsize=(13.2, 8.1))
+        flat_axes = axes.ravel()
+        for axis_index, axis in enumerate(flat_axes):
+            if axis_index >= len(active_modules):
+                axis.set_axis_off()
+                continue
+            module = active_modules[axis_index]
+            module_rows = endpoint_parameters[endpoint_parameters["module"] == module]
+            parameter_names = list(dict.fromkeys(module_rows["parameter"].astype(str)))
+            _draw_endpoint_boxes(
+                axis, endpoint_parameters, parameter_names, normalized=True
+            )
+            labels = [
+                FIT_PARAMETER_METADATA[name]["short_label"] for name in parameter_names
+            ]
+            axis.set_xticks(
+                np.arange(len(parameter_names)), labels, rotation=25, ha="right"
+            )
+            axis.set_ylim(-0.06, 1.06)
+            axis.axhline(0.0, color="#AAAAAA", linewidth=0.6, zorder=0)
+            axis.axhline(1.0, color="#AAAAAA", linewidth=0.6, zorder=0)
+            style_manuscript_axis(
+                axis,
+                y_label="Position within allowed range",
+                title=module,
+            )
+        _add_endpoint_legend(flat_axes[0])
+        place_manuscript_legend(figure, flat_axes, multi_panel=True, location="right")
+        figure.suptitle("Fitted parameter space", fontsize=11)
+        endpoint_count = endpoint_parameters["start_index"].nunique()
+        near_endpoint_count = endpoint_parameters.loc[
+            endpoint_parameters["within_one_percent_of_best"], "start_index"
+        ].nunique()
+        box_note = (
+            f"boxes summarize {near_endpoint_count} endpoints within 1% of the best regularized objective"
+            if near_endpoint_count >= MIN_ENDPOINTS_FOR_BOXPLOT
+            else f"only {near_endpoint_count} endpoints were within 1% of the best objective, so no box summary is drawn"
+        )
+        figure.subplots_adjust(
+            left=0.07, right=0.97, bottom=0.22, top=0.90, wspace=0.30, hspace=0.48
+        )
+        add_figure_note(
+            figure,
+            f"Values are shown in each parameter's optimizer coordinate, where 0 and 1 are the configured lower and upper search bounds. The canonical start and Latin-hypercube starts span that space. All {endpoint_count} endpoints are shown; {box_note}. They diagnose optimization stability and are not confidence intervals.",
+            x=0.07,
+            y=0.02,
+            reserve_bottom=0.19,
+        )
+        save_manuscript_figure(figure, output, dpi=MANUSCRIPT_COLOR_DPI)
+        plt.close(figure)
+
+
+def plot_parameter_fit_summary(
+    fitted_parameters: pd.DataFrame,
+    output: Path,
+) -> None:
+    """Show initial-to-final movement against configured search bounds."""
+
+    parameters = fitted_parameters.reset_index(drop=True)
+    y_positions = np.arange(len(parameters), dtype=float)
+    initial_fraction: list[float] = []
+    for row in parameters.itertuples(index=False):
+        metadata_row = next(
+            definition
+            for definition in parameter_definitions(
+                next(item for item in FIT_VARIANTS if item.name == row.variant)
+            )
+            if definition.name == row.optimizer_parameter
+        )
+        initial_fraction.append(
+            (metadata_row.initial - metadata_row.lower)
+            / (metadata_row.upper - metadata_row.lower)
+        )
+    fitted_fraction = parameters["optimizer_bound_fraction"].to_numpy(dtype=float)
+    with manuscript_style_context():
+        figure, axis = plt.subplots(figsize=(8.8, 7.8))
+        for y, initial, final in zip(
+            y_positions, initial_fraction, fitted_fraction, strict=True
+        ):
+            axis.plot([0.0, 1.0], [y, y], color="#DDDDDD", linewidth=2.0, zorder=0)
+            axis.annotate(
+                "",
+                xy=(final, y),
+                xytext=(initial, y),
+                arrowprops={"arrowstyle": "-", "color": "#777777", "linewidth": 1.1},
+            )
+        axis.scatter(
+            initial_fraction,
+            y_positions,
+            marker="D",
+            facecolors="white",
+            edgecolors="#111111",
+            label="Initial value",
+            zorder=3,
+        )
+        axis.scatter(
+            fitted_fraction,
+            y_positions,
+            marker="o",
+            color=FITTED_COLOR,
+            label="Selected fit",
+            zorder=4,
+        )
+        axis.set_yticks(y_positions, parameters["label"])
+        axis.invert_yaxis()
+        axis.set_xlim(-0.03, 1.03)
+        style_manuscript_axis(
+            axis,
+            x_label="Position within allowed range",
+            title="Initial and fitted parameter positions",
+        )
+        place_manuscript_legend(figure, axis, multi_panel=False, location="right")
+        figure.subplots_adjust(left=0.27, right=0.80, bottom=0.14, top=0.93)
+        add_figure_note(
+            figure,
+            "Positions use the fitted coordinate (log-transformed where configured). Allowed ranges are optimizer search bounds, not validated biological ranges.",
+            x=0.08,
+            y=0.02,
+            reserve_bottom=0.12,
+        )
+        save_manuscript_figure(figure, output, dpi=MANUSCRIPT_COLOR_DPI)
+        plt.close(figure)
+
+
 def write_outputs(
     output_dir: Path,
     fitted: dict[
@@ -1662,7 +2713,9 @@ def write_outputs(
     comparison_rows: list[pd.DataFrame] = []
     total_rows: list[pd.DataFrame] = []
     distribution_rows: list[pd.DataFrame] = []
-    parameter_rows: list[dict[str, float | str | bool]] = []
+    parameter_rows: list[dict[str, float | str | bool | None]] = []
+    optimizer_start_frames: list[pd.DataFrame] = []
+    optimizer_parameter_frames: list[pd.DataFrame] = []
     kernel_rows: list[pd.DataFrame] = []
     model_rows: list[dict[str, float | str | int | bool]] = []
     summaries: dict[str, object] = {}
@@ -1702,12 +2755,18 @@ def write_outputs(
             prediction.loc[group.index, "sqrt_fraction_residual"] = np.sqrt(
                 predicted_values / predicted_values.sum()
             ) - np.sqrt(observed / observed.sum())
+        prediction = add_size_bin_diagnostics(prediction)
         totals.insert(0, "variant", variant_name)
         distributions.insert(0, "variant", variant_name)
         comparison_rows.append(prediction)
         total_rows.append(totals)
         distribution_rows.append(distributions)
         parameter_rows.extend(_parameter_rows(predictor, best.x))
+        optimizer_starts, optimizer_parameters = optimizer_endpoint_frames(
+            predictor, best, candidates
+        )
+        optimizer_start_frames.append(optimizer_starts)
+        optimizer_parameter_frames.append(optimizer_parameters)
         kernel_rows.append(build_kernel_frame(predictor, best.x))
         n_data = int(len(data_residuals))
         n_parameters = int(len(best.x))
@@ -1735,6 +2794,10 @@ def write_outputs(
                 "success": bool(best.success),
                 "message": str(best.message),
                 "requested_starts": int(starts),
+                "successful_starts": int(optimizer_starts["optimizer_success"].sum()),
+                "starts_within_one_percent_of_best": int(
+                    optimizer_starts["within_one_percent_of_best"].sum()
+                ),
                 "max_nfev_per_start": int(max_nfev),
                 "nfev_selected_start": int(best.nfev),
                 "candidate_costs": [float(candidate.cost) for candidate in candidates],
@@ -1743,9 +2806,12 @@ def write_outputs(
             "parameters": decode_parameters(best.x, predictor.variant),
         }
 
-    model_comparison = pd.DataFrame(model_rows).sort_values(
+    model_comparison = pd.DataFrame(model_rows)
+    model_comparison["composite_penalized_score"] = model_comparison[
         "descriptive_bic_on_composite_residual"
-    )
+    ]
+    model_comparison["selection_is_heuristic"] = True
+    model_comparison = model_comparison.sort_values("composite_penalized_score")
     selected_variant = str(model_comparison.iloc[0]["variant"])
     selected_predictor, selected_best, _, selected_prediction = fitted[selected_variant]
     model_observations = selected_predictor.observations
@@ -1773,7 +2839,40 @@ def write_outputs(
     totals = pd.concat(total_rows, ignore_index=True)
     distributions = pd.concat(distribution_rows, ignore_index=True)
     parameters = pd.DataFrame(parameter_rows)
+    optimizer_starts = pd.concat(optimizer_start_frames, ignore_index=True)
+    optimizer_parameters = pd.concat(optimizer_parameter_frames, ignore_index=True)
     kernels = pd.concat(kernel_rows, ignore_index=True)
+    goodness = goodness_of_fit_by_condition(totals, distributions)
+    parameter_snapshot = build_parameter_snapshot(
+        fit_parameters=parameters.drop(columns=["module"]),
+        fit_module="ev_size_observation",
+        selected_fit_variant=selected_variant,
+    )
+    model_registry = build_model_registry(
+        {
+            "pulse": "fixed upstream trajectory",
+            "dosimetry": "fixed upstream trajectory",
+            "electrodynamics": "fixed upstream trajectory",
+            "ion_transport": "fixed upstream trajectory",
+            "remodeling_repair": "fixed upstream trajectory",
+            "ev_release": "fixed upstream trajectory",
+            "experimental_bridge": "fixed experimental-to-model transform",
+            "ev_size_observation.source conversion": "fitted observation layer",
+            "ev_size_observation.pathway-to-size kernel": "fitted observation layer",
+            "ev_size_observation.size-dependent loss": "fitted observation layer",
+            "ev_size_observation.state adapter": (
+                "fitted observation layer"
+                if selected_predictor.variant.fit_state_shifts
+                else "not_engaged"
+            ),
+            "ev_size_observation.condition adapter": (
+                "fitted diagnostic adapter"
+                if selected_predictor.variant.fit_dose_response
+                else "not_engaged"
+            ),
+            "ev_size_observation.instrument observation": "fixed observation operator",
+        }
+    )
     model_observations.to_csv(
         output_dir / "experimental_batch_summary.csv", index=False
     )
@@ -1783,6 +2882,15 @@ def write_outputs(
     parameters.to_csv(output_dir / "fitted_parameters.csv", index=False)
     kernels.to_csv(output_dir / "pathway_size_kernels.csv", index=False)
     model_comparison.to_csv(output_dir / "model_comparison.csv", index=False)
+    goodness.to_csv(output_dir / "goodness_of_fit_by_condition.csv", index=False)
+    optimizer_starts.to_csv(output_dir / "optimization_starts.csv", index=False)
+    optimizer_parameters.to_csv(
+        output_dir / "optimization_endpoint_parameters.csv", index=False
+    )
+    parameter_snapshot.to_csv(
+        output_dir / "framework_parameter_snapshot.csv", index=False
+    )
+    model_registry.to_csv(output_dir / "framework_model_registry.csv", index=False)
 
     selected_values = decode_parameters(selected_best.x, selected_predictor.variant)
     with (output_dir / "fitted_parameters.yml").open("w", encoding="utf-8") as handle:
@@ -1795,7 +2903,24 @@ def write_outputs(
             sort_keys=False,
         )
 
-    selected_totals = totals[totals["variant"] == selected_variant]
+    selected_totals = totals[totals["variant"] == selected_variant].copy()
+    selected_distributions = distributions[
+        distributions["variant"] == selected_variant
+    ].copy()
+    selected_prediction = comparisons[comparisons["variant"] == selected_variant].copy()
+    selected_parameters = parameters[parameters["variant"] == selected_variant].copy()
+    selected_endpoint_parameters = optimizer_parameters[
+        optimizer_parameters["variant"] == selected_variant
+    ].copy()
+    selected_target_diagnostics = selected_totals.merge(
+        selected_distributions,
+        on=["variant", "condition", "time_h", "measurement_count"],
+        validate="one_to_one",
+    )
+    selected_target_diagnostics.to_csv(
+        output_dir / "fit_diagnostics_by_target.csv", index=False
+    )
+    selected_prediction.to_csv(output_dir / "size_bin_fit_diagnostics.csv", index=False)
     plot_total_fit(
         selected_totals,
         output_dir / "longitudinal_total_fit.png",
@@ -1816,8 +2941,31 @@ def write_outputs(
         selected_prediction,
         output_dir / "size_time_fit_error_contours.png",
     )
+    plot_fit_error_diagnostics(
+        selected_totals,
+        selected_distributions,
+        output_dir / "fit_error_diagnostics.png",
+    )
+    plot_goodness_of_fit(
+        selected_totals,
+        selected_distributions,
+        output_dir / "goodness_of_fit.png",
+    )
+    plot_constitutive_and_kinetic_parameter_boxplots(
+        selected_endpoint_parameters,
+        output_dir / "constitutive_and_kinetic_parameter_boxplots.png",
+    )
+    plot_parameter_space_boxplots(
+        selected_endpoint_parameters,
+        output_dir / "parameter_space_boxplots.png",
+    )
+    plot_parameter_fit_summary(
+        selected_parameters,
+        output_dir / "parameter_fit_summary.png",
+    )
 
     summary = {
+        "selected_variant_by_composite_penalized_score": selected_variant,
         "selected_variant_by_descriptive_composite_bic": selected_variant,
         "fit_variants": summaries,
         "data": {
@@ -1834,6 +2982,17 @@ def write_outputs(
             "control_initialization": "all-batch mean of the undated cell-containing control size distribution",
         },
         "experimental_bridge": bridge.to_metadata(),
+        "framework_snapshot": {
+            "authoritative_runtime_defaults": "electro_exocytosis/parameters/default_parameters.yaml",
+            "runtime_default_parameter_count": int(
+                parameter_snapshot["source"].eq("runtime_default_yaml").sum()
+            ),
+            "selected_fit_parameter_count": int(
+                parameter_snapshot["fit_status"].eq("fitted").sum()
+            ),
+            "model_registry_entries": int(len(model_registry)),
+            "override_precedence": "packaged defaults followed by sparse run overrides; resolved values are recorded per run",
+        },
         "scenario_assumptions": {
             "pulse_width_ns": pulse_width_ns,
             "repetition_rate_Hz": repetition_rate_hz,
@@ -1846,16 +3005,24 @@ def write_outputs(
             "observed_variability": "sample SD is exported and plotted descriptively but does not inverse-variance weight the objective",
             "sd_scaled_differences": "descriptive differences divided by sample SD; they are not z-scores or confidence coverage",
             "regularization": "weak literature-centered penalties on pathway medians/widths, size-loss slope, state shifts, and optional dose-response correction",
+            "multistart_design": "one canonical initial vector plus Latin-hypercube starts spanning the full configured optimizer bounds",
             "zero_bins": "handled in composition space without logarithms or pseudocounts",
+            "model_selection": "the composite penalized score is a heuristic ranking, not a likelihood-based BIC",
         },
         "visualizations": {
             "size_time_surface_overlay": "experimental mean surface with a translucent fitted surface, wireframe, and markers on a common concentration scale",
             "size_time_fit_error_contours": "signed and absolute normalized difference between the model and experimental mean; both use 100*(model-experiment)/(model+experiment) and are diagnostic rather than optimizer residuals",
+            "fit_error_diagnostics": "total and size-distribution errors for every condition-time target",
+            "goodness_of_fit": "batch-aware parity plots and descriptive error distributions",
+            "parameter_space_boxplots": "multistart optimizer endpoints in bounded coordinates; spread is numerical stability, not parameter uncertainty",
+            "constitutive_and_kinetic_parameter_boxplots": "physical-unit optimizer endpoints for observation source conversion and extracellular loss",
+            "parameter_fit_summary": "initial-to-final parameter movement within configured optimizer bounds",
         },
         "interpretation_limits": [
             "The cell-containing controls have no harvest time and are used as a provisional initial distribution.",
             "The repeated records are summarized as batch measurements, but their biological independence is not established by the source file.",
             "The fitted pathway decomposition is not identifiable from diameter alone and must be treated as a reduced-order explanation.",
+            "Multistart endpoint spread measures optimization stability and is not a confidence interval, posterior distribution, or biological parameter distribution.",
             "The dose-response correction is a diagnostic adapter for weak pulse-condition separation in the current intracellular model, not a validated constitutive mechanism.",
             "The observation matrix is explicit but fixed to identity on the common 20-nm bands because Exoid calibration and pore metadata were not supplied.",
             "Relative error can appear large in low-concentration tail bins because no instrument detection-limit mask was available.",
@@ -1881,11 +3048,16 @@ Selected descriptive variant: `{selected_variant}`
 - Source treatment histograms: {source_histogram_count}
 - Source initial-control histograms: {control_histogram_count}
 - Total log10 RMSE (80–380 nm): {selected_metrics["rmse_log10_total"]:.4f}
+- Typical multiplicative total error: {selected_metrics["typical_fold_error_total"]:.2f}-fold
 - Median absolute total error: {selected_metrics["median_absolute_percent_total_error"]:.1f}%
+- Median symmetric absolute total error: {selected_metrics["median_symmetric_absolute_percent_total_error"]:.1f}%
 - Mean Hellinger size distance: {selected_metrics["mean_hellinger_size_distance"]:.4f}
+- Mean Wasserstein size distance: {selected_metrics["mean_wasserstein_size_distance_nm"]:.1f} nm
 - Mean absolute error in distribution mean diameter (80–380 nm): {selected_metrics["mae_mean_diameter_nm"]:.1f} nm
 - Total targets within observed mean ± SD: {100.0 * selected_metrics["descriptive_fraction_totals_within_observed_sd"]:.1f}% (descriptive)
 - Size bins within observed mean ± SD: {100.0 * selected_metrics["descriptive_fraction_size_bins_within_observed_sd"]:.1f}% (descriptive)
+- Successful multistart endpoints: {summaries[selected_variant]["optimizer"]["successful_starts"]}/{starts}
+- Endpoints within 1% of the best regularized objective: {summaries[selected_variant]["optimizer"]["starts_within_one_percent_of_best"]}/{starts}
 
 The selection score is descriptive because it combines total and composition
 residuals rather than a fully specified sampling likelihood. Sample SD is
@@ -1904,9 +3076,17 @@ Files:
 - `pathway_size_kernels.csv`: pathway kernel mass and smooth loss by condition/time/bin.
 - `fitted_parameters.csv` and `fitted_parameters.yml`: fitted values and bounds.
 - `model_comparison.csv` and `fit_summary.json`: variant metrics and assumptions.
+- `fit_diagnostics_by_target.csv` and `size_bin_fit_diagnostics.csv`: target-level and bin-level errors.
+- `goodness_of_fit_by_condition.csv`: descriptive total and size metrics by condition and jointly.
+- `optimization_starts.csv` and `optimization_endpoint_parameters.csv`: the canonical start and every full-bound Latin-hypercube endpoint; their spread diagnoses numerical stability, not biological uncertainty.
+- `framework_parameter_snapshot.csv`: all canonical runtime defaults plus the selected observation-fit initial values, search bounds, and final values.
+- `framework_model_registry.csv`: implemented framework models and their roles in this fit.
 - `longitudinal_total_fit.png`, `size_profile_fit.png`, and `size_time_fit.png`: conventional fit figures.
 - `size_time_surface_overlay.png`: experimental mean size-time surface with a translucent fitted layer.
 - `size_time_fit_error_contours.png`: signed and absolute normalized-difference contours. These bounded diagnostics are distinct from the optimized residuals.
+- `fit_error_diagnostics.png` and `goodness_of_fit.png`: manuscript-style error and agreement summaries.
+- `constitutive_and_kinetic_parameter_boxplots.png` and `parameter_space_boxplots.png`: multistart endpoint stability summaries; boxes are not confidence intervals.
+- `parameter_fit_summary.png`: selected initial-to-final movement within optimizer bounds.
 """
     (output_dir / "README.md").write_text(readme, encoding="utf-8")
     return summary
@@ -1921,7 +3101,7 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=DEFAULT_BRIDGE_CONFIG,
     )
-    parser.add_argument("--starts", type=int, default=2)
+    parser.add_argument("--starts", type=int, default=24)
     parser.add_argument("--max-nfev", type=int, default=100)
     parser.add_argument("--seed", type=int, default=20260905)
     parser.add_argument("--pulse-width-ns", type=float, default=60.0)

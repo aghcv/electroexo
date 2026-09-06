@@ -220,8 +220,12 @@ MPLCONFIGDIR=/tmp/electroexo-mpl PYTHONPATH=. python \
   --output-dir results/ffrci_size_resolved_fit_v1_1
 ```
 
-The defaults run two starts with at most 100 function evaluations per start
-and fit all three variants. Use `--variants` followed by one or more variant
+The defaults run 24 starts with at most 100 function evaluations per start
+and fit all three variants. One start is the canonical initial vector; the
+others use a seeded Latin-hypercube design over the full configured optimizer
+bounds. This is enough to make endpoint-stability box plots descriptive; it
+does not turn their spread into parameter uncertainty. Use
+`--variants` followed by one or more variant
 names to run a subset. Pulse width and repetition rate remain explicit command
 line assumptions through `--pulse-width-ns` and `--repetition-rate-hz`.
 
@@ -245,6 +249,19 @@ The output directory contains:
   values;
 - `model_comparison.csv`: descriptive composite-residual comparison of the
   three variants;
+- `goodness_of_fit_by_condition.csv`: total-concentration and size-distribution
+  metrics by condition and for the joint fit;
+- `fit_diagnostics_by_target.csv` and `size_bin_fit_diagnostics.csv`:
+  target-level and size-bin error components, including Hellinger and
+  Wasserstein size distances;
+- `optimization_starts.csv` and `optimization_endpoint_parameters.csv`: the
+  canonical and full-bound Latin-hypercube starts, all resulting endpoints,
+  objective components, bound positions, and the selected endpoint;
+- `framework_parameter_snapshot.csv`: all authoritative runtime defaults plus
+  the selected size-observation fit's initial values, optimizer bounds, and
+  final values;
+- `framework_model_registry.csv`: the implemented model/submodel inventory and
+  each component's role in this calibration;
 - `fit_summary.json`: bridge settings, scenario assumptions, objective
   definition, metrics, selected variant, and interpretation limits;
 - `longitudinal_total_fit.png`, `size_profile_fit.png`, and
@@ -256,7 +273,14 @@ The output directory contains:
   difference between the fitted model and experimental mean. The signed
   diagnostic is
   `100 * (predicted - observed) / (predicted + observed)`; it is not the
-  optimizer's residual or a conventional percent error.
+  optimizer's residual or a conventional percent error;
+- `fit_error_diagnostics.png` and `goodness_of_fit.png`: complementary
+  manuscript-style error, parity, and descriptive error-distribution views;
+- `constitutive_and_kinetic_parameter_boxplots.png` and
+  `parameter_space_boxplots.png`: multistart endpoint stability in physical and
+  normalized optimizer coordinates; and
+- `parameter_fit_summary.png`: the selected initial-to-final movement relative
+  to each configured optimizer range.
 
 The bounded normalization can make differences in low-concentration tail bins
 look visually large. No detection-limit mask is applied because the instrument
@@ -277,6 +301,14 @@ measurements; the other cells contain three. These figures
 must not be read as measured or independently predicted intermediate-time
 kinetics. Bins where both observed and predicted concentration are zero are
 undefined and masked rather than displayed as perfect agreement.
+
+Parameter endpoint boxes describe repeated numerical optimization from
+different initial guesses. They are not confidence intervals, posterior
+samples, biological replicate distributions, or evidence that the fitted
+parameter is identifiable. Search bounds are likewise engineering choices for
+this fit, not validated biological ranges. The point-and-range summary and the
+exported endpoint tables should be interpreted before using a fitted value in
+a mechanistic argument.
 
 ## Interpretation limits
 

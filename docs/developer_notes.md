@@ -4,6 +4,9 @@
 - Replace placeholder equations inside `electro_exocytosis/models/` module by module.
 - Keep parameter names synchronized between dataclasses, `default_parameters.yaml`, and `simulation.py`.
 - Use `apply_cell_state_modifiers` for new cross-cutting state scalings.
+- Keep the packaged defaults authoritative and use sparse run overrides. Update
+  `electro_exocytosis.parameter_registry` when a model/submodel or known runtime
+  status changes; see `docs/parameter_defaults_and_snapshots.md`.
 
 ## Evidence integration
 - `EvidenceLoader` currently reads workbook sheets and exposes them as pandas DataFrames.

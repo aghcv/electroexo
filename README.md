@@ -174,10 +174,17 @@ MPLCONFIGDIR=/tmp/electroexo-mpl PYTHONPATH=. python \
 
 This compares static, state-conditioned, and diagnostic dose-corrected kernel
 variants against batch-mean size distributions while exporting sample SD, SE,
-and measurement counts. Total concentration and size composition remain
+and measurement counts. It also exports fit-error and goodness-of-fit figures,
+multistart parameter-stability plots, a complete framework parameter snapshot,
+and a model/submodel registry. Total concentration and size composition remain
 distinct. See
 [`docs/size_resolved_ev_observation.md`](docs/size_resolved_ev_observation.md)
 for the model, outputs, assumptions, and interpretation limits.
+
+The simulator's packaged defaults already act as the comprehensive baseline;
+run-specific parameter YAML files are sparse overlays. The snapshot schema,
+resolution order, and current validation boundary are documented in
+[`docs/parameter_defaults_and_snapshots.md`](docs/parameter_defaults_and_snapshots.md).
 
 All new or regenerated scientific plots follow the repository-wide
 [`manuscript figure policy`](docs/manuscript_figure_policy.md): generic labels,

@@ -6,6 +6,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import pytest
+from scipy.optimize import OptimizeResult
 
 from electro_exocytosis.experimental_bridge import ExperimentalObservationBridge
 from electro_exocytosis.models.ev_size_observation import (
@@ -20,14 +21,22 @@ from tools.fit_ffrci_size_resolved import (
     EXOID_FILENAME,
     EXPOSURES,
     FIT_VARIANTS,
+    FIT_PARAMETER_METADATA,
     OBSERVATION_TIMES_H,
     SizeResolvedFFRCIPredictor,
+    _parameter_rows,
     aggregate_size_resolved_observations,
     build_upstream_trajectories,
+    fit_variant,
     hellinger_distance,
     load_size_resolved_observations,
     plot_size_time_error_contours,
     plot_size_time_surface_overlay,
+    plot_constitutive_and_kinetic_parameter_boxplots,
+    plot_fit_error_diagnostics,
+    plot_goodness_of_fit,
+    plot_parameter_fit_summary,
+    plot_parameter_space_boxplots,
     prediction_metrics,
     signed_normalized_error_percent,
 )
@@ -273,6 +282,34 @@ def test_batch_aggregation_produces_one_mean_distribution_per_condition_time(
         raw_totals.std(ddof=1)
     )
 
+    raw_profiles = real_observations[
+        (real_observations["sample_role"] == "treatment")
+        & (real_observations["condition"] == "1p20kV")
+        & np.isclose(real_observations["time_h"], 0.5)
+    ]
+    raw_profile_sums = (
+        raw_profiles.assign(
+            weighted_diameter=(
+                raw_profiles["size_bin_center_nm"]
+                * raw_profiles["concentration_particles_per_ml"]
+            )
+        )
+        .groupby("measurement_id")[
+            ["weighted_diameter", "concentration_particles_per_ml"]
+        ]
+        .sum()
+    )
+    raw_mean_diameters = (
+        raw_profile_sums["weighted_diameter"]
+        / raw_profile_sums["concentration_particles_per_ml"]
+    )
+    assert aggregate_cell["observed_histogram_mean_diameter_nm_mean"] == pytest.approx(
+        raw_mean_diameters.mean()
+    )
+    assert aggregate_cell["observed_mean_diameter_nm_sd"] == pytest.approx(
+        raw_mean_diameters.std(ddof=1)
+    )
+
     raw_control = real_observations[
         (real_observations["sample_role"] == "initial_control")
         & np.isclose(real_observations["size_bin_center_nm"], 90.0)
@@ -313,6 +350,48 @@ def test_signed_normalized_error_percent_rejects_invalid_inputs() -> None:
         signed_normalized_error_percent(np.array([-1.0]), np.array([1.0]))
     with pytest.raises(ValueError, match="nonnegative"):
         signed_normalized_error_percent(np.array([1.0]), np.array([-1.0]))
+
+
+def test_multistart_design_uses_canonical_and_full_bound_latin_hypercube(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class DummyPredictor:
+        bounds = (np.zeros(3), np.ones(3))
+        initial_vector = np.full(3, 0.5)
+
+        @staticmethod
+        def residuals(vector: np.ndarray) -> np.ndarray:
+            return vector - 0.25
+
+    def fake_least_squares(residuals, guess, **_kwargs):
+        residual = residuals(guess)
+        return OptimizeResult(
+            x=np.asarray(guess, dtype=float),
+            cost=0.5 * float(np.sum(residual**2)),
+            success=True,
+            status=1,
+            message="synthetic",
+            nfev=1,
+            optimality=0.0,
+        )
+
+    monkeypatch.setattr(
+        "tools.fit_ffrci_size_resolved.least_squares", fake_least_squares
+    )
+    _, candidates = fit_variant(DummyPredictor(), starts=8, max_nfev=1, seed=20260906)
+
+    assert len(candidates) == 8
+    assert candidates[0].start_strategy == "canonical_initial"
+    assert np.allclose(candidates[0].start_vector, 0.5)
+    latin = np.vstack([candidate.start_vector for candidate in candidates[1:]])
+    assert all(
+        candidate.start_strategy == "latin_hypercube_full_bounds"
+        for candidate in candidates[1:]
+    )
+    assert np.all((latin > 0.0) & (latin < 1.0))
+    for column in range(latin.shape[1]):
+        occupied_strata = np.floor(latin[:, column] * len(latin)).astype(int)
+        assert set(occupied_strata) == set(range(len(latin)))
 
 
 def test_cached_upstream_trajectories_cover_all_conditions(
@@ -436,7 +515,26 @@ def _synthetic_size_time_prediction() -> pd.DataFrame:
                         "predicted_particles_per_ml": predicted,
                     }
                 )
-    return pd.DataFrame(rows)
+    prediction = pd.DataFrame(rows)
+    for _, group in prediction.groupby(["condition", "time_h"]):
+        observed = group["observed_particles_per_ml_mean"].to_numpy(dtype=float)
+        centers = group["size_bin_center_nm"].to_numpy(dtype=float)
+        total = float(observed.sum())
+        mean_diameter = float(np.sum(centers * observed) / total)
+        prediction.loc[group.index, "observed_total_particles_per_ml_mean"] = total
+        prediction.loc[group.index, "observed_total_particles_per_ml_sd"] = 0.08 * total
+        prediction.loc[group.index, "observed_total_particles_per_ml_se"] = (
+            0.08 * total / math.sqrt(float(group["observed_measurement_count"].iloc[0]))
+        )
+        prediction.loc[group.index, "total_measurement_count"] = group[
+            "observed_measurement_count"
+        ].iloc[0]
+        prediction.loc[group.index, "observed_histogram_mean_diameter_nm_mean"] = (
+            mean_diameter
+        )
+        prediction.loc[group.index, "observed_mean_diameter_nm_sd"] = 4.0
+        prediction.loc[group.index, "observed_mean_diameter_nm_se"] = 2.5
+    return prediction
 
 
 def test_size_time_visualizations_render_headlessly(tmp_path: Path) -> None:
@@ -448,5 +546,76 @@ def test_size_time_visualizations_render_headlessly(tmp_path: Path) -> None:
     plot_size_time_error_contours(prediction, error_path)
 
     for output in (surface_path, error_path):
+        assert output.read_bytes().startswith(b"\x89PNG\r\n\x1a\n")
+        assert output.stat().st_size > 1_000
+
+
+def test_diagnostic_visualizations_render_headlessly(
+    tmp_path: Path,
+    batch_observations,
+    provisional_bridge,
+    cached_upstream_trajectories,
+) -> None:
+    prediction = _synthetic_size_time_prediction()
+    _, totals, distributions = prediction_metrics(prediction)
+    totals.insert(0, "variant", "state_conditioned_dose_response")
+    distributions.insert(0, "variant", "state_conditioned_dose_response")
+
+    variant = next(
+        item for item in FIT_VARIANTS if item.name == "state_conditioned_dose_response"
+    )
+    predictor = SizeResolvedFFRCIPredictor(
+        batch_observations,
+        cached_upstream_trajectories,
+        provisional_bridge,
+        variant,
+    )
+    fitted_parameters = pd.DataFrame(
+        _parameter_rows(predictor, predictor.initial_vector)
+    )
+    endpoint_rows: list[dict[str, object]] = []
+    for start_index in range(12):
+        for row in fitted_parameters.to_dict(orient="records"):
+            endpoint_rows.append(
+                {
+                    **row,
+                    "start_index": start_index,
+                    "optimizer_success": True,
+                    "selected_endpoint": start_index == 0,
+                    "within_one_percent_of_best": True,
+                    "optimizer_initial": 0.0,
+                    "optimizer_lower_bound": -1.0,
+                    "optimizer_upper_bound": 1.0,
+                    "optimizer_bound_fraction": float(
+                        np.clip(
+                            row["optimizer_bound_fraction"]
+                            + 0.015 * math.sin(start_index + len(endpoint_rows)),
+                            0.0,
+                            1.0,
+                        )
+                    ),
+                    "fitted": float(row["fitted"])
+                    * (1.0 + 0.01 * math.sin(start_index + 1)),
+                }
+            )
+    endpoint_parameters = pd.DataFrame(endpoint_rows)
+
+    outputs = {
+        "errors": tmp_path / "fit_error_diagnostics.png",
+        "goodness": tmp_path / "goodness_of_fit.png",
+        "constitutive": tmp_path / "constitutive_and_kinetic_parameter_boxplots.png",
+        "space": tmp_path / "parameter_space_boxplots.png",
+        "summary": tmp_path / "parameter_fit_summary.png",
+    }
+    plot_fit_error_diagnostics(totals, distributions, outputs["errors"])
+    plot_goodness_of_fit(totals, distributions, outputs["goodness"])
+    plot_constitutive_and_kinetic_parameter_boxplots(
+        endpoint_parameters, outputs["constitutive"]
+    )
+    plot_parameter_space_boxplots(endpoint_parameters, outputs["space"])
+    plot_parameter_fit_summary(fitted_parameters, outputs["summary"])
+
+    assert set(FIT_PARAMETER_METADATA).issuperset(fitted_parameters["parameter"])
+    for output in outputs.values():
         assert output.read_bytes().startswith(b"\x89PNG\r\n\x1a\n")
         assert output.stat().st_size > 1_000
