@@ -1,0 +1,167 @@
+From fa333ad7682934448e0513d293eaa4762f361ff1 Mon Sep 17 00:00:00 2001
+From: Arash Ghorbannia <ghorbannia@icloud.com>
+Date: Sat, 5 Sep 2026 16:04:07 -0400
+Subject: [PATCH] Add state-conditioned EV size observation bridge
+
+---
+ main.tex                 |  7 ++++-
+ size_resolved_bridge.tex | 51 +++++++++++++++++++++++++++++++++
+ source.bib               | 62 ++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 119 insertions(+), 1 deletion(-)
+ create mode 100644 size_resolved_bridge.tex
+
+diff --git a/main.tex b/main.tex
+index 042890d..45387c4 100644
+--- a/main.tex
++++ b/main.tex
+@@ -586,6 +586,8 @@ Apoptotic vesicle release & Injury-state weighted rate \cite{teixeira2020rock1,o
+ 
+ For the current computational framework, this layer is implemented as a reduced pool-balance model with explicit MVB, ILV, docked-MVB, budding-precursor, and apoptotic-commitment states. Endosome maturation is represented as a Rab-conversion-supported source term for a secretory MVB pool, ILV loading is split into ESCRT-dependent and ceramide/tetraspanin-assisted branches, and MVB fate is biased between secretion and lysosomal loss by an acidification-sensitive routing term \cite{ott2025coordination,choezom2022nsmase2,villarroyaBeltri2016isgylation}. Small-EV release is then written as a Ca$^{2+}$- and SNARE-sensitive fusion flux from the docked MVB pool, while medium/large EV release is represented as a phosphatidylserine-, calpain-, and actomyosin-weighted budding/scission process. Apoptotic-body release is modeled separately as a damage- and blebbing-weighted branch so that injury-associated vesiculation is not conflated with productive secretory EV release \cite{liu2023snare,messenger2018munc13,pang2025arf,teixeira2020rock1}. This reduced formulation matches the current code implementation while preserving a direct path for later replacement with cell-type-specific Rab, SNARE, lipid, or apoptosis submodels as quantitative data become available.
+ 
++\input{size_resolved_bridge}
++
+ % ============================================================
+ \subsection*{Cargo Sorting, EV Composition, and Potency}
+ % ============================================================
+@@ -815,7 +817,10 @@ N_{meas}=N_{EV}+N_{AB}+N_{debris}+N_{agg},
+ \end{equation}
+ 
+ \begin{equation}
+-\mathcal{Y}_{EV}=\{N_{EV},R_{EV},Subtype,Cargo,Potency,Purity,Viability\}.
++\begin{aligned}
++\mathcal{Y}_{EV}=\{&N_{EV},R_{EV},Subtype,Size,Cargo,Potency,\\
++&Purity,Viability,\widehat{\mathbf{y}}\}.
++\end{aligned}
+ \end{equation}
+ 
+ % ============================================================
+diff --git a/size_resolved_bridge.tex b/size_resolved_bridge.tex
+new file mode 100644
+index 0000000..30a1932
+--- /dev/null
++++ b/size_resolved_bridge.tex
+@@ -0,0 +1,51 @@
++% Inter-layer extension connecting mechanistic release pathways to
++% size-resolved extracellular measurements. Kept in a separate file to
++% minimize merge conflicts with the actively edited main manuscript.
++\subsection*{State-Conditioned EV Size--Composition and Observation Bridge}
++
++The release states above specify biological routes, whereas particle-sizing assays report operational diameter classes. These descriptions should remain distinct because endosomal, plasma-membrane, and apoptotic pathways can generate overlapping size ranges, and diameter alone does not establish vesicle origin \cite{welsh2024minimal}. We therefore introduce an inter-layer bridge rather than redefining the existing sEV, m/lEV, and AB states. A biological mode $q$ denotes ESCRT-enriched MVB/ILV release, ceramide/tetraspanin-enriched MVB/ILV release, plasma-membrane shedding or repair-associated release, or apoptotic fragmentation. The first two modes sum to the existing $R_{sEV}$ output, the plasma-membrane mode contributes to $R_{m/lEV}$, and the apoptotic mode contributes to $R_{AB}$. This separation is consistent with evidence that activation can differentially regulate distinct nanosized populations released by CD4$^+$ T cells \cite{vanDerVlist2012activation}.
++
++Let $\mathbf{x}(t)$ denote the upstream cell-state vector, $d$ vesicle diameter, and $\mathbf{c}$ the composition vector. The joint product kernel for biological mode $q$ is factorized as
++\begin{equation*}
++K_q(d,\mathbf{c}\mid\mathbf{x})
++=f_q\!\left(d\mid\boldsymbol{\theta}_q[\mathbf{x}]\right)
++g_q(\mathbf{c}\mid d,\mathbf{x}),
++\end{equation*}
++where $f_q$ is a nonnegative birth-size distribution and $g_q$ represents conditional cargo allocation. Positive right-skewed distributions are appropriate starting points. For MVB-derived small EVs, a dynamic-scaling distribution derived from membrane-domain growth and ILV budding provides a directly implementable candidate; its tail exponent was sensitive to signaling perturbation \cite{paulaitis2018dynamic}. More detailed ESCRT/cargo-crowding membrane models can constrain plausible ILV sizes and coupling signs but introduce unobserved mechanical parameters that are unlikely to be identifiable from sparse longitudinal particle counts \cite{liese2020protein}. Broad lognormal or gamma distributions are therefore retained as reduced alternatives for plasma-membrane and apoptotic modes. Their baseline median and geometric standard deviation should be cell- and assay-specific priors rather than universal subtype constants.
++
++State dependence can be introduced parsimoniously through distribution parameters,
++\begin{equation*}
++\log d_{50,q}(t)=\alpha_q+
++\boldsymbol{\beta}_q^{\mathsf{T}}
++\left[\mathbf{z}_q(t)-\mathbf{z}_{q,0}\right],
++\end{equation*}
++where $\mathbf{z}_q$ contains only pathway-matched states. Candidate inputs include ESCRT and ceramide/secretory routing for MVB modes; PS exposure, calpain, actomyosin, membrane tension, and repair shedding for plasma-membrane release; and damage, apoptosis, and blebbing for the apoptotic mode. The nested null case $\boldsymbol{\beta}_q=\mathbf{0}$ changes pathway mixture weights while retaining fixed within-pathway size distributions.
++
++For true-diameter bin $b=[d_b^-,d_b^+]$, the per-cell birth source and extracellular stock are
++\begin{align*}
++S_{qb}(t)
++&=R_q(t)\int_{d_b^-}^{d_b^+}
++f_q\!\left(d\mid\boldsymbol{\theta}_q[\mathbf{x}(t)]\right)\,dd,\\
++\frac{dN_{qb}}{dt}
++&=N_{\mathrm{cells}}S_{qb}(t)
++-k_{\mathrm{loss},q}(d_b)N_{qb}
+++\sum_{b'}T_{bb'}N_{qb'}.
++\end{align*}
++This sectional population balance can use many numerical bins while retaining few shared parameters. It also preserves cohort history: particles remain at their emitted diameter unless an explicit aggregation or fragmentation term $T_{bb'}$ transfers them. Initially, a common effective loss rate and $T_{bb'}=0$ provide the most identifiable model.
++
++Cargo is linked jointly to pathway, state, and size rather than determined by diameter alone. A reduced geometric capacity relation is
++\begin{equation*}
++\mathrm{E}[C_j\mid d,q,\mathbf{x}]
++=a_{jq}(\mathbf{x})d^2+b_{jq}(\mathbf{x})d^3,
++\end{equation*}
++where the $d^2$ and $d^3$ terms represent membrane-associated and luminal capacity, respectively \cite{zendrini2022surface}. The coefficients retain pathway- and state-dependent sorting, and low-copy cargo can be represented by stochastic occupancy. Single-vesicle measurements showing selective changes in EV size, membrane order, and cargo after Rab27a or CD63 perturbation support this conditional rather than deterministic representation \cite{vonLersner2024multiparametric}.
++
++Finally, biological stocks are mapped to an observed size bin $b$ in assay run $r$ through
++\begin{equation*}
++\widehat{y}_{rb}(t)=B_{rb}
+++\sum_{\ell}H_{rb\ell}\eta_{r\ell}
++\frac{\sum_qN_{q\ell}(t)}{V_r},
++\end{equation*}
++where $H_{rb\ell}$ represents true-to-measured diameter error and rebinning, $\eta_{r\ell}$ represents size-dependent recovery, $B_{rb}$ is background, and $V_r$ is sample volume. This observation operator is required because different single-particle methods can report materially different size distributions and concentrations for the same EV preparation \cite{vanDerPol2014particle,welsh2024minimal}. Instrument-response parameters should be constrained by calibration particles, instrument settings, and orthogonal characterization rather than inferred freely with the biological kernel.
++
++For sparse longitudinal data, calibration should begin with literature- or sham-informed fixed kernels, dynamic pathway mixture weights, and a common extracellular loss term. A state-to-size coefficient should be retained only if it improves prediction for held-out pulse conditions; size-dependent loss should then be tested separately. Particle counts alone cannot identify pathway-specific cargo coefficients, which require marker-resolved or molecular measurements.
+diff --git a/source.bib b/source.bib
+index f28aade..d00d515 100644
+--- a/source.bib
++++ b/source.bib
+@@ -1678,3 +1678,65 @@
+   pages = {3012--3028},
+   doi = {10.15252/embj.201696003}
+ }
++
++@article{paulaitis2018dynamic,
++  author = {Paulaitis, Michael and Agarwal, Kitty and Nana-Sinkam, Patrick},
++  title = {Dynamic Scaling of Exosome Sizes},
++  journal = {Langmuir},
++  year = {2018},
++  volume = {34},
++  number = {32},
++  pages = {9387--9393},
++  doi = {10.1021/acs.langmuir.7b04080}
++}
++
++@article{liese2020protein,
++  author = {Liese, Susanne and Wenzel, Eva Maria and Kjos, Ingrid and Rojas Molina, Rossana and Schultz, Sebastian W. and Brech, Andreas and Stenmark, Harald and Raiborg, Camilla and Carlson, Andreas},
++  title = {Protein crowding mediates membrane remodeling in upstream {ESCRT}-induced formation of intraluminal vesicles},
++  journal = {Proceedings of the National Academy of Sciences of the United States of America},
++  year = {2020},
++  volume = {117},
++  number = {46},
++  pages = {28614--28624},
++  doi = {10.1073/pnas.2014228117}
++}
++
++@article{vanDerVlist2012activation,
++  author = {van der Vlist, Els J. and Arkesteijn, Ger J. A. and van de Lest, Chris H. A. and Stoorvogel, Willem and Nolte-'t Hoen, Esther N. M. and Wauben, Marca H. M.},
++  title = {{CD4}$^+$ {T} cell activation promotes the differential release of distinct populations of nanosized vesicles},
++  journal = {Journal of Extracellular Vesicles},
++  year = {2012},
++  volume = {1},
++  pages = {18364},
++  doi = {10.3402/jev.v1i0.18364}
++}
++
++@article{zendrini2022surface,
++  author = {Zendrini, Andrea and Guerra, Giorgia and Sagini, Krizia and Vagner, Tatyana and Di Vizio, Dolores and Bergese, Paolo},
++  title = {On the surface-to-bulk partition of proteins in extracellular vesicles},
++  journal = {Colloids and Surfaces B: Biointerfaces},
++  year = {2022},
++  volume = {218},
++  pages = {112728},
++  doi = {10.1016/j.colsurfb.2022.112728}
++}
++
++@article{vonLersner2024multiparametric,
++  author = {von Lersner, Ariana K. and Fernandes, Fabiane and Ozawa, Patricia Midori Murobushi and Jackson, Marques and Masureel, Matthieu and Ho, Hoangdung and Lima, Sierra M. and Vagner, Tatyana and Sung, Bong Hwan and Wehbe, Mohamed and Franze, Kai and Pua, Heather and Wilson, John T. and Irish, Jonathan M. and Weaver, Alissa M. and Di Vizio, Dolores and Zijlstra, Andries},
++  title = {Multiparametric Single-Vesicle Flow Cytometry Resolves Extracellular Vesicle Heterogeneity and Reveals Selective Regulation of Biogenesis and Cargo Distribution},
++  journal = {ACS Nano},
++  year = {2024},
++  volume = {18},
++  doi = {10.1021/acsnano.3c11561}
++}
++
++@article{vanDerPol2014particle,
++  author = {van der Pol, Edwin and Coumans, Frank A. W. and Grootemaat, Andre E. and Gardiner, Chris and Sargent, Ian L. and Harrison, Paul and Sturk, Auguste and van Leeuwen, Ton G. and Nieuwland, Rienk},
++  title = {Particle size distribution of exosomes and microvesicles determined by transmission electron microscopy, flow cytometry, nanoparticle tracking analysis, and resistive pulse sensing},
++  journal = {Journal of Thrombosis and Haemostasis},
++  year = {2014},
++  volume = {12},
++  number = {7},
++  pages = {1182--1192},
++  doi = {10.1111/jth.12602}
++}
+-- 
+2.51.0
+
