@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+# ruff: noqa: E402 -- project imports follow the local path bootstrap below.
+
 import argparse
 import os
 import sys
@@ -8,7 +10,9 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
-os.environ.setdefault("MPLCONFIGDIR", str(Path(tempfile.gettempdir()) / "electroexo_matplotlib"))
+os.environ.setdefault(
+    "MPLCONFIGDIR", str(Path(tempfile.gettempdir()) / "electroexo_matplotlib")
+)
 
 import matplotlib
 
@@ -28,14 +32,28 @@ from electro_exocytosis.models.pulse import PulseDescriptors, compute_pulse_desc
 from electro_exocytosis.abbreviations import STANDARD_ABBREVIATIONS
 from electro_exocytosis.visualization.style import (
     MANUSCRIPT_LANDSCAPE_FIGSIZE,
-    MANUSCRIPT_PANEL_LANDSCAPE_FIGSIZE,
+    MANUSCRIPT_SINGLE_COLUMN_WIDTH_IN,
     bar_colors,
     bar_hatch,
     line_styles,
+    manuscript_style_context,
     save_manuscript_figure,
 )
 
 DOSIMETRY_MODELS = ("legacy", "joule_adiabatic", "joule_lumped_thermal")
+
+DOSIMETRY_MODEL_LABELS = {
+    "legacy": "Legacy",
+    "joule_adiabatic": "Adiabatic",
+    "joule_lumped_thermal": "Thermal retention",
+}
+
+DOSIMETRY_PANEL_TITLES = {
+    "Low conductivity buffer, 20 Hz": "Low conductivity\n20 Hz",
+    "High conductivity buffer, 20 Hz": "High conductivity\n20 Hz",
+    "High conductivity buffer, 200 Hz": "High conductivity\n200 Hz",
+    "Dish geometry, exponential pulse, 200 Hz": "Dish, exponential pulse\n200 Hz",
+}
 
 MODEL_NOTES = {
     "legacy": "Original absorbed-energy equation; linear geometry scaling; no waveform or cooling correction.",
@@ -143,7 +161,9 @@ def build_comparison_tables(
             exposure = ExposureConfig(**scenario.exposure_kwargs, dosimetry_model=model)
             descriptors = compute_pulse_descriptors(pulse, exposure)
             dosimetry = compute_dosimetry(descriptors, exposure)
-            summary_rows.append(_summary_row(scenario, pulse, exposure, descriptors, dosimetry))
+            summary_rows.append(
+                _summary_row(scenario, pulse, exposure, descriptors, dosimetry)
+            )
             profile_rows.extend(
                 _temperature_profile_rows(
                     scenario,
@@ -224,8 +244,11 @@ def _temperature_rise_profile(
     if exposure.dosimetry_model == "joule_lumped_thermal":
         tau_s = exposure.thermal_relaxation_time_s
         heating_rate_C_s = dosimetry.adiabatic_temperature_rise_K / train_duration_s
-        rise_C = exposure.thermal_efficiency * heating_rate_C_s * tau_s * (
-            1.0 - np.exp(-heating_times_s / tau_s)
+        rise_C = (
+            exposure.thermal_efficiency
+            * heating_rate_C_s
+            * tau_s
+            * (1.0 - np.exp(-heating_times_s / tau_s))
         )
         cooling_mask = times_s > train_duration_s
         rise_C[cooling_mask] = rise_C[cooling_mask] * np.exp(
@@ -240,31 +263,84 @@ def plot_temperature_profiles(profiles: pd.DataFrame, outdir: Path) -> None:
     """Plot inferred temperature trajectories for each scenario and model."""
     outdir.mkdir(parents=True, exist_ok=True)
     scenario_labels = profiles["scenario_label"].drop_duplicates().tolist()
-    fig, axes = plt.subplots(2, 2, figsize=MANUSCRIPT_PANEL_LANDSCAPE_FIGSIZE, sharey=False)
-    for ax, scenario_label in zip(axes.flat, scenario_labels, strict=True):
-        subset = profiles[profiles["scenario_label"] == scenario_label]
-        train_duration_s = float(subset["train_duration_s"].iloc[0])
-        styles = line_styles(len(DOSIMETRY_MODELS))
-        for index, model in enumerate(DOSIMETRY_MODELS):
-            model_subset = subset[subset["dosimetry_model"] == model]
-            ax.plot(model_subset["time_s"], model_subset["temp_rise_C"], label=model, **styles[index])
-        ax.axvline(train_duration_s, color="0.4", linestyle=":", linewidth=1)
-        ax.set_title(scenario_label)
-        ax.set_xlabel("Time (s)")
-        ax.set_ylabel("Temperature rise (C)")
-    axes.flat[0].legend(loc="best", fontsize=8)
-    fig.tight_layout()
-    save_manuscript_figure(fig, outdir / "temperature_profiles.png", abbreviation_keys=("nsPEF",))
-    plt.close(fig)
+    with manuscript_style_context():
+        fig, axes = plt.subplots(
+            2,
+            2,
+            figsize=(MANUSCRIPT_SINGLE_COLUMN_WIDTH_IN, 3.65),
+            sharey=False,
+        )
+        legend_handles = None
+        legend_labels = None
+        for panel_index, (ax, scenario_label) in enumerate(
+            zip(axes.flat, scenario_labels, strict=True)
+        ):
+            subset = profiles[profiles["scenario_label"] == scenario_label]
+            train_duration_s = float(subset["train_duration_s"].iloc[0])
+            styles = line_styles(len(DOSIMETRY_MODELS))
+            for index, model in enumerate(DOSIMETRY_MODELS):
+                model_subset = subset[subset["dosimetry_model"] == model]
+                ax.plot(
+                    model_subset["time_s"],
+                    model_subset["temp_rise_C"],
+                    label=DOSIMETRY_MODEL_LABELS[model],
+                    **styles[index],
+                )
+            ax.axvline(train_duration_s, color="0.4", linestyle=":", linewidth=1)
+            ax.set_title(
+                DOSIMETRY_PANEL_TITLES.get(scenario_label, scenario_label),
+                fontsize=9,
+                pad=3,
+            )
+            ax.tick_params(labelsize=8.5)
+            ax.grid(axis="y", color="#D9D9D9", linewidth=0.5, alpha=0.6)
+            if panel_index >= 2:
+                ax.set_xlabel("Time (s)", fontsize=9)
+            if panel_index % 2 == 0:
+                ax.set_ylabel("Temperature rise (°C)", fontsize=9)
+            if panel_index == 0:
+                legend_handles, legend_labels = ax.get_legend_handles_labels()
+        if legend_handles is not None and legend_labels is not None:
+            fig.legend(
+                legend_handles,
+                legend_labels,
+                loc="upper center",
+                bbox_to_anchor=(0.5, 0.995),
+                ncol=3,
+                fontsize=8,
+                frameon=True,
+                facecolor="white",
+                edgecolor="#555555",
+                framealpha=0.96,
+                borderaxespad=0.0,
+                columnspacing=0.9,
+                handlelength=1.8,
+            )
+        fig.subplots_adjust(
+            left=0.18,
+            right=0.98,
+            bottom=0.12,
+            top=0.80,
+            wspace=0.50,
+            hspace=0.58,
+        )
+        save_manuscript_figure(fig, outdir / "temperature_profiles.png")
+        plt.close(fig)
 
 
 def plot_endpoint_summary(summary: pd.DataFrame, outdir: Path) -> None:
     """Plot end-of-train temperature rise by scenario and model."""
     outdir.mkdir(parents=True, exist_ok=True)
-    pivot = summary.pivot(index="scenario_label", columns="dosimetry_model", values="end_temp_rise_C")
+    pivot = summary.pivot(
+        index="scenario_label", columns="dosimetry_model", values="end_temp_rise_C"
+    )
     pivot = pivot.loc[summary["scenario_label"].drop_duplicates()]
     pivot = pivot.loc[:, list(DOSIMETRY_MODELS)]
-    ax = pivot.plot(kind="bar", figsize=MANUSCRIPT_LANDSCAPE_FIGSIZE, color=bar_colors(len(DOSIMETRY_MODELS)))
+    ax = pivot.plot(
+        kind="bar",
+        figsize=MANUSCRIPT_LANDSCAPE_FIGSIZE,
+        color=bar_colors(len(DOSIMETRY_MODELS)),
+    )
     for index, container in enumerate(ax.containers):
         for patch in container:
             patch.set_hatch(bar_hatch(index))
@@ -274,13 +350,19 @@ def plot_endpoint_summary(summary: pd.DataFrame, outdir: Path) -> None:
     ax.set_ylabel("End-of-train temperature rise (C)")
     ax.legend(title="Dosimetry model")
     ax.figure.tight_layout()
-    save_manuscript_figure(ax.figure, outdir / "end_temperature_rise.png", abbreviation_keys=("nsPEF",))
+    save_manuscript_figure(
+        ax.figure, outdir / "end_temperature_rise.png", abbreviation_keys=("nsPEF",)
+    )
     plt.close(ax.figure)
 
 
-def write_outputs(summary: pd.DataFrame, profiles: pd.DataFrame, outdir: Path, make_plots: bool) -> None:
+def write_outputs(
+    summary: pd.DataFrame, profiles: pd.DataFrame, outdir: Path, make_plots: bool
+) -> None:
     outdir.mkdir(parents=True, exist_ok=True)
-    STANDARD_ABBREVIATIONS.rename_columns(summary).to_csv(outdir / "dosimetry_model_summary.csv", index=False)
+    STANDARD_ABBREVIATIONS.rename_columns(summary).to_csv(
+        outdir / "dosimetry_model_summary.csv", index=False
+    )
     STANDARD_ABBREVIATIONS.rename_columns(profiles).to_csv(
         outdir / "dosimetry_temperature_profiles.csv",
         index=False,
@@ -301,7 +383,11 @@ def print_console_summary(summary: pd.DataFrame) -> None:
         "end_temp_rise_C",
         "thermal_retention_factor",
     ]
-    print(summary[columns].to_string(index=False, float_format=lambda value: f"{value:0.3f}"))
+    print(
+        summary[columns].to_string(
+            index=False, float_format=lambda value: f"{value:0.3f}"
+        )
+    )
 
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
@@ -313,7 +399,9 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         default="results/dosimetry_model_comparison",
         help="Directory for CSV and PNG outputs.",
     )
-    parser.add_argument("--no-plots", action="store_true", help="Write CSV outputs only.")
+    parser.add_argument(
+        "--no-plots", action="store_true", help="Write CSV outputs only."
+    )
     parser.add_argument(
         "--profile-points",
         type=int,

@@ -52,6 +52,7 @@ from electro_exocytosis.visualization.style import (  # noqa: E402
     FITTED_COLOR,
     FITTED_MODEL_LABEL,
     MANUSCRIPT_COLOR_DPI,
+    MANUSCRIPT_DOUBLE_COLUMN_WIDTH_IN,
     OBSERVED_COLOR,
     OBSERVED_MEAN_LABEL,
     OBSERVED_MEAN_SD_LABEL,
@@ -1513,20 +1514,14 @@ def build_kernel_frame(
     return pd.DataFrame(rows)
 
 
-def _measurement_count_note(frame: pd.DataFrame, column: str) -> str:
-    counts = sorted({int(value) for value in frame[column].dropna().unique()})
-    if not counts:
-        return "sample count unavailable"
-    if len(counts) == 1:
-        return f"n = {counts[0]}"
-    if counts == list(range(counts[0], counts[-1] + 1)):
-        return f"n = {counts[0]}–{counts[-1]}"
-    return "n = " + ", ".join(str(value) for value in counts)
-
-
 def plot_total_fit(total_frame: pd.DataFrame, output: Path) -> None:
     with manuscript_style_context():
-        figure, axes = plt.subplots(1, 3, figsize=(12.5, 3.8), sharey=False)
+        figure, axes = plt.subplots(
+            1,
+            3,
+            figsize=(MANUSCRIPT_DOUBLE_COLUMN_WIDTH_IN, 2.55),
+            sharey=False,
+        )
         for axis, exposure in zip(axes, EXPOSURES, strict=True):
             subset = total_frame[
                 total_frame["condition"] == exposure.condition
@@ -1576,18 +1571,19 @@ def plot_total_fit(total_frame: pd.DataFrame, output: Path) -> None:
         axes[0].set_ylabel(
             r"Particle concentration, 80--380 nm ($10^9$ particles mL$^{-1}$)"
         )
-        place_manuscript_legend(figure, axes, multi_panel=True, location="right")
-        figure.suptitle("Extracellular particle concentration", fontsize=11)
-        figure.subplots_adjust(
-            left=0.08, right=0.97, bottom=0.20, top=0.78, wspace=0.28
-        )
-        add_figure_note(
+        place_manuscript_legend(
             figure,
-            "Points and error bars show mean ± SD across available measurements "
-            f"({_measurement_count_note(total_frame, 'measurement_count')}; independence unconfirmed).",
-            x=0.08,
-            y=0.02,
-            reserve_bottom=0.18,
+            axes,
+            multi_panel=True,
+            location="bottom",
+            ncol=2,
+            frameon=True,
+            facecolor="white",
+            edgecolor="#555555",
+            framealpha=0.96,
+        )
+        figure.subplots_adjust(
+            left=0.10, right=0.99, bottom=0.20, top=0.96, wspace=0.38
         )
         save_manuscript_figure(figure, output, dpi=MANUSCRIPT_COLOR_DPI)
         plt.close(figure)
@@ -1596,7 +1592,11 @@ def plot_total_fit(total_frame: pd.DataFrame, output: Path) -> None:
 def plot_size_profiles(prediction: pd.DataFrame, output: Path) -> None:
     with manuscript_style_context():
         figure, axes = plt.subplots(
-            3, 3, figsize=(12.0, 8.8), sharex=True, sharey=False
+            3,
+            3,
+            figsize=(MANUSCRIPT_DOUBLE_COLUMN_WIDTH_IN, 5.45),
+            sharex=True,
+            sharey=False,
         )
         for row_index, exposure in enumerate(EXPOSURES):
             for column_index, time_h in enumerate(OBSERVATION_TIMES_H):
@@ -1641,26 +1641,44 @@ def plot_size_profiles(prediction: pd.DataFrame, output: Path) -> None:
                 )
                 style_manuscript_axis(
                     axis,
-                    title=(f"{CONDITION_LABELS[exposure.condition]}, {time_h:g} h"),
+                    title=(f"{time_h:g} h" if row_index == 0 else None),
                 )
                 axis.set_ylim(bottom=0.0)
-                if row_index == 2:
-                    axis.set_xlabel("Particle diameter (nm)")
                 if column_index == 0:
-                    axis.set_ylabel(r"Bin concentration ($10^9$ particles mL$^{-1}$)")
-        place_manuscript_legend(figure, axes, multi_panel=True, location="right")
-        figure.suptitle("Particle size distributions", fontsize=11)
-        figure.subplots_adjust(
-            left=0.08, right=0.97, bottom=0.12, top=0.92, wspace=0.24, hspace=0.34
+                    axis.text(
+                        0.97,
+                        0.90,
+                        CONDITION_LABELS[exposure.condition],
+                        transform=axis.transAxes,
+                        ha="right",
+                        va="top",
+                        fontsize=8.5,
+                        bbox={
+                            "facecolor": "white",
+                            "edgecolor": "#777777",
+                            "alpha": 0.94,
+                            "pad": 2.5,
+                        },
+                    )
+        handles, labels = axes[0, 0].get_legend_handles_labels()
+        axes[2, 2].legend(
+            handles,
+            labels,
+            loc="upper right",
+            fontsize=9,
+            frameon=True,
+            facecolor="white",
+            edgecolor="#555555",
+            framealpha=0.96,
         )
-        add_figure_note(
-            figure,
-            "Observed curves show mean ± SD across available measurements "
-            f"({_measurement_count_note(prediction, 'observed_measurement_count')}; independence unconfirmed). "
-            "Concentrations are integrated within 20-nm bands.",
-            x=0.08,
-            y=0.015,
-            reserve_bottom=0.10,
+        figure.supxlabel("Particle diameter (nm)", fontsize=10, y=0.02)
+        figure.supylabel(
+            r"Bin concentration ($10^9$ particles mL$^{-1}$)",
+            fontsize=10,
+            x=0.02,
+        )
+        figure.subplots_adjust(
+            left=0.12, right=0.99, bottom=0.10, top=0.96, wspace=0.25, hspace=0.26
         )
         save_manuscript_figure(figure, output, dpi=MANUSCRIPT_COLOR_DPI)
         plt.close(figure)
@@ -1910,7 +1928,7 @@ def plot_size_time_surface_overlay(
         grids.append((exposure, sizes_nm, times_h, observed_billions, fitted_billions))
 
     with manuscript_style_context():
-        figure = plt.figure(figsize=(14.8, 4.8))
+        figure = plt.figure(figsize=(MANUSCRIPT_DOUBLE_COLUMN_WIDTH_IN, 3.15))
         axes = []
         for panel_index, grid_values in enumerate(grids, start=1):
             exposure, sizes_nm, times_h, observed_billions, fitted_billions = (
@@ -1968,31 +1986,34 @@ def plot_size_time_surface_overlay(
                 depthshade=False,
                 label=FITTED_MODEL_LABEL if panel_index == 1 else None,
             )
-            axis.set_title(CONDITION_LABELS[exposure.condition])
-            axis.set_xlabel("Particle diameter (nm)", labelpad=7)
-            axis.set_ylabel("Time after exposure (h)", labelpad=7)
+            axis.set_title(CONDITION_LABELS[exposure.condition], pad=3)
+            axis.set_xlabel("Particle diameter (nm)", labelpad=3)
+            axis.set_ylabel("Time after exposure (h)", labelpad=3)
             axis.set_yticks(OBSERVATION_TIMES_H)
             axis.set_zlim(0.0, global_max_billions * 1.06)
             axis.view_init(elev=27, azim=-132)
-        place_manuscript_legend(figure, axes, multi_panel=True, location="right")
+            axis.tick_params(labelsize=8, pad=1)
+        handles, labels = axes[0].get_legend_handles_labels()
+        axes[2].legend(
+            handles,
+            labels,
+            loc="upper right",
+            fontsize=8.5,
+            frameon=True,
+            facecolor="white",
+            edgecolor="#555555",
+            framealpha=0.96,
+        )
         figure.text(
-            0.012,
+            0.006,
             0.50,
             r"Bin concentration ($10^9$ particles mL$^{-1}$)",
             ha="center",
             va="center",
             rotation="vertical",
         )
-        figure.suptitle("Particle concentration by size and time", fontsize=11)
         figure.subplots_adjust(
-            left=0.01, right=0.96, bottom=0.18, top=0.82, wspace=0.08
-        )
-        add_figure_note(
-            figure,
-            "Surfaces connect observed means at 0.5, 1, and 3 h; SD is shown in the profile figure and exported table. Values are concentrations within 20-nm bands.",
-            x=0.06,
-            y=0.015,
-            reserve_bottom=0.16,
+            left=0.02, right=0.995, bottom=0.08, top=0.96, wspace=0.03
         )
         save_manuscript_figure(figure, output, dpi=MANUSCRIPT_COLOR_DPI)
         plt.close(figure)
@@ -2005,17 +2026,17 @@ def plot_size_time_error_contours(
     """Plot signed and absolute bounded error on the measured size-time grid."""
 
     with manuscript_style_context():
-        figure = plt.figure(figsize=(13.2, 6.8))
+        figure = plt.figure(figsize=(MANUSCRIPT_DOUBLE_COLUMN_WIDTH_IN, 4.05))
         layout = figure.add_gridspec(
             2,
             4,
             width_ratios=(1.0, 1.0, 1.0, 0.055),
-            left=0.07,
+            left=0.10,
             right=0.94,
-            bottom=0.15,
-            top=0.84,
+            bottom=0.13,
+            top=0.96,
             wspace=0.18,
-            hspace=0.34,
+            hspace=0.27,
         )
         axes = np.empty((2, 3), dtype=object)
         for row_index in range(2):
@@ -2025,8 +2046,6 @@ def plot_size_time_error_contours(
                 )
         signed_color_axis = figure.add_subplot(layout[0, 3])
         absolute_color_axis = figure.add_subplot(layout[1, 3])
-        signed_levels = np.linspace(-100.0, 100.0, 9)
-        absolute_levels = np.linspace(0.0, 100.0, 6)
         signed_image = None
         absolute_image = None
         for column_index, exposure in enumerate(EXPOSURES):
@@ -2040,26 +2059,43 @@ def plot_size_time_error_contours(
                 exposure.condition,
                 "predicted_particles_per_ml",
             )
-            size_grid, time_grid = np.meshgrid(sizes_nm, times_h)
+            time_positions = np.arange(len(times_h), dtype=float)
+            size_grid, time_grid = np.meshgrid(sizes_nm, time_positions)
             signed_error = signed_normalized_error_percent(observed, fitted)
-            signed_image = axes[0, column_index].contourf(
-                size_grid,
-                time_grid,
-                signed_error,
-                levels=signed_levels,
-                cmap="RdBu_r",
+            half_bin_width_nm = 0.5 * float(np.median(np.diff(sizes_nm)))
+            image_extent = (
+                float(sizes_nm[0] - half_bin_width_nm),
+                float(sizes_nm[-1] + half_bin_width_nm),
+                -0.5,
+                float(len(times_h) - 0.5),
             )
-            absolute_image = axes[1, column_index].contourf(
-                size_grid,
-                time_grid,
+            signed_image = axes[0, column_index].imshow(
+                signed_error,
+                origin="lower",
+                aspect="auto",
+                interpolation="nearest",
+                extent=image_extent,
+                cmap="RdBu_r",
+                vmin=-100.0,
+                vmax=100.0,
+            )
+            absolute_image = axes[1, column_index].imshow(
                 np.abs(signed_error),
-                levels=absolute_levels,
+                origin="lower",
+                aspect="auto",
+                interpolation="nearest",
+                extent=image_extent,
                 cmap="magma",
+                vmin=0.0,
+                vmax=100.0,
             )
             axes[0, column_index].set_title(CONDITION_LABELS[exposure.condition])
             axes[1, column_index].set_xlabel("Particle diameter (nm)")
             for row_index in range(2):
-                axes[row_index, column_index].set_yticks(OBSERVATION_TIMES_H)
+                axes[row_index, column_index].set_yticks(
+                    time_positions,
+                    [f"{time_h:g}" for time_h in times_h],
+                )
                 axes[row_index, column_index].scatter(
                     size_grid,
                     time_grid,
@@ -2070,23 +2106,21 @@ def plot_size_time_error_contours(
                 axes[row_index, column_index].tick_params(
                     direction="out", width=0.8, length=3.0
                 )
+                if column_index > 0:
+                    axes[row_index, column_index].tick_params(labelleft=False)
             if column_index == 0:
-                axes[0, column_index].set_ylabel("Time after exposure (h)")
-                axes[1, column_index].set_ylabel("Time after exposure (h)")
+                axes[0, column_index].set_ylabel("Measured time (h)")
+                axes[1, column_index].set_ylabel("Measured time (h)")
         if signed_image is not None:
             signed_bar = figure.colorbar(signed_image, cax=signed_color_axis)
-            signed_bar.set_label("Signed normalized difference (%)")
+            signed_bar.ax.set_title(
+                "Signed normalized\ndifference (%)", fontsize=8.0, pad=5.0
+            )
         if absolute_image is not None:
             absolute_bar = figure.colorbar(absolute_image, cax=absolute_color_axis)
-            absolute_bar.set_label("Absolute normalized difference (%)")
-        figure.suptitle("Model error by particle size and time", fontsize=11)
-        add_figure_note(
-            figure,
-            "Normalized difference = 100(model − experiment)/(model + experiment). Blue indicates underprediction; red indicates overprediction. Contours connect only the measured 0.5, 1, and 3 h slices. Low-concentration tail bands can show large relative differences; no detection-limit mask was available.",
-            x=0.07,
-            y=0.015,
-            reserve_bottom=0.14,
-        )
+            absolute_bar.ax.set_title(
+                "Absolute normalized\ndifference (%)", fontsize=8.0, pad=5.0
+            )
         save_manuscript_figure(figure, output, dpi=MANUSCRIPT_COLOR_DPI)
         plt.close(figure)
 
@@ -2173,7 +2207,11 @@ def plot_goodness_of_fit(
     """Show agreement and the distribution of errors across design cells."""
 
     with manuscript_style_context():
-        figure, axes = plt.subplots(2, 2, figsize=(10.8, 8.0))
+        figure, axes = plt.subplots(
+            2,
+            2,
+            figsize=(MANUSCRIPT_DOUBLE_COLUMN_WIDTH_IN, 5.35),
+        )
         total_axis, diameter_axis, total_error_axis, size_error_axis = axes.ravel()
 
         for condition_index, exposure in enumerate(EXPOSURES):
@@ -2233,9 +2271,9 @@ def plot_goodness_of_fit(
         total_axis.set_ylim(total_low, total_high)
         style_manuscript_axis(
             total_axis,
-            x_label=r"Observed mean ($10^9$ particles mL$^{-1}$)",
-            y_label=r"Fitted model ($10^9$ particles mL$^{-1}$)",
-            title="Total concentration",
+            x_label=r"Observed ($10^9$ particles mL$^{-1}$)",
+            y_label=r"Fitted ($10^9$ particles mL$^{-1}$)",
+            title="Integrated concentration (80--380 nm)",
             x_scale="log",
             y_scale="log",
         )
@@ -2336,8 +2374,10 @@ def plot_goodness_of_fit(
             y_label="Hellinger distance",
             title="Size-distribution error",
         )
-        total_error_axis.set_ylim(bottom=0.0)
-        size_error_axis.set_ylim(0.0, 1.0)
+        total_error_max = float(total_frame["symmetric_absolute_percent_error"].max())
+        total_error_axis.set_ylim(0.0, max(80.0, 2.05 * total_error_max))
+        size_error_max = float(distribution_frame["hellinger_distance"].max())
+        size_error_axis.set_ylim(0.0, min(1.0, max(0.15, 1.25 * size_error_max)))
 
         for exposure in EXPOSURES:
             total_axis.scatter(
@@ -2355,17 +2395,25 @@ def plot_goodness_of_fit(
                 marker=TIME_MARKERS[float(time_h)],
                 label=f"{time_h:g} h",
             )
-        place_manuscript_legend(figure, axes, multi_panel=True, location="right")
-        figure.suptitle("In-sample goodness of fit", fontsize=11)
-        figure.subplots_adjust(
-            left=0.10, right=0.97, bottom=0.17, top=0.91, wspace=0.30, hspace=0.38
+        legend_handles, legend_labels = total_axis.get_legend_handles_labels()
+        total_error_axis.legend(
+            legend_handles,
+            legend_labels,
+            title="Condition / time",
+            loc="upper right",
+            ncol=2,
+            fontsize=8.5,
+            title_fontsize=8.5,
+            frameon=True,
+            facecolor="white",
+            edgecolor="#444444",
+            framealpha=1.0,
+            borderpad=0.6,
+            columnspacing=0.9,
+            handletextpad=0.5,
         )
-        add_figure_note(
-            figure,
-            "All metrics are in-sample diagnostics. Horizontal error bars show observed SD. Mean-diameter points and SD are calculated across whole-histogram diameter means. Boxes summarize only the three measured times per condition and are descriptive, not confidence intervals.",
-            x=0.10,
-            y=0.02,
-            reserve_bottom=0.15,
+        figure.subplots_adjust(
+            left=0.12, right=0.99, bottom=0.12, top=0.97, wspace=0.34, hspace=0.38
         )
         save_manuscript_figure(figure, output, dpi=MANUSCRIPT_COLOR_DPI)
         plt.close(figure)

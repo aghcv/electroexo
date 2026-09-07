@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+# ruff: noqa: E402 -- project imports follow the local path bootstrap below.
+
 import argparse
 import os
 import sys
@@ -7,7 +9,9 @@ import tempfile
 from collections.abc import Sequence
 from pathlib import Path
 
-os.environ.setdefault("MPLCONFIGDIR", str(Path(tempfile.gettempdir()) / "electroexo_matplotlib"))
+os.environ.setdefault(
+    "MPLCONFIGDIR", str(Path(tempfile.gettempdir()) / "electroexo_matplotlib")
+)
 
 import matplotlib
 
@@ -30,7 +34,9 @@ from electro_exocytosis.models.pulse import compute_pulse_descriptors
 from electro_exocytosis.abbreviations import STANDARD_ABBREVIATIONS
 from electro_exocytosis.visualization.style import (
     MANUSCRIPT_LANDSCAPE_FIGSIZE,
+    MANUSCRIPT_SINGLE_COLUMN_WIDTH_IN,
     line_styles,
+    manuscript_style_context,
     save_manuscript_figure,
 )
 
@@ -51,7 +57,9 @@ def build_response_table() -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def _response_row(amplitude_kV_cm: float, pulse_width_ns: float, radius_um: float) -> dict[str, float | str]:
+def _response_row(
+    amplitude_kV_cm: float, pulse_width_ns: float, radius_um: float
+) -> dict[str, float | str]:
     pulse = PulseConfig(
         amplitude_kV_cm=amplitude_kV_cm,
         pulse_width_ns=pulse_width_ns,
@@ -65,7 +73,9 @@ def _response_row(amplitude_kV_cm: float, pulse_width_ns: float, radius_um: floa
     )
     descriptors = compute_pulse_descriptors(pulse, exposure)
     dosimetry = compute_dosimetry(descriptors, exposure)
-    state = compute_electrodynamics_state(descriptors, dosimetry, CellStateConfig(), params)
+    state = compute_electrodynamics_state(
+        descriptors, dosimetry, CellStateConfig(), params
+    )
     return {
         "amplitude_kV_cm": amplitude_kV_cm,
         "pulse_width_ns": pulse_width_ns,
@@ -88,33 +98,70 @@ def plot_pulse_width_response(summary: pd.DataFrame, outdir: Path) -> None:
     radius_um = 10.0
     subset = summary[summary["cell_radius_um"] == radius_um]
     styles = line_styles(len(FIELD_STRENGTHS_KV_CM))
-    fig, axes = plt.subplots(1, 2, figsize=MANUSCRIPT_LANDSCAPE_FIGSIZE)
-
-    charging = subset[subset["amplitude_kV_cm"] == FIELD_STRENGTHS_KV_CM[0]]
-    axes[0].semilogx(
-        charging["pulse_width_ns"],
-        charging["membrane_charging_factor"],
-        **styles[0],
-    )
-    axes[0].set_xlabel("Pulse width (ns)")
-    axes[0].set_ylabel("Membrane charging factor")
-    axes[0].set_ylim(0.0, 1.05)
-
-    for index, amplitude_kV_cm in enumerate(FIELD_STRENGTHS_KV_CM):
-        field_subset = subset[subset["amplitude_kV_cm"] == amplitude_kV_cm]
-        axes[1].semilogx(
-            field_subset["pulse_width_ns"],
-            field_subset["delta_Vm_V"],
-            label=f"{amplitude_kV_cm:g} kV/cm",
-            **styles[index],
+    with manuscript_style_context():
+        fig, axes = plt.subplots(
+            2,
+            1,
+            figsize=(MANUSCRIPT_SINGLE_COLUMN_WIDTH_IN, 4.35),
+            sharex=True,
         )
-    axes[1].axhline(PERMEABILIZATION_REFERENCE_V, color="0.35", linestyle=":", linewidth=1)
-    axes[1].set_xlabel("Pulse width (ns)")
-    axes[1].set_ylabel("Induced membrane voltage (V)")
-    axes[1].legend(title="Peak field", fontsize=8)
-    fig.tight_layout()
-    save_manuscript_figure(fig, outdir / "membrane_voltage_by_pulse_width.png", abbreviation_keys=("PM",))
-    plt.close(fig)
+
+        charging = subset[subset["amplitude_kV_cm"] == FIELD_STRENGTHS_KV_CM[0]]
+        axes[0].semilogx(
+            charging["pulse_width_ns"],
+            charging["membrane_charging_factor"],
+            **styles[0],
+        )
+        axes[0].set_title("Membrane charging", fontsize=9.5, pad=3)
+        axes[0].set_ylabel("Charging fraction", fontsize=9)
+        axes[0].set_ylim(0.0, 1.05)
+
+        for index, amplitude_kV_cm in enumerate(FIELD_STRENGTHS_KV_CM):
+            field_subset = subset[subset["amplitude_kV_cm"] == amplitude_kV_cm]
+            axes[1].semilogx(
+                field_subset["pulse_width_ns"],
+                field_subset["delta_Vm_V"],
+                label=f"{amplitude_kV_cm:g} kV cm$^{{-1}}$",
+                **styles[index],
+            )
+        axes[1].axhline(
+            PERMEABILIZATION_REFERENCE_V,
+            color="0.35",
+            linestyle=":",
+            linewidth=1,
+            label="Reference threshold",
+        )
+        axes[1].set_title("Induced membrane voltage", fontsize=9.5, pad=3)
+        axes[1].set_xlabel("Pulse width (ns)", fontsize=9)
+        axes[1].set_ylabel("Voltage (V)", fontsize=9)
+        handles, labels = axes[1].get_legend_handles_labels()
+        fig.legend(
+            handles,
+            labels,
+            loc="upper center",
+            bbox_to_anchor=(0.5, 0.995),
+            ncol=2,
+            fontsize=8,
+            frameon=True,
+            facecolor="white",
+            edgecolor="#555555",
+            framealpha=0.96,
+            borderaxespad=0.0,
+            columnspacing=1.0,
+            handlelength=1.8,
+        )
+        for axis in axes:
+            axis.tick_params(labelsize=8.5)
+            axis.grid(axis="y", color="#D9D9D9", linewidth=0.5, alpha=0.6)
+        fig.subplots_adjust(
+            left=0.19,
+            right=0.98,
+            bottom=0.11,
+            top=0.79,
+            hspace=0.42,
+        )
+        save_manuscript_figure(fig, outdir / "membrane_voltage_by_pulse_width.png")
+        plt.close(fig)
 
 
 def plot_radius_sensitivity(summary: pd.DataFrame, outdir: Path) -> None:
@@ -168,7 +215,11 @@ def print_console_summary(summary: pd.DataFrame) -> None:
         & (summary["amplitude_kV_cm"].isin((0.5, 1.0)))
         & (summary["pulse_width_ns"].isin((10.0, 100.0, 300.0)))
     ]
-    print(compact[columns].to_string(index=False, float_format=lambda value: f"{value:0.3f}"))
+    print(
+        compact[columns].to_string(
+            index=False, float_format=lambda value: f"{value:0.3f}"
+        )
+    )
 
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
@@ -180,7 +231,9 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         default="results/electrodynamics_model_comparison",
         help="Directory for CSV and PNG outputs.",
     )
-    parser.add_argument("--no-plots", action="store_true", help="Write CSV outputs only.")
+    parser.add_argument(
+        "--no-plots", action="store_true", help="Write CSV outputs only."
+    )
     return parser.parse_args(argv)
 
 

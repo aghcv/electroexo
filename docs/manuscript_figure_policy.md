@@ -19,7 +19,7 @@ manuscript figure.
   points behind the mean and SD. This is especially important for fewer than
   five batches.
 - A single available observation may be plotted, but it has no SD error bar.
-  Record its sample count in the exported summary table or figure note.
+  Record its sample count in the exported summary table and manuscript caption.
 - The computational fit is evaluated against the batch mean. The same batch
   aggregation must be used consistently in the objective, metrics, tables, and
   figures.
@@ -60,8 +60,11 @@ place_manuscript_legend(figure, axis)
 
 ## Legends
 
-- Legends always sit outside the plotting region so they cannot obscure data
-  or error bars.
+- Legends normally sit outside the plotting region so they cannot obscure data
+  or error bars. A multi-panel figure may instead place its one shared legend
+  in demonstrably unused panel space when this materially improves the printed
+  scale. Such an inset legend must have an opaque white background, a visible
+  boundary, and no overlap with observations, error bars, or model curves.
 - A single-panel figure has one legend outside the axis, normally on the right.
 - A multi-panel figure has exactly one deduplicated figure-level legend shared
   by all panels. Do not repeat the legend in every panel.
@@ -91,14 +94,29 @@ place_manuscript_legend(figure, axis)
   encoded field, but the same figure family must provide variability through
   a companion panel, conventional error-bar figure, or exported SD table.
 
-## Figure notes
+## Figure notes and captions
 
-Use `add_figure_note` sparingly for information required to interpret the
-visual encoding but too detailed for a label, for example: `Points and bars
-show mean ± SD across available measurements (n = 3).` Do not put study
-history, file provenance, or parameter interpretation into the plotted area.
-Provenance and complete sample counts belong in the generated data tables and
-methods documentation.
+- Do not place prose footers, abbreviation lists, sample-count notes, formulas,
+  or methodological qualifications inside manuscript image files. Put that
+  information in the LaTeX caption and generated data tables, where it remains
+  readable and editable.
+- Reserve in-figure text for concise panel titles, axis labels, legends, and
+  data annotations that directly encode a plotted value.
+- `add_figure_note` remains available for exploratory or standalone diagnostic
+  exports, but manuscript-bound plots must omit it.
+
+## Physical dimensions and typography
+
+- Generate figures at their intended printed width rather than creating a
+  12--16-inch canvas and shrinking it in LaTeX. Use approximately 3.45 inches
+  for one-column figures and 7.10 inches for two-column figures.
+- Judge type size after manuscript placement. Axis labels and legends should
+  remain at least 8 points at final size; tick labels should remain at least
+  7.5 points. Higher raster resolution improves line sharpness but does not
+  compensate for physically undersized text.
+- Reclaim space before reducing type: remove redundant supertitles, share axis
+  labels where appropriate, shorten repeated labels, and use otherwise empty
+  panel regions for a framed shared legend.
 
 ## Fit diagnostics and parameter plots
 
@@ -129,9 +147,11 @@ Every new or modified plot generator should:
 1. aggregate repeated observations in the experimental bridge before fitting;
 2. use `manuscript_style_context` and the semantic observed/model/error colors;
 3. use generic labels and physical units;
-4. place one external legend with `place_manuscript_legend`;
+4. place one shared legend with `place_manuscript_legend`, or use a framed
+   in-panel legend only when it occupies verified empty space;
 5. save through `save_manuscript_figure`; and
-6. include a focused render or smoke test that verifies the output is created.
+6. keep prose qualifications in the caption rather than the image; and
+7. include a focused render or smoke test that verifies the output is created.
 
 The current default is 1200 dpi for line art. Color-dense surfaces, heatmaps,
 and contours may use `MANUSCRIPT_COLOR_DPI` (600 dpi) to keep file sizes

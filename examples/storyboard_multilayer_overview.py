@@ -18,7 +18,11 @@ from electro_exocytosis.config import (
     SimulationScenario,
 )
 from electro_exocytosis.simulation import Simulation, SimulationResult
-from electro_exocytosis.visualization.style import save_manuscript_figure
+from electro_exocytosis.visualization.style import (
+    MANUSCRIPT_DOUBLE_COLUMN_WIDTH_IN,
+    manuscript_style_context,
+    save_manuscript_figure,
+)
 
 
 @dataclass(frozen=True)
@@ -98,7 +102,9 @@ def build_storyboard_dataset(
     rows: list[dict[str, float | str]] = []
     outputs: list[tuple[StoryScenarioSpec, SimulationResult]] = []
     for spec in scenarios:
-        result = Simulation(_build_scenario(spec), params_override=spec.parameter_overrides).run()
+        result = Simulation(
+            _build_scenario(spec), params_override=spec.parameter_overrides
+        ).run()
         outputs.append((spec, result))
         rows.append(
             {
@@ -111,8 +117,12 @@ def build_storyboard_dataset(
                 "peak_repair_state": result.summary["peak_repair_state"],
                 "peak_secretory_bias": result.summary["peak_secretory_bias"],
                 "cumulative_small_EV": result.summary["cumulative_small_EV"],
-                "cumulative_medium_large_EV": result.summary["cumulative_medium_large_EV"],
-                "cumulative_apoptotic_body": result.summary["cumulative_apoptotic_body"],
+                "cumulative_medium_large_EV": result.summary[
+                    "cumulative_medium_large_EV"
+                ],
+                "cumulative_apoptotic_body": result.summary[
+                    "cumulative_apoptotic_body"
+                ],
                 "viability_fraction": result.summary["viability_fraction"],
             }
         )
@@ -130,7 +140,22 @@ def write_outputs(
         outdir / "multilayer_storyboard_summary.csv",
         index=False,
     )
-    STANDARD_ABBREVIATIONS.write_bundle(outdir, keys=("nsPEF", "EV", "PM", "ER", "MVB", "ROS", "ATP", "PS", "sEV", "m/lEV", "AB"))
+    STANDARD_ABBREVIATIONS.write_bundle(
+        outdir,
+        keys=(
+            "nsPEF",
+            "EV",
+            "PM",
+            "ER",
+            "MVB",
+            "ROS",
+            "ATP",
+            "PS",
+            "sEV",
+            "m/lEV",
+            "AB",
+        ),
+    )
     if make_plots:
         plot_storyboard(outputs, outdir / "multilayer_storyboard.png")
 
@@ -146,48 +171,106 @@ def plot_storyboard(
 
     n_rows = len(outputs)
     n_cols = 5
-    fig, axes = plt.subplots(n_rows, n_cols, figsize=(16.0, 8.8))
-    if n_rows == 1:
-        axes = np.array([axes])
+    with manuscript_style_context():
+        fig, axes = plt.subplots(
+            n_rows,
+            n_cols,
+            figsize=(MANUSCRIPT_DOUBLE_COLUMN_WIDTH_IN, 5.2),
+        )
+        if n_rows == 1:
+            axes = np.array([axes])
 
-    layer3_ca_max = max(float(result.state_timeseries["Ca_i"].max()) for _, result in outputs)
-    layer3_ros_max = max(float(result.state_timeseries["ROS"].max()) for _, result in outputs)
-
-    col_titles = [
-        "Layer 1\nDosimetry",
-        "Layer 2\nElectrodynamics",
-        "Layer 3\nCa/ROS/ATP",
-        "Layer 4\nRepair State",
-        "Layer 5\nEV Output",
-    ]
-    for col, title in enumerate(col_titles):
-        axes[0, col].set_title(title, fontsize=10, pad=10)
-
-    for row, (spec, result) in enumerate(outputs):
-        _plot_layer1_panel(axes[row, 0], result)
-        _plot_layer2_panel(axes[row, 1], result)
-        _plot_layer3_panel(axes[row, 2], result, layer3_ca_max=layer3_ca_max, layer3_ros_max=layer3_ros_max)
-        _plot_layer4_panel(axes[row, 3], result)
-        _plot_layer5_panel(axes[row, 4], result)
-        axes[row, 0].text(
-            -0.35,
-            0.5,
-            spec.label,
-            transform=axes[row, 0].transAxes,
-            rotation=90,
-            va="center",
-            ha="center",
-            fontsize=10,
-            fontweight="bold",
+        layer3_ca_max = max(
+            float(result.state_timeseries["Ca_i"].max()) for _, result in outputs
+        )
+        layer3_ros_max = max(
+            float(result.state_timeseries["ROS"].max()) for _, result in outputs
         )
 
-    fig.tight_layout(rect=(0.04, 0.02, 1.0, 1.0))
-    save_manuscript_figure(
-        fig,
-        output_path,
-        abbreviation_keys=("PM", "ER", "MVB", "ROS", "ATP", "PS", "EV", "sEV", "m/lEV", "AB"),
-    )
-    plt.close(fig)
+        col_titles = [
+            "L1\nDosimetry",
+            "L2\nElectrodynamics",
+            "L3\nCa/ROS/ATP",
+            "L4\nRepair",
+            "L5\nEV output",
+        ]
+        for col, title in enumerate(col_titles):
+            axes[0, col].set_title(title, fontsize=9, pad=5)
+
+        concise_row_labels = {
+            "mild_reversible_window": "Mild",
+            "productive_secretory_window": "Productive",
+            "injury_apoptotic_window": "Injury",
+        }
+        row_labels = tuple(
+            concise_row_labels.get(spec.name, spec.label) for spec, _ in outputs
+        )
+        for row, (_, result) in enumerate(outputs):
+            _plot_layer1_panel(axes[row, 0], result)
+            _plot_layer2_panel(axes[row, 1], result)
+            _plot_layer3_panel(
+                axes[row, 2],
+                result,
+                layer3_ca_max=layer3_ca_max,
+                layer3_ros_max=layer3_ros_max,
+            )
+            _plot_layer4_panel(axes[row, 3], result)
+            _plot_layer5_panel(axes[row, 4], result)
+            for col in range(n_cols):
+                if row != n_rows - 1:
+                    axes[row, col].set_xlabel("")
+                    axes[row, col].tick_params(axis="x", labelbottom=False)
+                if row != n_rows // 2:
+                    axes[row, col].set_ylabel("")
+
+        fig.subplots_adjust(
+            left=0.11,
+            right=0.995,
+            bottom=0.16,
+            top=0.89,
+            wspace=0.46,
+            hspace=0.24,
+        )
+
+        for row, label in enumerate(row_labels):
+            position = axes[row, 0].get_position()
+            fig.text(
+                0.018,
+                (position.y0 + position.y1) / 2.0,
+                label,
+                rotation=90,
+                va="center",
+                ha="center",
+                fontsize=8.5,
+                fontweight="bold",
+                bbox={
+                    "boxstyle": "round,pad=0.18",
+                    "facecolor": "white",
+                    "edgecolor": "#666666",
+                    "linewidth": 0.7,
+                },
+            )
+
+        layer3_handles, layer3_labels = axes[0, 2].get_legend_handles_labels()
+        layer4_handles, layer4_labels = axes[0, 3].get_legend_handles_labels()
+        fig.legend(
+            layer3_handles + layer4_handles,
+            layer3_labels + layer4_labels,
+            loc="lower center",
+            bbox_to_anchor=(0.55, 0.018),
+            ncol=6,
+            fontsize=8,
+            frameon=True,
+            facecolor="white",
+            edgecolor="#555555",
+            framealpha=1.0,
+            borderpad=0.35,
+            handlelength=1.8,
+            handletextpad=0.4,
+            columnspacing=0.9,
+        )
+        save_manuscript_figure(fig, output_path)
+        plt.close(fig)
 
 
 def _build_scenario(spec: StoryScenarioSpec) -> SimulationScenario:
@@ -216,7 +299,9 @@ def _plot_layer1_panel(ax, result: SimulationResult) -> None:
     scenario = result.parameters_used["scenario"]
     descriptors = result.parameters_used["pulse_descriptors"]
     temp0 = float(scenario["exposure"]["temperature_C"])
-    t_train = max(float(descriptors["train_duration_s"]), float(descriptors["pulse_width_s"]))
+    t_train = max(
+        float(descriptors["train_duration_s"]), float(descriptors["pulse_width_s"])
+    )
     horizon = t_train + max(t_train, 10.0)
     times = np.linspace(0.0, horizon, 160)
     tau = float(scenario["exposure"]["thermal_relaxation_time_s"])
@@ -228,17 +313,10 @@ def _plot_layer1_panel(ax, result: SimulationResult) -> None:
     rise[cooling] = rise[cooling] * np.exp(-(times[cooling] - t_train) / tau)
     ax.plot(times, temp0 + rise, color="#4477AA", linewidth=1.6)
     ax.axvline(t_train, color="0.5", linestyle=":", linewidth=1.0)
-    ax.set_ylabel("Temperature (C)", fontsize=8)
-    ax.set_xlabel("Time (s)", fontsize=8)
-    ax.tick_params(labelsize=7)
-    ax.text(
-        0.03,
-        0.08,
-        f"dose={result.summary['dose_index']:.2f}\nend temperature rise={dosimetry['temperature_rise_K']:.2f} C",
-        transform=ax.transAxes,
-        fontsize=7,
-        bbox={"facecolor": "white", "edgecolor": "0.85", "alpha": 0.8},
-    )
+    ax.set_ylabel("Temperature (°C)", fontsize=8, labelpad=2)
+    ax.set_xlabel("Time (s)", fontsize=8, labelpad=2)
+    ax.locator_params(axis="both", nbins=3)
+    _style_storyboard_axis(ax)
 
 
 def _plot_layer2_panel(ax, result: SimulationResult) -> None:
@@ -254,21 +332,15 @@ def _plot_layer2_panel(ax, result: SimulationResult) -> None:
     ax.bar(x, values, color=["#111111", "#555555", "#888888", "#BBBBBB"], width=0.68)
     ax.axhline(0.25, color="#CC6677", linestyle=":", linewidth=1.0)
     ax.set_xticks(x)
-    ax.set_xticklabels(labels, fontsize=7)
-    ax.set_ylabel("Induced membrane voltage (V)", fontsize=8)
-    ax.tick_params(labelsize=7)
-    ax.text(
-        0.03,
-        0.88,
-        f"membrane permeability={electro['membrane_permeability']:.2f}\npore density={electro['pore_density']/1e12:.2f} um^-2",
-        transform=ax.transAxes,
-        fontsize=7,
-        va="top",
-        bbox={"facecolor": "white", "edgecolor": "0.85", "alpha": 0.8},
-    )
+    ax.set_xticklabels(labels)
+    ax.set_ylabel("Voltage (V)", fontsize=8, labelpad=2)
+    ax.locator_params(axis="y", nbins=3)
+    _style_storyboard_axis(ax)
 
 
-def _plot_layer3_panel(ax, result: SimulationResult, *, layer3_ca_max: float, layer3_ros_max: float) -> None:
+def _plot_layer3_panel(
+    ax, result: SimulationResult, *, layer3_ca_max: float, layer3_ros_max: float
+) -> None:
     state = result.state_timeseries
     t = state["t"]
     ax.plot(
@@ -276,7 +348,7 @@ def _plot_layer3_panel(ax, result: SimulationResult, *, layer3_ca_max: float, la
         state["Ca_i"] / max(layer3_ca_max, 1e-12),
         color="#4477AA",
         linewidth=1.5,
-        label=STANDARD_ABBREVIATIONS.plot_label("Ca_i"),
+        label=r"Ca$^{2+}$",
     )
     ax.plot(
         t,
@@ -284,61 +356,95 @@ def _plot_layer3_panel(ax, result: SimulationResult, *, layer3_ca_max: float, la
         color="#EE6677",
         linewidth=1.5,
         linestyle="--",
-        label=STANDARD_ABBREVIATIONS.plot_label("ROS"),
+        label="ROS",
     )
-    ax.plot(t, state["ATP"], color="#228833", linewidth=1.5, linestyle="-.", label=STANDARD_ABBREVIATIONS.plot_label("ATP"))
-    ax.set_xlabel("Time (s)", fontsize=8)
-    ax.set_ylabel("Normalized state", fontsize=8)
+    ax.plot(
+        t,
+        state["ATP"],
+        color="#228833",
+        linewidth=1.5,
+        linestyle="-.",
+        label="ATP",
+    )
+    ax.set_xlabel("Time (s)", fontsize=8, labelpad=2)
+    ax.set_ylabel("Normalized state", fontsize=8, labelpad=2)
     ax.set_ylim(0.0, 1.05)
     ax.set_xlim(0.0, 300.0)
-    ax.tick_params(labelsize=7)
-    if ax is ax.figure.axes[2]:
-        ax.legend(fontsize=6, loc="upper right")
+    ax.set_xticks([0.0, 150.0, 300.0])
+    ax.set_yticks([0.0, 0.5, 1.0])
+    _style_storyboard_axis(ax)
 
 
 def _plot_layer4_panel(ax, result: SimulationResult) -> None:
     state = result.state_timeseries
     t = state["t"]
-    ax.plot(t, state["PS_exposure"], color="#AA3377", linewidth=1.5, label=STANDARD_ABBREVIATIONS.plot_label("PS_exposure"))
-    ax.plot(t, state["repair_state"], color="#228833", linewidth=1.5, linestyle="--", label="repair")
-    ax.plot(t, state["actin_disruption"], color="#CCBB44", linewidth=1.5, linestyle="-.", label="actin")
-    ax.set_xlabel("Time (s)", fontsize=8)
-    ax.set_ylabel("State", fontsize=8)
+    ax.plot(
+        t,
+        state["PS_exposure"],
+        color="#AA3377",
+        linewidth=1.5,
+        label="PS",
+    )
+    ax.plot(
+        t,
+        state["repair_state"],
+        color="#228833",
+        linewidth=1.5,
+        linestyle="--",
+        label="Repair",
+    )
+    ax.plot(
+        t,
+        state["actin_disruption"],
+        color="#CCBB44",
+        linewidth=1.5,
+        linestyle="-.",
+        label="Actin",
+    )
+    ax.set_xlabel("Time (s)", fontsize=8, labelpad=2)
+    ax.set_ylabel("State", fontsize=8, labelpad=2)
     ax.set_ylim(0.0, 1.05)
     ax.set_xlim(0.0, 300.0)
-    ax.tick_params(labelsize=7)
-    if ax is ax.figure.axes[3]:
-        ax.legend(fontsize=6, loc="upper right")
+    ax.set_xticks([0.0, 150.0, 300.0])
+    ax.set_yticks([0.0, 0.5, 1.0])
+    _style_storyboard_axis(ax)
 
 
 def _plot_layer5_panel(ax, result: SimulationResult) -> None:
     sev = float(result.summary["cumulative_small_EV"])
     mlev = float(result.summary["cumulative_medium_large_EV"])
     ab = float(result.summary["cumulative_apoptotic_body"])
-    total = sev + mlev + ab
     labels = ["sEV", "m/lEV", "AB"]
     colors = ["#4477AA", "#228833", "#EE6677"]
     values = [sev, mlev, ab]
     ax.bar(labels, values, color=colors, width=0.72)
     ax.set_yscale("log")
-    ax.set_ylabel("Cumulative EV output", fontsize=8)
-    ax.tick_params(labelsize=7)
-    ax.tick_params(labelsize=7)
-    ax.text(
-        0.02,
-        0.92,
-        f"total={total:.2f}\nviability={result.summary['viability_fraction']:.2f}",
-        transform=ax.transAxes,
-        fontsize=7,
-        va="top",
-        bbox={"facecolor": "white", "edgecolor": "0.85", "alpha": 0.8},
+    ax.set_ylabel("EV output", fontsize=8, labelpad=2)
+    _style_storyboard_axis(ax)
+
+
+def _style_storyboard_axis(ax) -> None:
+    ax.tick_params(
+        axis="both",
+        which="both",
+        direction="out",
+        labelsize=7.5,
+        length=2.5,
+        width=0.7,
+        pad=1.5,
     )
+    for spine in ax.spines.values():
+        spine.set_linewidth(0.7)
 
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--out", type=Path, default=Path("results/multilayer_storyboard"))
-    parser.add_argument("--no-plots", action="store_true", help="Skip PNG plot generation.")
+    parser.add_argument(
+        "--out", type=Path, default=Path("results/multilayer_storyboard")
+    )
+    parser.add_argument(
+        "--no-plots", action="store_true", help="Skip PNG plot generation."
+    )
     return parser.parse_args(argv)
 
 

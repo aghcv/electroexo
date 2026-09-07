@@ -19,9 +19,18 @@ from electro_exocytosis.config import (
 from electro_exocytosis.simulation import Simulation
 from electro_exocytosis.visualization.style import (
     MANUSCRIPT_LANDSCAPE_FIGSIZE,
+    MANUSCRIPT_SINGLE_COLUMN_WIDTH_IN,
     line_styles,
+    manuscript_style_context,
     save_manuscript_figure,
 )
+
+SCENARIO_LABELS = {
+    "baseline_repair": "Reference",
+    "buffered_microdomain": r"Buffered Ca$^{2+}$",
+    "calpain_inhibited": "Calpain inhibited",
+    "annexin_lysosome_strong": "Enhanced repair",
+}
 
 
 @dataclass(frozen=True)
@@ -34,11 +43,15 @@ SCENARIOS = (
     RepairScenarioSpec(name="baseline_repair"),
     RepairScenarioSpec(
         name="buffered_microdomain",
-        parameter_overrides={"remodeling_repair": {"microdomain_gain": 0.5, "microdomain_pore_gain": 0.5}},
+        parameter_overrides={
+            "remodeling_repair": {"microdomain_gain": 0.5, "microdomain_pore_gain": 0.5}
+        },
     ),
     RepairScenarioSpec(
         name="calpain_inhibited",
-        parameter_overrides={"remodeling_repair": {"K_calpain_uM": 8.0, "actin_calpain_weight": 0.2}},
+        parameter_overrides={
+            "remodeling_repair": {"K_calpain_uM": 8.0, "actin_calpain_weight": 0.2}
+        },
     ),
     RepairScenarioSpec(
         name="annexin_lysosome_strong",
@@ -60,7 +73,9 @@ def build_response_table() -> tuple[pd.DataFrame, pd.DataFrame]:
     timeseries_frames: list[pd.DataFrame] = []
 
     for spec in SCENARIOS:
-        result = Simulation(_build_scenario(spec), params_override=spec.parameter_overrides).run()
+        result = Simulation(
+            _build_scenario(spec), params_override=spec.parameter_overrides
+        ).run()
         state = result.state_timeseries
         summary_rows.append(
             {
@@ -71,8 +86,12 @@ def build_response_table() -> tuple[pd.DataFrame, pd.DataFrame]:
                 "peak_annexin_activity": result.summary["peak_annexin_activity"],
                 "peak_actin_disruption": result.summary["peak_actin_disruption"],
                 "peak_repair_state": result.summary["peak_repair_state"],
-                "cumulative_repair_shedding": result.summary["cumulative_repair_shedding"],
-                "cumulative_medium_large_EV": result.summary["cumulative_medium_large_EV"],
+                "cumulative_repair_shedding": result.summary[
+                    "cumulative_repair_shedding"
+                ],
+                "cumulative_medium_large_EV": result.summary[
+                    "cumulative_medium_large_EV"
+                ],
                 "viability_fraction": result.summary["viability_fraction"],
             }
         )
@@ -97,7 +116,12 @@ def build_response_table() -> tuple[pd.DataFrame, pd.DataFrame]:
     return pd.DataFrame(summary_rows), pd.concat(timeseries_frames, ignore_index=True)
 
 
-def write_outputs(summary: pd.DataFrame, timeseries: pd.DataFrame, outdir: Path, make_plots: bool = True) -> None:
+def write_outputs(
+    summary: pd.DataFrame,
+    timeseries: pd.DataFrame,
+    outdir: Path,
+    make_plots: bool = True,
+) -> None:
     """Write remodeling/repair comparison outputs."""
     outdir.mkdir(parents=True, exist_ok=True)
     STANDARD_ABBREVIATIONS.rename_columns(summary).to_csv(
@@ -148,13 +172,17 @@ def _plot_peak_responses(summary: pd.DataFrame, outdir: Path) -> None:
     x = range(len(summary))
     for index, metric in enumerate(metrics):
         values = summary[metric] / max(float(summary[metric].max()), 1e-12)
-        ax.plot(x, values, label=STANDARD_ABBREVIATIONS.plot_label(metric), **styles[index])
+        ax.plot(
+            x, values, label=STANDARD_ABBREVIATIONS.plot_label(metric), **styles[index]
+        )
     ax.set_xticks(list(x))
     ax.set_xticklabels(summary["scenario"], rotation=20, ha="right")
     ax.set_ylabel("Normalized response")
     ax.legend()
     fig.tight_layout()
-    save_manuscript_figure(fig, outdir / "remodeling_repair_peak_response.png", abbreviation_keys=("PS",))
+    save_manuscript_figure(
+        fig, outdir / "remodeling_repair_peak_response.png", abbreviation_keys=("PS",)
+    )
     plt.close(fig)
 
 
@@ -164,31 +192,75 @@ def _plot_timeseries(timeseries: pd.DataFrame, outdir: Path) -> None:
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    fig, axes = plt.subplots(2, 2, figsize=MANUSCRIPT_LANDSCAPE_FIGSIZE)
-    styles = line_styles(timeseries["scenario"].nunique())
-    for index, (scenario, frame) in enumerate(timeseries.groupby("scenario", sort=False)):
-        style = styles[index]
-        axes[0, 0].plot(frame["t"], frame["Ca_submembrane"], label=scenario, **style)
-        axes[0, 1].plot(frame["t"], frame["PS_exposure"], label=scenario, **style)
-        axes[1, 0].plot(frame["t"], frame["actin_disruption"], label=scenario, **style)
-        axes[1, 1].plot(frame["t"], frame["repair_state"], label=scenario, **style)
+    with manuscript_style_context():
+        fig, axes = plt.subplots(
+            2,
+            2,
+            figsize=(MANUSCRIPT_SINGLE_COLUMN_WIDTH_IN, 4.15),
+            sharex=True,
+        )
+        styles = line_styles(timeseries["scenario"].nunique())
+        for index, (scenario, frame) in enumerate(
+            timeseries.groupby("scenario", sort=False)
+        ):
+            style = styles[index]
+            label = SCENARIO_LABELS.get(scenario, scenario.replace("_", " ").title())
+            axes[0, 0].plot(frame["t"], frame["Ca_submembrane"], label=label, **style)
+            axes[0, 1].plot(frame["t"], frame["PS_exposure"], label=label, **style)
+            axes[1, 0].plot(frame["t"], frame["actin_disruption"], label=label, **style)
+            axes[1, 1].plot(frame["t"], frame["repair_state"], label=label, **style)
 
-    axes[0, 0].set_ylabel("Submembrane calcium (uM)")
-    axes[0, 1].set_ylabel("Phosphatidylserine exposure")
-    axes[1, 0].set_ylabel("Actin disruption")
-    axes[1, 1].set_ylabel("Resealing state")
-    for ax in axes[1, :]:
-        ax.set_xlabel("Time (s)")
-    axes[0, 0].legend()
-    fig.tight_layout()
-    save_manuscript_figure(fig, outdir / "remodeling_repair_timeseries.png", abbreviation_keys=("PS",))
-    plt.close(fig)
+        panel_titles = (
+            r"Submembrane Ca$^{2+}$",
+            "Phosphatidylserine\nexposure",
+            "Actin disruption",
+            "Membrane resealing",
+        )
+        y_labels = (r"$\mu$M", "Fraction", "Relative", "Relative")
+        for axis, title, y_label in zip(axes.flat, panel_titles, y_labels, strict=True):
+            axis.set_title(title, fontsize=9, pad=3)
+            axis.set_ylabel(y_label, fontsize=9)
+        for ax in axes[1, :]:
+            ax.set_xlabel("Time (s)", fontsize=9)
+        handles, labels = axes[0, 0].get_legend_handles_labels()
+        fig.legend(
+            handles,
+            labels,
+            loc="upper center",
+            bbox_to_anchor=(0.5, 0.995),
+            ncol=2,
+            fontsize=8,
+            frameon=True,
+            facecolor="white",
+            edgecolor="#555555",
+            framealpha=0.96,
+            borderaxespad=0.0,
+            columnspacing=0.9,
+            handlelength=1.8,
+        )
+        for axis in axes.flat:
+            axis.tick_params(labelsize=8.5)
+            axis.grid(axis="y", color="#D9D9D9", linewidth=0.5, alpha=0.6)
+        fig.subplots_adjust(
+            left=0.16,
+            right=0.98,
+            bottom=0.11,
+            top=0.78,
+            wspace=0.40,
+            hspace=0.52,
+        )
+        save_manuscript_figure(fig, outdir / "remodeling_repair_timeseries.png")
+        plt.close(fig)
 
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--out", type=Path, default=Path("results/remodeling_repair_comparison"))
-    parser.add_argument("--no-plots", action="store_true", help="Skip PNG plot generation.")
+    parser.add_argument(
+        "--out", type=Path, default=Path("results/remodeling_repair_comparison")
+    )
+    parser.add_argument(
+        "--no-plots", action="store_true", help="Skip PNG plot generation."
+    )
     return parser.parse_args(argv)
 
 

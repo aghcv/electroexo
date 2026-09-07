@@ -189,7 +189,8 @@ resolution order, and current validation boundary are documented in
 All new or regenerated scientific plots follow the repository-wide
 [`manuscript figure policy`](docs/manuscript_figure_policy.md): generic labels,
 mean ± sample SD for repeated measurements, consistent semantic colors, and
-one external legend per figure.
+one shared legend per figure, placed outside the data region unless verified
+unused panel space provides a clearer framed location.
 
 ## Output files
 
@@ -203,12 +204,11 @@ Each run writes a directory containing:
 - `abbreviations.json`, `abbreviations.md`, `abbreviations.tex` – a synchronized abbreviation bundle for manuscript, figure-caption, and table-footnote reuse
 - `*.png` – plots unless `--no-plots` is used
 
-Framework-generated figures use manuscript-oriented defaults: standard 16:9
-landscape layout and 1200 dpi PNG export, unless a specific analysis overrides
-the figure standard.
-When a figure still uses domain shorthand such as EV, ROS, ATP, ER, or MVB,
-the plotting helpers can append a standardized abbreviation note at the bottom
-of the exported figure so the image remains readable on its own.
+Framework-generated figures use manuscript-oriented defaults and 1200 dpi PNG
+export. Manuscript-bound figures are authored at their intended single- or
+double-column physical width rather than generated oversized and reduced later.
+Abbreviations, sample counts, formulas, and interpretive notes belong in the
+manuscript caption or its abbreviation note, not as small rasterized footers.
 For overlaid line plots, the default style is color-blind friendly and
 print-friendly: up to three series use monochrome line styles and markers; plots
 with more than three series switch to a color-blind-safe palette while retaining

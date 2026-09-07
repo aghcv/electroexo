@@ -25,14 +25,18 @@ MANUSCRIPT_COLOR_DPI = 600
 LANDSCAPE_ASPECT_RATIO = 16 / 9
 MANUSCRIPT_LANDSCAPE_FIGSIZE = (8.0, 4.5)
 MANUSCRIPT_PANEL_LANDSCAPE_FIGSIZE = (12.0, 6.75)
+MANUSCRIPT_SINGLE_COLUMN_WIDTH_IN = 3.45
+MANUSCRIPT_DOUBLE_COLUMN_WIDTH_IN = 7.10
+MANUSCRIPT_SINGLE_COLUMN_FIGSIZE = (MANUSCRIPT_SINGLE_COLUMN_WIDTH_IN, 3.0)
+MANUSCRIPT_DOUBLE_COLUMN_FIGSIZE = (MANUSCRIPT_DOUBLE_COLUMN_WIDTH_IN, 4.6)
 MAX_MONOCHROME_SERIES = 3
 LINE_WIDTH = 1.8
 MARKER_SIZE = 4.2
 MARK_EVERY = 0.12
 ERROR_BAR_CAPSIZE = 3.0
 ERROR_BAR_LINE_WIDTH = 1.1
-LEGEND_FONT_SIZE = 8.0
-FIGURE_NOTE_FONT_SIZE = 7.0
+LEGEND_FONT_SIZE = 9.0
+FIGURE_NOTE_FONT_SIZE = 8.0
 
 # Semantic colors and labels should be stable across analysis pipelines.  The
 # labels deliberately describe the plotted quantity rather than the study,
@@ -54,13 +58,13 @@ LEGEND_LABEL_ORDER = (
 MANUSCRIPT_RCPARAMS: dict[str, Any] = {
     "font.family": "sans-serif",
     "font.sans-serif": ["Arial", "DejaVu Sans", "Liberation Sans"],
-    "font.size": 9.0,
-    "axes.labelsize": 9.0,
-    "axes.titlesize": 10.0,
+    "font.size": 10.0,
+    "axes.labelsize": 10.0,
+    "axes.titlesize": 10.5,
     "axes.titleweight": "normal",
     "axes.linewidth": 0.8,
-    "xtick.labelsize": 8.0,
-    "ytick.labelsize": 8.0,
+    "xtick.labelsize": 9.0,
+    "ytick.labelsize": 9.0,
     "legend.fontsize": LEGEND_FONT_SIZE,
     "lines.linewidth": LINE_WIDTH,
     "lines.markersize": MARKER_SIZE,

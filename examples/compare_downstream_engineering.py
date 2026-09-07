@@ -5,6 +5,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Sequence
 
+import numpy as np
 import pandas as pd
 
 from electro_exocytosis.abbreviations import STANDARD_ABBREVIATIONS
@@ -18,9 +19,10 @@ from electro_exocytosis.config import (
 )
 from electro_exocytosis.simulation import Simulation
 from electro_exocytosis.visualization.style import (
-    MANUSCRIPT_PANEL_LANDSCAPE_FIGSIZE,
+    MANUSCRIPT_DOUBLE_COLUMN_WIDTH_IN,
     bar_colors,
     bar_hatch,
+    manuscript_style_context,
     save_manuscript_figure,
 )
 
@@ -87,7 +89,9 @@ SCENARIOS = (
 def build_response_table() -> pd.DataFrame:
     rows: list[dict[str, float | str | bool]] = []
     for spec in SCENARIOS:
-        result = Simulation(_build_scenario(spec), params_override=spec.parameter_overrides).run()
+        result = Simulation(
+            _build_scenario(spec), params_override=spec.parameter_overrides
+        ).run()
         terminal_quality = result.parameters_used["terminal_quality"]
         manufacturing = result.parameters_used["manufacturing"]
         rows.append(
@@ -121,7 +125,9 @@ def write_outputs(summary: pd.DataFrame, outdir: Path, make_plots: bool = True) 
         outdir / "downstream_engineering_summary.csv",
         index=False,
     )
-    STANDARD_ABBREVIATIONS.write_bundle(outdir, keys=("EV", "RNA", "sEV", "m/lEV", "AB"))
+    STANDARD_ABBREVIATIONS.write_bundle(
+        outdir, keys=("EV", "RNA", "sEV", "m/lEV", "AB")
+    )
     if make_plots:
         _plot_downstream_panel(summary, outdir)
 
@@ -136,7 +142,11 @@ def _build_scenario(spec: DownstreamScenarioSpec) -> SimulationScenario:
     pulse_kwargs.update(spec.pulse_overrides)
     cell_state_kwargs = {"cell_type": "generic"}
     cell_state_kwargs.update(spec.cell_state_overrides)
-    mode = "direct_EV_engineering" if spec.name == "direct_loading_mode" else "cell_based_electro_exocytosis"
+    mode = (
+        "direct_EV_engineering"
+        if spec.name == "direct_loading_mode"
+        else "cell_based_electro_exocytosis"
+    )
     return SimulationScenario(
         scenario=ScenarioConfig(name=spec.name, mode=mode),
         pulse=PulseConfig(**pulse_kwargs),
@@ -152,55 +162,105 @@ def _plot_downstream_panel(summary: pd.DataFrame, outdir: Path) -> None:
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    fig, axes = plt.subplots(1, 3, figsize=MANUSCRIPT_PANEL_LANDSCAPE_FIGSIZE)
-    labels = summary["label"].tolist()
-    x = range(len(summary))
-    colors = bar_colors(5)
+    plot_labels = ("Productive", "Direct loading", "Injury shifted")
+    colors = bar_colors(len(summary))
+    hatches = [bar_hatch(index) for index in range(len(summary))]
 
-    cargo_metrics = ["protein_enrichment", "RNA_enrichment", "lipid_enrichment", "antigen_enrichment", "direct_loaded_cargo"]
-    width = 0.16
-    for index, metric in enumerate(cargo_metrics):
-        values = summary[metric].to_numpy(dtype=float)
-        positions = [pos + (index - 2) * width for pos in x]
-        axes[0].bar(positions, values, width=width, color=colors[index], hatch=bar_hatch(index), label=STANDARD_ABBREVIATIONS.plot_label(metric))
-    axes[0].set_title("Layer 6 cargo state")
-    axes[0].set_ylabel("Relative score")
-    axes[0].set_xticks(list(x))
-    axes[0].set_xticklabels(labels, rotation=20, ha="right")
-    axes[0].legend(fontsize=7)
+    panel_specs = (
+        (
+            "Layer 6: cargo state",
+            (
+                ("protein_enrichment", "Protein"),
+                ("RNA_enrichment", "RNA"),
+                ("lipid_enrichment", "Lipid"),
+                ("antigen_enrichment", "Antigen"),
+                ("direct_loaded_cargo", "Direct loading"),
+            ),
+        ),
+        (
+            "Layer 7: quality gate",
+            (
+                ("viability_fraction", "Viability"),
+                ("bona_fide_EV_fraction", "Bona fide EV"),
+                ("purity_score", "Purity"),
+            ),
+        ),
+        (
+            "Layer 8: process objective",
+            (
+                ("optimization_objective", "Optimization"),
+                ("normalized_batch_yield", "Batch yield"),
+            ),
+        ),
+    )
+    plot_frame = summary.copy()
+    batch_yield = plot_frame["batch_adjusted_yield"].to_numpy(dtype=float)
+    plot_frame["normalized_batch_yield"] = batch_yield / max(
+        float(batch_yield.max()), 1e-12
+    )
 
-    quality_metrics = ["viability_fraction", "bona_fide_EV_fraction", "purity_score"]
-    width = 0.22
-    for index, metric in enumerate(quality_metrics):
-        values = summary[metric].to_numpy(dtype=float)
-        positions = [pos + (index - 1) * width for pos in x]
-        axes[1].bar(positions, values, width=width, color=colors[index], hatch=bar_hatch(index), label=STANDARD_ABBREVIATIONS.plot_label(metric))
-    axes[1].set_title("Layer 7 quality gate")
-    axes[1].set_ylim(0, 1.05)
-    axes[1].set_xticks(list(x))
-    axes[1].set_xticklabels(labels, rotation=20, ha="right")
-    axes[1].legend(fontsize=7)
-
-    objective_values = summary["optimization_objective"].to_numpy(dtype=float)
-    yield_values = summary["batch_adjusted_yield"].to_numpy(dtype=float)
-    yield_values = yield_values / max(float(yield_values.max()), 1e-12)
-    axes[2].bar([pos - 0.12 for pos in x], objective_values, width=0.24, color=colors[0], hatch=bar_hatch(0), label="Optimization objective")
-    axes[2].bar([pos + 0.12 for pos in x], yield_values, width=0.24, color=colors[1], hatch=bar_hatch(1), label="Batch-adjusted yield")
-    axes[2].set_title("Layer 8 process objective")
-    axes[2].set_ylim(0, 1.05)
-    axes[2].set_xticks(list(x))
-    axes[2].set_xticklabels(labels, rotation=20, ha="right")
-    axes[2].legend(fontsize=7)
-
-    fig.tight_layout()
-    save_manuscript_figure(fig, outdir / "downstream_engineering_panel.png", abbreviation_keys=("EV", "RNA"))
-    plt.close(fig)
+    with manuscript_style_context():
+        fig, axes = plt.subplots(
+            3,
+            1,
+            figsize=(MANUSCRIPT_DOUBLE_COLUMN_WIDTH_IN, 3.65),
+            gridspec_kw={"height_ratios": (1.45, 1.0, 0.78)},
+        )
+        bar_height = 0.22
+        for axis, (title, metric_specs) in zip(axes, panel_specs, strict=True):
+            y_positions = np.arange(len(metric_specs), dtype=float)
+            for scenario_index, (_, row) in enumerate(plot_frame.iterrows()):
+                offsets = y_positions + (scenario_index - 1) * bar_height
+                values = [float(row[metric]) for metric, _ in metric_specs]
+                axis.barh(
+                    offsets,
+                    values,
+                    height=bar_height,
+                    color=colors[scenario_index],
+                    hatch=hatches[scenario_index],
+                    edgecolor="#222222",
+                    linewidth=0.55,
+                    label=plot_labels[scenario_index],
+                )
+            axis.set_title(title, loc="left", pad=3)
+            axis.set_yticks(
+                y_positions,
+                [label for _, label in metric_specs],
+            )
+            axis.invert_yaxis()
+            panel_max = max(
+                float(plot_frame[metric].max()) for metric, _ in metric_specs
+            )
+            axis.set_xlim(0.0, panel_max * 1.08)
+            axis.grid(axis="x", color="#D9D9D9", linewidth=0.6, alpha=0.65)
+            axis.tick_params(labelsize=8.5)
+        handles, labels = axes[0].get_legend_handles_labels()
+        fig.legend(
+            handles,
+            labels,
+            loc="upper center",
+            bbox_to_anchor=(0.5, 0.985),
+            ncol=3,
+            fontsize=8,
+            frameon=True,
+            facecolor="white",
+            edgecolor="#555555",
+            framealpha=0.96,
+        )
+        fig.supxlabel("Relative score", fontsize=9.5, y=0.015)
+        fig.subplots_adjust(left=0.17, right=0.985, bottom=0.10, top=0.83, hspace=0.72)
+        save_manuscript_figure(fig, outdir / "downstream_engineering_panel.png")
+        plt.close(fig)
 
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--out", type=Path, default=Path("results/downstream_engineering_comparison"))
-    parser.add_argument("--no-plots", action="store_true", help="Skip PNG plot generation.")
+    parser.add_argument(
+        "--out", type=Path, default=Path("results/downstream_engineering_comparison")
+    )
+    parser.add_argument(
+        "--no-plots", action="store_true", help="Skip PNG plot generation."
+    )
     return parser.parse_args(argv)
 
 
