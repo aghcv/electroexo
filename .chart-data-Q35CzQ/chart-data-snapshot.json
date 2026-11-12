@@ -1,0 +1,873 @@
+{
+  "conversion": "chart_data_snapshot",
+  "converted_chart_count": 120,
+  "converted_charts": [
+    {
+      "chart_part": "ppt/slides/charts/chart1.xml",
+      "owner_slide": 1,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-001.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart2.xml",
+      "owner_slide": 1,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-002.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart3.xml",
+      "owner_slide": 1,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-003.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart4.xml",
+      "owner_slide": 1,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-004.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart5.xml",
+      "owner_slide": 1,
+      "point_count": 39,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-005.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart6.xml",
+      "owner_slide": 1,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-006.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart7.xml",
+      "owner_slide": 1,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-007.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart8.xml",
+      "owner_slide": 1,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-008.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart9.xml",
+      "owner_slide": 1,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-009.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart10.xml",
+      "owner_slide": 1,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-010.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart11.xml",
+      "owner_slide": 1,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-011.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart12.xml",
+      "owner_slide": 1,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-012.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart13.xml",
+      "owner_slide": 1,
+      "point_count": 39,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-013.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart14.xml",
+      "owner_slide": 1,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-014.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart15.xml",
+      "owner_slide": 1,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-015.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart16.xml",
+      "owner_slide": 1,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-016.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart17.xml",
+      "owner_slide": 1,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-017.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart18.xml",
+      "owner_slide": 1,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-018.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart19.xml",
+      "owner_slide": 1,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-019.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart20.xml",
+      "owner_slide": 1,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-020.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart21.xml",
+      "owner_slide": 1,
+      "point_count": 39,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-021.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart22.xml",
+      "owner_slide": 1,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-022.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart23.xml",
+      "owner_slide": 1,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-023.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart24.xml",
+      "owner_slide": 1,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-024.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart25.xml",
+      "owner_slide": 2,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-025.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart26.xml",
+      "owner_slide": 2,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-026.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart27.xml",
+      "owner_slide": 2,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-027.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart28.xml",
+      "owner_slide": 2,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-028.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart29.xml",
+      "owner_slide": 2,
+      "point_count": 39,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-029.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart30.xml",
+      "owner_slide": 2,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-030.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart31.xml",
+      "owner_slide": 2,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-031.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart32.xml",
+      "owner_slide": 2,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-032.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart33.xml",
+      "owner_slide": 2,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-033.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart34.xml",
+      "owner_slide": 2,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-034.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart35.xml",
+      "owner_slide": 2,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-035.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart36.xml",
+      "owner_slide": 2,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-036.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart37.xml",
+      "owner_slide": 2,
+      "point_count": 39,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-037.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart38.xml",
+      "owner_slide": 2,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-038.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart39.xml",
+      "owner_slide": 2,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-039.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart40.xml",
+      "owner_slide": 2,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-040.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart41.xml",
+      "owner_slide": 2,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-041.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart42.xml",
+      "owner_slide": 2,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-042.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart43.xml",
+      "owner_slide": 2,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-043.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart44.xml",
+      "owner_slide": 2,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-044.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart45.xml",
+      "owner_slide": 2,
+      "point_count": 39,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-045.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart46.xml",
+      "owner_slide": 2,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-046.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart47.xml",
+      "owner_slide": 2,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-047.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart48.xml",
+      "owner_slide": 2,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-048.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart49.xml",
+      "owner_slide": 3,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-049.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart50.xml",
+      "owner_slide": 3,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-050.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart51.xml",
+      "owner_slide": 3,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-051.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart52.xml",
+      "owner_slide": 3,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-052.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart53.xml",
+      "owner_slide": 3,
+      "point_count": 39,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-053.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart54.xml",
+      "owner_slide": 3,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-054.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart55.xml",
+      "owner_slide": 3,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-055.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart56.xml",
+      "owner_slide": 3,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-056.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart57.xml",
+      "owner_slide": 3,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-057.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart58.xml",
+      "owner_slide": 3,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-058.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart59.xml",
+      "owner_slide": 3,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-059.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart60.xml",
+      "owner_slide": 3,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-060.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart61.xml",
+      "owner_slide": 3,
+      "point_count": 39,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-061.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart62.xml",
+      "owner_slide": 3,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-062.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart63.xml",
+      "owner_slide": 3,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-063.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart64.xml",
+      "owner_slide": 3,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-064.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart65.xml",
+      "owner_slide": 3,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-065.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart66.xml",
+      "owner_slide": 3,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-066.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart67.xml",
+      "owner_slide": 3,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-067.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart68.xml",
+      "owner_slide": 3,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-068.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart69.xml",
+      "owner_slide": 3,
+      "point_count": 39,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-069.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart70.xml",
+      "owner_slide": 3,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-070.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart71.xml",
+      "owner_slide": 3,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-071.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart72.xml",
+      "owner_slide": 3,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-072.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart73.xml",
+      "owner_slide": 4,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-073.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart74.xml",
+      "owner_slide": 4,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-074.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart75.xml",
+      "owner_slide": 4,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-075.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart76.xml",
+      "owner_slide": 4,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-076.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart77.xml",
+      "owner_slide": 4,
+      "point_count": 39,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-077.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart78.xml",
+      "owner_slide": 4,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-078.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart79.xml",
+      "owner_slide": 4,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-079.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart80.xml",
+      "owner_slide": 4,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-080.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart81.xml",
+      "owner_slide": 4,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-081.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart82.xml",
+      "owner_slide": 4,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-082.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart83.xml",
+      "owner_slide": 4,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-083.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart84.xml",
+      "owner_slide": 4,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-084.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart85.xml",
+      "owner_slide": 4,
+      "point_count": 39,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-085.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart86.xml",
+      "owner_slide": 4,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-086.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart87.xml",
+      "owner_slide": 4,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-087.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart88.xml",
+      "owner_slide": 4,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-088.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart89.xml",
+      "owner_slide": 4,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-089.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart90.xml",
+      "owner_slide": 4,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-090.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart91.xml",
+      "owner_slide": 4,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-091.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart92.xml",
+      "owner_slide": 4,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-092.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart93.xml",
+      "owner_slide": 4,
+      "point_count": 39,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-093.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart94.xml",
+      "owner_slide": 4,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-094.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart95.xml",
+      "owner_slide": 4,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-095.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart96.xml",
+      "owner_slide": 4,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-096.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart97.xml",
+      "owner_slide": 5,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-097.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart98.xml",
+      "owner_slide": 5,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-098.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart99.xml",
+      "owner_slide": 5,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-099.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart100.xml",
+      "owner_slide": 5,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-100.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart101.xml",
+      "owner_slide": 5,
+      "point_count": 39,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-101.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart102.xml",
+      "owner_slide": 5,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-102.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart103.xml",
+      "owner_slide": 5,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-103.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart104.xml",
+      "owner_slide": 5,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-104.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart105.xml",
+      "owner_slide": 5,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-105.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart106.xml",
+      "owner_slide": 5,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-106.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart107.xml",
+      "owner_slide": 5,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-107.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart108.xml",
+      "owner_slide": 5,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-108.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart109.xml",
+      "owner_slide": 5,
+      "point_count": 39,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-109.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart110.xml",
+      "owner_slide": 5,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-110.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart111.xml",
+      "owner_slide": 5,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-111.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart112.xml",
+      "owner_slide": 5,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-112.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart113.xml",
+      "owner_slide": 5,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-113.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart114.xml",
+      "owner_slide": 5,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-114.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart115.xml",
+      "owner_slide": 5,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-115.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart116.xml",
+      "owner_slide": 5,
+      "point_count": 67,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-116.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart117.xml",
+      "owner_slide": 5,
+      "point_count": 39,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-117.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart118.xml",
+      "owner_slide": 5,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-118.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart119.xml",
+      "owner_slide": 5,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-119.xlsx"
+    },
+    {
+      "chart_part": "ppt/slides/charts/chart120.xml",
+      "owner_slide": 5,
+      "point_count": 1,
+      "series_count": 1,
+      "workbook_part": "ppt/embeddings/chart-data-snapshot-120.xlsx"
+    }
+  ],
+  "detected_chart_owner_slides": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "experimental": true,
+  "input_sha256": "b3465d2ba83e4f164dc78f2d0e5e4cce7ac388192bd33ab1ac7765483bb9d6b3",
+  "new_formulas_describe_snapshot_only": true,
+  "output_bytes": 476090,
+  "output_sha256": "849889c1a21d19f4a4046cc510a4dade9203c5413133dd19792b9f347b6f3304",
+  "portable_chart_validation_passed": true,
+  "portable_validated_owner_slides": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "preserved_existing_workbook_chart_count": 0,
+  "preserved_existing_workbook_charts": [],
+  "schema_version": "experimental.literal-chart-workbook-snapshot.v1",
+  "source_formula_required_slides": [],
+  "source_formulas_preserved": false,
+  "source_workbook_preserved": false,
+  "source_workbook_required_slides": []
+}

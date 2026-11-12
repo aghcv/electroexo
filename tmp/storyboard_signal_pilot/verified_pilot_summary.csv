@@ -1,0 +1,4 @@
+theme,amplitude_kV_cm,pulse_width_ns,pulse_number,repetition_rate_Hz,peak_Ca_i_uM,peak_ROS,cumulative_sEV,cumulative_mlEV,cumulative_AB,viability_fraction,output_dt_s,horizon_s
+pulse_number,15,200,5,5,3.8991,0.16199,0.01835,9.77334,0.07059,0.8426,0.25,1800
+pulse_number,15,200,20,5,7.2058,0.23575,0.01852,10.81475,0.13828,0.6639,0.25,1800
+pulse_number,15,200,80,5,13.1287,0.45370,0.01624,12.70450,0.63064,0.0786,0.25,1800

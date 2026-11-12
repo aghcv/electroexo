@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Electro-exocytosis: a model to guide experiments",
+    "script": "We want to understand how short electric pulses change EV release, and how a model can help us plan the next experiment. A particle count on its own can have several explanations. Cells may release more vesicles, repair their membranes, or shed particles as they become injured. Some particles may also disappear before we collect the sample. We built a model that brings these processes together and compares their combined effect with laboratory measurements. The goal is to explore possible explanations for the response and identify which additional measurements would be most useful. I will show the biology we included, how the model compares with our current data, and how it can guide the next study."
+  },
+  {
+    "title": "The biological steps included in the model",
+    "script": "This overview shows the biology we brought into the model. The electric pulse affects the cell membrane and internal compartments. That can change calcium signals, cell stress and repair. Those changes can then affect how vesicles form and leave the cell, as well as how much unwanted material accompanies them. Cell type and cell condition can influence the whole response. Bringing these steps together lets us ask how a change in one part could affect what we eventually collect. The diagram also includes possible changes in vesicle contents and activity. Those parts remain early estimates rather than experimentally confirmed outcomes in this study."
+  },
+  {
+    "title": "Linking cell responses to laboratory measurements",
+    "script": "We organize the model around the same questions an experimentalist would ask. What pulse did the cells receive? How did the cells respond? What did they release? What reached the final sample? The distinction on the right is especially useful. Particles can leave a cell and then disappear from the medium before collection. Collection and measurement can change the count again. That means a change in the assay result does not automatically tell us how secretion changed. The model gives us a way to explore these steps separately, compare their combined effect with the data, and decide which part needs a direct measurement."
+  },
+  {
+    "title": "The model captures the main particle-size pattern",
+    "script": "Here, blue shows the measured size profiles and pink shows the model after we adjusted it using the available data. The example follows the three-pulse condition at thirty minutes, one hour and three hours. The model reproduces the main group of particles around one hundred to one hundred sixty nanometers. It also leaves a clear gap at the one-hour peak. That gap is useful because it shows where our current explanation is incomplete and where extra measurements could help. The full dataset contains twenty-six repeated size measurements across three pulse settings and three collection times. Their biological independence still needs confirmation. The forty-kilovolt label comes from the source file, and the delivered field still needs confirmation. This comparison describes the data used to adjust the model. We still need new conditions to test its predictions."
+  },
+  {
+    "title": "The model helps us choose what to measure next",
+    "script": "For an experimentalist, the useful outcome is help choosing the next measurement. We vary the model inputs to see which changes could alter the particle count, then ask whether the available data can tell those explanations apart. In this dataset, release, disappearance from the medium, and particle recovery all need attention. The size measurements also cannot reliably tell us how much of the signal comes from dying cells. That gives us a reason to collect cell-injury measurements alongside particle counts. More generally, this approach helps focus experiments on processes that may change the time course and on gaps that make the results difficult to interpret. These are early priorities to test. Their order depends on the model assumptions and does not yet establish which biological process is truly most important."
+  },
+  {
+    "title": "A focused plan for the next experiment",
+    "script": "The next study can make the model much more useful by adding measurements that separate the possible explanations. First, measure how collection and processing affect particle recovery, and confirm the pulse settings and culture volume. Second, add matched controls and more collection times between one and three hours. That will help us examine whether cells keep releasing particles or whether particles disappear from the medium. Third, pair size profiles with EV markers, calcium responses and cell-injury measurements, so the particle signal has a clearer biological meaning. Finally, use additional pulse conditions to test predictions on new data. The value of the model is that it gives us a structured way to compare explanations and choose the next measurements."
+  }
+]

@@ -1,0 +1,51 @@
+% Inter-layer extension connecting mechanistic release pathways to
+% size-resolved extracellular measurements. Kept in a separate file to
+% minimize merge conflicts with the actively edited main manuscript.
+\subsection*{State-Conditioned EV Size--Composition and Observation Bridge}
+
+The release states above specify biological routes, whereas particle-sizing assays report operational diameter classes. These descriptions should remain distinct because endosomal, plasma-membrane, and apoptotic pathways can generate overlapping size ranges, and diameter alone does not establish vesicle origin \cite{welsh2024minimal}. We therefore introduce an inter-layer bridge rather than redefining the existing sEV, m/lEV, and AB states. A biological mode $q$ denotes ESCRT-enriched MVB/ILV release, ceramide/tetraspanin-enriched MVB/ILV release, plasma-membrane shedding or repair-associated release, or apoptotic fragmentation. The first two modes sum to the existing $R_{sEV}$ output, the plasma-membrane mode contributes to $R_{m/lEV}$, and the apoptotic mode contributes to $R_{AB}$. This separation is consistent with evidence that activation can differentially regulate distinct nanosized populations released by CD4$^+$ T cells \cite{vanDerVlist2012activation}.
+
+Let $\mathbf{x}(t)$ denote the upstream cell-state vector, $d$ vesicle diameter, and $\mathbf{c}$ the composition vector. The joint product kernel for biological mode $q$ is factorized as
+\begin{equation*}
+K_q(d,\mathbf{c}\mid\mathbf{x})
+=f_q\!\left(d\mid\boldsymbol{\theta}_q[\mathbf{x}]\right)
+g_q(\mathbf{c}\mid d,\mathbf{x}),
+\end{equation*}
+where $f_q$ is a nonnegative birth-size distribution and $g_q$ represents conditional cargo allocation. Positive right-skewed distributions are appropriate starting points. For MVB-derived small EVs, a dynamic-scaling distribution derived from membrane-domain growth and ILV budding provides a directly implementable candidate; its tail exponent was sensitive to signaling perturbation \cite{paulaitis2018dynamic}. More detailed ESCRT/cargo-crowding membrane models can constrain plausible ILV sizes and coupling signs but introduce unobserved mechanical parameters that are unlikely to be identifiable from sparse longitudinal particle counts \cite{liese2020protein}. Broad lognormal or gamma distributions are therefore retained as reduced alternatives for plasma-membrane and apoptotic modes. Their baseline median and geometric standard deviation should be cell- and assay-specific priors rather than universal subtype constants.
+
+State dependence can be introduced parsimoniously through distribution parameters,
+\begin{equation*}
+\log d_{50,q}(t)=\alpha_q+
+\boldsymbol{\beta}_q^{\mathsf{T}}
+\left[\mathbf{z}_q(t)-\mathbf{z}_{q,0}\right],
+\end{equation*}
+where $\mathbf{z}_q$ contains only pathway-matched states. Candidate inputs include ESCRT and ceramide/secretory routing for MVB modes; PS exposure, calpain, actomyosin, membrane tension, and repair shedding for plasma-membrane release; and damage, apoptosis, and blebbing for the apoptotic mode. The nested null case $\boldsymbol{\beta}_q=\mathbf{0}$ changes pathway mixture weights while retaining fixed within-pathway size distributions.
+
+For true-diameter bin $b=[d_b^-,d_b^+]$, the per-cell birth source and extracellular stock are
+\begin{align*}
+S_{qb}(t)
+&=R_q(t)\int_{d_b^-}^{d_b^+}
+f_q\!\left(d\mid\boldsymbol{\theta}_q[\mathbf{x}(t)]\right)\,dd,\\
+\frac{dN_{qb}}{dt}
+&=N_{\mathrm{cells}}S_{qb}(t)
+-k_{\mathrm{loss},q}(d_b)N_{qb}
++\sum_{b'}T_{bb'}N_{qb'}.
+\end{align*}
+This sectional population balance can use many numerical bins while retaining few shared parameters. It also preserves cohort history: particles remain at their emitted diameter unless an explicit aggregation or fragmentation term $T_{bb'}$ transfers them. Initially, a common effective loss rate and $T_{bb'}=0$ provide the most identifiable model.
+
+Cargo is linked jointly to pathway, state, and size rather than determined by diameter alone. A reduced geometric capacity relation is
+\begin{equation*}
+\mathrm{E}[C_j\mid d,q,\mathbf{x}]
+=a_{jq}(\mathbf{x})d^2+b_{jq}(\mathbf{x})d^3,
+\end{equation*}
+where the $d^2$ and $d^3$ terms represent membrane-associated and luminal capacity, respectively \cite{zendrini2022surface}. The coefficients retain pathway- and state-dependent sorting, and low-copy cargo can be represented by stochastic occupancy. Single-vesicle measurements showing selective changes in EV size, membrane order, and cargo after Rab27a or CD63 perturbation support this conditional rather than deterministic representation \cite{vonLersner2024multiparametric}.
+
+Finally, biological stocks are mapped to an observed size bin $b$ in assay run $r$ through
+\begin{equation*}
+\widehat{y}_{rb}(t)=B_{rb}
++\sum_{\ell}H_{rb\ell}\eta_{r\ell}
+\frac{\sum_qN_{q\ell}(t)}{V_r},
+\end{equation*}
+where $H_{rb\ell}$ represents true-to-measured diameter error and rebinning, $\eta_{r\ell}$ represents size-dependent recovery, $B_{rb}$ is background, and $V_r$ is sample volume. This observation operator is required because different single-particle methods can report materially different size distributions and concentrations for the same EV preparation \cite{vanDerPol2014particle,welsh2024minimal}. Instrument-response parameters should be constrained by calibration particles, instrument settings, and orthogonal characterization rather than inferred freely with the biological kernel.
+
+For sparse longitudinal data, calibration should begin with literature- or sham-informed fixed kernels, dynamic pathway mixture weights, and a common extracellular loss term. A state-to-size coefficient should be retained only if it improves prediction for held-out pulse conditions; size-dependent loss should then be tested separately. Particle counts alone cannot identify pathway-specific cargo coefficients, which require marker-resolved or molecular measurements.

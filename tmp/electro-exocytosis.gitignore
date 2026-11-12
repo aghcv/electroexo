@@ -1,0 +1,18 @@
+# Local preservation copies and editorial working notes
+.local-backups/
+.local-notes/
+
+# Readme and diagnostic prose should not be published to the manuscript remote
+README.md
+readme.txt
+**/README.md
+**/readme.txt
+*AUDIT*.md
+*GAPS*.md
+*LANGUAGE*.md
+*CORPUS*.md
+*diagnostic*.md
+**/*diagnostic*.md
+
+# Local operating-system metadata
+.DS_Store

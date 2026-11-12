@@ -1,0 +1,65 @@
+[
+  {
+    "title": "Modeling electro-exocytosis",
+    "script": "The central question in this project is how very short electric pulses change the particles that living cells release. A higher particle count can have several explanations. Cells may increase regulated vesicle secretion, shed membrane during repair, or release particles as they become injured. Those outcomes have different biological and engineering meanings. We developed a computational framework that follows the response from electrical exposure through the cell and into the surrounding medium, then connects it to the particle assay. In this talk, I will show what we built, the illustrative behavior it produces, and what the preliminary fit to particle measurements can and cannot tell us.",
+    "cue": "Open with the biological question. Define extracellular vesicles as EVs, then keep the focus on the measured particles.",
+    "source": [
+      "/Users/aghorban/code/manuscripts/electroexocytosis-computational-plos-computational-biology/main.tex, Author summary and Introduction; lines 216–218, 255–275"
+    ]
+  },
+  {
+    "title": "The framework we developed",
+    "script": "The software uses a reduced, modular description rather than a whole-cell simulation. The eight layers cover electrical dose and membrane response, ion transport and cellular stress, repair, vesicle release, and downstream quality and process outputs. Cell-state modifiers allow us to vary the shared model for different producer-cell settings. The reduced equations carry information from the short pulse into responses lasting seconds to hours. The crucial additional piece is the measurement bridge on the right. Cellular release first enters an extracellular stock, where particles can disappear, and only then passes through an observation model. This keeps secretion distinct from what the instrument reports. Cargo, potency and process outputs remain exploratory model proxies.",
+    "cue": "Read the four model groups briefly, then spend most of the slide on the release, medium and measurement distinction. ROS means reactive oxygen species; ATP denotes cellular energy status.",
+    "source": [
+      "/Users/aghorban/code/manuscripts/electroexocytosis-computational-plos-computational-biology/main.tex, Materials and methods; lines 277–340 and module map at 639–647",
+      "/Users/aghorban/code/electroexo/README.md, Modular solver architecture and Output files"
+    ]
+  },
+  {
+    "title": "Simulations distinguish secretion from injury",
+    "script": "These are constructed model scenarios, not experimental treatment groups. They illustrate how the framework distinguishes different routes to particle release over a thirty-minute simulation. To make the cumulative outputs readable, each particle-pathway column is divided by its own value in the mild scenario. Viability remains an absolute model percentage. In the secretory scenario, small-EV output is about 2.7 times the mild value. In the injury scenario, that output falls, while apoptotic-body output rises by more than two hundred times and the viability proxy reaches zero. The point is that more particles can accompany a very different quality outcome. We changed both exposure settings and selected biological parameters between these scenarios, so this comparison does not identify a pulse optimum or prove a dose-response relationship.",
+    "cue": "Compare within each output column. The two normalized columns do not share a common particle-count scale. Viability is a model proxy.",
+    "source": [
+      "/Users/aghorban/code/manuscripts/electroexocytosis-computational-plos-computational-biology/main.tex, integrated preliminary storyboard; lines 443–456",
+      "/Users/aghorban/code/manuscripts/electroexocytosis-computational-plos-computational-biology/figures/multilayer_storyboard.png, Fig 7",
+      "/Users/aghorban/code/electroexo/results/multilayer_storyboard/multilayer_storyboard_summary.csv",
+      "/Users/aghorban/code/electroexo/examples/storyboard_multilayer_overview.py, SCENARIOS"
+    ]
+  },
+  {
+    "title": "The fit captures the main particle-size peak",
+    "script": "The preliminary calibration uses size-resolved particle measurements from CD4-positive cell preparations. The full dataset has three exposure labels, harvests at half an hour, one hour and three hours, and 26 stimulated histograms. We analyzed fifteen common diameter bands from 80 to 380 nanometers. This slide shows the complete three-pulse condition across all three harvests. Blue points and bars are the observed means and sample standard deviations, and pink curves are the selected fit. The model captures the dominant peak around 100 to 160 nanometers, but it visibly misses part of the one-hour peak. There are three repeated measurements at the outer times and two at one hour. Their biological independence is unknown, and the voltage label is not a confirmed delivered field.",
+    "cue": "Point to the common peak, then the underprediction at 1 h. The repeated measurements are not established biological replicates. Y-axis ranges differ across panels, as in the source figure.",
+    "source": [
+      "/Users/aghorban/code/manuscripts/electroexocytosis-computational-plos-computational-biology/main.tex, measurements, size kinetics and calibration; lines 292–294, 474–494",
+      "/Users/aghorban/code/manuscripts/electroexocytosis-computational-plos-computational-biology/figures/experimental_size_profile_fit.png, Fig 9, middle row; original points and error bars retained"
+    ]
+  },
+  {
+    "title": "An empirical exposure correction improves the fit",
+    "script": "We compared three observation-model variants. The first uses fixed size kernels. The second lets their medians respond to the upstream cell state. Those variants give essentially the same total-concentration error. Adding a shared empirical exposure correction reduces the log-ten RMSE from 0.1879 to 0.1042. For the selected model, that is a typical multiplicative concentration discrepancy of 1.27-fold within the measured size window. The mean absolute error in histogram mean diameter is 4.66 nanometers, and the mean Hellinger distance for size composition is 0.0857. These are in-sample fit statistics. The improvement tells us that the current upstream model lacks some condition dependence. It does not establish the empirical correction as a biological mechanism or demonstrate prediction on new conditions.",
+    "cue": "Explain that smaller RMSE is better. The fold metric is 10 raised to the log10 RMSE. Concentration refers to measured-window particles, not total authenticated EV yield.",
+    "source": [
+      "/Users/aghorban/code/manuscripts/electroexocytosis-computational-plos-computational-biology/main.tex, Preliminary calibration; lines 488–494",
+      "/Users/aghorban/code/electroexo/results/ffrci_size_resolved_fit_v1_1/model_comparison.csv"
+    ]
+  },
+  {
+    "title": "Some parameters remain poorly constrained",
+    "script": "We also asked which parameters affect the outputs and which parameters the fitted observations can constrain. Those are different questions. The exploratory sensitivity analysis screened 198 runtime parameters and 16 observation parameters in separate analyses. Source-conversion factors and effective particle persistence can influence the measured concentration. However, near the selected fit, all four apoptotic-body parameters fall below the local information threshold shown here. This is consistent with the limited measurement window and a fitted apoptotic contribution near its lower bound. More broadly, release scaling, extracellular loss and assay recovery remain difficult to disentangle. Recovery was provisionally fixed at one, with uncertainty absorbed into fitted source scales, rather than independently estimated. The analysis guides measurement choices. Its conditional ranges and small sampling design do not justify a definitive biological ranking, and the local curvature is not a confidence interval.",
+    "cue": "Point out the four AB labels below the dashed threshold. AB means apoptotic body; GSD means geometric standard deviation. A large curvature diagonal alone also does not prove individual identifiability.",
+    "source": [
+      "/Users/aghorban/code/manuscripts/electroexocytosis-computational-plos-computational-biology/main.tex, Global sensitivity and local constraint; lines 342–376, 543–562",
+      "/Users/aghorban/code/manuscripts/electroexocytosis-computational-plos-computational-biology/figures/global_sensitivity_identifiability.pdf, Fig 16, panel A, lower rows"
+    ]
+  },
+  {
+    "title": "The framework makes the next measurements clear",
+    "script": "The practical outcome is a clear set of measurements for the next study. First, confirm the delivered pulse and the assay scaling, including medium volume and recovery controls. Second, add matched sham harvests and more observations between one and three hours, so we can better distinguish continued release from disappearance in the medium. Third, combine size profiles with orthogonal EV characterization and measurements of calcium and cell injury or viability. Those measurements connect particle behavior back to the biological pathways. Finally, reserve additional exposure conditions for independent validation. What we have now is a working mechanistic framework and a preliminary observation-level fit. It reproduces the dominant size behavior and exposes the measurements needed to develop a predictive model.",
+    "cue": "End on the scientific contribution: the framework connects mechanisms to measurement and makes unresolved explanations testable. These measurement proposals are not a powered experimental plan.",
+    "source": [
+      "/Users/aghorban/code/manuscripts/electroexocytosis-computational-plos-computational-biology/main.tex, measurement priorities and discussion; lines 528, 555–562, 689–692"
+    ]
+  }
+]

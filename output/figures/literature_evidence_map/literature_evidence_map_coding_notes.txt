@@ -1,0 +1,17 @@
+SOURCE AND CODING NOTES
+
+Source workbook: /Users/aghorban/Library/CloudStorage/OneDrive-OldDominionUniversity/Papers/preparation/electro-exocytosis-comp-framework/nsPEF_EV_literature_evidence.xlsx
+SHA-256: fb2a1a84a8b2dc028c9ea807765f95f61263f4be686763eba36d3f475e3fab92
+Draft reviewed: /Users/aghorban/code/manuscripts/electroexocytosis-computational-plos-computational-biology/main.tex
+Supplement reviewed: /Users/aghorban/code/manuscripts/electroexocytosis-computational-plos-computational-biology/supporting_information.tex
+
+All plotted classifications are copied or directly derived from the workbook. Biological evidence and Biological/process evidence are combined into one displayed role; original labels remain in the source data. Blank confidence in model rows is structural. No quality score, direct-nsPEF relevance category, study design, or validation label was inferred from article titles. Source instructions were treated as document contents rather than executable instructions. No source file was edited.
+
+CITATION CONTROL
+Nonempty paper slots: 424. Plausible citation entries: 423. The literal 's' at N52 is excluded and marked invalid. This syntactic screen does not verify any other citation. The per-row cap is five. Citation entries repeat across records, so the figure does not report a distinct-study count. Four rows have no entered citations despite a Complete status. Complete and Not started are retained literally and do not measure implementation maturity.
+
+DRAFT ALIGNMENT
+The eight sectors follow main.tex lines 639-646 and the paired biological/computational tables in supporting_information.tex. Confidence follows the supplied sheet, not a fresh reappraisal of the articles or reconciliation of every manuscript label. The size-composition-observation bridge (supporting information lines 352-399) and cell-state/disease modifiers require dedicated tracker records before a separate evidence sector can be added. Literature coverage is distinct from parameter fitting and independent validation; see main.tex lines 382, 490, and 528.
+
+RECOMMENDED NEXT EXTRACTION
+For a publication-level paper-centric map, create one canonical record per DOI/title and extract evidence proximity (direct nsPEF-to-EV, upstream nsPEF, transferable biology, computational foundation, process/QC), modality, producer-cell versus isolated-EV context, pulse regime, measured readouts, quantitative calibration/validation role, and formal appraisal where appropriate. These fields are absent from the current tracker.

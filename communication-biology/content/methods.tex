@@ -1,0 +1,93 @@
+\section*{Methods}
+
+\subsection*{Model design}
+
+The model was implemented as a sequence of coupled modules spanning pulse delivery, membrane and organelle electrodynamics, ion transport and bioenergetics, remodeling and repair, EV-biogenesis pathways, extracellular particle kinetics and measurement. Each module exposes a defined set of inputs and outputs so that reduced equations can be replaced without changing the complete analysis interface. Simulations were performed with the \texttt{electro\_exocytosis} Python package. The repository records merged parameter values and run metadata for each scenario.
+
+Nanosecond pulses were represented by amplitude, width, number, repetition rate and waveform descriptors. The electrical pulse was not integrated on the downstream seconds-to-hours time grid. Instead, waveform- and geometry-dependent descriptors initialized or forced the reduced electrodynamic model. A first-order charging relation represented the plasma membrane,
+\begin{equation}
+C_{\mathrm m}\frac{\mathrm d\Delta V_{\mathrm m}}{\mathrm dt}+G_{\mathrm m}(t)\Delta V_{\mathrm m}=f(E(t),\theta),
+\end{equation}
+where $C_{\mathrm m}$ is membrane capacitance, $G_{\mathrm m}$ is effective conductance, $\Delta V_{\mathrm m}$ is induced transmembrane voltage and $\theta$ contains geometry and material parameters. Related reduced states represented organelle charging and permeability. Pulse-energy calculations included a waveform-aware Joule estimate,
+\begin{align}
+\chi_{w}&=\frac{1}{t_{p}}\int_{0}^{t_{p}}\left[\frac{E(t)}{E_{\mathrm{peak}}}\right]^2\mathrm dt,\\
+u_{J}&=\sigma E_{\mathrm{peak}}^2t_{p}N\chi_{w}\langle g_E^2\rangle,
+\end{align}
+where $\sigma$ is medium conductivity, $t_p$ is pulse width, $N$ is pulse number and $\langle g_E^2\rangle$ is a geometry factor. These quantities are model descriptors and were not equated with measured temperature.
+
+\subsection*{Ion transport, remodeling and repair}
+
+Electroporation-dependent permeabilities supplied ionic fluxes to compartmental balance equations. The calcium balance included pore-mediated entry, plasma-membrane transport, endoplasmic-reticulum release and uptake, mitochondrial exchange and buffering. Sodium, potassium and chloride states contributed to osmotic stress. Reduced mitochondrial-potential, reactive-oxygen and adenosine-triphosphate states represented bioenergetic response and recovery. Model time was expressed in seconds internally and reported in seconds or hours according to the process shown.
+
+Submembrane calcium activated phosphatidylserine exposure, calpain, annexin-associated repair, lysosomal repair and actin remodeling through saturating response functions. A generic activation state was
+\begin{equation}
+A_x=\frac{C_{\mathrm{sub}}^{n_x}}{K_x^{n_x}+C_{\mathrm{sub}}^{n_x}},
+\end{equation}
+where $C_{\mathrm{sub}}$ is the submembrane calcium state, $K_x$ is its half-activation scale and $n_x$ is a Hill coefficient. Damage increased with residual permeability and oxidative stress and decreased with the repair state. These equations are reduced phenomenological representations rather than molecularly resolved reaction networks.
+
+\subsection*{Pathway-resolved vesicle release}
+
+Small-EV release was represented by multivesicular-body maturation, intraluminal-vesicle loading, docking and calcium-dependent fusion. Medium/large-EV release was represented by a plasma-membrane budding pool regulated by phosphatidylserine and actomyosin states. A separate injury-linked state generated apoptotic-body output. The total release rate was
+\begin{equation}
+R_{\mathrm{EV}}(t)=R_{\mathrm{sEV}}(t)+R_{\mathrm{m/lEV}}(t)+R_{\mathrm{AB}}(t).
+\end{equation}
+Release was propagated together with a time-varying viable-producer fraction. Simulations used non-negative states and parameter constraints. The scenario files and complete parameter snapshots accompanying the code define all constants used for the reported runs.
+
+\subsection*{In vitro particle-size measurements}
+
+Size-resolved extracellular particle measurements were obtained from CD4$^+$ cell preparations nominally containing $5\times10^6$ cells per batch. The supplied export contained conditions labelled as one pulse at 20 kV, three pulses at 40 kV and five pulses at 40 kV, sampled at 0.5, 1 and 3 h. Complete delivered-field, electrode, culture, harvest, dilution, recovery and instrument metadata were not available. The numerical voltage values were therefore retained as source labels and not interpreted as kV cm$^{-1}$.
+
+Particle concentrations were rebinned into 15 common 20-nm bands spanning 80--380 nm before arithmetic means and sample standard deviations were calculated. The analysis included 26 stimulated histograms, with three repeated measurements per condition and time except for the three-pulse, 40-kV-labelled condition at 1 h ($n=2$). Three undated cell-containing sham histograms were averaged to provide a provisional initial extracellular distribution. Three separately labelled undated ``sham media'' histograms were excluded because their relationship to the cell-containing controls was unresolved. The independence of repeated measurements was not established; they were not treated as independent biological replicates for inferential statistics.
+
+\subsection*{Experimental-to-computational scaling}
+
+The observation bridge used $5\times10^6$ initial cells and a provisional medium volume of 5 mL, equivalent to $10^6$ initial cells mL$^{-1}$. No measured viability trajectory was available. Recovery and dilution were set to one, while the viable-cell factor followed the simulated producer-cell trajectory. These are interface assumptions, and fitted pathway-to-particle conversion factors absorb their uncertainty.
+
+For release pathway $q$, increments in cumulative output were distributed through a non-negative lognormal kernel. The median was allowed to depend on a matched upstream state,
+\begin{equation}
+d_{50,q}(t)=d_{50,q}^{0}\exp[\gamma_qS_q(t)],
+\end{equation}
+where $d_{50,q}^{0}$ is the baseline median, $\gamma_q$ is a coupling coefficient and $S_q(t)$ is the exposed-minus-reference upstream state. Pathway identity was preserved even when operational size distributions overlapped.
+
+Extracellular concentration $C_b$ in latent diameter band $b$ followed
+\begin{equation}
+\frac{\mathrm dC_b}{\mathrm dt}=\rho_v(t)\sum_q a_qK_{qb}(t)r_q(t)-\frac{\ln2}{t_{1/2,150}}\left(\frac{d_b}{150\,\mathrm{nm}}\right)^\eta C_b,
+\end{equation}
+where $\rho_v$ is viable producer-cell density, $a_q$ converts pathway units to particles, $K_{qb}$ is kernel mass, $r_q$ is the pathway release rate, $t_{1/2,150}$ is effective half-life at 150 nm and $\eta$ defines size dependence. Initial and newly released particles experienced the same loss. An explicit matrix mapped latent stocks to the measured bands. In the absence of instrument-response calibration, this matrix was identity-like inside 80--380 nm, with no broadening, unit recovery and zero background.
+
+\subsection*{Calibration and model comparison}
+
+Calibration treated integrated concentration and normalized size composition separately. For condition $c$, time $t$ and band $b$, residuals were
+\begin{equation}
+r^{\mathrm{total}}_{ct}=\ln\left(\frac{\widehat T_{ct}}{T_{ct}}\right),\qquad
+r^{\mathrm{size}}_{ctb}=\sqrt{\widehat f_{ctb}}-\sqrt{f_{ctb}},
+\end{equation}
+where $T$ is total concentration in the measured window and $f$ is the corresponding band fraction. Sample standard deviations were used for descriptive figures but not as inverse-variance weights because there were only two or three repeated measurements and bands from each histogram were correlated.
+
+We compared time-invariant kernels, state-conditioned kernels and state-conditioned kernels with a shared empirical exposure gain,
+\begin{equation}
+g_c=\exp[\beta_1(D_c-0.72)+\beta_2(D_c-0.72)^2],
+\end{equation}
+where $D_c$ is the model-derived dose index and 0.72 is a fixed centering value. Each variant was fitted by bounded nonlinear least squares from 24 starting vectors: one canonical vector and 23 seeded Latin-hypercube points. A weak penalty of weight 0.25 regularized pathway medians and widths, the size-loss exponent, state couplings and empirical gain coefficients toward their initial values. The composite penalized score was used descriptively because the residuals were not derived from a complete sampling likelihood.
+
+Fit summaries included log$_{10}$ concentration root-mean-square error and its multiplicative equivalent, percentage errors, Hellinger and Wasserstein distances between size distributions, and absolute error in mean diameter. Optimization endpoints within 1\% of the lowest regularized objective were summarized to assess numerical stability. These ranges are not confidence intervals or estimates of biological variability.
+
+\subsection*{Global sensitivity analysis}
+
+Morris screening was performed separately for runtime-mechanistic and observation-layer parameters \cite{morris1991factorial}. The mechanistic analysis varied 198 consumed runtime parameters for the three-pulse, 40-kV-labelled scenario. The observation analysis fixed upstream trajectories and varied the 16 fitted observation parameters. Runtime parameters were sampled over provisional default-centered ranges, generally 0.8--1.2 times positive defaults. Observation parameters were sampled across optimizer bounds in their fitted coordinates. These domains have different widths and transformations and their sensitivity magnitudes were not compared directly.
+
+Morris elementary effects used six levels and a normalized step magnitude of 0.6. Two trajectories were generated for each mechanistic parameter and four for each observation parameter. We reported the mean absolute elementary effect and the sample standard deviation of signed effects. A second, conditional analysis selected seven mechanistic and eight observation parameters using their largest screened effect over configured targets. Independent inputs were sampled with scrambled Sobol sequences using 64 base rows. First- and total-order indices used Saltelli and Jansen estimators, respectively \cite{saltelli2010variance,jansen1999analysis}. Two hundred paired-row resamples supplied descriptive intervals. The small designs were used for screening and do not establish convergence.
+
+\subsection*{Local information and measurement-priority analyses}
+
+The selected fit's unregularized residual vector was differentiated numerically with respect to optimization coordinates. Bound-aware central differences used steps of $10^{-4}\max(|x_i|,u_i-l_i,1)$. With $D_{ii}=\max(|x_i|,0.1(u_i-l_i))$, the scaled residual-curvature matrix was
+\begin{equation}
+G=(JD)^{\mathsf T}(JD).
+\end{equation}
+A relative singular-value cutoff of $10^{-10}$ was applied to its generalized inverse. Because the residuals are not based on a calibrated observation likelihood, $G$ was interpreted as a local geometric diagnostic, not a Fisher information matrix. It does not provide confidence intervals or establish structural identifiability \cite{raue2009structural}.
+
+An exploratory priority score combined normalized sensitivity, assumed uncertainty, a local information-gap proxy, measurability and feasibility using a weighted geometric mean. Equal weights were compared with doubled measurement/feasibility weights and doubled sensitivity/information-gap weights. Measurability and feasibility values were assigned heuristically; the resulting ranking is a decision aid rather than formal optimal experimental design.
+
+\subsection*{Statistics and reproducibility}
+
+No null-hypothesis significance tests were applied to the particle dataset because biological independence and the sampling hierarchy were unresolved. Observations are shown as arithmetic mean $\pm$ sample standard deviation, with $n$ defined as the number of supplied repeated histograms. All 24 calibration starts completed. Random seeds, optimizer bounds, sampled parameter ranges, parameter registries and source values for sensitivity figures are retained with the analysis. The model code records parameter snapshots and run metadata to support computational reproduction. No randomization or blinding was applicable to the computational analyses; the experimental randomization and blinding status was not available in the supplied metadata.

@@ -1,0 +1,118 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,margin=22mm]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs,array}
+\usepackage[table]{xcolor}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage[font=small,labelfont=bf]{caption}
+\graphicspath{{../figures/supplementary/}}
+\newcommand{\abbrevnote}[1]{\par\vspace{0.25em}{\footnotesize\textbf{Abbreviations:} #1\par}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\theequation}{S\arabic{equation}}
+
+\title{Supplementary Information for: A multiscale model connects nanosecond electric pulses with extracellular vesicle population dynamics}
+\author{Arash Ghorbannia, Mihir Mantena, Ruben M. L. Colunga-Biancatelli}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Supplementary Note 1: Layer-specific simulation behavior}
+
+The following figures separate the upstream and downstream behaviors condensed into Fig.~2 of the main manuscript. They are retained as supporting diagnostics because their purpose is to expose model behavior, not to provide independent experimental validation.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\textwidth]{supplementary_figure1_temperature.png}
+\caption{\textbf{Electrical-dose models give different thermal interpretations.} Temperature-related outputs are shown for the legacy, adiabatic and lumped-retention representations under illustrative conductivity and pulse-train conditions. Curves are simulated from provisional parameters and should not be interpreted as measured temperature.}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\textwidth]{supplementary_figure2_voltage.png}
+\caption{\textbf{Pulse width and cell size determine reduced membrane charging.} The first-order electrodynamic model approaches the Schwan-limit voltage more closely for longer pulses and larger cells. Values are simulated and the permeability threshold is a model parameter.}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.86\textwidth]{supplementary_figure3_ion_transport.png}
+\caption{\textbf{Electroporation states generate distinct ionic and bioenergetic trajectories.} Baseline, higher-dose, calcium-limited and slow-recovery simulations are compared for calcium, osmotic, mitochondrial, reactive-oxygen and adenosine-triphosphate states. Curves show model output rather than experimental replicates.}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.86\textwidth]{supplementary_figure4_repair.png}
+\caption{\textbf{Calcium-dependent remodeling separates buffering, cytoskeletal disruption and repair.} Simulated buffered, calpain-inhibited and annexin/lysosome-supported conditions are compared for phosphatidylserine exposure, actin remodeling and resealing.}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.86\textwidth]{supplementary_figure5_biogenesis.png}
+\caption{\textbf{Biogenesis states distinguish secretory and injury-associated particle routes.} Simulations compare Rab/endosomal-sorting limitation, ceramide-favored secretion and injury-associated vesiculation. AB, apoptotic body; EV, extracellular vesicle; MVB, multivesicular body.}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.78\textwidth]{supplementary_figure6_engineering.pdf}
+\caption{\textbf{Downstream product metrics distinguish particle output from product quality.} Simulated cargo, potency, purity, viability and process objectives are shown for secretion-favored, direct-loading and injury-associated conditions. Values are dimensionless model outputs and are not calibrated potency measurements.}
+\end{figure}
+
+\clearpage
+\section*{Supplementary Note 2: Calibration diagnostics}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{supplementary_figure7_fit_error.png}
+\caption{\textbf{Residual structure varies with diameter, condition and harvest time.} Signed normalized difference was calculated as $100(\mathrm{model}-\mathrm{experiment})/(\mathrm{model}+\mathrm{experiment})$; the absolute maps show its magnitude. Each cell is an observed diameter band at 0.5, 1 or 3 h. No intermediate times are interpolated. Low-concentration tail bands can have large relative differences because an instrument detection-limit mask was unavailable.}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.72\textwidth]{supplementary_figure8_error_summary.pdf}
+\caption{\textbf{Calibration errors differ among pulse-labelled conditions.} a, Symmetric absolute concentration error over 80--380 nm. b, Hellinger distance between normalized size distributions. Each box summarizes three harvest times and does not represent a biological-replicate confidence interval.}
+\end{figure}
+
+\clearpage
+\section*{Supplementary Note 3: Sensitivity and local-information diagnostics}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.78\textwidth]{supplementary_figure9_sobol.pdf}
+\caption{\textbf{Conditional total-order estimates remain uncertain for shortlisted parameters.} Points show Jansen total-order estimates from 64 base rows; horizontal intervals show the 2.5th--97.5th percentiles from 200 paired-row resamples. Unselected parameters were fixed. Intervals describe resampling variation and do not establish convergence or biological uncertainty.}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{supplementary_figure10_output_map.pdf}
+\caption{\textbf{Screening patterns depend on output and exposure condition.} Colour shows the Morris mean absolute elementary effect divided by its within-target maximum. The normalization supports comparison of patterns within a target, not absolute magnitude across targets. Gray denotes undefined normalization when all computed effects were zero.}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.78\textwidth]{supplementary_figure11_identifiability.pdf}
+\caption{\textbf{The selected fit contains weak and correlated parameter directions.} a, Diagonal of the parameter-scaled residual-curvature matrix; the dashed line is the near-zero-information threshold. b, Normalized entries of its truncated generalized inverse after parameters below the threshold were omitted. These are local geometric diagnostics, not posterior correlations or confidence intervals.}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.78\textwidth]{supplementary_figure12_priorities.pdf}
+\caption{\textbf{Measurement-priority scores are stable only for the leading candidate.} a, Ten highest equal-weight candidates under equal, measurement-emphasis and information-emphasis weights. b, Module-average decision scores; $n$ is the number of screened parameters. Feasibility and measurability were assigned heuristically, so the scores are decision aids rather than optimized study designs.}
+\end{figure}
+
+\clearpage
+\section*{Supplementary Note 4: Extended model specification}
+
+The paired evidence and computational tables, governing-equation scaffold and complete variable glossary from the preceding manuscript have been moved here to keep the main article focused on findings. They document the intended model interfaces and the evidential status of reduced equations. Entries marked as hypotheses or assumptions are not presented as experimentally established mechanisms.
+
+\setlength{\tabcolsep}{3pt}
+\input{model_specification_appendix}
+
+\bibliographystyle{unsrtnat}
+\bibliography{../references/references}
+\end{document}

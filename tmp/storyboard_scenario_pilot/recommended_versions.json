@@ -1,0 +1,155 @@
+{
+  "common_reference": {
+    "pulse": {
+      "amplitude_kV_cm": 15.0,
+      "pulse_width_ns": 200.0,
+      "pulse_number": 20,
+      "repetition_rate_Hz": 5.0,
+      "waveform": "square"
+    },
+    "exposure": {
+      "dosimetry_model": "joule_lumped_thermal"
+    },
+    "simulation": {
+      "t_end_s": 1800.0,
+      "output_dt_s": 0.25
+    }
+  },
+  "versions": [
+    {
+      "name": "regime_examples",
+      "source": "examples/storyboard_multilayer_overview.py:SCENARIOS",
+      "message": "The model links exposure, cell response and vesicle output across illustrative states.",
+      "warning": "Illustrative scenarios differ in dose and selected pathway assumptions; they are not a dose-response sweep."
+    },
+    {
+      "name": "pulse_number",
+      "rows": [
+        {
+          "label": "5 pulses",
+          "pulse_overrides": {
+            "pulse_number": 5
+          }
+        },
+        {
+          "label": "20 pulses",
+          "pulse_overrides": {
+            "pulse_number": 20
+          }
+        },
+        {
+          "label": "80 pulses",
+          "pulse_overrides": {
+            "pulse_number": 80
+          }
+        }
+      ],
+      "message": "Adding pulses can prolong the cell response and increase injury even when single-pulse charging is unchanged."
+    },
+    {
+      "name": "calcium_clearance",
+      "rows": [
+        {
+          "label": "Low pump capacity",
+          "parameter_overrides": {
+            "ion_transport": {
+              "SERCA_Vmax_uM_s": 0.0375,
+              "PMCA_Vmax_uM_s": 0.05,
+              "NCX_Vmax_uM_s": 0.015
+            }
+          }
+        },
+        {
+          "label": "Reference",
+          "parameter_overrides": {
+            "ion_transport": {
+              "SERCA_Vmax_uM_s": 0.15,
+              "PMCA_Vmax_uM_s": 0.2,
+              "NCX_Vmax_uM_s": 0.06
+            }
+          }
+        },
+        {
+          "label": "High pump capacity",
+          "parameter_overrides": {
+            "ion_transport": {
+              "SERCA_Vmax_uM_s": 0.3,
+              "PMCA_Vmax_uM_s": 0.4,
+              "NCX_Vmax_uM_s": 0.12
+            }
+          }
+        }
+      ],
+      "message": "How quickly cells clear calcium can matter as much as the initial response.",
+      "warning": "Simulated capacity modifiers; no cell type is identified or calibrated."
+    },
+    {
+      "name": "ev_machinery",
+      "rows": [
+        {
+          "label": "Lower pathway capacity",
+          "parameter_overrides": {
+            "ev_release": {
+              "rab_conversion_baseline": 0.0875,
+              "escrt_baseline": 0.1,
+              "rab_docking_baseline": 0.075
+            }
+          }
+        },
+        {
+          "label": "Reference",
+          "parameter_overrides": {
+            "ev_release": {
+              "rab_conversion_baseline": 0.35,
+              "escrt_baseline": 0.4,
+              "rab_docking_baseline": 0.3
+            }
+          }
+        },
+        {
+          "label": "Higher pathway capacity",
+          "parameter_overrides": {
+            "ev_release": {
+              "rab_conversion_baseline": 0.7,
+              "escrt_baseline": 0.8,
+              "rab_docking_baseline": 0.6
+            }
+          }
+        }
+      ],
+      "message": "Changing vesicle machinery can selectively alter small-EV release and modeled protein cargo without adding cell damage.",
+      "warning": "Protein cargo is a model score, not measured function or potency."
+    },
+    {
+      "name": "isolation_efficiency",
+      "rows": [
+        {
+          "label": "10% recovery",
+          "parameter_overrides": {
+            "manufacturing_qc": {
+              "isolation_efficiency": 0.1
+            }
+          }
+        },
+        {
+          "label": "30% recovery",
+          "parameter_overrides": {
+            "manufacturing_qc": {
+              "isolation_efficiency": 0.3
+            }
+          }
+        },
+        {
+          "label": "60% recovery",
+          "parameter_overrides": {
+            "manufacturing_qc": {
+              "isolation_efficiency": 0.6
+            }
+          }
+        }
+      ],
+      "message": "The number recovered can change even when the cell response and release are the same.",
+      "warning": "Fixed recovery assumptions, not comparison of named isolation methods."
+    }
+  ]
+}
