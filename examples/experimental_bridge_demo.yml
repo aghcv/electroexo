@@ -1,0 +1,9 @@
+# Synthetic inputs for demonstrating concentration conversions.
+experimental_bridge:
+  initial_cell_count: 1000000
+  medium_volume_ml: 1.0
+  cell_basis: initial
+  viability_fraction: 1.0
+  recovery_fraction: 1.0
+  dilution_factor: 1.0
+  background_concentration_particles_per_ml: 0.0

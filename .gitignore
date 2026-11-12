@@ -1,0 +1,21 @@
+# Python build and test outputs
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.coverage*
+htmlcov/
+.venv/
+venv/
+
+# Local configuration and run artifacts
+.env
+.env.*
+.DS_Store
+results/
+data/
+slurm-*.out
+examples/solution_space_analysis/scenario_*.yml

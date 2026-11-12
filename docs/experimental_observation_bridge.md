@@ -1,0 +1,169 @@
+# Experimental-to-Computational Observation Bridge
+
+## Purpose
+
+The mechanistic electro-exocytosis simulator represents the response and EV
+output of one representative producer cell. Particle instruments commonly
+report a concentration in conditioned medium. These quantities must not be
+compared directly.
+
+`electro_exocytosis.experimental_bridge.ExperimentalObservationBridge`
+provides the standard boundary between experimental particle measurements and
+the single-cell model. The bridge is deliberately separate from the
+intracellular equations: cell number, culture volume, viability normalization,
+assay dilution, recovery, and background are properties of the experiment and
+observation process, not constitutive intracellular biology.
+
+## Forward and Inverse Transformations
+
+For measured concentration \(C_{meas}\), background \(C_{bg}\), dilution
+back-calculation factor \(D\), recovery fraction \(\eta\), conditioned-medium
+volume \(V\), and cell denominator \(N_{basis}\), the single-cell-equivalent
+observation is
+
+```text
+C_corrected = max(C_meas - C_bg, 0) * D / eta
+particles_per_cell = C_corrected * V / N_basis
+```
+
+The inverse transformation is
+
+```text
+C_meas = C_bg + particles_per_cell * N_basis / V * eta / D
+```
+
+The cell denominator is selected explicitly:
+
+- `cell_basis: initial` uses the number of cells entering the experiment. This
+  is the default for the current representative-cell model and avoids
+  artificially increasing output per cell when treatment reduces viability.
+- `cell_basis: viable` uses `initial_cell_count * viability_fraction`. Use this
+  only when matched viability or viable-cell counts are measured and the
+  scientific endpoint is explicitly per viable cell.
+
+For a time-resolved extracellular stock with uptake or loss, the more complete
+observation model is
+
+```text
+dC_ext/dt = viable_cell_density(t) * release_rate_per_cell(t)
+            - k_loss * C_ext(t)
+C_measured = recovery * C_ext / dilution_factor + background
+```
+
+The bridge still performs the reversible static unit transformation used by
+calibration workflows. The version 1.1 simulator now implements the
+time-resolved stock equation separately in `models/extracellular_kinetics.py`.
+Keeping the two interfaces distinct avoids applying the same cell-count or
+volume conversion twice. See `docs/extracellular_ev_kinetics.md`.
+
+## Standard YAML Configuration
+
+```yaml
+experimental_bridge:
+  initial_cell_count: 5000000
+  medium_volume_ml: 5.0
+  cell_basis: initial
+  viability_fraction: 1.0
+  recovery_fraction: 1.0
+  dilution_factor: 1.0
+  background_concentration_particles_per_ml: 0.0
+```
+
+Definitions:
+
+| Field | Required interpretation |
+|---|---|
+| `initial_cell_count` | Total starting producer cells in the culture represented by the measured sample |
+| `medium_volume_ml` | Conditioned-medium volume corresponding to the reported concentration |
+| `cell_basis` | `initial` or `viable`; must match the stated endpoint |
+| `viability_fraction` | Matched fraction in (0, 1]; only changes conversion for the viable-cell basis |
+| `recovery_fraction` | Fraction retained by collection, preparation, and measurement |
+| `dilution_factor` | Factor multiplying the instrument result to recover pre-dilution concentration |
+| `background_concentration_particles_per_ml` | Blank or medium background to subtract before scaling |
+
+Unknown quantities must remain visible assumptions. Do not silently set them
+through biological release parameters.
+
+## Python Interface
+
+```python
+from electro_exocytosis.experimental_bridge import ExperimentalObservationBridge
+
+bridge = ExperimentalObservationBridge.from_yaml(
+    "examples/experimental_bridge_demo.yml"
+)
+
+particles_per_cell = bridge.concentration_to_particles_per_cell(6.2e9)
+concentration = bridge.particles_per_cell_to_concentration(particles_per_cell)
+
+single_cell_table = bridge.transform_frame(
+    experimental_table,
+    concentration_column="concentration_particles_per_ml",
+)
+```
+
+The forward and inverse functions accept scalars or arrays and validate all
+scale factors. `to_metadata()` returns the supplied assumptions and derived
+cell density for inclusion in result manifests.
+
+## Repeated-Measurement Aggregation
+
+The observation bridge also provides the standard reduction from repeated
+experimental measurements to one model-facing observation. It preserves a
+deep copy of the raw rows and returns the arithmetic mean, sample SD
+(`ddof=1`), SE, and non-missing count for every requested value:
+
+```python
+from electro_exocytosis.experimental_bridge import (
+    aggregate_repeated_observations,
+)
+
+aggregation = aggregate_repeated_observations(
+    rebinned_measurements,
+    group_columns=["condition", "time_h", "size_bin_center_nm"],
+    value_columns=["concentration_particles_per_ml"],
+)
+
+raw_measurements = aggregation.raw_observations
+model_observations = aggregation.summary
+```
+
+For size-resolved measurements, rebin each raw histogram onto the common
+diameter grid before aggregation. Calculate an integrated total separately for
+each raw histogram and then summarize those totals; summing per-bin SD values
+is not a valid total uncertainty because diameter bands are correlated. The
+fit target is the batch mean. SD is the default descriptive uncertainty in
+figures, while SE and the sample count remain available in exported tables.
+Do not call the repeated records independent biological replicates unless the
+experimental metadata establish that independence.
+
+## Normalized Comparisons
+
+When stimulated and sham samples have identical cell count, medium volume,
+viability basis, recovery, dilution, and background handling, the shared
+population scale cancels:
+
+```text
+(particles_per_cell_stim / particles_per_cell_sham)
+    = (concentration_stim / concentration_sham)
+```
+
+This cancellation is invalid when treatment changes viable cell number, sample
+volume, recovery, dilution, or background. Sample-specific bridge settings are
+then required. A sham without a collection time cannot establish a
+time-matched denominator even when its cell count is known.
+
+## Interpretation Rules
+
+1. Report the original concentration and the transformed single-cell value.
+2. Treat cell count, volume, dilution, recovery, and background as measured
+   experimental inputs, not fitted intracellular parameters.
+3. State whether normalization uses starting cells, viable cells at harvest,
+   or viable-cell-hours.
+4. Do not interpret particle-diameter bins as biogenesis-defined EV subtypes.
+5. Do not infer an extracellular clearance rate from a static unit conversion;
+   use the dynamic extracellular stock and fit an unresolved effective loss.
+6. Propagate uncertainty in cell count, volume, recovery, and viability into
+   parameter intervals once those measurements are available.
+7. Reject or sensitivity-test any fit whose constitutive rates change strongly
+   when plausible bridge values are varied.

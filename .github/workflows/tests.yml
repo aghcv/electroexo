@@ -1,0 +1,49 @@
+name: Tests
+
+on:
+  push:
+    branches: [stable]
+  pull_request:
+    branches: [stable]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.10", "3.12"]
+    env:
+      MPLBACKEND: Agg
+      OPENBLAS_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install development tools and build wheel
+        run: |
+          python -m pip install build
+          python -m build --wheel
+          if [[ "${{ matrix.python }}" == "3.12" ]]; then
+            python -m pip install -c requirements/cluster-py312.txt "$(find dist -name '*.whl' -print -quit)[dev]"
+          else
+            python -m pip install "$(find dist -name '*.whl' -print -quit)[dev]"
+          fi
+      - name: Lint and test
+        run: |
+          python -m ruff check .
+          python -m pytest
+      - name: Run the installed CLI and the batch demo
+        run: |
+          repo="$PWD"
+          cd "$RUNNER_TEMP"
+          electro-exocytosis "$repo/examples/scenario_demo.yml" --no-plots --out "$RUNNER_TEMP/cli-demo"
+          test -s "$RUNNER_TEMP/cli-demo/summary.json"
+          cd "$repo"
+          bash -n examples/slurm/run_demo.sbatch
+          ELECTROEXO_OUTPUT_ROOT="$RUNNER_TEMP/batch-demo" bash examples/slurm/run_demo.sbatch
+          test "$(find "$RUNNER_TEMP/batch-demo" -name summary.json | wc -l)" -eq 1

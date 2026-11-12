@@ -1,0 +1,30 @@
+scenario:
+  name: layer5_ev_biogenesis_reference
+  mode: cell_based_electro_exocytosis
+
+pulse:
+  amplitude_kV_cm: 15
+  pulse_width_ns: 200
+  pulse_number: 20
+  repetition_rate_Hz: 5
+  waveform: square
+
+exposure:
+  geometry: cuvette
+  medium_conductivity_S_m: 1.5
+  temperature_C: 37
+  cell_density_per_ml: 1000000
+  dosimetry_model: joule_lumped_thermal
+
+cell_state:
+  cell_type: generic
+  membrane_modifier: 1.0
+  calcium_handling_modifier: 1.0
+  baseline_EV_release_modifier: 1.0
+  stress_sensitivity_modifier: 1.0
+
+simulation:
+  t_start_s: 0
+  t_end_s: 1800
+  output_dt_s: 5
+  numerical_method: solve_ivp

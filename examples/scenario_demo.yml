@@ -1,0 +1,15 @@
+scenario:
+  name: release_demo
+
+pulse:
+  amplitude_kV_cm: 10.0
+  pulse_width_ns: 100.0
+  pulse_number: 5
+  repetition_rate_Hz: 5.0
+
+exposure:
+  dosimetry_model: joule_lumped_thermal
+
+simulation:
+  t_end_s: 30.0
+  output_dt_s: 5.0

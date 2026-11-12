@@ -1,0 +1,29 @@
+scenario:
+  name: high_dose_nsPEF_EV_release
+  mode: cell_based_electro_exocytosis
+
+pulse:
+  amplitude_kV_cm: 30
+  pulse_width_ns: 100
+  pulse_number: 50
+  repetition_rate_Hz: 1
+  waveform: square
+
+exposure:
+  geometry: cuvette
+  medium_conductivity_S_m: 1.5
+  temperature_C: 37
+  cell_density_per_ml: 1000000
+
+cell_state:
+  cell_type: generic
+  membrane_modifier: 1.0
+  calcium_handling_modifier: 1.0
+  baseline_EV_release_modifier: 1.0
+  stress_sensitivity_modifier: 1.0
+
+simulation:
+  t_start_s: 0
+  t_end_s: 7200
+  output_dt_s: 60
+  numerical_method: solve_ivp

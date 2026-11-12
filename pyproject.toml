@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "electro_exocytosis"
+version = "1.1.0.dev0"
+description = "Multi-layer simulation of nsPEF-induced extracellular vesicle release"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+dependencies = [
+    "numpy>=1.24",
+    "scipy>=1.10",
+    "pandas>=2.0",
+    "pyyaml>=6.0",
+    "matplotlib>=3.7",
+    "typer>=0.9",
+    "openpyxl>=3.1",
+    "pydantic>=2.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4", "pytest-cov", "ruff>=0.11,<1"]
+viz = ["pyvista>=0.44", "vtk>=9.3", "imageio>=2.34"]
+
+[project.scripts]
+electro-exocytosis = "electro_exocytosis.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["electro_exocytosis*"]
+
+[tool.setuptools.package-data]
+electro_exocytosis = [
+    "parameters/*.yaml",
+    "evidence/*.csv",
+    "visualization/assets/human_cell_vtp/manifest.json",
+    "visualization/assets/human_cell_vtp/*/*.vtp",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
