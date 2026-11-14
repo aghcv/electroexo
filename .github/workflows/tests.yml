@@ -43,7 +43,13 @@ jobs:
           cd "$RUNNER_TEMP"
           electro-exocytosis "$repo/examples/scenario_demo.yml" --no-plots --out "$RUNNER_TEMP/cli-demo"
           test -s "$RUNNER_TEMP/cli-demo/summary.json"
+          python "$repo/examples/slurm/check_demo.py" "$RUNNER_TEMP/cli-demo"
           cd "$repo"
-          bash -n examples/slurm/run_demo.sbatch
+          for script in examples/slurm/*.sbatch examples/slurm/*.sh; do
+            bash -n "$script"
+          done
           ELECTROEXO_OUTPUT_ROOT="$RUNNER_TEMP/batch-demo" bash examples/slurm/run_demo.sbatch
           test "$(find "$RUNNER_TEMP/batch-demo" -name summary.json | wc -l)" -eq 1
+          for run_dir in "$RUNNER_TEMP/batch-demo"/run-*; do
+            python examples/slurm/check_demo.py "$run_dir" --reference "$RUNNER_TEMP/cli-demo"
+          done
