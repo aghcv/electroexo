@@ -55,6 +55,9 @@ Pass a scenario path as the first job argument to use another input. See the
 [developer handoff](docs/developer_handoff.md#cluster-operation) for deployment
 and troubleshooting.
 
+On ODU's Wahab cluster, use the container-aware launcher and follow the
+[Wahab integration and smoke test](docs/wahab_integration.md) instructions.
+
 ## Outputs
 
 | Artifact | Contents |

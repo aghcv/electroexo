@@ -34,6 +34,10 @@ bounds, and the expected effect on outputs with each scientific change.
 
 ## Cluster operation
 
+For ODU Wahab, follow the [Wahab integration and smoke test](wahab_integration.md)
+instructions for its containerized Python environment, batch launcher, and
+artifact verification.
+
 1. Clone `stable` from the repository. Record the checked-out commit with
    `git rev-parse HEAD`. Use that commit when recreating the environment.
 2. Create a Python 3.12 virtual environment and install with
